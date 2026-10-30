@@ -1,0 +1,102 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "file": "assets/models/bench.glb",
+      "status": "structural_checks_passed",
+      "bytes": 3284,
+      "nodes": 4,
+      "stored_triangles": 24,
+      "sha256": "2ec833b0a6559faad576d74544b352d61d81c7847aa4cee2dc11e7daa5d5f2aa"
+    },
+    {
+      "file": "assets/models/campus_blockout.glb",
+      "status": "structural_checks_passed",
+      "bytes": 10685256,
+      "nodes": 1177,
+      "stored_triangles": 181404,
+      "sha256": "eee1fc4dd1d160e1ea4db40f93859e059c2c17072053f89bbc6ce6f2c7f48293"
+    },
+    {
+      "file": "assets/models/gable_roof.glb",
+      "status": "structural_checks_passed",
+      "bytes": 1524,
+      "nodes": 1,
+      "stored_triangles": 8,
+      "sha256": "ac62100c71f03462cc46cd4b2f23a2002ca704dec86b28cf3be3f4bb21e72aee"
+    },
+    {
+      "file": "assets/models/gate_placeholder.glb",
+      "status": "structural_checks_passed",
+      "bytes": 85232,
+      "nodes": 5,
+      "stored_triangles": 1512,
+      "sha256": "0254d0d968f2a03fb624973965ba9dddc19b8e62d569f8402d445d186c69cb9e"
+    },
+    {
+      "file": "assets/models/motorbike_toy.glb",
+      "status": "structural_checks_passed",
+      "bytes": 4752,
+      "nodes": 5,
+      "stored_triangles": 36,
+      "sha256": "22d7b1baeef735a26cc54b12f5dc4f6dc2b97376b7f0b99ce7c7ce22c469f2a5"
+    },
+    {
+      "file": "assets/models/tree_lowpoly.glb",
+      "status": "structural_checks_passed",
+      "bytes": 3132,
+      "nodes": 2,
+      "stored_triangles": 20,
+      "sha256": "140988896f06fac40836e18b708731a55c776885717654fac06aa0b65ab5493c"
+    },
+    {
+      "file": "assets/models/unit_block.glb",
+      "status": "structural_checks_passed",
+      "bytes": 1656,
+      "nodes": 1,
+      "stored_triangles": 12,
+      "sha256": "40fbd7eee99160c8e37e23b967f79351a64f00b8b4e867d675f38cc839680a9b"
+    }
+  ],
+  "building_blocks": 20,
+  "hus_rooms": 446,
+  "hus_wc": 37,
+  "hus_floors": {
+    "T1": 4,
+    "T2": 5,
+    "T3": 5,
+    "T4": 5,
+    "T5": 7,
+    "SPECIAL": 4,
+    "CANTEEN": 1
+  },
+  "named_blocks": [
+    "USSH_B:B",
+    "USSH_BC:B-C",
+    "USSH_C:C",
+    "USSH_H:H",
+    "USSH_D:D",
+    "USSH_E:E",
+    "USSH_G:G",
+    "HUS_T1_W:T1",
+    "HUS_T1:T1",
+    "HUS_T1_E:T1",
+    "HUS_T2:T2",
+    "HUS_T3:T3",
+    "HUS_T4:T4",
+    "HUS_T5:T5"
+  ],
+  "neutral_blocks": [
+    "USSH_CANTEEN",
+    "USSH_STAGE",
+    "HUS_SPECIAL",
+    "HUS_CANTEEN",
+    "HUS_BOOKSTORE",
+    "HUS_GUARD"
+  ],
+  "scope": "GLB binary structure, buffer bounds, indices, normals, JSON, included source-image signatures, interiors rules (37 WC at the map WC spots, no classrooms in T1/T2, USSH closed, floor counts); not Khronos certification or browser/Blender rendering",
+  "not_run": [
+    "Blender execution is not part of this structural check"
+  ],
+  "accuracy": "sizes_are_estimates; names only where source_ids is non-empty"
+}

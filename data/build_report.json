@@ -1,0 +1,141 @@
+{
+  "status": "generated",
+  "accuracy": "floors_and_offices_from_hus_directory; positions_and_sizes_estimated",
+  "reachability": {
+    "ground_cells": 472686,
+    "grid_step": 0.5,
+    "player_radius": 0.48,
+    "upper_floor_cells": {
+      "2": 40141,
+      "3": 40141,
+      "4": 39618,
+      "5": 22913,
+      "6": 7167,
+      "7": 7707
+    },
+    "reachable": true,
+    "checks": [
+      "spawn clear",
+      "deadlines and return gates reachable on floor 1",
+      "18-unit walkway clear from the HUS gate to the lawn",
+      "closed USSH blocks have no walkable point inside",
+      "every HUS room reachable on its own floor",
+      "every stair zone reachable",
+      "T1–T2 bridge walkable on floors 2–3",
+      "WC on every floor where the map shows one; no classrooms in T1/T2",
+      "nhà H stops a northbound walk",
+      "perimeter wall present"
+    ]
+  },
+  "rooms_per_group_floor": {
+    "T1": {
+      "1": 44,
+      "2": 44,
+      "3": 44,
+      "4": 44
+    },
+    "wc": {
+      "T1": 8,
+      "T2": 5,
+      "T3": 5,
+      "T4": 5,
+      "T5": 14,
+      "SPECIAL": 0
+    },
+    "T2": {
+      "1": 11,
+      "2": 11,
+      "3": 11,
+      "4": 11,
+      "5": 11
+    },
+    "T3": {
+      "1": 9,
+      "2": 9,
+      "3": 9,
+      "4": 9,
+      "5": 9
+    },
+    "T4": {
+      "1": 8,
+      "2": 8,
+      "3": 8,
+      "4": 8,
+      "5": 8
+    },
+    "T5": {
+      "1": 18,
+      "2": 18,
+      "3": 18,
+      "4": 18,
+      "5": 18,
+      "6": 18,
+      "7": 6
+    },
+    "SPECIAL": {
+      "1": 4,
+      "2": 4,
+      "3": 4,
+      "4": 4
+    }
+  },
+  "room_types": {
+    "office": 198,
+    "lab": 109,
+    "wc": 37,
+    "meeting": 2,
+    "lounge": 1,
+    "exhibit": 1,
+    "classroom": 125,
+    "server": 4,
+    "lecture": 3,
+    "library": 3
+  },
+  "named_groups": 89,
+  "stairs": 12,
+  "solids": 2423,
+  "outputs": [
+    {
+      "path": "assets/models/campus_blockout.glb",
+      "bytes": 10685256,
+      "nodes": 1177,
+      "sha256": "eee1fc4dd1d160e1ea4db40f93859e059c2c17072053f89bbc6ce6f2c7f48293"
+    },
+    {
+      "path": "assets/models/unit_block.glb",
+      "bytes": 1656,
+      "nodes": 1,
+      "sha256": "40fbd7eee99160c8e37e23b967f79351a64f00b8b4e867d675f38cc839680a9b"
+    },
+    {
+      "path": "assets/models/gable_roof.glb",
+      "bytes": 1524,
+      "nodes": 1,
+      "sha256": "ac62100c71f03462cc46cd4b2f23a2002ca704dec86b28cf3be3f4bb21e72aee"
+    },
+    {
+      "path": "assets/models/tree_lowpoly.glb",
+      "bytes": 3132,
+      "nodes": 2,
+      "sha256": "140988896f06fac40836e18b708731a55c776885717654fac06aa0b65ab5493c"
+    },
+    {
+      "path": "assets/models/bench.glb",
+      "bytes": 3284,
+      "nodes": 4,
+      "sha256": "2ec833b0a6559faad576d74544b352d61d81c7847aa4cee2dc11e7daa5d5f2aa"
+    },
+    {
+      "path": "assets/models/gate_placeholder.glb",
+      "bytes": 85232,
+      "nodes": 5,
+      "sha256": "0254d0d968f2a03fb624973965ba9dddc19b8e62d569f8402d445d186c69cb9e"
+    },
+    {
+      "path": "assets/models/motorbike_toy.glb",
+      "bytes": 4752,
+      "nodes": 5,
+      "sha256": "22d7b1baeef735a26cc54b12f5dc4f6dc2b97376b7f0b99ce7c7ce22c469f2a5"
+    }
+  ]
+}

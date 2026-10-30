@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "id": "campus_combined_2025",
+      "status": "downloaded",
+      "bytes": 279996
+    },
+    {
+      "id": "ussh_map_2022",
+      "status": "downloaded",
+      "bytes": 129810
+    },
+    {
+      "id": "hus_aerial_2021",
+      "status": "downloaded",
+      "bytes": 7182561
+    },
+    {
+      "id": "ussh_c_renovation_design",
+      "status": "downloaded",
+      "bytes": 680932
+    },
+    {
+      "id": "ussh_axis_renovation_design",
+      "status": "downloaded",
+      "bytes": 431469
+    },
+    {
+      "id": "ussh_c_construction",
+      "status": "downloaded",
+      "bytes": 572536
+    },
+    {
+      "id": "hus_entrance_2025",
+      "status": "downloaded",
+      "bytes": 684462
+    }
+  ],
+  "note": "Unavailable references are optional; local assets work offline."
+}
