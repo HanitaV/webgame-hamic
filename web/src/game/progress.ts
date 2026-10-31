@@ -13,7 +13,7 @@ import type { Level, Stars } from "./types";
 import { settings } from "./settings";
 import { t } from "../core/i18n";
 import { storyProgress } from "./story";
-import { ENDING_IDS, deriveFlags, storyFacts } from "../puzzles/logic/story";
+import { ENDING_IDS, deriveFlags, sidequestProgress, storyFacts } from "../puzzles/logic/story";
 
 export type Mode = "journey" | "casual" | "daily" | "practice" | "lab" | "guest" | "finale";
 
@@ -68,12 +68,12 @@ export const P = {
   isGuest() { return guest !== null; },
   reset() { if (developerMode()) developerProgress = null; else store.reset(); bus.emit("progress", {}); },
   exportJson(): string {
-    return JSON.stringify({ app: "hoi-tu-70", version: 1, exportedAt: new Date().toISOString(), progress: store.get(), settings: settings.get() }, null, 1);
+    return JSON.stringify({ app: "dem-toan-tin", version: 1, exportedAt: new Date().toISOString(), progress: store.get(), settings: settings.get() }, null, 1);
   },
   importJson(text: string): boolean {
     try {
       const d = JSON.parse(text);
-      if (d.app !== "hoi-tu-70" || typeof d.progress !== "object") return false;
+      if ((d.app !== "dem-toan-tin" && d.app !== "hoi-tu-70") || typeof d.progress !== "object") return false;
       store.set({ ...empty(), ...d.progress });
       if (d.settings) settings.set(d.settings);
       store.flush(true);
@@ -120,6 +120,15 @@ function answerNumber(level: Level): number | null {
     if (typeof v === "number" && Number.isInteger(v) && v >= 1 && v <= 200) return v;
   }
   return null;
+}
+
+export function unlockNumberFact(n: number): boolean {
+  if (!Number.isInteger(n) || n < 1 || n > 200) return false;
+  const have = new Set(P.get().factsN);
+  if (have.has(n)) return false;
+  P.set({ factsN: [...P.get().factsN, n] });
+  checkAchievements();
+  return true;
 }
 
 function unlockFact(level: Level) {
@@ -259,6 +268,12 @@ function ruleValue(rule: any): number {
     case "storyEndings": return storyProgress.get().endingsSeen.filter((id) => (ENDING_IDS as string[]).includes(id)).length;
     case "storyTopics": return storyProgress.get().topics.length;
     case "storyLamps": return new Set(storyProgress.get().lamps).size;
+    case "storyEggs": return new Set(storyProgress.get().eggs ?? []).size;
+    case "storyBoards": return new Set(storyProgress.get().boards ?? []).size;
+    case "storySidequests": {
+      const s = storyProgress.get();
+      return (DATA.story.sidequests ?? []).filter((sq) => sidequestProgress(DATA.story, s, sq.id).complete).length;
+    }
     case "storyFlag": return deriveFlags(DATA.story, storyProgress.get()).has(rule.flag) ? 1 : 0;
     case "circuitStarCount": {
       const c = DATA.circuits.find((x) => x.id === rule.circuit);

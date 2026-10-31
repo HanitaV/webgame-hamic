@@ -78,6 +78,7 @@ const ICONS = {
   chat: '<path d="M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V16.5H5A1.5 1.5 0 0 1 3.5 15V7A1.5 1.5 0 0 1 5 5.5z"/>',
   lamp: '<path d="M12 21v-9M9 21h6"/><circle cx="12" cy="8" r="3.5"/><path d="M12 2.5v1.5M6.5 8H5M19 8h-1.5M8 4l1 1M16 4l-1 1"/>',
   file: '<path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20z"/><path d="M14 3.5V8h4M9.5 12h5M9.5 15.5h5"/>',
+  hamic: '<path d="M12 4.2v7.6" stroke-width="2.4"/><path d="M8.1 7.1a7.4 7.4 0 0 0-3.5 6.7"/><path d="M15.9 7.1a7.4 7.4 0 0 1 3.5 6.7"/><path d="M7.6 18.1a7.4 7.4 0 0 0 8.8 0"/>',
 } as const;
 
 export type IconName = keyof typeof ICONS;
@@ -124,6 +125,51 @@ export function lamp(color: string, lit: boolean, size = 32): HTMLElement {
 
 /** Kept for older call sites. */
 export const blockIcon = lamp;
+
+/** Official HAMIC club emblem ("mark" = circular badge, "lockup" = badge + HAMIC wordmark). */
+export function hamicLogo(variant: "mark" | "lockup" = "mark", size = 36, alt = ""): HTMLImageElement {
+  const w = variant === "lockup" ? Math.round(size * (448 / 512)) : size;
+  return el("img", {
+    class: `hamic-img hamic-${variant}`,
+    src: `${import.meta.env.BASE_URL}assets/hamic-${variant === "lockup" ? "logo" : "mark"}.png`,
+    width: w,
+    height: size,
+    alt,
+    decoding: "async",
+    draggable: "false",
+    "aria-hidden": alt ? undefined : "true",
+  });
+}
+
+/** Three core symbols inside the HAMIC emblem: Mathematics (A+), Informatics power (⏻), Applied Math ($). */
+export function hamicSigns(ariaLabel?: string): HTMLElement {
+  const attrs: Attrs = ariaLabel ? { class: "hamic-signs", role: "img", "aria-label": ariaLabel } : { class: "hamic-signs", "aria-hidden": "true" };
+  return el("span", attrs,
+    el("i", { class: "hamic-sign hamic-sign-a", "aria-hidden": "true" }, "A", el("sup", { text: "+" })),
+    el("i", { class: "hamic-sign hamic-sign-pwr", "aria-hidden": "true" }, icon("hamic", 13)),
+    el("i", { class: "hamic-sign hamic-sign-dlr", "aria-hidden": "true", text: "$" }),
+  );
+}
+
+/** 8-bit ASCII binary of "HAMIC" from the outer ring of the club emblem, alternating amber & crimson. */
+export function hamicBinary(tip?: string): HTMLElement {
+  return el("span", { class: "hamic-binary", title: tip, "aria-hidden": "true" },
+    el("span", { text: "01001000" }),
+    el("b", { text: "01000001" }),
+    el("span", { text: "01001101" }),
+    el("b", { text: "01001001" }),
+    el("span", { text: "01000011" }),
+  );
+}
+
+/** Compact HAMIC club badge for screen topbars. */
+export function hamicChip(): HTMLElement {
+  return el("span", { class: "hamic-chip", "aria-hidden": "true" },
+    hamicLogo("mark", 22),
+    el("b", { text: "HAMIC" }),
+    hamicSigns(),
+  );
+}
 
 export function clear(node: HTMLElement) {
   node.replaceChildren();

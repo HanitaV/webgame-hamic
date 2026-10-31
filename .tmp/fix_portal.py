@@ -1,0 +1,3 @@
+﻿from pathlib import Path
+p=Path('web/src/style.css');s=p.read_text(encoding='utf-8').replace('.walk-room-controls { position: fixed; top: 80px; right: 16px; z-index: 15;', '.walk-room-controls { pointer-events: auto; position: fixed; top: var(--edge-t); left: 50%; transform: translateX(-50%); z-index: 1;').replace('.walk-room-controls { top: 65px; right: 12px; max-width: 220px;', '.walk-room-controls { max-width: 220px;');p.write_text(s,encoding='utf-8')
+p=Path('web/src/ui/screens/walk.ts');s=p.read_text(encoding='utf-8').replace('    const talk = hud.querySelector','    portal.hidden = dialogOpen || showing || portal.childElementCount === 0;\n    const talk = hud.querySelector');p.write_text(s,encoding='utf-8')

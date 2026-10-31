@@ -4,29 +4,29 @@ import { refreshMusic, quietMusic } from "../../core/music";
  * Dữ liệu ở story.json, luật ở puzzles/logic/story.ts. Không đồng hồ đếm ngược, không phạt.
  */
 
-import { DATA, storyLevelId } from "../../core/data";
+import { DATA, storyLevelId, type MapBuilding } from "../../core/data";
 import { t } from "../../core/i18n";
 import { developerMode } from "../../game/developer";
 import { difficulty } from "../../game/play";
-import { checkAchievements, P } from "../../game/progress";
+import { checkAchievements, P, unlockNumberFact } from "../../game/progress";
 import { storyProgress as save, type StoryLine } from "../../game/story";
 import {
   ENDING_IDS, ambientLines, currentChapter, currentStop, decisionOptions, deriveFlags, fastForward, migrateLegacy,
   npcPlace, npcSidequest, pickEnding, rewindTo, sidequestProgress, storyComplete, storyEvidence, storyFacts, storyItems, storyTime, topicAvailable,
   type E2Variant, type EndingId, type EndingResult, type Sidequest, type Stop,
 } from "../../puzzles/logic/story";
-import { endShow, focusCircuit, playShow, setStoryTime, skipShow } from "../../scene/world";
+import { cycleDroneStationMode, endShow, focusCircuit, getDroneStationMode, playShow, pulseCore, setStoryTime, skipShow, triggerDroneChord } from "../../scene/world";
 import { playCinematic, type CinematicPlayback } from "../../scene/cinematic";
 import {
-  nearCharacter, nearNode, nearbyCharacter, onCharacterInteraction, pauseWalk, placeCharacters, resetWalkPosition,
-  setLamps, walkAxis, walkMode, walkTarget, walkTo,
+  roomState, nearbyEntrance, enterBuilding, exitBuilding, nearbyRoom, enterRoom, exitRoom, buildingAtPosition, nearCharacter, nearNode, nearbyCharacter, nearbyEasterEgg, nearbyBoardBuilding, nearbyDroneStation, onCharacterInteraction, onEasterEggInteraction,
+  pauseWalk, placeCharacters, resetWalkPosition, setFoundEggs, setLamps, walkAxis, walkMode, walkTarget, walkTo, walkToPoint,
 } from "../../scene/walking";
-import { btn, el, icon } from "../dom";
+import { btn, el, hamicLogo, icon } from "../dom";
 import { toast } from "../overlay";
 import { joystick } from "../joystick";
 import { rich } from "../rich";
 import { minimap } from "../story/minimap";
-import { buzz } from "../../core/audio";
+import { buzz, sfx } from "../../core/audio";
 import { back, go, reset } from "../router";
 import { mountActivity, DIALOG_ACTIVITIES } from "../story/activities";
 import { NOTEBOOK_TABS, chatContent, endingLibrary, endingPanel, notebookContent, type NotebookTab } from "../story/panels";
@@ -54,8 +54,10 @@ export function screenWalk(root: HTMLElement) {
   const hud = el("div", { class: "walk-hud panel dark" });
   const dialog = el("section", { class: "walk-dialog panel dark", role: "dialog", "aria-modal": "true", "aria-label": t("story.title"), hidden: true });
   const radioText = el("p");
-  const radio = el("aside", { class: "walk-radio panel", "aria-label": t("story.radio") }, el("small", { class: "kicker", text: t("story.radio") }), radioText);
+  const radio = el("aside", { class: "walk-radio panel", "aria-label": t("story.radio") },
+    el("small", { class: "kicker radio-kicker" }, icon("hamic", 14), el("span", { text: t("story.radio") })), radioText);
   const controls = el("div", { class: "walk-controls" });
+  const portal = el("div", { class: "walk-room-controls panel dark" }); root.append(portal);
   const fab = el("div", { class: "walk-fab" });
   let nudged = false, stopStarted = save.get().activeSeconds;
   const map = minimap(() => { const c = stop(); return c ? placeOf(c.npc).node : placeOf("chief").node; }, () => state().lamps,
@@ -83,6 +85,7 @@ export function screenWalk(root: HTMLElement) {
     for (const c of DATA.map.walk.characters) places[c.id] = placeOf(c.id);
     placeCharacters(places);
     setLamps(lampNodes, state().lamps);
+    setFoundEggs(state().eggs ?? []);
   }
 
   /* ---------- hộp thoại ---------- */
@@ -132,7 +135,7 @@ export function screenWalk(root: HTMLElement) {
     const tool = (label: string, fn: () => void, ic: Parameters<typeof btn>[4], attrs: Record<string, string | boolean>, extra = "") =>
       btn(label, fn, `small ghost tool${extra}`, { "aria-label": label, title: label, ...attrs }, ic);
     hud.replaceChildren(
-      el("div", { class: "row hud-top" }, tool(t("ui.home"), () => reset("title"), "back", {}),
+      el("div", { class: "row hud-top" }, tool(t("ui.home"), () => reset("title"), "back", {}), hamicLogo("mark", 20),
         el("p", { class: "kicker hud-chapter", text: t(chapter.title) }),
         el("small", { class: "muted hud-progress", text: t("story.ui.progress", { n: Math.min(s.step, st.stops.length), max: st.stops.length }) })),
       el("h2", { class: "display", text: cur ? t(cur.title) : t("story.ui.finale") }),
@@ -169,23 +172,186 @@ export function screenWalk(root: HTMLElement) {
   }
 
   /* ---------- tương tác ---------- */
+  function confirmSpace(name: string, action: () => void) {
+    if(dialogOpen || showing)return;
+    dialog.replaceChildren(el("p",{class:"kicker",text:t("story.space.confirmTitle")}),el("h2",{class:"display",text:name}),el("p",{text:t("story.space.confirmBody")}),el("div",{class:"row"},btn(t("story.space.confirm"),()=>{closeDialog();action();},"primary",{"data-confirm-space":true}),btn(t("story.space.cancel"),closeDialog,"ghost",{"data-cancel-space":true})));
+    openDialog();
+  }
+  const roomName = (r: {type: string;num: string}) => t("story.space.roomName",{type:t(`story.space.type.${r.type}`),num:r.num});
   function syncInteraction() {
     const cur = stop();
     const npc = nearbyCharacter(cur?.npc);
+    const egg = nearbyEasterEgg();
+    const inside = buildingAtPosition();
+    view.classList.toggle("walk-indoors",!!inside);
+    const state = roomState(); const entrance = nearbyEntrance(); const door=nearbyRoom(); const boardBuilding = nearbyBoardBuilding(); const droneStation = nearbyDroneStation();
+    const portalMode = (state.loading ? "loading" : (inside ? `inside:${inside.id}:${state.section?.building??""}:${state.activeRoom?"room:"+state.activeRoom.interiorFile:door?"door:"+door.interiorFile:"hall"}:${boardBuilding?.id??""}` : null) ?? (entrance ? entrance.id+":"+entrance.entranceTitle : "outside"))+(boardBuilding&&!inside?":board:"+boardBuilding.id:"")+(droneStation?":drone:"+droneStation.node+":"+getDroneStationMode():"")+(state.error?":error":"");
+
+    if (portal.dataset.mode !== portalMode) {
+      portal.dataset.mode = portalMode;
+      portal.replaceChildren();
+      if (state.loading) portal.append(el("p", { text: t("story.ui.loadingRoom"), role: "status" }));
+      else if (inside) {
+        const spaceLabel = state.activeRoom ? roomName(state.activeRoom) : state.room?.rooms?.length ? t("story.space.corridor", { name: t(state.section?.title ?? inside.entranceTitle ?? inside.name) }) : t(state.section?.title ?? inside.entranceTitle ?? inside.interiorTitle ?? inside.name);
+        portal.append(el("b", { text: spaceLabel }));
+        if(state.room?.connectedBuildings)portal.append(el("small",{text:t("story.space.connected") }));
+        if(state.error)portal.append(el("p",{text:t("story.ui.roomLoadFailed"),role:"status"}));
+        if(state.activeRoom){
+          if(state.activeRoom.type==="server")portal.append(btn(t("story.space.inspectServer"),()=>inspectServerRoom(state.activeRoom!.num),"small ghost",{"data-inspect-server":state.activeRoom.num},"board"));
+          else if(state.activeRoom.type==="lab")portal.append(btn(t("story.space.inspectLab"),()=>inspectLabRoom(state.activeRoom!.num),"small ghost",{"data-inspect-lab":state.activeRoom.num},"flask"));
+          portal.append(btn(t("story.space.backHall"),()=>confirmSpace(t("story.space.backHall"),()=>{void exitRoom();}),"primary",{"data-exit-room":true}));
+        }
+        else {
+          if(door?.type==="office"){portal.append(el("p",{text:t("story.space.officeClosed"),"data-office-closed":true}));portal.append(btn(t("story.space.readOfficeNote"),()=>inspectOfficeNote(door.num),"small ghost",{"data-office-note":door.num},"file"));}
+          else if(door)portal.append(btn(t("story.space.enterRoom",{name:roomName(door)}),()=>confirmSpace(roomName(door),()=>{void enterRoom(door.interiorFile);}),"primary",{"data-enter-room":door.interiorFile}));
+          if(boardBuilding)portal.append(btn(t("story.board.inspect"),()=>inspectBoard(boardBuilding),"small ghost",{"data-inspect-board":boardBuilding.id},"board"));
+          portal.append(btn(t("story.ui.exitBuilding"),()=>confirmSpace(t("story.ui.exitBuilding"),exitBuilding),"ghost", { "data-exit-building": true }));
+        }
+        portal.append(el("small", { text: t("story.ui.roomEstimate") }));
+        if (state.room?.kind === "lecture") portal.append(el("small", { text: t("story.ui.capacity", { count: state.room.rows * state.room.columns }) }));
+      } else if (entrance && !entrance.enterable) portal.append(el("p", { text: t("story.ui.usshExterior") }));
+      else if (entrance) { if (state.error) portal.append(el("p", { text: t("story.ui.roomLoadFailed"), role: "status" })); portal.append(btn(t("story.ui.enterBuilding", { name: t(entrance.entranceTitle??entrance.name) }), () => confirmSpace(t(entrance.entranceTitle??entrance.name),()=>{ void enterBuilding(entrance.id); }), "primary", { "data-enter-building": entrance.id })); }
+      else if (state.error) portal.append(el("p", { text: t("story.ui.roomLoadFailed"), role: "status" }));
+      if (!inside && !state.loading) {
+        if (boardBuilding) portal.append(btn(t("story.board.inspectPlaque"), () => inspectBoard(boardBuilding), "small ghost", { "data-inspect-board": boardBuilding.id }, "board"));
+        if (droneStation) portal.append(btn(t("story.drone.switchMode", { mode: t(`story.drone.mode.${getDroneStationMode()}`) }), () => {
+          const m = cycleDroneStationMode();
+          sfx.ok();
+          radioText.textContent = t(`story.drone.radio.${m}`);
+          syncInteraction();
+        }, "small ghost", { "data-drone-station": droneStation.node }, "sparkle"));
+      }
+      portal.hidden = portal.childElementCount === 0;
+    }
+    portal.hidden = dialogOpen || showing || portal.childElementCount === 0;
     const talk = hud.querySelector<HTMLButtonElement>("[data-talk]");
     const name = hud.querySelector<HTMLElement>("[data-nearby-npc]");
-    if (talk) { talk.disabled = !npc; talk.dataset.npc = npc?.id ?? ""; }
-    if (name) name.textContent = npc ? t("story.ui.near", { name: t(npc.name) }) : t("story.ui.far");
-    // Nút hành động lớn cho ngón cái (góc phải dưới): trò chuyện hoặc thắp đèn, tùy chỗ đang đứng.
+    if (talk) { talk.disabled = !npc && !egg; talk.dataset.npc = npc?.id ?? ""; }
+    if (name) {
+      name.textContent = npc
+        ? t("story.ui.near", { name: t(npc.name) })
+        : egg
+          ? t("story.ui.near", { name: t(egg.title) })
+          : inside
+            ? t("story.ui.inside", { name: t(state.section?.title ?? inside.interiorTitle ?? inside.name) })
+            : t("story.ui.far");
+    }
+    // Nút hành động lớn cho ngón cái (góc phải dưới): trò chuyện, khám phá Easter Egg hoặc thắp đèn.
     const lampNode = lampHere();
-    const mode = npc ? `talk:${npc.id}` : lampNode ? `lamp:${lampNode}` : "";
+    const mode = npc ? `talk:${npc.id}` : egg ? `egg:${egg.id}` : lampNode ? `lamp:${lampNode}` : "";
     if (fab.dataset.mode !== mode) {
       fab.dataset.mode = mode;
       fab.replaceChildren(...(npc ? [btn(t("story.ui.talkTo", { name: t(npc.name).split(" · ")[0] }), () => interact(npc.id), "primary big", { "data-fab": "talk" }, "chat")]
-        : lampNode ? [btn(t("story.ui.lamp"), lightLamp, "big", { "data-fab": "lamp", "data-lamp": true }, "lamp")] : []));
+        : egg ? [btn(t("story.ui.inspectEgg", { name: t(egg.title).split(" — ")[0] }), () => inspectEgg(egg.id), "primary big", { "data-fab": "egg", "data-egg": egg.id }, "sparkle")]
+          : lampNode ? [btn(t("story.ui.lamp"), lightLamp, "big", { "data-fab": "lamp", "data-lamp": true }, "lamp")] : []));
     }
   }
   const lampHere = () => lampNodes.find((n) => nearNode(n) && !state().lamps.includes(n)) ?? null;
+
+  let catPets = 0;
+  let catStatusEl: HTMLElement | null = null;
+  function catPetArea() {
+    catStatusEl = el("p", { class: "small good", role: "status", "data-cat-status": true, text: catPets ? t(`story.egg.catPurr.${(catPets - 1) % 4}`) : "" });
+    return catStatusEl;
+  }
+  function petCat() {
+    catPets += 1;
+    sfx.purr();
+    buzz(12);
+    if (catStatusEl) catStatusEl.textContent = t(`story.egg.catPurr.${(catPets - 1) % 4}`);
+  }
+  function inspectBoard(b: MapBuilding) {
+    if (showing || dialogOpen || !b.boardTitle || !b.boardFormula) return;
+    const prev = state().boards ?? [];
+    if (!prev.includes(b.id)) {
+      save.set({ boards: [...prev, b.id] });
+      buzz(14);
+      checkAchievements();
+    }
+    const allBoards = DATA.map.buildings.filter((x) => x.boardTitle && x.boardFormula).length;
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: t("story.board.kicker", { n: (state().boards ?? []).length, max: allBoards }) }),
+      el("h2", { class: "display", text: t(b.interiorTitle ?? b.name) }),
+      el("div", { class: "thinking-support", role: "note" },
+        el("b", { class: "thinking-title", text: t(b.boardTitle) }),
+        rich(t(b.boardFormula), "p", { class: "thinking-step" }),
+      ),
+      rich(t(`story.interior.${b.id}.note`)),
+      el("div", { class: "row" },
+        btn(t("story.board.openLab"), () => { closeDialog(); go("lab"); }, "ghost", { "data-board-lab": b.id }, "flask"),
+        btn(t("story.close"), closeDialog, "primary", { "data-board-close": b.id })),
+    );
+    openDialog(true);
+  }
+  function inspectOfficeNote(num: string) {
+    if (showing || dialogOpen) return;
+    const idx = Math.abs(parseInt(num, 10) || 0) % 5;
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: t("story.space.officeNoteKicker", { num }) }),
+      el("h2", { class: "display", text: t("story.space.officeNoteTitle", { num }) }),
+      rich(t(`story.space.officeNote.${idx}`)),
+      el("div", { class: "row" }, btn(t("story.close"), closeDialog, "primary", { "data-office-note-close": true })),
+    );
+    openDialog(true);
+  }
+  function inspectServerRoom(num: string) {
+    if (showing || dialogOpen) return;
+    const litCount = new Set([...P.get().lit, ...P.get().casualLit, ...storyFacts(st, state())]).size;
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: t("story.space.serverKicker", { num }) }),
+      el("h2", { class: "display", text: t("story.space.serverTitle", { num }) }),
+      el("div", { class: "thinking-support", role: "note" },
+        el("b", { class: "thinking-title", text: t("story.space.serverStatus", { lit: litCount, lamps: state().lamps.length }) }),
+        rich(t("story.space.serverLog"), "p", { class: "thinking-step" }),
+      ),
+      el("div", { class: "row" }, btn(t("story.close"), closeDialog, "primary", { "data-server-close": true })),
+    );
+    openDialog(true);
+  }
+  function inspectLabRoom(num: string) {
+    if (showing || dialogOpen) return;
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: t("story.space.labKicker", { num }) }),
+      el("h2", { class: "display", text: t("story.space.labTitle", { num }) }),
+      rich(t("story.space.labBody")),
+      el("div", { class: "row" },
+        btn(t("story.board.openLab"), () => { closeDialog(); go("lab"); }, "primary", { "data-lab-shortcut": true }, "flask"),
+        btn(t("story.close"), closeDialog, "ghost", { "data-lab-close": true })),
+    );
+    openDialog(true);
+  }
+  function inspectEgg(id: string) {
+    if (showing || dialogOpen) return;
+    const egg = (DATA.map.walk.easterEggs ?? []).find((e) => e.id === id);
+    if (!egg) return;
+    const prev = state().eggs ?? [];
+    const isNew = !prev.includes(id);
+    if (isNew) {
+      save.set({ eggs: [...prev, id] });
+      setFoundEggs(state().eggs ?? []);
+      buzz();
+      buzz();
+      checkAchievements();
+      toast(t("story.egg.toastTitle"), t(egg.title), "info");
+    }
+    const foundCount = (state().eggs ?? []).length;
+    const totalEggs = (DATA.map.walk.easterEggs ?? []).length;
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: t("story.egg.kicker", { n: foundCount, max: totalEggs }) }),
+      el("h2", { class: "display", text: t(egg.title) }),
+      el("p", { class: "small muted", text: t(egg.place) }),
+      rich(t(egg.lore)),
+      el("div", { class: "thinking-support", role: "note" },
+        el("b", { class: "thinking-title", text: t("story.egg.noteTitle") }),
+        rich(t(egg.quip), "p", { class: "thinking-step" }),
+      ),
+      ...(id === "egg_cat_dean" ? [catPetArea()] : []),
+      el("div", { class: "row" },
+        id === "egg_cat_dean" ? btn(t("story.egg.petCat"), () => petCat(), "ghost", { "data-pet-cat": true }, "sparkle") : null,
+        btn(t("story.close"), closeDialog, "primary", { "data-egg-close": id })),
+    );
+    openDialog(true);
+  }
 
   function lightLamp() {
     const n = lampHere();
@@ -194,7 +360,13 @@ export function screenWalk(root: HTMLElement) {
     setLamps(lampNodes, state().lamps);
     radioText.textContent = t(st.lamps.notes[n]);
     const count = state().lamps.length;
-    toast(t("story.ui.lampLit"), count === st.lamps.need ? t("story.ui.lampDone", { n: count }) : t("story.ui.lampCount", { n: count, max: st.lamps.need }), "info");
+    if (count === lampNodes.length) {
+      sfx.light();
+      radioText.textContent = t("story.lamps.all19Radio");
+      toast(t("story.lamps.all19Title"), t("story.lamps.all19Toast"), "info");
+    } else {
+      toast(t("story.ui.lampLit"), count === st.lamps.need ? t("story.ui.lampDone", { n: count }) : t("story.ui.lampCount", { n: count, max: st.lamps.need }), "info");
+    }
     checkAchievements();
     render();
   }
@@ -203,7 +375,11 @@ export function screenWalk(root: HTMLElement) {
     if (showing || dialogOpen) return;
     const cur = stop();
     const near = id ? (nearCharacter(id) ? DATA.map.walk.characters.find((c) => c.id === id) : null) : nearbyCharacter(cur?.npc);
-    if (!near) return;
+    if (!near) {
+      const egg = nearbyEasterEgg();
+      if (egg) inspectEgg(egg.id);
+      return;
+    }
     if (cur && near.id === cur.npc) { runStop(cur); return; }
     if (!cur && near.id === "chief") { finale(); return; }
     chatWith(near.id);
@@ -288,6 +464,7 @@ export function screenWalk(root: HTMLElement) {
     const prevDone = state().sidequests?.[sq.id] ?? 0;
     const nextDone = Math.max(prevDone, stageIndex + 1);
     save.set({ sidequests: { ...(state().sidequests ?? {}), [sq.id]: nextDone } });
+    checkAchievements();
     buzz();
     const afterLines: StoryLine[] = [{ speaker: `story.npc.${sq.npc}`, text: stage.after }];
     if (nextDone >= sq.stages.length && prevDone < sq.stages.length) {
@@ -413,7 +590,7 @@ export function screenWalk(root: HTMLElement) {
     tabs.append(btn(t("story.ui.tab.log"), () => notebook("log"), `small${tab === "log" ? " primary" : " ghost"}`, { role: "tab", "aria-selected": String(tab === "log"), "data-tab": "log" }));
     const content = tab === "log"
       ? (dialogueLog.length ? el("ol", { class: "chat-list" }, ...dialogueLog.map((l) => el("li", {}, el("b", { text: t(l.speaker) }), rich(t(l.text))))) : el("p", { class: "muted", text: t("story.ui.logEmpty") }))
-      : notebookContent(state(), tab, (node) => { closeDialog(); walkTo(node); });
+      : notebookContent(state(), tab, (node) => { closeDialog(); walkTo(node); }, (mx, mz) => { closeDialog(); walkToPoint(mx, mz); });
     dialog.replaceChildren(el("p", { class: "kicker", text: t(state().bond === "listen" ? "story.ui.bondNote.listen" : "story.ui.bondNote.build") }),
       el("h2", { class: "display", text: t("story.ui.notebook", { n: storyEvidence(st, state()).length }) }), tabs, content, btn(t("story.ui.close"), closeDialog, "primary"));
     openDialog(true);
@@ -501,6 +678,7 @@ export function screenWalk(root: HTMLElement) {
   /* ---------- điều khiển ---------- */
   const mappings: Record<string, [number, number]> = { KeyW: [0, -1], ArrowUp: [0, -1], KeyS: [0, 1], ArrowDown: [0, 1], KeyA: [-1, 0], ArrowLeft: [-1, 0], KeyD: [1, 0], ArrowRight: [1, 0] };
   function applyHeld() { let x = 0, z = 0; for (const code of held) { x += mappings[code][0]; z += mappings[code][1]; } walkAxis(x, z); }
+  let chordBuf = "";
   const keydown = (e: KeyboardEvent) => {
     if (e.code === "Tab" && dialogOpen) {
       const buttons = [...dialog.querySelectorAll<HTMLElement>("button:not([disabled]), input:not([disabled]), summary")];
@@ -514,6 +692,18 @@ export function screenWalk(root: HTMLElement) {
     if (e.code === "KeyL" && !e.repeat) { e.preventDefault(); lightLamp(); }
     if (e.code === "KeyJ" && !e.repeat) { e.preventDefault(); notebook("evidence"); }
     if (e.code === "KeyM" && !e.repeat) { e.preventDefault(); mapOn = !mapOn; map.root.hidden = !mapOn; }
+    if (!e.repeat && /^(Digit|Numpad)[0-9]$/.test(e.code)) {
+      chordBuf = (chordBuf + e.code.slice(-1)).slice(-3);
+      if (chordBuf === "257" && nearNode("lawn")) {
+        chordBuf = "";
+        sfx.chord70();
+        triggerDroneChord();
+        pulseCore();
+        unlockNumberFact(70);
+        radioText.textContent = t("story.easter.chord257");
+        toast(t("story.easter.chord257Title"), t("story.easter.chord257Toast"), "info");
+      }
+    }
   };
   const keyup = (e: KeyboardEvent) => { held.delete(e.code); if (mappings[e.code]) applyHeld(); };
   const blur = () => { held.clear(); walkAxis(0, 0); };
@@ -522,6 +712,7 @@ export function screenWalk(root: HTMLElement) {
   controls.append(stick.root);
   document.addEventListener("keydown", keydown); document.addEventListener("keyup", keyup); window.addEventListener("blur", blur); document.addEventListener("visibilitychange", visibility);
   const offInteraction = onCharacterInteraction((id) => interact(id));
+  const offEggInteraction = onEasterEggInteraction((id) => inspectEgg(id));
   const timer = window.setInterval(syncInteraction, 120);
   // Nhắc chủ động: đi lòng vòng hơn 75 giây ở một việc thì đài nhắc chỗ cần tới (không phạt, không đếm ngược).
   const clock = window.setInterval(() => {
@@ -536,7 +727,7 @@ export function screenWalk(root: HTMLElement) {
   }, 1000);
 
   // Móc cho kịch bản kiểm tự động (web/scripts/story-e2e.mjs): giải câu đố của màn chơi riêng mà không mở màn đó.
-  Object.assign(window, { __walkTest: { solveActivity: () => { const s0 = stop(); if (s0) { solvedThisSession.add(s0.id); afterActivity(s0); } }, interact, finale } });
+  Object.assign(window, { __walkTest: { solveActivity: () => { const s0 = stop(); if (s0) { solvedThisSession.add(s0.id); afterActivity(s0); } }, interact, inspectEgg, inspectBoard, finale } });
   render();
   if (resumeAfterLevel && stop()?.id === resumeAfterLevel) { const s0 = stop()!; resumeAfterLevel = null; afterActivity(s0); }
   else if (resumeSidequest) { const rs = resumeSidequest; resumeSidequest = null; finishSidequestStage(rs.id, rs.stageIndex); }
@@ -547,8 +738,9 @@ export function screenWalk(root: HTMLElement) {
     else closeDialog();
   }, "notice.title", false);
   return () => {
+    portal.remove();
     film?.dispose(); film = null;
-    disposed = true; offInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); skipShow();
+    disposed = true; offInteraction(); offEggInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); skipShow();
     document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); document.removeEventListener("visibilitychange", visibility);
     endShow(); walkMode(false);
   };

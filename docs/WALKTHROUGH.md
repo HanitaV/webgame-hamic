@@ -1,4 +1,4 @@
-# Hướng dẫn chơi — Hội tụ 70, bản 2.8.0
+# Hướng dẫn chơi — Đêm Toán Tin, bản 2.8.0
 
 Tài liệu mô tả luồng chơi mới, các nhánh và cách đạt từng kết cục. Thiết kế đầy đủ ở [STORY_BIBLE.md](STORY_BIBLE.md); luật kết cục ở [ENDINGS.md](ENDINGS.md).
 

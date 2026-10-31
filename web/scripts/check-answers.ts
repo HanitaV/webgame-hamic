@@ -315,7 +315,8 @@ for (const [d, profile] of Object.entries(story.difficulties) as [string,any][])
   check(profile.casualMax <= 2, `casual stays accessible ${d}`);
 }
 for (const mode of ["casual","daily","practice","guest","lab"]) check(Object.keys(story.modes[mode].activities).length >= 3, `mode content ${mode}`);
-check(walk.avatar.height >= 1.6 && walk.avatar.height <= 1.9 && walk.avatar.height / Math.min(...map.buildings.map((b: any) => b.h)) < .15, "character/building scale");
+const multiStorey = map.buildings.filter((b: any) => b.h >= 8);
+check(walk.avatar.height >= 1.6 && walk.avatar.height <= 1.9 && Math.min(...map.buildings.map((b: any) => b.h)) >= walk.avatar.height * 2.2 && multiStorey.length >= 11 && walk.avatar.height / Math.min(...multiStorey.map((b: any) => b.h)) < .15, "character/building scale");
 const atmosphere=map.atmosphere;
 check(atmosphere[0].step === 0 && atmosphere[0].night === 0 && atmosphere.at(-1).step === 6 && atmosphere.at(-1).night === 1, "story light endpoints");
 check(atmosphere.every((f: any,i: number) => (!i || f.step > atmosphere[i-1].step && f.night >= atmosphere[i-1].night) && vi[f.label]), "story light progression");

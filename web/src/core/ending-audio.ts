@@ -14,31 +14,48 @@ export function createEndingSound(id: EndingId): EndingSound | null {
   if (!path || !bus) return null;
   const { context, input } = bus;
   const state = { id, playing: false, offset: 0, ready: false }; sessions.add(state);
-  let buffer: AudioBuffer | null = null, disposed = false, target = 0, wanted = false, speed = 1;
+  let buffer: AudioBuffer | null = null, disposed = false, target = 0, targetStamp = performance.now(), wanted = false, speed = 1;
   let voice: { source: AudioBufferSourceNode; gain: GainNode; offset: number; started: number; rate: number } | null = null;
   function silence() {
     if (!voice) return;
     const old = voice; voice = null;
-    old.gain.gain.cancelScheduledValues(context.currentTime);
-    old.gain.gain.setTargetAtTime(0, context.currentTime, .008);
-    try { old.source.stop(context.currentTime + .04); } catch { /* already ended */ }
+    const now = context.currentTime, current = old.gain.gain.value;
+    old.gain.gain.cancelScheduledValues(now);
+    old.gain.gain.setValueAtTime(current, now);
+    old.gain.gain.linearRampToValueAtTime(0, now + .03);
+    try { old.source.stop(now + .035); } catch { /* already ended */ }
   }
+  const liveTarget = () => wanted ? target + Math.max(0, (performance.now() - targetStamp) / 1000) * speed : target;
   function sync(seconds: number, playing: boolean, rate = 1) {
     if (disposed) return;
-    target = Math.max(0, seconds); wanted = playing; speed = rate;
-    state.offset = target; state.playing = playing && !!buffer;
-    if (!playing || !buffer || target >= buffer.duration - .01) { silence(); state.playing = false; return; }
-    const predicted = voice ? voice.offset + Math.max(0, context.currentTime - voice.started) * voice.rate : -1;
-    if (voice && Math.abs(predicted - target) < .14 && voice.rate === rate) return;
+    target = Math.max(0, seconds); targetStamp = performance.now(); wanted = playing; speed = rate;
+    state.offset = target; state.playing = playing && !!buffer && context.state === "running";
+    if (!playing || !buffer || context.state !== "running" || target >= buffer.duration - .02) { silence(); state.playing = false; return; }
+    const now = context.currentTime;
+    if (voice) {
+      const predicted = voice.offset + Math.max(0, now - voice.started) * voice.rate;
+      const drift = target - predicted;
+      if (Math.abs(drift) < .45) {
+        const nudged = Math.abs(drift) < .03 ? rate : rate * Math.max(.96, Math.min(1.04, 1 + drift * .25));
+        if (Math.abs(voice.rate - nudged) > .001) {
+          voice.offset = predicted; voice.started = now; voice.rate = nudged;
+          voice.source.playbackRate.setTargetAtTime(nudged, now, .04);
+        }
+        return;
+      }
+    }
     silence();
     const source = context.createBufferSource(), gain = context.createGain();
+    const started = now + .012;
+    const startOffset = Math.min(buffer.duration - .02, target + .012 * rate);
     source.buffer = buffer; source.playbackRate.value = rate;
-    gain.gain.setValueAtTime(0, context.currentTime); gain.gain.linearRampToValueAtTime(1, context.currentTime + .04);
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.setValueAtTime(0, started);
+    gain.gain.linearRampToValueAtTime(1, started + .035);
     source.connect(gain).connect(input);
     source.onended = () => { source.disconnect(); gain.disconnect(); };
-    const started = context.currentTime + .015;
-    source.start(started, target);
-    voice = { source, gain, offset: target, started, rate };
+    source.start(started, startOffset);
+    voice = { source, gain, offset: startOffset, started, rate };
   }
   let pending = buffers.get(path);
   if (!pending) {
@@ -47,8 +64,8 @@ export function createEndingSound(id: EndingId): EndingSound | null {
     // Limit decoded memory on phones (two 16-second stereo buffers).
     if (buffers.size > 2) buffers.delete(buffers.keys().next().value!);
   }
-  void pending.then(decoded => { if (disposed) return; buffer = decoded; state.ready = true; sync(target, wanted, speed); }).catch(() => { buffers.delete(path); });
-  const resume = () => { if (context.state === "running") sync(target, wanted, speed); };
+  void pending.then(decoded => { if (disposed) return; buffer = decoded; state.ready = true; sync(liveTarget(), wanted, speed); }).catch(() => { buffers.delete(path); });
+  const resume = () => { if (context.state === "running") sync(liveTarget(), wanted, speed); };
   context.addEventListener("statechange", resume);
   return { sync, dispose() {
     if (disposed) return;

@@ -15,7 +15,7 @@ let chromium;
 // PLAYWRIGHT_MODULE cho phép dùng bản Playwright có sẵn trình duyệt trên máy (ví dụ bản cài toàn cục).
 ({ chromium } = require(process.env.PLAYWRIGHT_MODULE ?? "playwright"));
 const url = process.env.CAPTURE_URL ?? "http://127.0.0.1:4173/";
-const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--no-sandbox", "--use-angle=d3d11", "--ignore-gpu-blocklist"] });
 const failures = [], errors = [];
 let passes = 0;
 const check = (ok, msg) => { if (ok) passes++; else failures.push(msg); console.log(`${ok ? "  đạt " : "  LỖI "} ${msg}`); };
@@ -141,7 +141,7 @@ if (process.env.ONLY !== "hack") {
   await wait(200);
   // Kiểm tra đi tự do tới tọa độ ngoài hành lang cũ (khu Nhân văn / khu T5).
   const beforePos = await page.evaluate(() => window.__hoitu.walkPosition());
-  await page.evaluate(() => window.__hoitu.walkToPoint(-135, -130));
+  await page.evaluate(() => window.__hoitu.walkToPoint(-110, -130));
   await wait(900);
   const pos = await page.evaluate(() => window.__hoitu.walkPosition());
   check(pos.x < beforePos.x && pos.z < beforePos.z, `Thế giới mở: đi tự do sang khu Nhân văn (${pos.x.toFixed(2)}, ${pos.z.toFixed(2)})`);
@@ -164,6 +164,36 @@ if (process.env.ONLY !== "hack") {
   await page.locator("[data-notebook]").click();
   await page.locator('[data-tab="sidequests"]').click();
   check(await page.locator(".walk-dialog:not([hidden]) .journal-entry").count() === 4, "Sổ tay hiện đủ 4 chuỗi nhiệm vụ phụ");
+  await page.keyboard.press("Escape");
+  // Kiểm tra đi vào trong Giảng đường Nhà T1: camera hạ thấp/zoom gần, hiện nội thất và Easter Egg Giáo trình Giải tích 1 HUST.
+  await page.evaluate(async () => { const h = window.__hoitu, b = h.data.map.buildings.find(b => b.id === "HUS_T1"); h.teleportToPoint(...b.entrance); await h.enterBuilding(b.id); });
+  await wait(850);
+  const indoorDiag = await page.evaluate(() => window.__hoitu.worldDiagnostics());
+  check(indoorDiag.insideBuilding === "HUS_T1" && indoorDiag.indoorBlend > 0.4 && indoorDiag.room?.kind === "building", `Hành lang nội thất Nhà T1 tải thành công (camera dist=${indoorDiag.cameraDistance.toFixed(2)})`);
+  check(await page.locator('[data-fab="egg"][data-egg="egg_hust_gt1"]').count() === 1, "Hiện nút khám phá Easter Egg Giáo trình Giải tích I Bách Khoa trong Nhà T1");
+  check(await page.locator('[data-inspect-board="HUS_T1"]').count() === 1, "Hiện nút đọc bảng phấn chuyên đề trong sảnh Nhà T1");
+  await page.locator('[data-inspect-board="HUS_T1"]').click();
+  await wait(200);
+  check((await page.evaluate(() => window.__hoitu.storyProgress.get().boards ?? [])).includes("HUS_T1"), "Lưu bảng phấn Nhà T1 vào tiến độ người chơi");
+  await page.locator('[data-board-close="HUS_T1"]').click();
+  await wait(200);
+  await page.locator('[data-fab="egg"]').click();
+  await wait(200);
+  check((await page.evaluate(() => window.__hoitu.storyProgress.get().eggs ?? [])).includes("egg_hust_gt1"), "Lưu Easter Egg HUST vào tiến độ người chơi");
+  await page.locator('[data-egg-close="egg_hust_gt1"]').click();
+  await wait(200);
+  // Kiểm tra Cục đá UET và mục Kỷ vật ẩn trong Sổ tay.
+  await page.evaluate(() => window.__hoitu.teleportToPoint(52.0, -162.0));
+  await wait(300);
+  check(await page.locator('[data-fab="egg"][data-egg="egg_uet_rock"]').count() === 1, "Hiện nút khám phá Cục đá UET ngoài bãi cỏ giao thoa");
+  await page.evaluate(() => window.__hoitu.teleportToPoint(-196.5, -108.0));
+  await wait(300);
+  check(await page.locator('[data-fab="egg"][data-egg="egg_ussh_b_logic"]').count() === 1, "Hiện nút khám phá kỷ vật mới Bảng phấn Logic ngoài Nhà B USSH");
+  await page.locator("[data-notebook]").click();
+  await page.locator('[data-tab="eggs"]').click();
+  check(await page.locator(".walk-dialog:not([hidden]) [data-egg-entry]").count() === 15, "Sổ tay liệt kê đủ 15 Easter Egg toàn khuôn viên");
+  await page.locator('[data-tab="boards"]').click();
+  check(await page.locator(".walk-dialog:not([hidden]) [data-board-entry]").count() === 13, "Sổ tay liệt kê đủ 13 bảng chuyên đề tòa nhà");
   await page.keyboard.press("Escape");
   // Kiểm tra Hỗ trợ tư duy hiện sẵn ở chế độ Dễ khi giải bài.
   await page.evaluate(() => window.__hoitu.go("level", { id: "1.1", mode: "journey" }));

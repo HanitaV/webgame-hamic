@@ -8,7 +8,7 @@ import type { Level } from "../../game/types";
 import { runProgram, type Block } from "../../puzzles/logic/blocks";
 import { VIEWS } from "../../puzzles/views/index";
 import type { PuzzleView } from "../../puzzles/views/types";
-import { btn, el } from "../dom";
+import { btn, el, hamicLogo } from "../dom";
 import { tiaLine } from "../overlay";
 import { back } from "../router";
 
@@ -65,7 +65,7 @@ export function screenLab(root: HTMLElement) {
   for (const tool of TOOLS) tabs.append(btn(t(`lab.tab.${tool.id}`), () => open(tool), "small tab", { role: "tab", "data-id": tool.id }));
 
   root.append(el("div", { class: "screen level-screen lab-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display level-title", text: t("title.lab") }), tabs),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), hamicLogo("mark", 24), el("h1", { class: "display level-title", text: t("title.lab") }), tabs),
     el("div", { class: "level-body" },
       el("aside", { class: "level-left panel" }, modeBrief("lab", true), el("p", { class: "prompt", text: t("lab.prompt") }), controls, runBtn),
       el("section", { class: "level-stage stage-frame" }, stageHost, tiaHost))));

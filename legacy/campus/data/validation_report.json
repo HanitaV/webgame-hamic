@@ -2,7 +2,7 @@
   "status": "passed",
   "checks": [
     {
-      "file": "assets/models/bench.glb",
+      "file": "assets\\models\\bench.glb",
       "status": "structural_checks_passed",
       "bytes": 3284,
       "nodes": 4,
@@ -10,15 +10,15 @@
       "sha256": "2ec833b0a6559faad576d74544b352d61d81c7847aa4cee2dc11e7daa5d5f2aa"
     },
     {
-      "file": "assets/models/campus_blockout.glb",
+      "file": "assets\\models\\campus_blockout.glb",
       "status": "structural_checks_passed",
-      "bytes": 10685256,
-      "nodes": 1177,
-      "stored_triangles": 181404,
-      "sha256": "eee1fc4dd1d160e1ea4db40f93859e059c2c17072053f89bbc6ce6f2c7f48293"
+      "bytes": 11025440,
+      "nodes": 1197,
+      "stored_triangles": 187398,
+      "sha256": "592951a98106a3ee0fde1456ec005d4e176efe432b8f6fc81323d3f66772ea7e"
     },
     {
-      "file": "assets/models/gable_roof.glb",
+      "file": "assets\\models\\gable_roof.glb",
       "status": "structural_checks_passed",
       "bytes": 1524,
       "nodes": 1,
@@ -26,7 +26,7 @@
       "sha256": "ac62100c71f03462cc46cd4b2f23a2002ca704dec86b28cf3be3f4bb21e72aee"
     },
     {
-      "file": "assets/models/gate_placeholder.glb",
+      "file": "assets\\models\\gate_placeholder.glb",
       "status": "structural_checks_passed",
       "bytes": 85232,
       "nodes": 5,
@@ -34,7 +34,7 @@
       "sha256": "0254d0d968f2a03fb624973965ba9dddc19b8e62d569f8402d445d186c69cb9e"
     },
     {
-      "file": "assets/models/motorbike_toy.glb",
+      "file": "assets\\models\\motorbike_toy.glb",
       "status": "structural_checks_passed",
       "bytes": 4752,
       "nodes": 5,
@@ -42,7 +42,7 @@
       "sha256": "22d7b1baeef735a26cc54b12f5dc4f6dc2b97376b7f0b99ce7c7ce22c469f2a5"
     },
     {
-      "file": "assets/models/tree_lowpoly.glb",
+      "file": "assets\\models\\tree_lowpoly.glb",
       "status": "structural_checks_passed",
       "bytes": 3132,
       "nodes": 2,
@@ -50,7 +50,7 @@
       "sha256": "140988896f06fac40836e18b708731a55c776885717654fac06aa0b65ab5493c"
     },
     {
-      "file": "assets/models/unit_block.glb",
+      "file": "assets\\models\\unit_block.glb",
       "status": "structural_checks_passed",
       "bytes": 1656,
       "nodes": 1,

@@ -14,7 +14,7 @@ export interface DecisionOption {
 export type Cause = "version" | "notes" | "final";
 export interface Decision { stop: string; speaker: string; cause?: Cause; prompt: string; options: DecisionOption[] }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface Activity { type: string; title: string; [k: string]: any }
+export interface Activity { type: string; title: string;[k: string]: any }
 export interface Stop {
   id: string; chapter: string; npc: string; title: string; objective: string;
   lines: Line[]; activity?: Activity; decision?: string; after: Line[];
@@ -82,6 +82,10 @@ export interface StoryState {
   legacyStep: number;
   /** sidequestId → số chặng đã hoàn thành. */
   sidequests?: Record<string, number>;
+  /** Danh sách id các Easter Egg đã khám phá trên bản đồ thế giới mở. */
+  eggs?: string[];
+  /** Danh sách id tòa nhà đã đọc bảng chuyên đề / bảng phấn. */
+  boards?: string[];
 }
 export interface EndingRules {
   boom: { enabled: boolean };
@@ -94,7 +98,7 @@ export interface EndingRules {
 
 export const emptyStory = (): StoryState => ({
   step: 0, introSeen: false, bond: "listen", decisions: {}, topics: [], lamps: [],
-  activeSeconds: 0, endingsSeen: [], lastEnding: null, chatSeen: 0, legacyStep: 0, sidequests: {},
+  activeSeconds: 0, endingsSeen: [], lastEnding: null, chatSeen: 0, legacyStep: 0, sidequests: {}, eggs: [], boards: [],
 });
 
 /* ---------- vị trí trong truyện ---------- */

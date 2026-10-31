@@ -48,6 +48,8 @@ const clone = (s: StoryState): StoryState => ({
   lamps: [...s.lamps],
   endingsSeen: [...s.endingsSeen],
   sidequests: { ...(s.sidequests ?? {}) },
+  eggs: [...(s.eggs ?? [])],
+  boards: [...(s.boards ?? [])],
 });
 let testStory: StoryState | null = null;
 /** Hack mode chạy trên bản sao trong bộ nhớ; bản lưu thật không bị đụng tới. */

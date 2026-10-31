@@ -1,8 +1,9 @@
 /* Offline copy for the event demo machine (GDD: "bản chạy ngoại tuyến"). Same-origin GETs only:
    network first, cache as fallback, so edited JSON content shows up as soon as the machine is online. */
-const CACHE = "hoitu70-v2.8.0-music";
+const CACHE = "dem-toan-tin-v2.8.1-hamic";
 // Tải trước nội dung để máy trình diễn chạy được khi mất mạng ngay từ lần mở thứ hai.
-const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./models/campus.glb",
+const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg",
+  "./assets/hamic-logo.png", "./assets/hamic-mark.png", "./models/campus.glb",
   "./models/show-drone.glb", "./data/music.json",
   "./audio/bgm/WereWasI_0.ogg", "./audio/bgm/Exploration Theme/Exploration Theme.ogg", "./audio/bgm/chilllofir-loop.ogg", "./audio/bgm/Relaxing.mp3", "./audio/bgm/Heavenly Loop.ogg",
   "./data/config.json", "./data/story.json", "./data/map.json", "./data/i18n/vi.json", "./data/levels/circuits.json",

@@ -5,7 +5,7 @@
  */
 
 import { t } from "../core/i18n";
-import { el } from "./dom";
+import { el, hamicLogo, hamicSigns } from "./dom";
 
 export function isTouchPhone() {
   return window.matchMedia("(pointer: coarse)").matches && Math.min(screen.width, screen.height) < 820;
@@ -13,6 +13,8 @@ export function isTouchPhone() {
 
 export function installRotateCover() {
   const cover = el("div", { class: "rotate-cover", role: "alertdialog", "aria-live": "assertive" },
+    hamicLogo("lockup", 84, t("hamic.logoAlt")),
+    hamicSigns(t("hamic.signsAria")),
     el("div", { class: "rotate-phone", "aria-hidden": "true" }),
     el("p", { class: "display", text: t("rotate.title") }),
     el("p", { text: t("rotate.text") }));

@@ -22,7 +22,7 @@
     ],
     "E2": [
       { "kind": "whoosh", "at": 3.8, "duration": 1.4, "db": -17, "frequency": 180, "to": 1250 },
-      { "kind": "impact", "at": 5.2, "duration": 1.5, "db": -10 },
+      { "kind": "impact", "at": 5.2, "duration": 1.5, "db": -13 },
       { "kind": "boing", "at": 5.48, "duration": 1.8, "db": -18, "frequency": 180, "pan": -0.3 },
       { "kind": "clatter", "at": 5.6, "duration": 4.3, "db": -20 },
       { "kind": "whoosh", "at": 6.2, "duration": 2.8, "db": -28, "frequency": 1600, "to": 450, "pan": 0.4 },

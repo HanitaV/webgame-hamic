@@ -12,7 +12,7 @@
 
 # TÀI LIỆU THIẾT KẾ GAME (GDD) — PHIÊN BẢN 2.2 (cập nhật đến 2.8.0)
 
-## "HỘI TỤ 70" — LỄ HỘI ÁNH SÁNG CỦA CLB TOÁN TIN (HAMIC)
+## "ĐÊM TOÁN TIN" — LỄ HỘI ÁNH SÁNG CỦA CLB TOÁN TIN (HAMIC)
 
 | Mục | Nội dung |
 |---|---|
@@ -224,7 +224,7 @@ Sau khi xong, chạy **màn trình diễn**: pháo hoa, tia sáng và drone mà 
 - Mỗi mạch gắn với một tòa nhà; mạch sáng thì tòa nhà đó bừng màu của mạch, có đèn pha lê trên mái và cột sáng lên trời. Mạch 7 (Đêm Hội tụ) là lõi sáng phía trên bãi cỏ HUS; lõi sáng thêm theo mỗi mạch.
 - Màn trình diễn (mục 4.7) diễn ra trên bãi cỏ HUS: tia sáng từ các tòa nhà đã sáng hội tụ về lõi, drone xếp chữ "70".
 - Không dùng logo trường, ảnh chụp thật hay người thật. Chỉ dùng chữ "HUS", "USSH" và tên tòa nhà dạng nhãn.
-- Toàn bộ vị trí, tên và gắn mạch nằm trong `web/public/data/map.json`; sửa tệp này không cần sửa mã. Cờ `mapVerified` để `false` đến khi CLB xác nhận; khi còn `false`, màn hình chính ghi "bản đồ ước lượng, chờ CLB xác nhận".
+- Toàn bộ vị trí, tên và gắn mạch nằm trong `web/public/data/map.json`; sửa tệp này không cần sửa mã. Cờ `mapVerified` để `false` đến khi CLB xác nhận; khi còn `false`, màn hình chính ghi "đây là mô phỏng, không phải thật".
 - Dữ liệu gốc của bản đồ: `legacy/campus/data/campus.layout.json` (ghi rõ nguồn và mức tin cậy từng tòa nhà).
 
 ### 5.2. Phần thưởng (chỉ trang trí) `[ĐỀ XUẤT]`
@@ -636,7 +636,7 @@ Ngày cụ thể do CLB đặt theo lịch sự kiện.
 | Câu đố khó với người không học Toán | Chế độ Khách chỉ dùng màn dễ; gợi ý ba bậc; chế độ hỗ trợ |
 | Sai đáp án | R1: kiểm thử tự động cộng kiểm tra chéo |
 | Khối lượng đồ họa 3D | Bản đồ khối đơn giản, nén (≈ 2,2 MB), gộp lưới theo tòa nhà; câu đố 2D |
-| Sai tên hoặc vị trí tòa nhà trên bản đồ | CLB đối chiếu trước khi phát hành; sửa trong `map.json`; nhãn "bản đồ ước lượng" khi chưa xác nhận |
+| Sai tên hoặc vị trí tòa nhà trên bản đồ | CLB đối chiếu trước khi phát hành; sửa trong `map.json`; nhãn "đây là mô phỏng, không phải thật" khi chưa xác nhận |
 | Chạy chậm trên máy trình diễn | Tùy chọn chất lượng thấp; thử sớm trên máy thật |
 | Hiểu nhầm là chê hay chọn phe | Mục 2.1; chi tiết lịch sử chỉ ở mức nền và được CLB xem; R2 |
 
@@ -664,7 +664,7 @@ Ngày cụ thể do CLB đặt theo lịch sự kiện.
 
 ## PHỤ LỤC. VIỆC CẦN CLB XÁC NHẬN
 
-1. Tên game ("Hội tụ 70") và dòng chúc 70 năm có dùng đúng như đề xuất không?
+1. Tên game ("Đêm Toán Tin") và dòng chúc 70 năm có dùng đúng như đề xuất không?
 2. Hình thức phát hành chính: điểm trình diễn tại sự kiện, web cá nhân, hay cả hai? Cấu hình máy trình diễn và có cảm ứng không?
 3. Ngày trình diễn và số người làm kỹ thuật, đồ họa, nội dung để chốt lại các mức Must/Should/Could.
 4. Có muốn giữ mạch 5 và 6 (số học, tổ hợp) trong bản đầu không, hay để sau sự kiện?

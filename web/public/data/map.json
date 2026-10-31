@@ -2,8 +2,26 @@
   "drone": {
     "model": "models/show-drone.glb",
     "stations": [
-      { "node": "gate", "offset": [8, -5], "count": 2, "scale": 0.24, "label": "story.drone.station" },
-      { "node": "lawn", "offset": [12, 4], "count": 3, "scale": 0.3, "label": "story.drone.station" }
+      {
+        "node": "gate",
+        "offset": [
+          8,
+          -5
+        ],
+        "count": 2,
+        "scale": 0.24,
+        "label": "story.drone.station"
+      },
+      {
+        "node": "lawn",
+        "offset": [
+          12,
+          4
+        ],
+        "count": 3,
+        "scale": 0.3,
+        "label": "story.drone.station"
+      }
     ]
   },
   "_note": "Mô hình là bản đồ khối cơ sở 334–336 Nguyễn Trãi (USSH × HUS), dựng từ legacy/campus. Vị trí, kích thước, số tầng là ƯỚC LƯỢNG bằng đơn vị game, chưa đo đạc. Tọa độ dưới đây theo campus.layout.json (x: đông, z âm: vào sâu trong trường). Cần người của CLB xác nhận tên và vị trí trước khi phát hành; khi đã xác nhận, đổi mapVerified thành true.",
@@ -42,87 +60,544 @@
   "buildings": [
     {
       "id": "USSH_B",
-      "name": "Nhà B",
+      "name": "B ( USSH )",
       "x": -211.77,
       "z": -120.25,
-      "h": 17.78
+      "h": 17.78,
+      "w": 21.32,
+      "d": 176.41,
+      "interiorKind": "lecture",
+      "interiorTitle": "story.interior.USSH_B.title",
+      "boardTitle": "story.interior.USSH_B.boardTitle",
+      "boardFormula": "story.interior.USSH_B.boardFormula",
+      "enterable": false,
+      "entrances": [],
+      "footprints": [
+        [
+          -222.43,
+          -208.455,
+          -201.11,
+          -32.045
+        ]
+      ]
     },
     {
       "id": "USSH_C",
-      "name": "Nhà C",
+      "name": "C ( USSH )",
       "x": -135.33,
       "z": -120.25,
-      "h": 17.78
+      "h": 17.78,
+      "w": 21.32,
+      "d": 176.41,
+      "interiorKind": "archive",
+      "interiorTitle": "story.interior.USSH_C.title",
+      "boardTitle": "story.interior.USSH_C.boardTitle",
+      "boardFormula": "story.interior.USSH_C.boardFormula",
+      "enterable": false,
+      "entrances": [],
+      "footprints": [
+        [
+          -145.99,
+          -208.455,
+          -124.67,
+          -32.045
+        ]
+      ]
     },
     {
       "id": "USSH_H",
-      "name": "Nhà H",
+      "name": "H ( USSH )",
       "x": -84.24,
       "z": -43.03,
-      "h": 14.44
+      "h": 14.44,
+      "w": 62.4,
+      "d": 20.8,
+      "interiorKind": "lecture",
+      "interiorTitle": "story.interior.USSH_H.title",
+      "boardTitle": "story.interior.USSH_H.boardTitle",
+      "boardFormula": "story.interior.USSH_H.boardFormula",
+      "enterable": false,
+      "entrances": [],
+      "footprints": [
+        [
+          -115.44,
+          -53.43,
+          -53.04,
+          -32.63
+        ]
+      ]
     },
     {
       "id": "USSH_D",
-      "name": "Nhà D",
+      "name": "D ( USSH )",
       "x": -173.68,
       "z": -193.31,
-      "h": 13.33
+      "h": 13.33,
+      "w": 39,
+      "d": 26,
+      "interiorKind": "lab",
+      "interiorTitle": "story.interior.USSH_D.title",
+      "boardTitle": "story.interior.USSH_D.boardTitle",
+      "boardFormula": "story.interior.USSH_D.boardFormula",
+      "enterable": false,
+      "entrances": [],
+      "footprints": [
+        [
+          -193.18,
+          -206.31,
+          -154.18,
+          -180.31
+        ]
+      ]
     },
     {
       "id": "USSH_E",
-      "name": "Nhà E",
+      "name": "E ( USSH )",
       "x": -48.49,
       "z": -120.12,
-      "h": 20.0
+      "h": 20,
+      "w": 46.8,
+      "d": 91,
+      "interiorKind": "archive",
+      "interiorTitle": "story.interior.USSH_E.title",
+      "boardTitle": "story.interior.USSH_E.boardTitle",
+      "boardFormula": "story.interior.USSH_E.boardFormula",
+      "enterable": false,
+      "entrances": [],
+      "footprints": [
+        [
+          -71.89,
+          -165.62,
+          -25.09,
+          -74.62
+        ]
+      ]
     },
     {
       "id": "USSH_G",
-      "name": "Nhà G",
+      "name": "G ( USSH )",
       "x": -46.28,
       "z": -196.69,
-      "h": 12.22
+      "h": 12.22,
+      "w": 46.8,
+      "d": 18.2,
+      "interiorKind": "lecture",
+      "interiorTitle": "story.interior.USSH_G.title",
+      "boardTitle": "story.interior.USSH_G.boardTitle",
+      "boardFormula": "story.interior.USSH_G.boardFormula",
+      "enterable": false,
+      "entrances": [],
+      "footprints": [
+        [
+          -69.68,
+          -205.79,
+          -22.88,
+          -187.59
+        ]
+      ]
     },
     {
       "id": "HUS_T1",
-      "name": "Nhà T1",
+      "name": "T1 ( HUS )",
       "x": 106.8,
-      "z": -78.0,
-      "h": 16.0
+      "z": -78,
+      "h": 16,
+      "w": 161.59,
+      "d": 15.6,
+      "interiorKind": "lecture",
+      "interiorTitle": "story.interior.HUS_T1.title",
+      "boardTitle": "story.interior.HUS_T1.boardTitle",
+      "boardFormula": "story.interior.HUS_T1.boardFormula",
+      "enterable": true,
+      "entrance": [
+        95.9,
+        -72.35
+      ],
+      "interiorFile": "data/interiors/T1.json",
+      "entrances": [
+        {
+          "id": "t1_west",
+          "position": [
+            95.9,
+            -72.35
+          ],
+          "side": "+x",
+          "width": 3,
+          "zone": "west",
+          "title": "story.space.t1.west"
+        },
+        {
+          "id": "t1_east",
+          "position": [
+            117.3,
+            -72.35
+          ],
+          "side": "-x",
+          "width": 3,
+          "zone": "east",
+          "title": "story.space.t1.east",
+          "interiorFile": "data/interiors/east-network.json"
+        }
+      ],
+      "footprints": [
+        [
+          26.0,
+          -135.85,
+          51.35,
+          -47.45
+        ],
+        [
+          26.0,
+          -85.8,
+          187.59,
+          -70.2
+        ],
+        [
+          162.63,
+          -108.16,
+          187.59,
+          -47.45
+        ]
+      ],
+      "entryBarriers": [
+        [
+          26.0,
+          -135.85,
+          51.35,
+          -47.45
+        ],
+        [
+          26.0,
+          -85.8,
+          94.9,
+          -70.2
+        ],
+        [
+          118.3,
+          -85.8,
+          187.59,
+          -70.2
+        ],
+        [
+          162.63,
+          -108.16,
+          187.59,
+          -47.45
+        ]
+      ]
     },
     {
       "id": "HUS_T2",
-      "name": "Nhà T2",
+      "name": "T2 ( HUS )",
       "x": 104.65,
       "z": -107.25,
-      "h": 20.0
+      "h": 20,
+      "w": 101.4,
+      "d": 15.6,
+      "interiorKind": "lecture",
+      "interiorTitle": "story.interior.HUS_T2.title",
+      "boardTitle": "story.interior.HUS_T2.boardTitle",
+      "boardFormula": "story.interior.HUS_T2.boardFormula",
+      "enterable": true,
+      "entrance": [
+        95.9,
+        -112.9
+      ],
+      "interiorFile": "data/interiors/T2.json",
+      "entrances": [
+        {
+          "id": "t2_west",
+          "position": [
+            95.9,
+            -112.9
+          ],
+          "side": "+x",
+          "width": 3,
+          "zone": "west",
+          "title": "story.space.t2.west"
+        },
+        {
+          "id": "t2_east",
+          "position": [
+            117.3,
+            -112.9
+          ],
+          "side": "-x",
+          "width": 3,
+          "zone": "east",
+          "title": "story.space.t2.east"
+        }
+      ],
+      "footprints": [
+        [
+          53.95,
+          -115.05,
+          155.35,
+          -99.45
+        ]
+      ],
+      "entryBarriers": [
+        [
+          53.95,
+          -115.05,
+          94.9,
+          -99.45
+        ],
+        [
+          118.3,
+          -115.05,
+          155.35,
+          -99.45
+        ]
+      ]
     },
     {
       "id": "HUS_T3",
-      "name": "Nhà T3",
+      "name": "T3 ( HUS )",
       "x": 65.52,
       "z": -212.16,
-      "h": 20.0
+      "h": 20,
+      "w": 79.04,
+      "d": 22.88,
+      "interiorKind": "lab",
+      "interiorTitle": "story.interior.HUS_T3.title",
+      "boardTitle": "story.interior.HUS_T3.boardTitle",
+      "boardFormula": "story.interior.HUS_T3.boardFormula",
+      "enterable": true,
+      "entrance": [
+        53.3,
+        -199.72
+      ],
+      "interiorFile": "data/interiors/east-network.json",
+      "entrances": [
+        {
+          "id": "HUS_T3_+z_0",
+          "position": [
+            53.3,
+            -199.72
+          ],
+          "side": "+z",
+          "width": 4.68
+        },
+        {
+          "id": "HUS_T3_+z_1",
+          "position": [
+            101.27,
+            -199.72
+          ],
+          "side": "+z",
+          "width": 4.68
+        }
+      ],
+      "footprints": [
+        [
+          26.0,
+          -223.6,
+          105.04,
+          -200.72
+        ]
+      ],
+      "entryBarriers": [
+        [
+          26.0,
+          -223.6,
+          105.04,
+          -200.72
+        ]
+      ]
     },
     {
       "id": "HUS_T4",
-      "name": "Nhà T4",
+      "name": "T4 ( HUS )",
       "x": 152.88,
       "z": -212.16,
-      "h": 20.0
+      "h": 20,
+      "w": 95.68,
+      "d": 22.88,
+      "interiorKind": "lab",
+      "interiorTitle": "story.interior.HUS_T4.title",
+      "boardTitle": "story.interior.HUS_T4.boardTitle",
+      "boardFormula": "story.interior.HUS_T4.boardFormula",
+      "enterable": true,
+      "entrance": [
+        155.35,
+        -199.72
+      ],
+      "interiorFile": "data/interiors/east-network.json",
+      "entrances": [
+        {
+          "id": "HUS_T4_+z_0",
+          "position": [
+            155.35,
+            -199.72
+          ],
+          "side": "+z",
+          "width": 4.68
+        }
+      ],
+      "footprints": [
+        [
+          105.04,
+          -223.6,
+          200.72,
+          -200.72
+        ]
+      ],
+      "entryBarriers": [
+        [
+          105.04,
+          -223.6,
+          200.72,
+          -200.72
+        ]
+      ]
     },
     {
       "id": "HUS_T5",
-      "name": "Nhà T5",
+      "name": "T5 ( HUS )",
       "x": 187.07,
       "z": -154.44,
-      "h": 28.0
+      "h": 28,
+      "w": 27.3,
+      "d": 92.56,
+      "interiorKind": "lecture",
+      "interiorTitle": "story.interior.HUS_T5.title",
+      "boardTitle": "story.interior.HUS_T5.boardTitle",
+      "boardFormula": "story.interior.HUS_T5.boardFormula",
+      "enterable": true,
+      "entrance": [
+        172.42,
+        -165.1
+      ],
+      "interiorFile": "data/interiors/east-network.json",
+      "entrances": [
+        {
+          "id": "HUS_T5_-x_0",
+          "position": [
+            172.42,
+            -165.1
+          ],
+          "side": "-x",
+          "width": 4.68
+        },
+        {
+          "id": "HUS_T5_-x_1",
+          "position": [
+            172.42,
+            -126.1
+          ],
+          "side": "-x",
+          "width": 4.68
+        }
+      ],
+      "footprints": [
+        [
+          173.42,
+          -200.72,
+          200.72,
+          -108.16
+        ]
+      ],
+      "entryBarriers": [
+        [
+          173.42,
+          -200.72,
+          200.72,
+          -108.16
+        ]
+      ]
+    },
+    {
+      "id": "HUS_CANTEEN",
+      "name": "Căng tin ( HUS )",
+      "x": 39.195,
+      "z": -167.245,
+      "h": 4,
+      "w": 17.29,
+      "d": 48.23,
+      "interiorKind": "hall",
+      "interiorTitle": "story.interior.HUS_CANTEEN.title",
+      "boardTitle": "story.interior.HUS_CANTEEN.boardTitle",
+      "boardFormula": "story.interior.HUS_CANTEEN.boardFormula",
+      "enterable": true,
+      "footprints": [
+        [
+          30.55,
+          -191.36,
+          47.84,
+          -143.13
+        ]
+      ],
+      "entrances": [
+        {
+          "id": "HUS_CANTEEN_+x_0",
+          "position": [
+            48.84,
+            -167.18
+          ],
+          "side": "+x",
+          "width": 4.68
+        }
+      ],
+      "entrance": [
+        48.84,
+        -167.18
+      ],
+      "interiorFile": "data/interiors/CANTEEN.json",
+      "entryBarriers": [
+        [
+          30.55,
+          -191.36,
+          47.84,
+          -143.13
+        ]
+      ]
     },
     {
       "id": "HUS_SPECIAL",
-      "name": "Nhà Chuyên đề",
+      "name": "Nhà Chuyên đề ( HUS )",
       "x": 215.87,
       "z": -31.2,
-      "h": 16.0
+      "h": 16,
+      "w": 22.49,
+      "d": 20.8,
+      "interiorKind": "hall",
+      "interiorTitle": "story.interior.HUS_SPECIAL.title",
+      "boardTitle": "story.interior.HUS_SPECIAL.boardTitle",
+      "boardFormula": "story.interior.HUS_SPECIAL.boardFormula",
+      "enterable": true,
+      "entrance": [
+        203.62,
+        -31.2
+      ],
+      "interiorFile": "data/interiors/SPECIAL.json",
+      "entrances": [
+        {
+          "id": "HUS_SPECIAL_-x_0",
+          "position": [
+            203.62,
+            -31.2
+          ],
+          "side": "-x",
+          "width": 4.68
+        }
+      ],
+      "footprints": [
+        [
+          204.62,
+          -41.6,
+          227.11,
+          -20.8
+        ]
+      ],
+      "entryBarriers": [
+        [
+          204.62,
+          -41.6,
+          227.11,
+          -20.8
+        ]
+      ]
     }
   ],
   "anchors": {
@@ -252,7 +727,7 @@
       {
         "id": "g",
         "x": -46.28,
-        "z": -188,
+        "z": -183.59,
         "label": "story.place.g",
         "short": "story.place.g.short"
       },
@@ -549,6 +1024,12 @@
         "distance": 34,
         "lookHeight": 1.6,
         "occlusionOpacity": 0.18
+      },
+      "indoorCamera": {
+        "height": 13.5,
+        "distance": 15.5,
+        "lookHeight": 2.2,
+        "insideOpacity": 0.08
       }
     },
     "crowd": {
@@ -614,7 +1095,7 @@
           "z": -66,
           "door": [
             106.6,
-            -71.0
+            -71
           ],
           "away": [
             106.6,
@@ -666,7 +1147,7 @@
         {
           "kind": "sit",
           "x": 116.5,
-          "z": -176.0,
+          "z": -176,
           "yaw": 0,
           "span": 0.95,
           "count": 2,
@@ -728,7 +1209,187 @@
         }
       ]
     },
-    "_shortNote": "short: tên ngắn của điểm dừng, dùng trong lời thoại qua mã {place:id} (viết hoa chữ đầu: {Place:id}). Sửa tên ở đây, lời thoại tự đổi theo."
+    "_shortNote": "short: tên ngắn của điểm dừng, dùng trong lời thoại qua mã {place:id} (viết hoa chữ đầu: {Place:id}). Sửa tên ở đây, lời thoại tự đổi theo.",
+    "easterEggs": [
+      {
+        "id": "egg_hust_gt1",
+        "x": 106.8,
+        "z": -78,
+        "building": "HUS_T1",
+        "kind": "book_red",
+        "color": "#5ad8ff",
+        "title": "story.egg.egg_hust_gt1.title",
+        "place": "story.egg.egg_hust_gt1.place",
+        "lore": "story.egg.egg_hust_gt1.lore",
+        "quip": "story.egg.egg_hust_gt1.quip",
+        "texture": "textures/gt1-hust.png"
+      },
+      {
+        "id": "egg_vnu_tcc",
+        "x": 104.65,
+        "z": -107.25,
+        "building": "HUS_T2",
+        "kind": "book_stack",
+        "color": "#5ad8ff",
+        "title": "story.egg.egg_vnu_tcc.title",
+        "place": "story.egg.egg_vnu_tcc.place",
+        "lore": "story.egg.egg_vnu_tcc.lore",
+        "quip": "story.egg.egg_vnu_tcc.quip"
+      },
+      {
+        "id": "egg_uet_rock",
+        "x": 52,
+        "z": -162,
+        "kind": "uet_rock",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_uet_rock.title",
+        "place": "story.egg.egg_uet_rock.place",
+        "lore": "story.egg.egg_uet_rock.lore",
+        "quip": "story.egg.egg_uet_rock.quip"
+      },
+      {
+        "id": "egg_casio_fx580",
+        "x": 65.52,
+        "z": -212.16,
+        "building": "HUS_T3",
+        "kind": "casio",
+        "color": "#5eeaa0",
+        "title": "story.egg.egg_casio_fx580.title",
+        "place": "story.egg.egg_casio_fx580.place",
+        "lore": "story.egg.egg_casio_fx580.lore",
+        "quip": "story.egg.egg_casio_fx580.quip"
+      },
+      {
+        "id": "egg_ussh_chronicle",
+        "x": -21.090000000000003,
+        "z": -120.12,
+        "kind": "chronicle",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_ussh_chronicle.title",
+        "place": "story.egg.egg_ussh_chronicle.place",
+        "lore": "story.egg.egg_ussh_chronicle.lore",
+        "quip": "story.egg.egg_ussh_chronicle.quip"
+      },
+      {
+        "id": "egg_canteen_icedtea",
+        "x": 24,
+        "z": -192,
+        "kind": "iced_tea",
+        "color": "#5eeaa0",
+        "title": "story.egg.egg_canteen_icedtea.title",
+        "place": "story.egg.egg_canteen_icedtea.place",
+        "lore": "story.egg.egg_canteen_icedtea.lore",
+        "quip": "story.egg.egg_canteen_icedtea.quip"
+      },
+      {
+        "id": "egg_cat_dean",
+        "x": 187.07,
+        "z": -154.44,
+        "building": "HUS_T5",
+        "kind": "cat",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_cat_dean.title",
+        "place": "story.egg.egg_cat_dean.place",
+        "lore": "story.egg.egg_cat_dean.lore",
+        "quip": "story.egg.egg_cat_dean.quip"
+      },
+      {
+        "id": "egg_ussh_film_reel",
+        "x": -120.67000000000002,
+        "z": -120.25,
+        "kind": "film_reel",
+        "color": "#5ad8ff",
+        "title": "story.egg.egg_ussh_film_reel.title",
+        "place": "story.egg.egg_ussh_film_reel.place",
+        "lore": "story.egg.egg_ussh_film_reel.lore",
+        "quip": "story.egg.egg_ussh_film_reel.quip"
+      },
+      {
+        "id": "egg_t4_prism",
+        "x": 155.35,
+        "z": -198.2,
+        "building": "HUS_T4",
+        "kind": "prism",
+        "color": "#5ad8ff",
+        "title": "story.egg.egg_t4_prism.title",
+        "place": "story.egg.egg_t4_prism.place",
+        "lore": "story.egg.egg_t4_prism.lore",
+        "quip": "story.egg.egg_t4_prism.quip"
+      },
+      {
+        "id": "egg_special_logbook",
+        "x": 201.8,
+        "z": -31.2,
+        "building": "HUS_SPECIAL",
+        "kind": "logbook",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_special_logbook.title",
+        "place": "story.egg.egg_special_logbook.place",
+        "lore": "story.egg.egg_special_logbook.lore",
+        "quip": "story.egg.egg_special_logbook.quip"
+      },
+      {
+        "id": "egg_t5_duck",
+        "x": 170.8,
+        "z": -165.1,
+        "building": "HUS_T5",
+        "room": "101",
+        "roomPos": [
+          0,
+          -10.8
+        ],
+        "kind": "duck",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_t5_duck.title",
+        "place": "story.egg.egg_t5_duck.place",
+        "lore": "story.egg.egg_t5_duck.lore",
+        "quip": "story.egg.egg_t5_duck.quip"
+      },
+      {
+        "id": "egg_ussh_b_logic",
+        "x": -196.5,
+        "z": -108,
+        "kind": "chalk_board",
+        "color": "#5eeaa0",
+        "title": "story.egg.egg_ussh_b_logic.title",
+        "place": "story.egg.egg_ussh_b_logic.place",
+        "lore": "story.egg.egg_ussh_b_logic.lore",
+        "quip": "story.egg.egg_ussh_b_logic.quip"
+      },
+      {
+        "id": "egg_ussh_d_survey",
+        "x": -166.5,
+        "z": -177.5,
+        "kind": "survey_stack",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_ussh_d_survey.title",
+        "place": "story.egg.egg_ussh_d_survey.place",
+        "lore": "story.egg.egg_ussh_d_survey.lore",
+        "quip": "story.egg.egg_ussh_d_survey.quip"
+      },
+      {
+        "id": "egg_ussh_g_cipher",
+        "x": -38.5,
+        "z": -184.8,
+        "kind": "cipher_disk",
+        "color": "#ffd25e",
+        "title": "story.egg.egg_ussh_g_cipher.title",
+        "place": "story.egg.egg_ussh_g_cipher.place",
+        "lore": "story.egg.egg_ussh_g_cipher.lore",
+        "quip": "story.egg.egg_ussh_g_cipher.quip"
+      },
+      {
+        "id": "egg_ussh_h_map1956",
+        "x": -76.5,
+        "z": -57.5,
+        "kind": "old_map",
+        "color": "#5ad8ff",
+        "title": "story.egg.egg_ussh_h_map1956.title",
+        "place": "story.egg.egg_ussh_h_map1956.place",
+        "lore": "story.egg.egg_ussh_h_map1956.lore",
+        "quip": "story.egg.egg_ussh_h_map1956.quip"
+      }
+    ]
   },
   "atmosphere": [
     {

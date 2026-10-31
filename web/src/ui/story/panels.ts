@@ -24,10 +24,10 @@ function entry(title: string, text: string, tag?: string) {
   return el("article", { class: "journal-entry" }, el("b", { text: title }), rich(text), tag ? el("small", { class: "muted", text: tag }) : null);
 }
 
-export type NotebookTab = "evidence" | "items" | "timeline" | "facts" | "lamps" | "sidequests" | "endings";
-export const NOTEBOOK_TABS: NotebookTab[] = ["evidence", "items", "timeline", "facts", "lamps", "sidequests", "endings"];
+export type NotebookTab = "evidence" | "items" | "timeline" | "facts" | "lamps" | "sidequests" | "eggs" | "boards" | "endings";
+export const NOTEBOOK_TABS: NotebookTab[] = ["evidence", "items", "timeline", "facts", "lamps", "sidequests", "eggs", "boards", "endings"];
 
-export function notebookContent(s: StoryState, tab: NotebookTab, onGoNode?: (node: string) => void): HTMLElement {
+export function notebookContent(s: StoryState, tab: NotebookTab, onGoNode?: (node: string) => void, onGoPoint?: (x: number, z: number) => void): HTMLElement {
   const st = story();
   switch (tab) {
     case "evidence": return list(storyEvidence(st, s).map((id) => {
@@ -42,7 +42,10 @@ export function notebookContent(s: StoryState, tab: NotebookTab, onGoNode?: (nod
     }
     case "lamps": {
       const notes = st.lamps.notes;
-      return el("div", {}, el("p", { class: "muted", text: t("story.ui.lampCount", { n: s.lamps.length, max: st.lamps.need }) }),
+      const total = Object.keys(notes).length;
+      return el("div", {},
+        el("p", { class: "muted", text: `${t("story.ui.lampCount", { n: s.lamps.length, max: st.lamps.need })} · ${t("story.lamps.totalProgress", { n: s.lamps.length, total })}` }),
+        s.lamps.length >= total ? entry(t("story.lamps.all19Title"), t("story.lamps.all19Note")) : null,
         list(s.lamps.filter((n) => notes[n]).map((n) => entry(t(DATA.map.walk.nodes.find((x) => x.id === n)!.label), t(notes[n])))));
     }
     case "sidequests": {
@@ -60,6 +63,63 @@ export function notebookContent(s: StoryState, tab: NotebookTab, onGoNode?: (nod
         );
         return card;
       }));
+    }
+    case "eggs": {
+      const eggs = DATA.map.walk.easterEggs ?? [];
+      const found = s.eggs ?? [];
+      return el("div", {},
+        el("p", { class: "muted", text: t("story.egg.kicker", { n: found.length, max: eggs.length }) }),
+        list(eggs.map((egg) => {
+          const seen = found.includes(egg.id);
+          return el("article", { class: `journal-entry${seen ? "" : " locked"}`, "data-egg-entry": egg.id },
+            el("small", { class: "kicker", text: `${t(egg.place)} · ${seen ? t("ui.done") : t("story.egg.unfound")}` }),
+            el("b", { text: t(egg.title) }),
+            seen ? rich(t(egg.lore)) : el("p", { class: "muted", text: t("story.egg.hint") }),
+            seen ? el("p", { class: "small muted", text: t(egg.quip) }) : null,
+            onGoPoint ? btn(`${t("story.travel")}: ${t(egg.place)}`, () => {
+              if (egg.building) {
+                const b = DATA.map.buildings.find((x) => x.id === egg.building);
+                const door = b?.entrances?.[0];
+                if (b?.entrance && door) {
+                  const dx = door.side === "-x" ? -1.4 : door.side === "+x" ? 1.4 : 0;
+                  const dz = door.side === "+z" ? 1.4 : door.side === "-z" ? -1.4 : 0;
+                  onGoPoint(b.entrance[0] + dx, b.entrance[1] + dz);
+                  return;
+                }
+              }
+              onGoPoint(egg.x, egg.z);
+            }, "small ghost", { "data-egg-go": egg.id }, "route") : null,
+          );
+        })),
+      );
+    }
+    case "boards": {
+      const buildings = DATA.map.buildings.filter((b) => b.boardTitle && b.boardFormula);
+      const read = s.boards ?? [];
+      return el("div", {},
+        el("p", { class: "muted", text: t("story.board.kicker", { n: read.length, max: buildings.length }) }),
+        list(buildings.map((b) => {
+          const seen = read.includes(b.id);
+          const shortNode = b.id.startsWith("USSH_") ? b.id.split("_")[1]?.toLowerCase() : undefined;
+          return el("article", { class: `journal-entry${seen ? "" : " locked"}`, "data-board-entry": b.id },
+            el("small", { class: "kicker", text: `${b.name} · ${seen ? t("ui.done") : t("story.egg.unfound")}` }),
+            el("b", { text: t(b.interiorTitle ?? b.name) }),
+            seen ? el("p", { class: "small", text: t(b.boardTitle!) }) : null,
+            seen ? rich(t(b.boardFormula!)) : el("p", { class: "muted", text: t("story.board.hint") }),
+            seen ? rich(t(`story.interior.${b.id}.note`), "p", { class: "small muted" }) : null,
+            shortNode && onGoNode
+              ? btn(`${t("story.travel")}: ${b.name}`, () => onGoNode(shortNode), "small ghost", {}, "route")
+              : b.entrance && onGoPoint
+                ? btn(`${t("story.travel")}: ${b.name}`, () => {
+                  const door = b.entrances?.[0];
+                  const dx = door?.side === "-x" ? -1.4 : door?.side === "+x" ? 1.4 : 0;
+                  const dz = door?.side === "+z" ? 1.4 : door?.side === "-z" ? -1.4 : 0;
+                  onGoPoint(b.entrance![0] + dx, b.entrance![1] + dz);
+                }, "small ghost", {}, "route")
+                : null,
+          );
+        })),
+      );
     }
     case "endings": return endingLibrary(s);
   }
@@ -106,11 +166,16 @@ export function endingPanel(s: StoryState, r: EndingResult, preview: boolean, ac
         stat("evidence", storyEvidence(st, s).length),
         stat("lamps", t("story.ui.stats.count", { n: s.lamps.length, max: st.lamps.need })),
         stat("time", t("story.ui.stats.duration", { minutes: Math.floor(seconds / 60), seconds: seconds % 60 }))),
-      el("p", { class: "muted ending-risk-note", text: DATA.config.endings.boom.enabled
-        ? t("story.ui.stats.threshold", { n: DATA.config.endings.threshold }) : t("story.ui.stats.boomDisabled") })),
+      el("p", {
+        class: "muted ending-risk-note", text: DATA.config.endings.boom.enabled
+          ? t("story.ui.stats.threshold", { n: DATA.config.endings.threshold }) : t("story.ui.stats.boomDisabled")
+      })),
     variant ? el("p", { class: "walk-question", text: t("story.ui.cause", { name: t(variant.title) }) }) : null,
     ...e.lines.map(lineEl), variant ? lineEl(variant.line) : null,
     e.caption ? el("p", { class: "ending-caption", role: "note" }, icon("sparkle", 16), el("span", { text: ` ${t(e.caption)}` })) : null,
+    ((s.eggs?.length ?? 0) >= 8 || s.lamps.length >= Object.keys(st.lamps.notes).length || (s.boards?.length ?? 0) >= 6)
+      ? el("p", { class: "ending-caption", role: "note", "data-explorer-postcard": true }, icon("sparkle", 16), el("span", { text: ` ${t("story.ui.explorerPostcard", { eggs: (s.eggs ?? []).length, lamps: s.lamps.length, boards: (s.boards ?? []).length })}` }))
+      : null,
     r.id === "E1" ? el("p", { class: "greeting", text: DATA.config.greeting }) : null,
     el("div", { class: "row ending-actions" }, ...actions),
     el("details", { class: "ending-details", open: true }, el("summary", { text: t("story.ui.timeline") }),

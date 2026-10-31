@@ -1,4 +1,4 @@
-# Hội tụ 70
+# Đêm Toán Tin
 
 Game kể chuyện và giải đố trên web của CLB Toán Tin (HAMIC), bản 2.8.0. Người chơi là thành viên mới đi một vòng mô hình 3D khuôn viên USSH × HUS để trả lời câu hỏi "Vì sao đèn lệch?": gặp 12 nhân vật, giải 13 câu đố và minigame Toán – Tin, đưa ra 8 quyết định và đến một trong 6 kết cục của Đêm Hội tụ. Kết cục do lựa chọn quyết định; khoảng 70% tổ hợp lựa chọn dẫn tới kết cục hài "mô hình nổ tung" (hoạt hình, có chú thích mô phỏng).
 

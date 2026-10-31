@@ -3,7 +3,7 @@ import { storyProgress } from "./game/story";
 import * as storyLogic from "./puzzles/logic/story";
 import { storyTime } from "./puzzles/logic/story";
 import { playSettings } from "./game/play";
-/** Hội tụ 70 — entry point. Loads content, builds the sandbox, mounts screens. */
+/** Đêm Toán Tin — entry point. Loads content, builds the sandbox, mounts screens. */
 
 import "@fontsource/be-vietnam-pro/vietnamese-400.css";
 import "@fontsource/be-vietnam-pro/latin-400.css";
@@ -23,8 +23,8 @@ import { t } from "./core/i18n";
 import { P, checkAchievements, dailyIds } from "./game/progress";
 import { reducedMotion, settings } from "./game/settings";
 import { initWorld, setStoryTime, worldDiagnostics } from "./scene/world";
-import { walkPosition, walkingMetrics, walkTo, walkToPoint, walkToWorldPoint, pauseWalk, teleportTo } from "./scene/walking";
-import { el } from "./ui/dom";
+import { walkPosition, walkingMetrics, walkTo, walkToPoint, walkToWorldPoint, pauseWalk, teleportTo, teleportToPoint, buildingAtPosition, enterBuilding, exitBuilding, nearbyRoom, enterRoom, exitRoom, walkAxis, roomState } from "./scene/walking";
+import { el, hamicLogo } from "./ui/dom";
 import { initOverlay, toast } from "./ui/overlay";
 import { installRotateCover } from "./ui/orientation";
 import { back, current, go, initRouter, register, reset } from "./ui/router";
@@ -54,7 +54,10 @@ async function main() {
     return;
   }
   document.title = `${DATA.config.title} — ${DATA.config.credits}`;
-  const notice = el("aside", { class: "game-notice", text: t("notice.fiction") });
+  const notice = el("aside", { class: "game-notice" },
+    el("span", { class: "notice-brand", "aria-hidden": "true" }, hamicLogo("mark", 16), el("b", { text: "HAMIC" })),
+    el("span", { text: t("notice.fiction") }),
+  );
   document.body.append(notice);
   // Reserve the actual wrapped text height, including when text scaling changes.
   new ResizeObserver(() => {
@@ -123,7 +126,7 @@ async function main() {
   else if (start) { reset("title"); go(start); }
   else reset("title");
 
-  Object.assign(window, { __hoitu: { ready: true, go, reset, data: DATA, progress: P, walkPosition, walkingMetrics, walkTo, walkToPoint, walkToWorldPoint, teleportTo, pauseWalk, worldDiagnostics, storyProgress, storyLogic, playSettings, dailyIds, musicDiagnostics, audioDiagnostics, endingAudioDiagnostics, settings } });
+  Object.assign(window, { __hoitu: { ready: true, go, reset, data: DATA, progress: P, walkPosition, walkingMetrics, walkTo, walkToPoint, walkToWorldPoint, teleportTo, teleportToPoint, buildingAtPosition, enterBuilding, exitBuilding, nearbyRoom, enterRoom, exitRoom, walkAxis, roomState, pauseWalk, worldDiagnostics, storyProgress, storyLogic, playSettings, dailyIds, musicDiagnostics, audioDiagnostics, endingAudioDiagnostics, settings } });
 
   if (import.meta.env.PROD && "serviceWorker" in navigator) {
     navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);

@@ -1,4 +1,4 @@
-# Hệ thống nhiều kết cục "Hội tụ 70"
+# Hệ thống nhiều kết cục "Đêm Toán Tin"
 
 > **Cập nhật 2.8.0 (yêu cầu của người phụ trách, ưu tiên hơn mọi mô tả bên dưới):** tỉ lệ khoảng 70% cho E2 đạt được bằng cách **chỉnh thông số game để khoảng 70% tổ hợp lựa chọn của người chơi dẫn tới E2**, không dùng vòng quay, hạt giống hay nút "Thử lần quay khác". Mỗi phương án của tám quyết định có trọng số rủi ro trong `config.json → endings.risk`; tổng ≥ `threshold` thì ra E2. Kết quả duyệt mọi tổ hợp (2916): E1 10,87%, E2 70,30%, E3 5,52%, E4 4,29%, E5 4,29%, E6 4,73%. Ba sai sót gốc cùng các lựa chọn nhỏ đủ vượt ngưỡng mà không cần các lựa chọn đặc biệt. Chi tiết và bảng trọng số: `docs/STORY_BIBLE.md` mục 6. Nút "Thử lần quay khác" được thay bằng "Chọn lại từ tổng duyệt".
 

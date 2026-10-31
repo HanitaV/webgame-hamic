@@ -5,7 +5,7 @@ import { t } from "../../core/i18n";
 import { P } from "../../game/progress";
 import { settings, type Settings } from "../../game/settings";
 import { applySettings, refreshWorld } from "../shell";
-import { btn, el } from "../dom";
+import { btn, el, hamicChip } from "../dom";
 import { confirmBox, toast } from "../overlay";
 import { back } from "../router";
 import { slider } from "../widgets";
@@ -82,7 +82,7 @@ export function screenSettings(root: HTMLElement) {
   grid.append(
     btn(t("set.export"), () => {
       const blob = new Blob([P.exportJson()], { type: "application/json" });
-      const a = el("a", { href: URL.createObjectURL(blob), download: "hoi-tu-70-tien-do.json" });
+      const a = el("a", { href: URL.createObjectURL(blob), download: "dem-toan-tin-tien-do.json" });
       document.body.append(a); a.click(); a.remove();
       toast(t("set.exported"), "", "info");
     }, "opt"),
@@ -91,7 +91,7 @@ export function screenSettings(root: HTMLElement) {
     file);
   if (!P.saveOk()) grid.append(el("p", { class: "muted", text: t("set.noStorage") }));
   root.append(el("div", { class: "screen settings-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.done"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.settings") })),
+    el("header", { class: "topbar" }, btn(t("ui.done"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.settings") }), hamicChip()),
     el("div", { class: "panel dark scroll-panel" }, grid),
     help));
 }

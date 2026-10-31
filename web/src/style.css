@@ -1,5 +1,5 @@
 /*
- * Hội tụ 70 — giao diện.
+ * Đêm Toán Tin — giao diện.
  * Direction: a night festival of light. Deep night ground, frosted glass panels with soft borders,
  * one warm "light" accent (gold) for the main action and for lit things, each circuit's own colour on
  * its lamp. One typeface (Be Vietnam Pro, bundled), heavy weights for display. Landscape-first.
@@ -32,6 +32,23 @@
   --moon: #c4d0ff;
   --night-ambient: #6c7cc4;
   --night-ground: #06070e;
+  /* Tone màu nhận diện CLB Toán Tin HAMIC (từ logo & ấn phẩm chính thức) */
+  --hamic-crimson: #d41e3a;
+  --hamic-crimson-ink: #ff6b86;
+  --hamic-burgundy: #8e192b;
+  --hamic-navy: #1b4588;
+  --hamic-sky: #2bb0f6;
+  --hamic-amber: #f59227;
+  --hamic-crimson-soft: rgba(212, 30, 58, 0.16);
+  --hamic-crimson-line: rgba(212, 30, 58, 0.42);
+  --hamic-navy-soft: rgba(27, 69, 136, 0.28);
+  --hamic-navy-line: rgba(43, 176, 246, 0.36);
+  --hamic-amber-soft: rgba(245, 146, 39, 0.16);
+  --hamic-amber-line: rgba(245, 146, 39, 0.42);
+  --hamic-emblem-glow: rgba(43, 176, 246, 0.26);
+  --hamic-ribbon: linear-gradient(90deg, var(--hamic-crimson) 0%, var(--hamic-amber) 36%, var(--gold) 68%, var(--hamic-sky) 100%);
+  --hamic-aura: radial-gradient(64% 56% at 14% 18%, rgba(142, 25, 43, 0.26), transparent 72%),
+                radial-gradient(58% 52% at 86% 84%, rgba(27, 69, 136, 0.24), transparent 74%);
   --r-lg: 20px;
   --r: 14px;
   --r-sm: 10px;
@@ -43,7 +60,12 @@
   --notice-height: 40px;
   color-scheme: dark;
 }
-html.colorblind { --gold: #ffb000; --gold-2: #ff9500; --good: #3aa0ff; --cyan: #9fd2ff; }
+html.colorblind {
+  --gold: #ffb000; --gold-2: #ff9500; --good: #3aa0ff; --cyan: #9fd2ff;
+  --hamic-crimson: #e66100; --hamic-crimson-ink: #ffb366;
+  --hamic-crimson-soft: rgba(230, 97, 0, 0.18); --hamic-crimson-line: rgba(230, 97, 0, 0.46);
+  --hamic-sky: #56b4e9;
+}
 
 .music-dock { position: fixed; z-index: 85; right: var(--edge-r); bottom: calc(var(--notice-height) + 12px); pointer-events: auto; }
 .music-dock > .btn { background: var(--surface-solid); border-color: var(--line-2); }
@@ -52,10 +74,10 @@ html.colorblind { --gold: #ffb000; --gold-2: #ff9500; --good: #3aa0ff; --cyan: #
 .music-panel small { font-size: .72rem; }
 .music-panel label { display: grid; gap: 6px; font-size: .75rem; }
 .music-panel input { width: 100%; accent-color: var(--gold); }
-body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 172px); bottom: auto; }
+body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 228px); bottom: auto; }
 body[data-screen="walk"] .music-panel { top: 0; right: calc(100% + 8px); bottom: auto; }
 @media (max-height: 520px) {
-  body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 118px); }
+  body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 194px); }
   .music-panel { padding: 10px; gap: 7px; }
   .music-dock .btn { min-height: 32px; font-size: .72rem; }
 }
@@ -77,11 +99,14 @@ button { font: inherit; color: inherit; }
 
 .game-notice {
   position: fixed; right: 0; bottom: 0; z-index: 110;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
   width: 100%; padding: 5px var(--edge-r) max(5px, env(safe-area-inset-bottom)) var(--edge-l);
   background: var(--surface-solid); border-top: 1px solid var(--line-2);
   color: var(--muted); font-size: .75rem; line-height: 1.5; text-align: right;
   pointer-events: none;
 }
+.game-notice::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--hamic-ribbon); opacity: 0.75; }
+.notice-brand { display: inline-flex; align-items: center; gap: 6px; flex: none; color: var(--text); font-weight: 800; font-size: 0.72rem; letter-spacing: 0.04em; }
 
 /* ---------- Type ---------- */
 .display { font-weight: 800; letter-spacing: -0.02em; margin: 0; color: var(--text); }
@@ -91,13 +116,16 @@ button { font: inherit; color: inherit; }
 .icon { flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- Boot ---------- */
-.boot { position: fixed; inset: 0; z-index: 50; display: grid; place-content: center; justify-items: center; gap: 18px; text-align: center;
-  background: radial-gradient(60% 50% at 50% 55%, rgba(255, 196, 80, 0.12), transparent 70%), var(--bg); }
+.boot { position: fixed; inset: 0; z-index: 50; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center;
+  background: radial-gradient(60% 50% at 50% 50%, rgba(255, 196, 80, 0.12), transparent 70%), var(--hamic-aura), var(--bg); }
 .boot.hidden { display: none; }
-.boot-logo { font-size: 3.4rem; font-weight: 800; letter-spacing: -0.04em; }
+.boot-emblem { height: clamp(76px, 18vh, 118px); width: auto; object-fit: contain; filter: drop-shadow(0 8px 24px var(--hamic-emblem-glow)); }
+html.reduce-lights .boot-emblem { filter: none; }
+.boot-logo { font-size: clamp(2.2rem, 8vh, 3.2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; }
 .boot-logo span { color: var(--gold); text-shadow: 0 0 30px rgba(255, 196, 80, 0.6); }
-.boot-bar { width: min(360px, 70vw); height: 4px; border-radius: 4px; background: var(--fill-2); overflow: hidden; }
-.boot-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--gold-2), var(--gold)); transform-origin: left; transform: scaleX(0.05); transition: transform 0.25s var(--ease); }
+.boot-sub { font-size: 0.8rem; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+.boot-bar { width: min(360px, 70vw); height: 5px; border-radius: 4px; background: var(--fill-2); overflow: hidden; }
+.boot-bar i { display: block; height: 100%; background: var(--hamic-ribbon); transform-origin: left; transform: scaleX(0.05); transition: transform 0.25s var(--ease); }
 #boot-text { font-size: 0.9rem; color: var(--muted); }
 
 /* ---------- Buttons ---------- */
@@ -158,7 +186,7 @@ html.reduce-lights .tia { filter: none; }
 /* ---------- Screen frame ---------- */
 .screen-root { position: fixed; inset: 0; z-index: 2; padding: var(--edge-t) var(--edge-r) var(--edge-b) var(--edge-l); }
 .screen { height: 100%; display: grid; grid-template-rows: auto 1fr; gap: 12px; min-height: 0; }
-.screen-root:not([data-screen="title"]):not([data-screen="finale"]):not([data-screen="walk"])::before { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7, 9, 18, 0.82), rgba(7, 9, 18, 0.55)); }
+.screen-root:not([data-screen="title"]):not([data-screen="finale"]):not([data-screen="walk"])::before { content: ""; position: fixed; inset: 0; z-index: -1; background: var(--hamic-aura), linear-gradient(90deg, rgba(7, 9, 18, 0.84), rgba(7, 9, 18, 0.58)); }
 .topbar { display: flex; align-items: center; gap: 10px; min-height: 42px; }
 .topbar h1 { font-size: 1.35rem; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
 .topbar .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
@@ -176,8 +204,8 @@ html.reduce-lights .tia { filter: none; }
 .title-screen { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); grid-template-rows: 1fr auto; column-gap: clamp(16px, 4vw, 56px); align-items: center; }
 .hero { display: grid; gap: clamp(10px, 2.2vh, 18px); align-content: center; max-width: 560px; }
 .kicker { font-size: 0.85rem; font-weight: 600; color: var(--gold); letter-spacing: 0.01em; }
-.logo { margin: 0; display: flex; align-items: baseline; gap: 0.22em; font-size: clamp(3.2rem, 14vh, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.045em; color: #fff; }
-.logo .logo-70 { color: var(--gold); text-shadow: 0 0 42px rgba(255, 184, 61, 0.55); }
+.logo { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.14em 0.22em; font-size: clamp(2.4rem, 11vh, 4.8rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.04em; color: #fff; }
+.logo .logo-70 { color: var(--gold); text-shadow: 0 0 42px rgba(255, 184, 61, 0.55); cursor: pointer; }
 html.reduce-lights .logo .logo-70 { text-shadow: none; }
 .logo.small { font-size: 2.6rem; justify-content: center; }
 .lead { font-size: clamp(0.92rem, 2.1vh, 1.08rem); line-height: 1.5; color: var(--muted); max-width: 40ch; }
@@ -202,7 +230,7 @@ html.reduce-lights .logo .logo-70 { text-shadow: none; }
 .mode-text { display: grid; gap: 2px; min-width: 0; }
 .mode-text b { font-size: 0.95rem; }
 .mode-text small { font-size: 0.78rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.title-foot { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; }
+.title-foot { grid-column: 1 / -1; display: flex; align-items: center; gap: 6px; padding-right: 124px; }
 .foot-meta { margin-left: auto; font-size: 0.78rem; color: var(--faint); }
 
 /* ---------- Journey ---------- */
@@ -419,7 +447,7 @@ html.reduce-lights .logo .logo-70 { text-shadow: none; }
   .btn.big { min-height: 44px; }
   .btn.small { min-height: 32px; }
   .panel { padding: 10px 12px; border-radius: 16px; }
-  .logo { font-size: clamp(2.6rem, 17vh, 4.4rem); }
+  .logo { font-size: clamp(2.2rem, 13vh, 3.2rem); }
   .hero { gap: 9px; }
   .lead { font-size: 0.88rem; }
   .mode-card { min-height: 58px; padding: 10px; gap: 10px; border-radius: 16px; }
@@ -477,7 +505,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
   .title-screen { grid-template-columns: minmax(0, 1fr) 560px; column-gap: 72px; }
   .hero { gap: 22px; max-width: 620px; }
   .kicker { font-size: 0.95rem; }
-  .logo { font-size: clamp(6rem, 9vw, 8.5rem); }
+  .logo { font-size: clamp(3.6rem, 4.6vw, 4.8rem); }
   .lead { font-size: 1.15rem; max-width: 34ch; }
   .hero-cta { gap: 12px; }
   .progress-strip { padding: 12px 18px; gap: 16px; }
@@ -534,10 +562,11 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .cd-place { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 600; color: var(--cyan); }
 .cd-place .icon { stroke: var(--cyan); }
 
-/* The campus map sits behind the title: keep the hero and footer readable over bright roofs. */
+/* The campus map sits behind the title: keep the hero and footer readable over bright roofs, infused with HAMIC burgundy & navy night tones. */
 .screen-root[data-screen="title"]::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(90deg, rgba(7, 9, 18, 0.88) 0%, rgba(7, 9, 18, 0.6) 38%, rgba(7, 9, 18, 0.15) 62%, rgba(7, 9, 18, 0.35) 100%),
-              linear-gradient(0deg, rgba(7, 9, 18, 0.85) 0%, transparent 22%); }
+  background: var(--hamic-aura),
+              linear-gradient(90deg, rgba(7, 9, 18, 0.90) 0%, rgba(7, 9, 18, 0.62) 40%, rgba(7, 9, 18, 0.16) 64%, rgba(7, 9, 18, 0.38) 100%),
+              linear-gradient(0deg, rgba(7, 9, 18, 0.86) 0%, transparent 22%); }
 
 /* Campus walk: keep the map and the player visible in short landscape viewports. */
 .screen-root[data-screen="walk"] { pointer-events: none; }
@@ -595,7 +624,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
   .title-screen .difficulty-description { min-height: 0; }
   .performance-choice small { display: none; }
   .title-screen .hero { gap: 6px; }
-  .title-screen .logo { font-size: 3.6rem; }
+  .title-screen .logo { font-size: clamp(2.2rem, 5.4vw, 2.9rem); }
   .title-screen .mode-grid { gap: 7px; }
   .title-screen .mode-card { min-height: 54px; padding: 8px; }
   .difficulty-picker { gap: 5px; }
@@ -637,7 +666,12 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .walk-radio { left: calc(var(--edge-l) + 146px); }
 
 .minimap { pointer-events: auto; position: absolute; top: var(--edge-t); right: var(--edge-r); padding: 6px; }
-.minimap-canvas { display: block; width: 220px; height: 150px; cursor: pointer; }
+.minimap-canvas { display: block; width: 220px; height: 150px; cursor: crosshair; border-radius: var(--r-sm); }
+.minimap-tools { display: flex; align-items: center; gap: 4px; padding-bottom: 4px; }
+.minimap-tools .btn { min-height: 32px; min-width: 36px; padding: 0 8px; font-size: .7rem; }
+.minimap-tools .btn:first-child { flex: 1; }
+.minimap-tools .btn[aria-pressed="true"] { color: var(--gold); border-color: var(--gold); }
+.minimap-status { display: block; padding: 4px 2px 0; font-size: .6rem; color: var(--muted); }
 
 .activity-prompt { color: var(--text); }
 .activity-feedback { min-height: 1.4em; color: var(--muted); }
@@ -712,7 +746,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
   .joy-knob { width: 46px; height: 46px; }
   .walk-fab .btn.big { min-height: 52px; padding: 0 16px; font-size: .88rem; }
   .minimap { padding: 4px; }
-  .minimap-canvas { width: 150px; height: 102px; }
+  .minimap-canvas { width: 170px; height: auto; }
   .walk-dialog { width: min(760px, calc(100vw - 24px)); }
   .version-lines, .btn.version-line { font-size: .74rem; }
   .btn.version-line { min-height: 26px; }
@@ -769,3 +803,111 @@ ol.algo li::marker { color: var(--faint); }
 }
 
 
+
+.walk-room-controls { pointer-events: auto; position: fixed; top: var(--edge-t); left: 50%; transform: translateX(-50%); z-index: 1; padding: 10px; display: grid; gap: 6px; max-width: 260px; }
+.walk-room-controls[hidden] { display: none; }
+.walk-indoors .walk-objective, .walk-indoors .hud-actions, .walk-indoors .walk-tools, .walk-indoors .hud-more, .walk-indoors .hud-near { display: none; }
+.walk-indoors .walk-hud h2 { font-size: .9rem; }
+@media (max-height: 520px) { .walk-room-controls { max-width: 232px; padding: 8px; font-size: 11px; } .walk-room-controls .btn { white-space: normal; text-align: center; min-height: 32px; padding: 5px 8px; font-size: .75rem; line-height: 1.25; } }
+/* Keep doorway actions beside the exploration map. */
+body[data-screen="walk"] .walk-room-controls { top: var(--edge-t); right: calc(var(--edge-r) + 244px); }
+@media (max-height: 520px) {
+  body[data-screen="walk"] .walk-room-controls { right: calc(var(--edge-r) + 190px); }
+}
+
+/* ---------- Nhận diện CLB Toán Tin HAMIC (logo, dấu hiệu A+ · ⏻ · $, mã nhị phân & tone màu) ---------- */
+.hamic-img { display: block; flex: none; object-fit: contain; filter: drop-shadow(0 4px 12px var(--hamic-emblem-glow)); }
+html.reduce-lights .hamic-img { filter: none; }
+
+.hamic-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.hamic-brand-text { display: grid; gap: 2px; min-width: 0; }
+.hamic-brand-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; }
+.hamic-sub { font-size: 0.75rem; font-weight: 500; color: var(--muted); letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.hamic-signs { display: inline-flex; align-items: center; gap: 4px; flex: none; }
+.hamic-sign {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 20px; min-width: 22px; padding: 0 6px; border-radius: 999px;
+  font-style: normal; font-weight: 800; font-size: 0.72rem; line-height: 1;
+  border: 1px solid var(--line-2);
+}
+.hamic-sign sup { font-size: 0.58em; margin-left: 1px; top: -0.28em; }
+.hamic-sign-a { color: var(--hamic-crimson-ink); background: var(--hamic-crimson-soft); border-color: var(--hamic-crimson-line); }
+.hamic-sign-pwr { color: var(--hamic-sky); background: var(--hamic-navy-soft); border-color: var(--hamic-navy-line); padding: 0 5px; }
+.hamic-sign-dlr { color: var(--gold); background: var(--hamic-amber-soft); border-color: var(--hamic-amber-line); }
+
+.hamic-binary {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.03em; font-variant-numeric: tabular-nums;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--fill); border: 1px solid var(--line);
+}
+.hamic-binary span { color: var(--hamic-amber); }
+.hamic-binary b { color: var(--hamic-crimson-ink); font-weight: 700; }
+
+.hamic-chip {
+  display: inline-flex; align-items: center; gap: 7px; flex: none;
+  padding: 4px 10px 4px 6px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line-2);
+}
+.hamic-chip > b { font-size: 0.76rem; font-weight: 800; letter-spacing: 0.04em; color: var(--text); }
+
+.guest-screen { grid-template-rows: minmax(0, 1fr); }
+.guest-brand, .finale-brand { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.radio-kicker { display: inline-flex; align-items: center; gap: 6px; }
+.radio-kicker .icon { stroke: var(--hamic-sky); }
+
+/* Dải sắc độ HAMIC tinh tế trên khung hội thoại, HUD, bảng kết quả & thẻ chế độ */
+.walk-hud, .walk-dialog, .modal, .guest-panel, .show-end {
+  background-image: var(--hamic-ribbon);
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+.mode-card {
+  background-image: linear-gradient(135deg, var(--hamic-crimson-soft) 0%, transparent 42%, var(--hamic-navy-soft) 100%);
+}
+.mode-card:hover {
+  border-color: var(--hamic-amber-line);
+  box-shadow: 0 12px 28px -14px var(--hamic-emblem-glow);
+}
+html.reduce-lights .mode-card:hover { box-shadow: none; }
+.mode-icon {
+  background: linear-gradient(135deg, var(--hamic-crimson-soft), var(--hamic-navy-soft));
+  border: 1px solid var(--line-2);
+}
+.rotate-cover {
+  background: radial-gradient(70% 50% at 50% 45%, var(--hamic-amber-soft), transparent 70%), var(--hamic-aura), var(--bg);
+}
+
+@media (max-width: 920px) {
+  .title-foot .hamic-binary { display: none; }
+  .hamic-chip .hamic-signs { display: none; }
+}
+@media (max-height: 520px) {
+  .boot { gap: 7px; }
+  .boot-emblem { height: 64px; }
+  .boot-sub { font-size: 0.72rem; }
+  .title-screen { row-gap: 4px; }
+  .title-screen .hero { gap: 4px; }
+  .title-screen .logo { font-size: clamp(2rem, 5vw, 2.6rem); }
+  .title-screen .lead { font-size: 0.82rem; line-height: 1.35; }
+  .title-screen .difficulty-choices .btn { min-height: 30px; }
+  .title-screen .btn.big { min-height: 40px; }
+  .title-foot { padding-right: 108px; }
+  .title-foot .btn.small { min-height: 30px; }
+  .hamic-brand { gap: 8px; }
+  .hamic-brand .hamic-mark { width: 26px; height: 26px; }
+  .hamic-sub { display: none; }
+  .hamic-sign { height: 17px; min-width: 19px; font-size: 0.65rem; padding: 0 5px; }
+  .hamic-chip { padding: 3px 8px 3px 5px; gap: 5px; }
+  .hamic-chip .hamic-mark { width: 18px; height: 18px; }
+  .hamic-chip > b { font-size: 0.7rem; }
+  .hud-top .hamic-mark { width: 16px; height: 16px; }
+  .guest-panel { gap: 6px; padding: 10px 16px; }
+  .guest-panel .logo.small { font-size: 1.65rem; }
+  .guest-brand { flex-direction: row; gap: 10px; }
+  .guest-brand .hamic-lockup { height: 38px; width: auto; }
+  .finale-brand .hamic-mark { width: 32px; height: 32px; }
+}

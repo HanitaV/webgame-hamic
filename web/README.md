@@ -47,4 +47,4 @@ Sửa `data/campus.layout.json` ở thư mục gốc kit (nhà, tầng, sảnh, 
 - Ẩn giao diện (hoặc phím H) chỉ giấu bảng, không xóa cây khỏi dữ liệu.
 - Bắt đầu ở cổng HUS. Nhặt 3 tờ deadline rồi ra cổng USSH hoặc HUS. Đó là trò chơi giả.
 
-Ghi chú trên màn hình: bản đồ cách điệu, bố cục ước lượng.
+Ghi chú trên màn hình: đây là mô phỏng, không phải thật.

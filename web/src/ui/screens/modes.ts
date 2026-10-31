@@ -4,10 +4,12 @@ import { modeBrief } from "../mode-brief";
 
 import { DATA } from "../../core/data";
 import { t } from "../../core/i18n";
-import { P, dailyIds, finaleUnlocked, mulberry, record, setFlag, today } from "../../game/progress";
+import { sfx } from "../../core/audio";
+import { P, dailyIds, finaleUnlocked, mulberry, record, setFlag, today, unlockNumberFact } from "../../game/progress";
+import { toast } from "../overlay";
 import type { Level } from "../../game/types";
 import { focusCircuit } from "../../scene/world";
-import { blockIcon, btn, el, starRow, tia } from "../dom";
+import { blockIcon, btn, el, hamicChip, hamicLogo, hamicSigns, starRow, tia } from "../dom";
 import { back, go, reset, type Params } from "../router";
 import { keypad } from "../widgets";
 
@@ -47,7 +49,7 @@ export function screenCasual(root: HTMLElement) {
   }
   const finale = btn(t("casual.finale"), () => go("finale", { mode: "casual" }), "primary", { disabled: !finaleUnlocked() });
   root.append(el("div", { class: "screen casual-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.casual") })),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.casual") }), hamicChip()),
     el("div", { class: "panel dark casual-panel" },
       modeBrief("casual"),
       tiles,
@@ -75,7 +77,7 @@ export function screenDaily(root: HTMLElement) {
   });
   const doneToday = Boolean(P.get().flags[`dailyDone:${day}`]);
   root.append(el("div", { class: "screen daily-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.daily") })),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.daily") }), hamicChip()),
     el("div", { class: "panel dark center-panel" },
       el("h2", { class: "display", text: t("daily.date", { d: calendarDay.split("-").reverse().join("/") }) }),
       modeBrief("daily"),
@@ -118,6 +120,24 @@ export function screenPractice(root: HTMLElement, params: Params) {
   };
   const seedBtn = btn(t("practice.seed"), () => keypad({
     title: t("practice.seedTitle"), value: null, min: 0, max: 9999999, onDone: (n) => {
+      const secretKeys: Record<number, string> = {
+        17: "practice.secret.17",
+        70: "practice.secret.70",
+        836: "practice.secret.836",
+        1956: "practice.secret.1956",
+        2026: "practice.secret.2026",
+        2485: "practice.secret.2485",
+      };
+      if (secretKeys[n]) {
+        sfx.chord70();
+        unlockNumberFact(n >= 1 && n <= 200 ? n : 70);
+        toast(t("practice.secretTitle"), t(secretKeys[n]), "info");
+        const exact = DATA.generated.find((l) => l.seed === n);
+        const list = pool().length ? pool() : DATA.generated;
+        const chosen = exact ?? list[n % list.length];
+        if (chosen) play(chosen, true);
+        return;
+      }
       const lv = DATA.generated.find((l) => l.seed === n);
       if (lv) play(lv, true);
       else info.textContent = t("practice.noSeed", { n });
@@ -125,7 +145,7 @@ export function screenPractice(root: HTMLElement, params: Params) {
   }), "");
   sync();
   root.append(el("div", { class: "screen practice-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.practice") })),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.practice") }), hamicChip()),
     el("div", { class: "panel dark center-panel" },
       modeBrief("practice"),
       el("p", { class: "ctl-label", text: t("practice.module") }), modRow,
@@ -172,7 +192,8 @@ export function screenGuest(root: HTMLElement) {
   };
   root.append(el("div", { class: "screen guest-screen" },
     el("div", { class: "panel dark center-panel guest-panel" },
-      el("h1", { class: "logo small" }, el("span", { text: "Hội tụ" }), el("span", { class: "logo-70", text: "70" })),
+      el("div", { class: "guest-brand" }, hamicLogo("lockup", 76, t("hamic.logoAlt")), hamicSigns(t("hamic.signsAria"))),
+      el("h1", { class: "logo small" }, el("span", { text: t("title.logoLead") }), el("span", { class: "logo-70", text: t("title.logoAccent") })),
       modeBrief("guest"),
       btn(t("guest.start"), () => playStep(0), "primary wide", { "data-autofocus": true }),
       el("p", { class: "muted", text: t("guest.note", { s: DATA.config.guest.idleResetSeconds }) }),

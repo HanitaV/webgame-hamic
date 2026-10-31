@@ -40,9 +40,44 @@ export interface CoreFact { circuit: number; title: string; text: string; casual
 export interface NFact { n: number; text: string; tags: string[] }
 export interface Glossary { name: string; text: string; more: string }
 
-export interface MapBuilding { id: string; name: string; x: number; z: number; h: number }
+export interface MapBuilding {
+  id: string;
+  name: string;
+  x: number;
+  z: number;
+  h: number;
+  w?: number;
+  d?: number;
+  footprints?: [number, number, number, number][];
+  enterable?: boolean;
+  entrance?: [number, number];
+  entrances?: { id: string; position: [number, number]; side: string; width: number; zone?: string; title?: string; interiorFile?: string }[];
+  entryBarriers?: number[][];
+  entranceZone?: string;
+  entranceTitle?: string;
+  interiorFile?: string;
+  interiorKind?: "lecture" | "lab" | "archive" | "hall";
+  interiorTitle?: string;
+  boardTitle?: string;
+  boardFormula?: string;
+}
+export interface WalkEasterEgg {
+  id: string;
+  x: number;
+  z: number;
+  building?: string;
+  texture?: string;
+  kind: "book_red" | "book_stack" | "uet_rock" | "casio" | "chronicle" | "iced_tea" | "cat" | "film_reel" | "prism" | "logbook" | "duck" | "chalk_board" | "survey_stack" | "cipher_disk" | "old_map";
+  room?: string;
+  roomPos?: [number, number];
+  color: string;
+  title: string;
+  place: string;
+  lore: string;
+  quip: string;
+}
 export interface WalkNode { id: string; x: number; z: number; label: string; short?: string }
-export interface WalkCharacter { id: string; node: string; name: string; color: string; role: string; plain?: boolean; offset?: [number,number] }
+export interface WalkCharacter { id: string; node: string; name: string; color: string; role: string; plain?: boolean; offset?: [number, number] }
 /** Background-student life. Coordinates are layout units. yaw 0 faces +z, toward the street. */
 export interface CrowdRoute { from: string; to: string; count: number; near?: number }
 export interface CrowdSpot {
@@ -62,12 +97,15 @@ export interface CrowdSpot {
   /** Where a lecture group walks off to before coming back. */
   away?: [number, number];
 }
-export interface AtmosphereFrame { step: number; label: string; sky: string; sunColor: string; sunIntensity: number; sunPosition: [number,number,number]; hemiSky: string; hemiGround: string; hemiIntensity: number; exposure: number; night: number; fogDensity: number }
+export interface AtmosphereFrame { step: number; label: string; sky: string; sunColor: string; sunIntensity: number; sunPosition: [number, number, number]; hemiSky: string; hemiGround: string; hemiIntensity: number; exposure: number; night: number; fogDensity: number }
 export interface MapData {
   drone: { model: string; stations: { node: string; offset: [number, number]; count: number; scale: number; label: string }[] };
   atmosphere: AtmosphereFrame[];
-  walk: { crowd: { normalCount:number; lowCount:number; routes: CrowdRoute[]; spots: CrowdSpot[] }; spawn: string; radius: number; nodes: WalkNode[]; edges: [string, string][]; characters: WalkCharacter[];
-    avatar: { height: number; modelHeight: number; speed: number; talkDistance: number; camera: { height: number; distance: number; lookHeight: number; occlusionOpacity: number } } };
+  walk: {
+    crowd: { normalCount: number; lowCount: number; routes: CrowdRoute[]; spots: CrowdSpot[] }; spawn: string; radius: number; nodes: WalkNode[]; edges: [string, string][]; characters: WalkCharacter[];
+    easterEggs?: WalkEasterEgg[];
+    avatar: { height: number; modelHeight: number; speed: number; talkDistance: number; camera: { height: number; distance: number; lookHeight: number; occlusionOpacity: number }; indoorCamera?: { height: number; distance: number; lookHeight: number; insideOpacity: number } }
+  };
   mapVerified: boolean;
   model: string;
   scale: number;

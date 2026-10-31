@@ -30,6 +30,10 @@
     { "id": "A27", "name": "Hỏi đủ chuyện", "desc": "Hỏi 20 chủ đề với các bạn trong khuôn viên.", "type": "TD", "hidden": false, "target": 20, "rule": { "kind": "storyTopics" } },
     { "id": "A28", "name": "Gỡ đúng nguyên nhân", "desc": "Chỉ ra đúng ba sai sót nhỏ khiến bản chạy thử bị lệch.", "type": "HT", "hidden": false, "rule": { "kind": "storyFlag", "flag": "done:s14" } },
     { "id": "A29", "name": "Giữ trọn lời ghi", "desc": "Giữ nguyên lời ghi của người góp ảnh.", "type": "HT", "hidden": false, "rule": { "kind": "storyFlag", "flag": "dec:captions:A" } },
-    { "id": "A30", "name": "Thắp sáng lối đi", "desc": "Thắp 7 ngọn đèn lối đi trong khuôn viên.", "type": "TD", "hidden": false, "target": 7, "rule": { "kind": "storyLamps" } }
+    { "id": "A30", "name": "Thắp sáng lối đi", "desc": "Thắp 7 ngọn đèn lối đi trong khuôn viên.", "type": "TD", "hidden": false, "target": 7, "rule": { "kind": "storyLamps" } },
+    { "id": "A31", "name": "Người giữ ký ức hai trường", "desc": "Khám phá 8 kỷ vật ẩn trên khuôn viên hai trường.", "type": "TD", "hidden": false, "target": 8, "rule": { "kind": "storyEggs" } },
+    { "id": "A32", "name": "Bạn đồng hành học thuật", "desc": "Hoàn thành cả 4 chuỗi nhiệm vụ phụ cùng các bạn sinh viên.", "type": "TD", "hidden": false, "target": 4, "rule": { "kind": "storySidequests" } },
+    { "id": "A33", "name": "Không một góc tối", "desc": "Thắp sáng toàn bộ 19 ngọn đèn lối đi khắp hai trường Tự nhiên và Nhân văn.", "type": "HT", "hidden": true, "target": 19, "rule": { "kind": "storyLamps" } },
+    { "id": "A34", "name": "Đọc hết bảng phấn", "desc": "Đọc bảng chuyên đề hoặc biển giới thiệu tại 6 tòa nhà trong khuôn viên.", "type": "TD", "hidden": false, "target": 6, "rule": { "kind": "storyBoards" } }
   ]
 }

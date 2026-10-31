@@ -5,7 +5,7 @@ import { DATA, circuitPlace } from "../../core/data";
 import { t } from "../../core/i18n";
 import { P, finaleUnlocked, levelUnlocked, record } from "../../game/progress";
 import { focusCircuit } from "../../scene/world";
-import { blockIcon, btn, el, icon, star, starRow } from "../dom";
+import { blockIcon, btn, el, hamicChip, icon, star, starRow } from "../dom";
 import { back, go, type Params } from "../router";
 import type { LevelParams } from "./level";
 
@@ -83,7 +83,7 @@ export function screenJourney(root: HTMLElement, params: Params) {
   };
   render();
   root.append(el("div", { class: "screen journey-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.journey") })),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.journey") }), hamicChip()),
     el("div", { class: "two-pane" }, el("div", { class: "panel dark list-panel" }, list), detail)));
   return () => focusCircuit(null);
 }

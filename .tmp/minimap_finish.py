@@ -1,0 +1,3 @@
+﻿from pathlib import Path
+p=Path('web/src/ui/story/minimap.ts');s=p.read_text(encoding='utf-8-sig').replace('"data-map-zoom": "out"','"data-map-zoom": "out", "aria-label": t("story.map.zoomOutLabel")').replace('"data-map-zoom": "in"','"data-map-zoom": "in", "aria-label": t("story.map.zoomInLabel")');p.write_text(s,encoding='utf-8')
+p=Path('web/src/style.css');s=p.read_text(encoding='utf-8').replace('top: calc(var(--edge-t) + 184px)','top: calc(var(--edge-t) + 194px)').replace('.minimap-canvas { width: 180px; height: 110px; }','.minimap-canvas { width: 170px; height: auto; }');p.write_text(s,encoding='utf-8')

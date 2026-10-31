@@ -1,7 +1,7 @@
 {
-  "name": "Hội tụ 70",
-  "short_name": "Hội tụ 70",
-  "description": "Vì sao đèn lệch? Đi một vòng khuôn viên USSH × HUS, giải câu đố Toán – Tin và chọn kết cục cho Đêm Hội tụ. CLB Toán Tin (HAMIC).",
+  "name": "Đêm Toán Tin — CLB Toán Tin HAMIC",
+  "short_name": "Đêm Toán Tin",
+  "description": "Đêm Toán Tin — Vì sao đèn lệch? Đi một vòng khuôn viên USSH × HUS, giải câu đố Toán – Tin và chọn kết cục cho Đêm Hội tụ. CLB Toán Tin (HAMIC).",
   "lang": "vi",
   "start_url": "./",
   "scope": "./",
@@ -10,6 +10,12 @@
   "background_color": "#070912",
   "theme_color": "#070912",
   "icons": [
+    {
+      "src": "assets/hamic-mark.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "icon.svg",
       "sizes": "any",

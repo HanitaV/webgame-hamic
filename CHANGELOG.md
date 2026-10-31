@@ -2,6 +2,10 @@
 
 ## Chưa phát hành
 
+- Đổi tên dự án và tên game từ "Hội tụ 70" sang "Đêm Toán Tin" (`dem-toan-tin`) trên màn hình khởi động, màn hình chính, thẻ chia sẻ, nhóm chat trong truyện, manifest PWA và bộ tài liệu thiết kế; vẫn tương thích ngược khi nhập tệp tiến độ cũ.
+
+- Mở rộng tương tác khuôn viên và Easter Egg liên trường USSH × HUS: thêm đọc bảng phấn chuyên đề / biển giới thiệu tòa nhà (có công thức KaTeX, lối tắt sang Phòng thí nghiệm và thẻ Sổ tay riêng), đọc giấy nhắn trên cửa phòng bộ môn, xem trạng thái cụm máy chủ và bàn thí nghiệm trong phòng con, đổi 3 đội hình bay tại trạm thử drone, gãi cằm Giáo sư Mèo Vàng Nhà T5, hiệu ứng vòng sáng khép kín khi thắp đủ 19/19 đèn lối đi, 7 kỷ vật 3D mới (nâng tổng lên 15 khắp hai trường và phòng máy chủ), hợp âm ẩn `2–5–7` và logo `70`, hạt giống kỷ niệm (`17`, `70`, `836`, `1956`, `2026`, `2485`), huy hiệu kỷ niệm trên Thẻ Hội tụ cùng 4 thành tựu mới (`A31`–`A34`).
+
 - E2 thêm vòng xung lực, tia bật, mảnh màu và rung máy quay nhẹ đồng bộ cú bung ở giây 5,2. Sáu ending có SFX stereo riêng: rotor, bật đèn, bay vút, pháo/chạm khối, chuông và nhịp hài. Audio chuẩn hóa hai lượt, qua bus SFX, theo pause/seek/volume/mute/bỏ qua; MP4 cũng có AAC khi xem ngoài game.
 
 - Thêm model quadcopter GLB dùng chung cho trạm thử drone trong lúc chơi và đoạn đầu cả sáu ending. Cutscene kéo dài 16 giây để thấy rõ thân máy, đèn đổi màu, quá trình bay lên và thu nhỏ thành điểm sáng; render lại toàn bộ phim.

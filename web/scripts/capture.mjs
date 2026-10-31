@@ -13,7 +13,7 @@ const out = process.argv[2] ?? "../docs/screenshots";
 const only = process.argv[3] ?? "";
 const url = process.env.CAPTURE_URL ?? "http://127.0.0.1:4173/";
 mkdirSync(out, { recursive: true });
-const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--no-sandbox", "--use-angle=d3d11", "--ignore-gpu-blocklist"] });
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const errors = [];
 
@@ -112,6 +112,13 @@ await session("story", { width: 844, height: 390 }, true, async (page, snap) => 
   await page.evaluate(() => window.__walkTest.interact("thao")); await wait(300);
   for (let i = 0; i < 4 && await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count(); i++) await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").first().click();
   await snap("sidequest-thao"); await page.keyboard.press("Escape");
+  await page.evaluate(async () => { const h = window.__hoitu, b = h.data.map.buildings.find(b => b.id === "HUS_T1"); h.teleportToPoint(...b.entrance); await h.enterBuilding(b.id); }); await wait(900);
+  await snap("interior-t1");
+  await page.locator('[data-fab="egg"]').click(); await wait(300);
+  await snap("egg-hust-gt1");
+  await page.locator('[data-egg-close="egg_hust_gt1"]').click(); await wait(300);
+  await page.evaluate(() => window.__hoitu.teleportToPoint(52.0, -162.0)); await wait(600);
+  await snap("egg-uet-rock");
   await page.evaluate(() => window.__hoitu.teleportTo("lawn")); await wait(400);
   await page.evaluate(() => window.__walkTest.interact("math")); await wait(300); await snap("npc-chat");
   for (let i = 0; i < 4 && await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count(); i++) await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").click();
@@ -144,10 +151,30 @@ for (const reduce of [false, true]) await session(reduce ? "ending-reduced" : "e
   }
 });
 
+await session("topology", { width: 844, height: 390 }, true, async (page, snap) => {
+  await page.evaluate(() => { const h = window.__hoitu; h.storyProgress.set({ introSeen: true }); h.go("walk"); });
+  await page.locator("[data-dialogue-next]").click();
+  await page.evaluate(() => { const h = window.__hoitu; h.teleportToPoint(106.6, -64); h.walkToPoint(106.6, -95); });
+  await page.waitForFunction(() => { const h = window.__hoitu; return h.walkPosition().z / h.data.map.scale + h.data.map.origin[1] < -94; });
+  await snap("t1-passage");
+  await page.evaluate(async () => { const h = window.__hoitu, b = h.data.map.buildings.find(b => b.id === "HUS_T1"); h.teleportToPoint(...b.entrance); await h.enterBuilding(b.id); });
+  await snap("t1-ground-floor");
+  const destination = await page.evaluate(() => { const h = window.__hoitu, room = h.roomState().room, lab = room.rooms.find(r => r.type === "lab") ?? room.rooms[0]; const p = { x: 1000 + lab.approach[0] - room.sourceCenter[0], z: lab.approach[1] - room.sourceCenter[1] }; h.walkToWorldPoint(p.x, p.z); return p; });
+  await page.waitForFunction(p => { const q = window.__hoitu.walkPosition(); return Math.hypot(q.x - p.x, q.z - p.z) < .2; }, destination);
+  await page.evaluate(async () => { const h=window.__hoitu; await h.enterRoom(h.nearbyRoom().interiorFile); });
+  await snap("t1-lab");
+  await page.evaluate(async () => { const h = window.__hoitu; h.exitBuilding(); const b = h.data.map.buildings.find(b => b.id === "HUS_CANTEEN"); h.teleportToPoint(...b.entrance); });
+  await snap("canteen-entrance");
+  await page.evaluate(async () => { const h = window.__hoitu, b = h.data.map.buildings.find(b => b.id === "HUS_CANTEEN"); await h.enterBuilding(b.id); });
+  await snap("canteen-interior");
+});
+
 await session("library", { width: 844, height: 390 }, true, async (page, snap) => {
   await page.evaluate(() => { window.__hoitu.storyProgress.set({ introSeen: true, endingsSeen: ["E1", "E2", "E4"] }); window.__hoitu.go("walk"); });
-  await wait(800); await page.locator("[data-notebook]").click(); await page.locator('[data-tab="endings"]').click(); await snap("endings-library");
+  await wait(800); if (await page.locator("[data-dialogue-next]").count()) await page.locator("[data-dialogue-next]").click(); await page.locator("[data-notebook]").click(); await page.locator('[data-tab="endings"]').click(); await snap("endings-library");
   await page.locator('[data-tab="facts"]').click(); await snap("facts");
+  await page.locator('[data-tab="eggs"]').click(); await snap("eggs");
+  await page.locator('[data-tab="boards"]').click(); await snap("boards");
 });
 
 await session("phone", { width: 844, height: 390 }, true, flow);

@@ -4,7 +4,7 @@ import { rich, setRich } from "../rich";
 import { DATA } from "../../core/data";
 import { t } from "../../core/i18n";
 import { P, achievementProgress, coreFactsOpen } from "../../game/progress";
-import { blockIcon, btn, el } from "../dom";
+import { blockIcon, btn, el, hamicLogo } from "../dom";
 import { back } from "../router";
 
 export function screenNotebook(root: HTMLElement) {
@@ -56,7 +56,7 @@ export function screenNotebook(root: HTMLElement) {
   const first = tab("core", t("book.core", { n: open.size }), showCore);
   tab("n", t("book.n"), showN);
   root.append(el("div", { class: "screen book-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.notebook") }), tabs),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), hamicLogo("mark", 24), el("h1", { class: "display", text: t("title.notebook") }), tabs),
     el("div", { class: "panel dark scroll-panel" }, body)));
   first.setAttribute("aria-selected", "true");
   showCore();
@@ -80,6 +80,6 @@ export function screenAchievements(root: HTMLElement) {
     list.append(li);
   }
   root.append(el("div", { class: "screen ach-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.achievements") }), el("span", { class: "chip", text: `${got}/${DATA.achievements.length}` })),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("title.achievements") }), hamicLogo("mark", 24), el("span", { class: "chip", text: `${got}/${DATA.achievements.length}` })),
     el("div", { class: "panel dark scroll-panel" }, list)));
 }

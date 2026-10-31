@@ -3,17 +3,18 @@ import { developerMode } from "../../game/developer";
 /** Title screen: hero on the left, mode cards on the right, the light sandbox behind. */
 
 import { DATA } from "../../core/data";
+import { sfx } from "../../core/audio";
 import { t } from "../../core/i18n";
-import { P, coreFactsOpen, journeyStars, maxStars } from "../../game/progress";
-import { focusCircuit } from "../../scene/world";
-import { btn, el, icon, lamp, star, type IconName } from "../dom";
+import { P, coreFactsOpen, journeyStars, maxStars, unlockNumberFact } from "../../game/progress";
+import { focusCircuit, pulseCore } from "../../scene/world";
+import { btn, el, hamicBinary, hamicLogo, hamicSigns, icon, lamp, star, type IconName } from "../dom";
 import { requestLandscape } from "../orientation";
 import { go } from "../router";
 import { refreshWorld } from "../shell";
 import { difficultyPicker } from "../difficulty";
 import { storyProgress } from "../../game/story";
 import { ENDING_IDS, currentChapter, currentStop, npcPlace, type StoryState } from "../../puzzles/logic/story";
-import { modal } from "../overlay";
+import { modal, toast } from "../overlay";
 import { resetWalkPosition } from "../../scene/walking";
 
 export function screenTitle(root: HTMLElement) {
@@ -45,10 +46,34 @@ export function screenTitle(root: HTMLElement) {
   for (const c of DATA.circuits) lamps.append(lamp(c.color, lit.has(c.id), 14));
 
   const perf = btn(t("story.perf"),()=>{const low=!settings.get().lowGraphics;settings.set({lowGraphics:low});perf.setAttribute("aria-pressed",String(low));},"small choice",{"aria-pressed":String(settings.get().lowGraphics),"data-performance":true});
+  const factText = el("span", { text: fact });
+  const logo70 = el("span", { class: "logo-70", text: t("title.logoAccent"), "data-logo-70": true });
+  let taps70 = 0;
+  logo70.addEventListener("click", () => {
+    taps70 += 1;
+    sfx.click();
+    if (taps70 >= 7) {
+      taps70 = 0;
+      sfx.chord70();
+      pulseCore();
+      unlockNumberFact(70);
+      factText.textContent = t("title.easter70");
+      toast(t("title.easter70Title"), t("title.easter70"), "info");
+    }
+  });
   root.append(el("div", { class: "screen title-screen" },
     el("section", { class: "hero" },
-      el("p", { class: "kicker", text: DATA.config.credits }),
-      el("h1", { class: "logo", "aria-label": DATA.config.title }, el("span", { text: "Hội tụ" }), el("span", { class: "logo-70", text: "70" })),
+      el("div", { class: "hamic-brand" },
+        hamicLogo("mark", 44, t("hamic.logoAlt")),
+        el("div", { class: "hamic-brand-text" },
+          el("div", { class: "hamic-brand-row" },
+            el("p", { class: "kicker", text: DATA.config.credits }),
+            hamicSigns(t("hamic.signsAria")),
+          ),
+          el("small", { class: "hamic-sub", text: t("hamic.sub") }),
+        ),
+      ),
+      el("h1", { class: "logo", "aria-label": DATA.config.title }, el("span", { text: t("title.logoLead") }), logo70),
       el("p", { class: "lead", text: t("story.title.focus") }),
       difficultyPicker(),
       el("div", {class:"performance-choice"},perf,el("small",{class:"muted",text:t("story.perf.help")})),
@@ -60,7 +85,7 @@ export function screenTitle(root: HTMLElement) {
       el("details", { class: "title-extras" }, el("summary", { text: t("story.menu") }), el("div", { class: "progress-strip" },
         el("span", { class: "ps-stars" }, star(true, 18), el("b", { text: `${stars}` }), el("span", { text: `/${max}` })),
         el("span", { class: "ps-bar", style: `--p:${stars / max}` }),
-        lamps), el("p", { class: "fact-chip" }, icon("sparkle", 16), el("span", { text: fact })))),
+        lamps), el("p", { class: "fact-chip" }, icon("sparkle", 16), factText))),
     el("nav", { class: "mode-grid", "aria-label": t("title.menu") },
       DATA.config.casual.enabled ? card("casual", "stroll", t("title.casual"), t(DATA.story.modes.casual.title)) : null,
       card("journey", "route", t("title.journey"), t("story.menu")),
@@ -73,6 +98,7 @@ export function screenTitle(root: HTMLElement) {
     el("footer", { class: "title-foot" },
       btn(t("title.card"), nav("share"), "small ghost", {}, "share"),
       btn(t("title.guest"), nav("guest"), "small ghost", {}, "guest"),
+      hamicBinary(t("hamic.binaryTip")),
       el("span", { class: "foot-meta", text: `${developerMode() ? t("story.hack") + " · " : ""}${t("title.version", { v: DATA.config.version })}${DATA.map.mapVerified ? "" : ` · ${t("title.mapDraft")}`}${P.saveOk() ? "" : ` · ${t("title.noSave")}`}` })),
   ));
 }

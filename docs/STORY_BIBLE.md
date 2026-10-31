@@ -1,4 +1,4 @@
-# STORY BIBLE — "Vì sao đèn lệch?" (Hội tụ 70, bản 2.8.0)
+# STORY BIBLE — "Vì sao đèn lệch?" (Đêm Toán Tin, bản 2.8.0)
 
 Tài liệu thiết kế cốt truyện, sinh từ `web/public/data/story.json`, `i18n/vi.json`, `map.json` và `config.json` (mục `endings`). Khi dữ liệu và tài liệu lệch nhau, dữ liệu là bản đúng; chạy lại công cụ soạn thảo hoặc sửa tay mục tương ứng.
 

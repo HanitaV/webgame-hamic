@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-gen_levels.py - Sinh nội dung tự động cho "Hội tụ 70" với kiểm chứng kép (bản 2.3).
+gen_levels.py - Sinh nội dung tự động cho "Đêm Toán Tin" với kiểm chứng kép (bản 2.3).
 
 Nguyen tac:
   1. Moi dap an duoc tinh bang it nhat HAI phuong phap doc lap (cong thuc va duyet/mo phong).

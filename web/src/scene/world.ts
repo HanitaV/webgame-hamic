@@ -11,9 +11,10 @@
 
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { frameRoom } from "./room-camera";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import type { MapData } from "../core/data";
-import { initWalking, updateWalking, walkingEnabled, characterAtScreen, characterScreenPositions, requestCharacterInteraction, setPlayerOccluded, setWalkingLow, walkToWorldPoint } from "./walking";
+import { initWalking, updateWalking, walkingEnabled, characterAtScreen, characterScreenPositions, requestCharacterInteraction, setPlayerOccluded, setWalkingLow, walkToWorldPoint, buildingAtPosition, easterEggAtScreen, requestEasterEggInteraction, roomState, installCampusCollision } from "./walking";
 import { Atmosphere } from "./atmosphere";
 import { BuildingOcclusion } from "./occlusion";
 import type { EndingId } from "../puzzles/logic/story";
@@ -48,6 +49,11 @@ let stars: THREE.Points;
 let campus: THREE.Group | null = null;
 const lampMats: THREE.MeshLambertMaterial[] = [];
 const labels: THREE.Sprite[] = [];
+let loadedRoom: Awaited<ReturnType<typeof import("./interiors").buildRoom>> | null = null;
+const hiddenOutside = new Map<THREE.Object3D, boolean>();
+let indoorBlend = 0;
+let currentInsideBuilding: string | null = null;
+let currentInteriorRoot: string | null = null;
 
 /** Accept both the original blockout extras and the optimized map builder's group extras. */
 function modelGroup(obj: THREE.Object3D): string {
@@ -78,7 +84,14 @@ let showGroup: THREE.Group | null = null;
 let last = 0;
 let droneTemplate = buildDroneModel();
 let droneStations: THREE.Group | null = null;
-const demoDrones: { drone: Drone; base: THREE.Vector3; index: number }[] = [];
+const demoDrones: { drone: Drone; base: THREE.Vector3; center: THREE.Vector3; count: number; index: number }[] = [];
+let droneStationMode = 0;
+let droneChordUntil = 0;
+let corePulseUntil = 0;
+export function getDroneStationMode() { return droneStationMode; }
+export function cycleDroneStationMode() { droneStationMode = (droneStationMode + 1) % 3; return droneStationMode; }
+export function triggerDroneChord() { droneChordUntil = performance.now() / 1000 + 3.5; }
+export function pulseCore() { corePulseUntil = performance.now() / 1000 + 2.4; }
 let droneReveal = { seconds: 0, hull: 0, colored: 0 };
 
 async function loadDrones() {
@@ -98,17 +111,42 @@ async function loadDrones() {
       ring.rotation.x = Math.PI / 2; ring.position.copy(location).setY(.04); droneStations.add(ring);
       const drone = createDrone(droneTemplate); drone.root.scale.setScalar(station.scale);
       const hover = location.clone().setY(.28 + i * .06); drone.root.position.copy(hover);
-      droneStations.add(drone.root); demoDrones.push({ drone, base: hover, index: i });
+      droneStations.add(drone.root); demoDrones.push({ drone, base: hover, center: base.clone(), count: station.count, index: i });
     }
   }
 }
 
+function applyDemoDroneItem(item: { drone: Drone; base: THREE.Vector3; center: THREE.Vector3; count: number; index: number }, time: number) {
+  const chordBoost = time < droneChordUntil ? Math.sin(Math.min(1, (droneChordUntil - time) / 3.5) * Math.PI) : 0;
+  const palette7 = ["#ff7b7b", "#ffb85e", "#ffd25e", "#5eeaa0", "#5ad8ff", "#9b8cff", "#eef1fb"].map((c) => new THREE.Color(c));
+  let color: THREE.Color;
+  if (droneStationMode === 1) {
+    color = new THREE.Color(item.index % 2 === 0 ? "#ffd25e" : "#5ad8ff");
+    const ang = (item.index / Math.max(1, item.count)) * TAU + (opts.reduceMotion ? 0 : time * 0.35);
+    item.drone.root.position.set(item.center.x + Math.cos(ang) * 0.36, 0.48 + (opts.reduceMotion ? 0 : Math.sin(time * 0.9) * 0.03), item.center.z + Math.sin(ang) * 0.36);
+  } else if (droneStationMode === 2) {
+    const p7 = opts.reduceMotion || opts.reduceLights ? item.index % palette7.length : (time * 0.22 + item.index * 1.4) % palette7.length;
+    const i0 = Math.floor(p7), i1 = (i0 + 1) % palette7.length;
+    color = palette7[i0].clone().lerp(palette7[i1], p7 % 1);
+    item.drone.root.position.copy(item.base);
+    item.drone.root.position.y = 0.34 + (item.index === 1 ? 0.16 : 0) + (opts.reduceMotion ? 0 : Math.sin(time * 0.85 + item.index) * 0.04);
+  } else {
+    const phase = opts.reduceMotion || opts.reduceLights ? 0 : (time * .16 + item.index * .7) % 3;
+    const colors = [new THREE.Color("#eef1fb"), new THREE.Color("#ffd25e"), new THREE.Color("#5ad8ff"), new THREE.Color("#eef1fb")];
+    color = colors[Math.floor(phase)].clone().lerp(colors[Math.floor(phase) + 1], phase % 1);
+    item.drone.root.position.copy(item.base);
+    if (!opts.reduceMotion) item.drone.root.position.y += Math.sin(time * .8 + item.index) * .035;
+  }
+  if (chordBoost > 0 && !opts.reduceMotion) item.drone.root.position.y += chordBoost * 0.22;
+  item.drone.update(time, color, opts.reduceLights ? .08 : (chordBoost > 0 ? .62 : .38), opts.low && item.index > 0 ? 0 : 1, !opts.reduceMotion);
+}
 function updateDemoDrones(time: number) {
   if (!droneStations) return;
   droneStations.visible = walkingEnabled() && !showUpdate;
-  if (!droneStations.visible) return;
+  if (droneStations.visible) { for (const item of demoDrones) applyDemoDroneItem(item, time); }
+  if (droneStations) return;
   for (const item of demoDrones) {
-    const phase = opts.reduceMotion || opts.reduceLights ? 0 : (time * .16 + item.index * .7) % 3;
+    const phase = 0;
     const colors = [new THREE.Color("#eef1fb"), new THREE.Color("#ffd25e"), new THREE.Color("#5ad8ff"), new THREE.Color("#eef1fb")];
     const color = colors[Math.floor(phase)].clone().lerp(colors[Math.floor(phase) + 1], phase % 1);
     item.drone.root.position.copy(item.base);
@@ -275,9 +313,9 @@ function buildStatic(colors: string[]) {
   mg.setAttribute("position", new THREE.Float32BufferAttribute(mp, 3));
   motes = new THREE.Points(mg, new THREE.PointsMaterial({ map: glow, color: "#ffe6a8", size: 0.3, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending }));
   scene.add(motes);
+
 }
 
-/** Load the campus model. The game works without it (beacons, labels and core stay). */
 async function loadCampus() {
   const loader = new GLTFLoader();
   loader.setMeshoptDecoder(MeshoptDecoder);
@@ -333,14 +371,25 @@ export function initWorld(canvas: HTMLCanvasElement, colors: string[], o: WorldO
   map = mapData;
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, o.low ? .85 : 1.75));
+  renderer.localClippingEnabled = true;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   scene = new THREE.Scene();
-  atmosphere = new Atmosphere(scene,renderer,map.atmosphere);
+  atmosphere = new Atmosphere(scene, renderer, map.atmosphere);
   camera = new THREE.PerspectiveCamera(40, 1, 0.1, 500);
   buildStatic(colors);
-  initWalking(scene, map, P, (text) => labelSprite(text, { size: .8 }));
+  initWalking(scene, map, P, (text) => labelSprite(text, { size: .8 }), async (b, file, isCurrent) => {
+    if (!b.enterable || !b.interiorFile) throw new Error("Exterior only");
+    const [module, response] = await Promise.all([import("./interiors"), fetch(`${import.meta.env.BASE_URL}${file ?? b.interiorFile}`)]);
+    if (!response.ok) throw new Error(`Room HTTP ${response.status}`);
+    const roomData = await response.json();
+    const next = await module.buildRoom(b, roomData, text => labelSprite(text, {size:.5}));
+    if(isCurrent && !isCurrent()){next.dispose();throw new Error("Cancelled transition");}
+    loadedRoom?.dispose();
+    loadedRoom = next; loadedRoom.root.visible = false; scene.add(loadedRoom.root);
+    return { data: loadedRoom.data, obstacles: loadedRoom.obstacles };
+  });
   setWalkingLow(opts.low);
   camera.position.set(0, map.overview.height, map.overview.distance);
   look.set(0, 0, 0);
@@ -351,8 +400,10 @@ export function initWorld(canvas: HTMLCanvasElement, colors: string[], o: WorldO
   const groundHit = new THREE.Vector3();
   canvas.addEventListener("pointerup", (e) => {
     if (!walkingEnabled() || showUpdate) return;
-    const id = characterAtScreen(camera,e.clientX,e.clientY,window.innerWidth,window.innerHeight);
+    const id = characterAtScreen(camera, e.clientX, e.clientY, window.innerWidth, window.innerHeight);
     if (id) { requestCharacterInteraction(id); return; }
+    const eggId = easterEggAtScreen(camera, e.clientX, e.clientY, window.innerWidth, window.innerHeight);
+    if (eggId) { requestEasterEggInteraction(eggId); return; }
     const ndc = new THREE.Vector2((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
     groundRay.setFromCamera(ndc, camera);
     if (groundRay.ray.intersectPlane(groundPlane, groundHit)) {
@@ -360,7 +411,10 @@ export function initWorld(canvas: HTMLCanvasElement, colors: string[], o: WorldO
     }
   });
   if (!o.offline) requestAnimationFrame(loop);
-  return Promise.all([loadCampus().catch((e) => { console.warn("campus model", e); }), loadDrones()]);
+  return Promise.all([fetch(`${import.meta.env.BASE_URL}data/campus-collision.json`).then(async response => {
+    if (!response.ok) throw new Error("Campus collision unavailable");
+    installCampusCollision(await response.json());
+  }), loadCampus().catch((e) => { console.warn("campus model", e); }), loadDrones()]);
 }
 
 export function setWorldOptions(o: WorldOptions) {
@@ -370,7 +424,7 @@ export function setWorldOptions(o: WorldOptions) {
   setLit(beacons.map((b) => b?.lit ?? false).concat([coreLitFlag]));
   resize();
 }
-export function setStoryTime(step: number, immediate = false) { atmosphere?.setStep(step,immediate); }
+export function setStoryTime(step: number, immediate = false) { atmosphere?.setStep(step, immediate); }
 
 function resize() {
   if (!renderer) return;
@@ -423,7 +477,7 @@ function loop(now: number) {
   if (videoBackground) return;
   const tt = now / 1000;
   updateDemoDrones(tt);
-  atmosphere.update(dt,opts.reduceMotion);
+  atmosphere.update(dt, opts.reduceMotion);
   (stars.material as THREE.PointsMaterial).opacity = atmosphere.night;
   (motes.material as THREE.PointsMaterial).opacity = .55 * atmosphere.night * (opts.reduceLights ? .45 : 1);
   for (const mat of lampMats) mat.emissiveIntensity = 1.4 * atmosphere.night * (opts.reduceLights ? .45 : 1);
@@ -442,14 +496,42 @@ function loop(now: number) {
       b.halo.position.y = b.crystal.position.y;
     });
     motes.rotation.y += dt * 0.01;
+    if (coreHalo) {
+      const boost = tt < corePulseUntil && !opts.reduceLights ? Math.sin(Math.min(1, (corePulseUntil - tt) / 2.4) * Math.PI) * 1.8 : 0;
+      coreHalo.scale.setScalar(5 + boost);
+    }
   }
   const walker = updateWalking(dt, tt, opts.reduceMotion);
+  const inside = walker ? buildingAtPosition(walker) : null;
+  const interiorRoot=inside ? loadedRoom?.root.uuid??null : null;
+  const changedSpace = currentInsideBuilding !== (inside?.id ?? null) || currentInteriorRoot!==interiorRoot;
+  currentInteriorRoot=interiorRoot;
+  currentInsideBuilding = inside?.id ?? null;
+  if (inside) {
+    for (const obj of scene.children) {
+      if ((obj as THREE.Light).isLight || obj.name === "walking" || obj === loadedRoom?.root) continue;
+      if (!hiddenOutside.has(obj)) hiddenOutside.set(obj, obj.visible);
+      obj.visible = false;
+    }
+    if (loadedRoom) { loadedRoom.root.visible = true; if(walker)loadedRoom.update(walker); }
+  } else {
+    for (const [obj, visible] of hiddenOutside) obj.visible = visible;
+    hiddenOutside.clear();
+    if (loadedRoom) { loadedRoom.dispose(); loadedRoom = null; }
+  }
+  const targetIndoor = inside ? 1 : 0;
+  indoorBlend = opts.reduceMotion ? targetIndoor : THREE.MathUtils.lerp(indoorBlend, targetIndoor, 1 - Math.exp(-dt * 6.5));
+
   for (const label of labels) label.visible = !walkingEnabled();
   const f = focusId !== null ? focusPoint(focusId) : null;
   if (walker) {
     const c = map.walk.avatar.camera;
-    camGoal.set(walker.x, walker.y + c.height * map.scale, walker.z + c.distance * map.scale);
-    lookGoal.copy(walker).add(new THREE.Vector3(0, c.lookHeight * map.scale, 0));
+    const ic = inside && loadedRoom ? { height: loadedRoom.data.camera.height / map.scale, distance: loadedRoom.data.camera.distance / map.scale, lookHeight: loadedRoom.data.camera.lookHeight / map.scale } : c;
+    const ch = ic.height;
+    const cd = ic.distance;
+    const lh = ic.lookHeight;
+    camGoal.set(walker.x, walker.y + ch * map.scale, walker.z + cd * map.scale);
+    lookGoal.copy(walker).add(new THREE.Vector3(0, lh * map.scale, 0));
   } else if (f) {
     // stand outside the target, on the side facing away from the map centre, looking slightly down
     const out = new THREE.Vector3(f.x, 0, f.z);
@@ -465,9 +547,20 @@ function loop(now: number) {
     lookGoal.set(0, 0, -3);
   }
   const k = opts.reduceMotion ? 1 : 1 - Math.exp(-dt * (walker ? 6 : 1.8));
+  if (inside && loadedRoom) {
+    const framing = loadedRoom.data.camera;
+    camGoal.set(walker!.x, framing.height, walker!.z + framing.distance);
+    lookGoal.set(walker!.x, framing.lookHeight, walker!.z);
+    const r=loadedRoom.data;
+    if(r.selectedRoom && r.clipRect && r.sourceCenter && !r.camera.follow){
+      frameRoom(r.clipRect,r.sourceCenter,1000,camera.fov,camera.aspect,renderer.domElement.clientHeight,camGoal,lookGoal);
+    }
+  }
+  if (changedSpace) { camera.position.copy(camGoal); look.copy(lookGoal); }
   camera.position.lerp(camGoal, k);
   look.lerp(lookGoal, k);
-  if (walker) occlusion?.update(camera,walker,map.walk.avatar.height * map.scale,dt,opts.reduceMotion);
+  const ic = map.walk.avatar.indoorCamera ?? { height: 13.5, distance: 15.5, lookHeight: 2.2, insideOpacity: 0.08 };
+  if (walker && !inside) occlusion?.update(camera, walker, map.walk.avatar.height * map.scale, dt, opts.reduceMotion, currentInsideBuilding, ic.insideOpacity);
   else occlusion?.clear();
   setPlayerOccluded(!!walker && (occlusion?.active ?? false));
   cameraDistance = camera.position.distanceTo(look);
@@ -842,9 +935,12 @@ export function endShow() {
 export function campusReady() { return campus !== null; }
 export function worldDiagnostics() {
   const c = map.walk.avatar.camera;
-  return { showChangedMeshes: showRestore.length, litMaterials: beacons.map((b) => b.mats.length),
+  return {
+    showChangedMeshes: showRestore.length, litMaterials: beacons.map((b) => b.mats.length),
     drones: { stationsVisible: droneStations?.visible ?? false, stationCount: demoDrones.length, reveal: droneReveal, positions: demoDrones.map(d => d.drone.root.position.toArray()) },
     atmosphere: atmosphere.diagnostics(), occlusion: occlusion?.diagnostics(), cameraDistance,
-    characters: characterScreenPositions(camera,window.innerWidth,window.innerHeight),
-    desiredCameraDistance: Math.hypot(c.height-c.lookHeight,c.distance)*map.scale };
+    insideBuilding: currentInsideBuilding, indoorBlend, room: loadedRoom ? { seats: loadedRoom.seats, kind: loadedRoom.data.kind, verified: loadedRoom.data.verified } : null, loadingRoom: roomState().loading,
+    characters: characterScreenPositions(camera, window.innerWidth, window.innerHeight),
+    desiredCameraDistance: Math.hypot(c.height - c.lookHeight, c.distance) * map.scale
+  };
 }

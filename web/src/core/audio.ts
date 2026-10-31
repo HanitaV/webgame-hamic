@@ -62,6 +62,12 @@ export const sfx = {
   light: () => [392, 523.25, 659.25, 1046.5].forEach((f, i) => tone(f, i * 0.12, 0.6, "triangle", 0.15)),
   place: () => tone(880, 0, 0.04, "square", 0.04),
   star: (i: number) => tone(784 + i * 196, 0, 0.18, "triangle", 0.15),
+  purr: () => {
+    tone(196, 0, 0.16, "sine", 0.10);
+    tone(246.94, 0.14, 0.22, "sine", 0.11);
+    tone(293.66, 0.28, 0.25, "triangle", 0.08);
+  },
+  chord70: () => [261.63, 329.63, 392.0, 523.25].forEach((f, i) => tone(f, i * 0.08, 0.5, "triangle", 0.14)),
 };
 
 let haptics = true;

@@ -2,12 +2,13 @@
 
 import { DATA } from "../../core/data";
 import { t } from "../../core/i18n";
+import { quietMusic } from "../../core/music";
 import { P, allLit, completeLevel, setFlag, type Mode } from "../../game/progress";
 import type { EvalResult, Stars } from "../../game/types";
 import { endShow, playShow, skipShow } from "../../scene/world";
 import { playCinematic, type CinematicPlayback } from "../../scene/cinematic";
 import { refreshWorld } from "../shell";
-import { btn, el, star, starRow } from "../dom";
+import { btn, el, hamicChip, hamicLogo, hamicSigns, star, starRow } from "../dom";
 import { modal } from "../overlay";
 import { back, go, reset, type Params } from "../router";
 
@@ -63,7 +64,7 @@ export function screenFinale(root: HTMLElement, params: Params) {
   };
   render();
   root.append(el("div", { class: "screen finale-screen" },
-    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("finale.title") })),
+    el("header", { class: "topbar" }, btn(t("ui.back"), () => back(), "small ghost", {}, "back"), el("h1", { class: "display", text: t("finale.title") }), hamicChip()),
     panel));
 }
 
@@ -75,6 +76,7 @@ function runShow(root: HTMLElement, mode: Mode) {
     btn(t("story.ui.skip"), () => film ? film.skip() : skipShow(), "small", { "data-skip": true }));
   root.append(el("div", { class: "screen show-screen" }, caption));
   document.body.classList.add("showing");
+  quietMusic(true);
   let ended = false;
   const play = async () => {
     film = playCinematic("E1");
@@ -84,17 +86,19 @@ function runShow(root: HTMLElement, mode: Mode) {
   };
   void play().then(() => {
     if (ended) return;
+    quietMusic(false);
     caption.remove();
     if (mode !== "guest") setFlag("showSeen");
     const gold = mode !== "guest" && allLit();
     const greeting = DATA.config.greeting;
     root.append(el("div", { class: "show-end panel dark" },
-      el("h2", { class: "logo small" }, el("span", { text: "Hội tụ" }), el("span", { class: "logo-70", text: "70" })),
+      el("div", { class: "finale-brand" }, hamicLogo("mark", 42, t("hamic.logoAlt")), hamicSigns(t("hamic.signsAria"))),
+      el("h2", { class: "logo small" }, el("span", { text: t("title.logoLead") }), el("span", { class: "logo-70", text: t("title.logoAccent") })),
       gold ? el("p", { class: "gold" }, star(true, 26), el("span", { text: t("finale.star70") })) : el("p", { text: t("finale.circuits", { n: lit }) }),
       el("p", { class: "greeting", text: greeting }),
       el("div", { class: "row" },
         mode === "guest" ? btn(t("guest.again"), () => { P.startGuest(); reset("guest"); }, "primary") : btn(t("finale.card"), () => go("share"), "primary"),
         mode === "guest" ? null : btn(t("ui.home"), () => reset("title"), ""))));
   });
-  return () => { ended = true; film?.dispose(); skipShow(); document.body.classList.remove("showing"); endShow(); };
+  return () => { ended = true; quietMusic(false); film?.dispose(); skipShow(); document.body.classList.remove("showing"); endShow(); };
 }

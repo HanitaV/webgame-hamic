@@ -1,0 +1,24 @@
+{
+  "kind": "hall",
+  "width": 18,
+  "depth": 20,
+  "rows": 4,
+  "columns": 6,
+  "seatSpacing": 1.1,
+  "rowSpacing": 1.65,
+  "entry": [
+    0,
+    8.8
+  ],
+  "exhibit": [
+    -0.8,
+    8
+  ],
+  "camera": {
+    "height": 24,
+    "distance": 20,
+    "lookHeight": 0.8
+  },
+  "verified": false,
+  "moveSpeed": 3.5
+}

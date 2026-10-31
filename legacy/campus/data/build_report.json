@@ -2,14 +2,14 @@
   "status": "generated",
   "accuracy": "floors_and_offices_from_hus_directory; positions_and_sizes_estimated",
   "reachability": {
-    "ground_cells": 519792,
+    "ground_cells": 518505,
     "grid_step": 0.5,
     "player_radius": 0.48,
     "upper_floor_cells": {
-      "2": 40141,
-      "3": 40141,
-      "4": 39618,
-      "5": 22913,
+      "2": 40111,
+      "3": 40111,
+      "4": 39588,
+      "5": 22883,
       "6": 7167,
       "7": 7707
     },
@@ -93,13 +93,13 @@
   },
   "named_groups": 89,
   "stairs": 12,
-  "solids": 2423,
+  "solids": 2501,
   "outputs": [
     {
       "path": "assets\\models\\campus_blockout.glb",
-      "bytes": 10685204,
-      "nodes": 1177,
-      "sha256": "1752b884e65894a77f79082b9e47ecd799fd8e0613b02572cd217329cac98141"
+      "bytes": 11025440,
+      "nodes": 1197,
+      "sha256": "592951a98106a3ee0fde1456ec005d4e176efe432b8f6fc81323d3f66772ea7e"
     },
     {
       "path": "assets\\models\\unit_block.glb",

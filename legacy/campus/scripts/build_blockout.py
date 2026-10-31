@@ -514,6 +514,7 @@ class Ctx:
         self.rooms = []
         self.stairs = []
         self.halls = []
+        self.junctions = []
         self.label_groups = []
         self.floor_labels = []
         self.buildings = {b["id"]: b for b in layout["buildings"]}
@@ -673,13 +674,16 @@ def emit_walls(ctx, b, f):
             for piece in subtract_rects(rect_of(s0, s1), sibs):
                 px0, pz0, px1, pz1 = piece
                 ctx.box(merge, px0, y0, pz0, px1, y1, pz1, wall, collide=f"{bid}_F{f}_wall")
-                # Outward probe: a wall shared with another building gets no windows or trim.
-                cx, cz = (px0 + px1) / 2, (pz0 + pz1) / 2
-                probe = (cx, cz + out * 0.9) if axis == "x" else (cx + out * 0.9, cz)
-                shared = any(inside(probe[0], probe[1], r) for r in neigh)
-                if shared:
-                    continue
-                facade_trim(ctx, b, merge, piece, axis, side, f, y0, top_floor)
+                # Trim only exposed spans. A midpoint probe misses partially shared walls
+                # and leaves windows/plinths poking into a neighbouring hall.
+                face = {"+z": z1, "-z": z0, "+x": x1, "-x": x0}[side]
+                blocks = []
+                for r in neigh:
+                    normal0, normal1 = (r[1], r[3]) if axis == "x" else (r[0], r[2])
+                    if normal0 <= face + out * .05 <= normal1:
+                        blocks.append(rect_of(r[0], r[2]) if axis == "x" else rect_of(r[1], r[3]))
+                for exposed in subtract_rects(piece, blocks):
+                    facade_trim(ctx, b, merge, exposed, axis, side, f, y0, top_floor)
         for g0, g1, gh in gaps:
             g0, g1 = max(g0, a0), min(g1, a1)
             if g1 - g0 < 0.3:
@@ -1099,6 +1103,33 @@ def emit_slab(ctx, b, f, merge):
                 shade(ctx.palette[b["wall"]], 0.8), shape="box")
 
 
+def emit_hall_junctions(ctx):
+    """Finish shared doors as one continuous floor, rather than two facade holes."""
+    buildings = [b for b in ctx.layout["buildings"] if b.get("access") == "open"]
+    for i, b in enumerate(buildings):
+        a = ctx.footprints[b["id"]]
+        for q in buildings[i + 1:]:
+            c = ctx.footprints[q["id"]]
+            candidates = []
+            if abs(a[2] - c[0]) < .02: candidates.append(("+x", "-x", "x", a[2]))
+            if abs(c[2] - a[0]) < .02: candidates.append(("-x", "+x", "x", a[0]))
+            if abs(a[3] - c[1]) < .02: candidates.append(("+z", "-z", "z", a[3]))
+            if abs(c[3] - a[1]) < .02: candidates.append(("-z", "+z", "z", a[1]))
+            for side, opposite, axis, seam in candidates:
+                for f in range(1, min(b["floors"], q["floors"]) + 1):
+                    for lo, hi, _ in gaps_for(b, side, f):
+                        for qlo, qhi, _ in gaps_for(q, opposite, f):
+                            low, high = max(lo, qlo), min(hi, qhi)
+                            if high - low < ctx.CW * .75: continue
+                            # Both slabs stop at their own inside wall edge. Fill that
+                            # exact missing strip, with no threshold step or facade mat.
+                            r = [seam - ctx.WT, low, seam + ctx.WT, high] if axis == "x" else [low, seam - ctx.WT, high, seam + ctx.WT]
+                            y = floor_y(ctx, f)
+                            ctx.box(ctx.key(b["id"], f), r[0], y + .02, r[1], r[2], y + .08, r[3], FLOOR_HALL, shape="box")
+                            if f == 1:
+                                ctx.junctions.append({"id": b["id"] + "__" + q["id"], "buildings": [b["id"], q["id"]], "groups": [b["group"], q["group"]], "axis": axis, "rect": r, "center": [(r[0]+r[2])/2, (r[1]+r[3])/2]})
+
+
 def emit_roof(ctx, b):
     pal = ctx.palette
     x0, z0, x1, z1 = ctx.footprints[b["id"]]
@@ -1129,23 +1160,189 @@ def emit_roof(ctx, b):
 
 
 def emit_hall_program(ctx, b):
-    """Single open room (the canteen): floor, counter, tables."""
-    merge = ctx.key(b["id"], 1)
-    I = interior(ctx, b)
-    ctx.box(merge, I[0], 0.02, I[1], I[2], 0.08, I[3], FLOOR_HALL, shape="box")
-    cx, cz = (I[0] + I[2]) / 2, (I[1] + I[3]) / 2
-    if (I[2] - I[0]) >= (I[3] - I[1]):
-        ctx.box(merge, cx - 2.2, 0.08, I[1] + 0.6, cx + 2.2, 1.1, I[1] + 1.6, COUNTER)
-    else:
-        ctx.box(merge, I[0] + 0.6, 0.08, cz - 2.2, I[0] + 1.6, 1.1, cz + 2.2, COUNTER)
-    x = I[0] + 3.4
-    while x < I[2] - 1.2:
-        z = I[1] + 2.0
-        while z < I[3] - 1.2:
-            if abs(z - cz) > 3.0:
-                ctx.box(merge, x - 0.7, 0.08, z - 0.45, x + 0.7, 0.8, z + 0.45, TABLE)
-            z += 3.2
-        x += 3.4
+    """Detailed single-hall interior for HUS Canteen: counters, POS, chillers, dining sets, and colliders.
+
+    Interior meshes are clipped at y = 1.5 in web/src/scene/interiors.ts, so all interior fixtures
+    and their collision envelopes stay within y = 0.08 .. 1.48.
+    """
+    bid = b["id"]
+    merge = ctx.key(bid, 1)
+    x0, z0, x1, z1 = interior(ctx, b)
+    openings = [o for o in b.get("openings", []) if 1 in o.get("floors", [1])]
+    door_z = openings[0]["at"] if openings else (z0 + z1) / 2
+    door_half = (openings[0]["width"] / 2) if openings else 2.34
+
+    def add_solid(kind, sx0, sy0, sz0, sx1, sy1, sz1):
+        box = aabb(f"{bid}_F1_{kind}_{len(ctx.solids)}", sx0, sy0, sz0, sx1, sy1, sz1)
+        box["kind"] = kind
+        ctx.solids.append(box)
+
+    # 1. Tiled floor, grout grid, central lobby runner, welcome mat, and wooden wall wainscoting.
+    ctx.box(merge, x0, 0.02, z0, x1, 0.08, z1, FLOOR_HALL, shape="box")
+    gx = x0 + 2.0
+    while gx < x1 - 0.4:
+        ctx.box(merge, gx - 0.02, 0.081, z0 + 0.15, gx + 0.02, 0.088, z1 - 0.15, FLOOR_LOBBY)
+        gx += 2.0
+    gz = z0 + 2.0
+    while gz < z1 - 0.4:
+        ctx.box(merge, x0 + 0.15, 0.081, gz - 0.02, x1 - 0.15, 0.088, gz + 0.02, FLOOR_LOBBY)
+        gz += 2.0
+    # Highlight main customer flow from +x doorway to cashier and service aisle.
+    ctx.box(merge, x0 + 4.15, 0.05, door_z - 2.35, x1 - 0.05, 0.09, door_z + 2.35, FLOOR_LOBBY, shape="box")
+    ctx.box(merge, x0 + 4.35, 0.05, z0 + 1.65, x0 + 6.45, 0.089, z1 - 1.65, FLOOR_LOBBY, shape="box")
+    ctx.box(merge, x1 - 1.75, 0.055, door_z - 2.05, x1 - 0.06, 0.096, door_z + 2.05, STAIR_MARK, shape="box")
+
+    # Interior perimeter dado / wainscoting (y = 0.08 .. 0.90), skipping the +x entrance gap.
+    ctx.box(merge, x0 + 0.01, 0.08, z0 + 0.05, x0 + 0.08, 0.86, z1 - 0.05, COUNTER)
+    ctx.box(merge, x0 + 0.01, 0.86, z0 + 0.05, x0 + 0.10, 0.92, z1 - 0.05, DESK)
+    ctx.box(merge, x0 + 0.05, 0.08, z0 + 0.01, x1 - 0.05, 0.86, z0 + 0.08, COUNTER)
+    ctx.box(merge, x0 + 0.05, 0.86, z0 + 0.01, x1 - 0.05, 0.92, z0 + 0.10, DESK)
+    ctx.box(merge, x0 + 0.05, 0.08, z1 - 0.08, x1 - 0.05, 0.86, z1 - 0.01, COUNTER)
+    ctx.box(merge, x0 + 0.05, 0.86, z1 - 0.10, x1 - 0.05, 0.92, z1 - 0.01, DESK)
+    for seg_z0, seg_z1 in ((z0 + 0.05, door_z - door_half - 0.12), (door_z + door_half + 0.12, z1 - 0.05)):
+        if seg_z1 > seg_z0 + 0.2:
+            ctx.box(merge, x1 - 0.08, 0.08, seg_z0, x1 - 0.01, 0.86, seg_z1, COUNTER)
+            ctx.box(merge, x1 - 0.10, 0.86, seg_z0, x1 - 0.01, 0.92, seg_z1, DESK)
+
+    # 2. North-West Hot Food & Rice Serving Line (z = z0 + 5.46 .. door_z - 3.60).
+    hot_z0, hot_z1 = z0 + 5.46, door_z - 3.60
+    # Back kitchen prep bench, stockpots, exhaust hood trim, and wall menu boards.
+    ctx.box(merge, x0 + 0.08, 0.08, hot_z0, x0 + 1.28, 0.88, hot_z1, CABINET)
+    ctx.box(merge, x0 + 0.06, 0.88, hot_z0, x0 + 1.32, 0.95, hot_z1, BENCH_LAB)
+    ctx.box(merge, x0 + 0.08, 1.24, hot_z0 + 0.4, x0 + 1.18, 1.46, hot_z1 - 0.4, HOOD)
+    for pz in (hot_z0 + 2.4, (hot_z0 + hot_z1) / 2, hot_z1 - 2.4):
+        ctx.box(merge, x0 + 0.42, 0.95, pz - 0.45, x0 + 1.02, 1.22, pz + 0.45, MONITOR)
+        ctx.box(merge, x0 + 0.38, 1.22, pz - 0.48, x0 + 1.06, 1.26, pz + 0.48, "#C9CCC6")
+    for mb_z in (hot_z0 + 3.2, (hot_z0 + hot_z1) / 2, hot_z1 - 3.2):
+        ctx.box(merge, x0 + 0.09, 1.00, mb_z - 1.55, x0 + 0.19, 1.45, mb_z + 1.55, BOARD)
+        ctx.box(merge, x0 + 0.19, 1.33, mb_z - 1.35, x0 + 0.22, 1.40, mb_z + 1.35, STAIR_MARK)
+        ctx.box(merge, x0 + 0.19, 1.12, mb_z - 1.35, x0 + 0.22, 1.25, mb_z + 1.35, PORCELAIN)
+    # Front serving counter, closed side wings, stainless tray rail, bain-marie pans & glass sneeze guard.
+    ctx.box(merge, x0 + 2.55, 0.08, hot_z0, x0 + 3.85, 0.88, hot_z1, COUNTER)
+    ctx.box(merge, x0 + 2.50, 0.88, hot_z0 - 0.04, x0 + 3.92, 0.96, hot_z1 + 0.04, BENCH_LAB)
+    for wing_z0, wing_z1 in ((hot_z0, hot_z0 + 0.72), (hot_z1 - 0.72, hot_z1)):
+        ctx.box(merge, x0 + 1.28, 0.08, wing_z0, x0 + 2.55, 0.88, wing_z1, COUNTER)
+        ctx.box(merge, x0 + 1.28, 0.88, wing_z0, x0 + 2.55, 0.96, wing_z1, BENCH_LAB)
+    ctx.box(merge, x0 + 3.92, 0.76, hot_z0 + 0.25, x0 + 4.24, 0.82, hot_z1 - 0.25, "#C9CCC6")
+    dish_colors = ("#E7B54A", "#A4473C", "#6E955D", "#D9C3A0", "#C48A5A", "#FBFBF7")
+    pan_span = (hot_z1 - hot_z0 - 2.0) / len(dish_colors)
+    for idx, dish_col in enumerate(dish_colors):
+        pz0 = hot_z0 + 1.0 + idx * pan_span + 0.12
+        pz1 = hot_z0 + 1.0 + (idx + 1) * pan_span - 0.12
+        ctx.box(merge, x0 + 2.72, 0.96, pz0, x0 + 3.68, 1.02, pz1, HOOD)
+        ctx.box(merge, x0 + 2.80, 1.02, pz0 + 0.08, x0 + 3.60, 1.06, pz1 - 0.08, dish_col)
+    ctx.box(merge, x0 + 3.74, 0.96, hot_z0 + 0.8, x0 + 3.82, 1.38, hot_z1 - 0.8, GLASS)
+    ctx.box(merge, x0 + 2.85, 1.38, hot_z0 + 0.8, x0 + 3.84, 1.43, hot_z1 - 0.8, "#C9CCC6")
+    for post_z in (hot_z0 + 0.85, (hot_z0 + hot_z1) / 2, hot_z1 - 0.85):
+        ctx.box(merge, x0 + 3.70, 0.96, post_z - 0.05, x0 + 3.82, 1.40, post_z + 0.05, "#C9CCC6")
+    add_solid("counter", x0, 0, hot_z0 - 0.05, x0 + 4.25, 1.43, hot_z1 + 0.05)
+
+    # 3. Central Cashier / POS Station (opposite the +x entrance).
+    pos_z0, pos_z1 = door_z - 1.55, door_z + 1.55
+    ctx.box(merge, x0 + 0.08, 1.00, pos_z0 + 0.15, x0 + 0.20, 1.45, pos_z1 - 0.15, BOARD)
+    ctx.box(merge, x0 + 0.20, 1.18, pos_z0 + 0.35, x0 + 0.23, 1.32, pos_z1 - 0.35, LAMP_BULB)
+    ctx.box(merge, x0 + 2.35, 0.08, pos_z0, x0 + 3.92, 0.90, pos_z1, COUNTER)
+    ctx.box(merge, x0 + 2.28, 0.90, pos_z0 - 0.04, x0 + 3.98, 0.98, pos_z1 + 0.04, DESK)
+    for wing_z0, wing_z1 in ((pos_z0, pos_z0 + 0.58), (pos_z1 - 0.58, pos_z1)):
+        ctx.box(merge, x0 + 0.10, 0.08, wing_z0, x0 + 2.35, 0.90, wing_z1, COUNTER)
+        ctx.box(merge, x0 + 0.10, 0.90, wing_z0, x0 + 2.35, 0.98, wing_z1, DESK)
+    for mz in (door_z - 0.68, door_z + 0.68):
+        ctx.box(merge, x0 + 3.05, 0.98, mz - 0.08, x0 + 3.22, 1.14, mz + 0.08, MONITOR)
+        ctx.box(merge, x0 + 3.00, 1.12, mz - 0.34, x0 + 3.16, 1.38, mz + 0.34, MONITOR)
+        ctx.box(merge, x0 + 3.16, 1.15, mz - 0.28, x0 + 3.19, 1.34, mz + 0.28, LED)
+        ctx.box(merge, x0 + 3.38, 0.98, mz - 0.18, x0 + 3.66, 1.12, mz + 0.18, PORCELAIN)
+    ctx.box(merge, x0 + 1.45, 0.08, door_z - 0.32, x0 + 2.00, 0.52, door_z + 0.32, CHAIR)
+    add_solid("counter", x0, 0, pos_z0 - 0.05, x0 + 4.00, 1.40, pos_z1 + 0.05)
+
+    # 4. South-West Beverage, Iced Tea & Chiller Zone (z = door_z + 4.30 .. z1 - 7.40).
+    bev_z0, bev_z1 = door_z + 4.30, z1 - 7.40
+    for fz in (bev_z0 + 2.1, (bev_z0 + bev_z1) / 2, bev_z1 - 2.1):
+        ctx.box(merge, x0 + 0.08, 0.08, fz - 1.15, x0 + 1.16, 1.46, fz + 1.15, RACK)
+        ctx.box(merge, x0 + 1.16, 0.18, fz - 1.02, x0 + 1.22, 1.36, fz + 1.02, GLASS)
+        ctx.box(merge, x0 + 1.14, 1.37, fz - 1.02, x0 + 1.22, 1.43, fz + 1.02, LED)
+        for sy, scol in ((0.38, "#A4473C"), (0.72, "#4FC3F7"), (1.06, "#E7B54A")):
+            ctx.box(merge, x0 + 0.35, sy, fz - 0.90, x0 + 1.05, sy + 0.20, fz + 0.90, scol)
+    add_solid("fridge", x0, 0, bev_z0 + 0.85, x0 + 1.26, 1.46, bev_z1 - 0.85)
+    # Front drink & snack bar with glass pastry case, trà đá dispensers, and stacked cups.
+    ctx.box(merge, x0 + 2.45, 0.08, bev_z0, x0 + 3.75, 0.88, bev_z1, COUNTER)
+    ctx.box(merge, x0 + 2.40, 0.88, bev_z0 - 0.04, x0 + 3.82, 0.96, bev_z1 + 0.04, BENCH_LAB)
+    for wing_z0, wing_z1 in ((bev_z0, bev_z0 + 0.68), (bev_z1 - 0.68, bev_z1)):
+        ctx.box(merge, x0 + 1.18, 0.08, wing_z0, x0 + 2.45, 0.88, wing_z1, COUNTER)
+        ctx.box(merge, x0 + 1.18, 0.88, wing_z0, x0 + 2.45, 0.96, wing_z1, BENCH_LAB)
+    # Glass pastry display case on north half of beverage bar
+    ctx.box(merge, x0 + 2.62, 0.96, bev_z0 + 1.1, x0 + 3.68, 1.08, bev_z0 + 4.3, CASE)
+    ctx.box(merge, x0 + 2.66, 1.08, bev_z0 + 1.15, x0 + 3.64, 1.38, bev_z0 + 4.25, GLASS)
+    ctx.box(merge, x0 + 2.80, 1.10, bev_z0 + 1.4, x0 + 3.50, 1.20, bev_z0 + 4.0, "#E7B54A")
+    # Twin stainless iced-tea urns & cup stacks on south half
+    for uz in (bev_z1 - 3.6, bev_z1 - 2.3):
+        ctx.box(merge, x0 + 2.82, 0.96, uz - 0.32, x0 + 3.46, 1.40, uz + 0.32, "#C9CCC6")
+        ctx.box(merge, x0 + 2.78, 1.40, uz - 0.35, x0 + 3.50, 1.45, uz + 0.35, MONITOR)
+        ctx.box(merge, x0 + 3.46, 1.06, uz - 0.06, x0 + 3.56, 1.14, uz + 0.06, LED)
+    for cz in (bev_z1 - 1.35, bev_z1 - 0.95):
+        ctx.box(merge, x0 + 2.95, 0.96, cz - 0.14, x0 + 3.35, 1.22, cz + 0.14, PORCELAIN)
+    add_solid("counter", x0, 0, bev_z0 - 0.05, x0 + 3.85, 1.45, bev_z1 + 0.05)
+
+    # 5. North-West Tray Return Rack & Sorting Bins, and South-West Double Handwash Sink.
+    ctx.box(merge, x0 + 0.30, 0.08, z0 + 0.12, x0 + 2.75, 1.38, z0 + 1.42, CABINET)
+    for sy in (0.45, 0.82, 1.18):
+        ctx.box(merge, x0 + 0.36, sy, z0 + 0.18, x0 + 2.68, sy + 0.06, z0 + 1.38, BENCH_LAB)
+        ctx.box(merge, x0 + 0.55, sy + 0.06, z0 + 0.30, x0 + 2.45, sy + 0.12, z0 + 1.25, STAIR_MARK)
+    ctx.box(merge, x0 + 2.90, 0.08, z0 + 0.18, x0 + 3.48, 0.86, z0 + 1.36, CHAIR)
+    ctx.box(merge, x0 + 2.88, 0.86, z0 + 0.16, x0 + 3.50, 0.93, z0 + 1.38, "#6E955D")
+    ctx.box(merge, x0 + 3.58, 0.08, z0 + 0.18, x0 + 4.16, 0.86, z0 + 1.36, MONITOR)
+    ctx.box(merge, x0 + 3.56, 0.86, z0 + 0.16, x0 + 4.18, 0.93, z0 + 1.38, LED)
+    add_solid("rack", x0 + 0.25, 0, z0 + 0.08, x0 + 4.22, 1.40, z0 + 1.50)
+
+    ctx.box(merge, x0 + 0.30, 0.08, z1 - 1.42, x0 + 3.90, 0.78, z1 - 0.12, CABINET)
+    ctx.box(merge, x0 + 0.26, 0.78, z1 - 1.46, x0 + 3.94, 0.90, z1 - 0.10, PORCELAIN)
+    for sx in (x0 + 1.25, x0 + 2.95):
+        ctx.box(merge, sx - 0.55, 0.90, z1 - 1.28, sx + 0.55, 0.96, z1 - 0.30, BENCH_LAB)
+        ctx.box(merge, sx - 0.06, 0.90, z1 - 0.32, sx + 0.06, 1.10, z1 - 0.18, "#C9CCC6")
+    ctx.box(merge, x0 + 0.55, 1.00, z1 - 0.16, x0 + 3.65, 1.46, z1 - 0.09, WINDOW_FRAME)
+    ctx.box(merge, x0 + 0.65, 1.05, z1 - 0.19, x0 + 3.55, 1.42, z1 - 0.15, MIRROR)
+    add_solid("sink", x0 + 0.24, 0, z1 - 1.50, x0 + 3.98, 1.42, z1 - 0.08)
+
+    # Corner condiment / utensil consoles on North-East and South-East corners.
+    for cz0, cz1 in ((z0 + 0.14, z0 + 1.24), (z1 - 1.24, z1 - 0.14)):
+        ctx.box(merge, x1 - 1.45, 0.08, cz0, x1 - 0.14, 0.86, cz1, CABINET)
+        ctx.box(merge, x1 - 1.48, 0.86, cz0 - 0.02, x1 - 0.12, 0.93, cz1 + 0.02, DESK)
+        ctx.box(merge, x1 - 1.20, 0.93, (cz0 + cz1) / 2 - 0.25, x1 - 0.40, 1.12, (cz0 + cz1) / 2 + 0.25, PORCELAIN)
+        add_solid("cabinet", x1 - 1.50, 0, cz0 - 0.04, x1 - 0.10, 1.15, cz1 + 0.04)
+
+    # 6. Student Dining Area: 2 columns x (4 North rows + 4 South rows) = 16 tables, 64 chairs.
+    table_cols = (x0 + 8.00, x0 + 12.40)
+    north_rows = (z0 + 3.31, z0 + 8.11, z0 + 12.91, z0 + 17.71)
+    south_rows = (z1 - 17.62, z1 - 12.82, z1 - 8.02, z1 - 3.22)
+    for r_idx, tz in enumerate(north_rows + south_rows):
+        for c_idx, tx in enumerate(table_cols):
+            # Dining table (2.20 x 1.06) with wood top, apron, 4 metal legs, and tabletop props.
+            ctx.box(merge, tx - 1.06, 0.68, tz - 0.49, tx + 1.06, 0.74, tz + 0.49, DESK)
+            ctx.box(merge, tx - 1.10, 0.74, tz - 0.53, tx + 1.10, 0.82, tz + 0.53, TABLE)
+            for lx in (tx - 0.94, tx + 0.94):
+                for lz in (tz - 0.39, tz + 0.39):
+                    ctx.box(merge, lx - 0.06, 0.08, lz - 0.06, lx + 0.06, 0.74, lz + 0.06, MONITOR)
+            # Condiment caddy on every table; iced-tea tray on alternating tables.
+            ctx.box(merge, tx - 0.82, 0.82, tz - 0.14, tx - 0.54, 0.94, tz + 0.14, CABINET)
+            ctx.box(merge, tx - 0.78, 0.94, tz - 0.08, tx - 0.68, 1.01, tz + 0.08, BOOKS)
+            if (r_idx + c_idx) % 2 == 0:
+                ctx.box(merge, tx + 0.25, 0.82, tz - 0.22, tx + 0.78, 0.86, tz + 0.22, STAIR_MARK)
+                ctx.box(merge, tx + 0.36, 0.86, tz - 0.12, tx + 0.50, 0.99, tz + 0.02, GLASS)
+                ctx.box(merge, tx + 0.56, 0.86, tz - 0.02, tx + 0.70, 0.99, tz + 0.12, GLASS)
+            add_solid("table", tx - 1.10, 0, tz - 0.55, tx + 1.10, 0.98, tz + 0.55)
+
+            # 4 chairs per table (2 on -z side, 2 on +z side), flush against the table collider.
+            for cx in (tx - 0.58, tx + 0.58):
+                for side_dir in (-1, 1):
+                    cz = tz + side_dir * 0.90
+                    ctx.box(merge, cx - 0.31, 0.43, cz - 0.30, cx + 0.31, 0.50, cz + 0.30, CHAIR)
+                    back_z0 = cz - 0.31 if side_dir < 0 else cz + 0.21
+                    back_z1 = cz - 0.21 if side_dir < 0 else cz + 0.31
+                    ctx.box(merge, cx - 0.31, 0.50, back_z0, cx + 0.31, 0.96, back_z1, CHAIR)
+                    for clx in (cx - 0.24, cx + 0.24):
+                        for clz in (cz - 0.22, cz + 0.22):
+                            ctx.box(merge, clx - 0.04, 0.08, clz - 0.04, clx + 0.04, 0.43, clz + 0.04, MONITOR)
+                    col_z0, col_z1 = (tz - 1.22, tz - 0.55) if side_dir < 0 else (tz + 0.55, tz + 1.22)
+                    add_solid("chair", cx - 0.34, 0, col_z0, cx + 0.34, 0.96, col_z1)
 
 
 def open_building(ctx, b, report):
@@ -1522,6 +1719,18 @@ def validate(ctx):
         for z in [z1 + 0.5 + i * 0.5 for i in range(16)]:
             if not grid.hit(ex0 - 0.3, z) and not grid.hit(ex0 + 1.0, z):
                 problems.append(f"open doorway beside T5 at z={z:.1f}")
+    # Canteen hall: entrance foyer and dining aisles reachable; walls, counters and tables block movement.
+    canteen = ctx.buildings.get("HUS_CANTEEN")
+    if canteen:
+        cx0, cz0, cx1, cz1 = ctx.footprints["HUS_CANTEEN"]
+        for px, pz in ((45.5, -167.18), (36.8, -180.0), (36.8, -154.0), (45.9, -180.0), (45.9, -154.0)):
+            if not reach(px, pz):
+                problems.append(f"canteen walkway unreachable at ({px:.1f}, {pz:.1f})")
+        for px, pz in ((cx0 + 0.25, -167.18), (39.2, cz0 + 0.25), (39.2, cz1 - 0.25),
+                       (cx1 - 0.25, -180.0), (cx1 - 0.25, -154.0),
+                       (33.3, -178.0), (33.3, -167.18), (33.0, -157.0), (39.2, -177.8)):
+            if not grid.hit(px, pz):
+                problems.append(f"canteen solid missing at ({px:.2f}, {pz:.2f})")
     # The north face of nhà H still stops a walk from the street.
     hx0, hz0, hx1, hz1 = ctx.footprints["USSH_H"]
     hx = (hx0 + hx1) / 2
@@ -1547,6 +1756,150 @@ def validate(ctx):
 
 
 # ---------------------------------------------------------------- build
+
+def build_room_templates(layout_path):
+    """Larger playable room maps; campus footprints and corridor portals stay authored in the directory layout.
+
+    Visual furniture and collision envelopes are emitted by the same helpers. Room dimensions,
+    rows, columns and required accessible destinations live in public/data/room-layouts.json.
+    """
+    layout = json.loads(layout_path.read_text(encoding="utf-8"))
+    source = ROOT.parents[1] / "web/public/data/room-layouts.json"
+    specs = json.loads(source.read_text(encoding="utf-8"))
+    templates = {}
+    folder = ROOT / "assets/models/rooms"
+    folder.mkdir(parents=True, exist_ok=True)
+    for kind, spec in specs["rooms"].items():
+        ctx = Ctx(layout)
+        width, depth = spec["width"], spec["depth"]
+        w, d = width / 2, depth / 2
+        merge = ("room_" + kind, {"kind": "room", "group": kind, "floor": 1})
+        furniture = []
+
+        def part(x, z, sx, sz, low, high, color, collider=None):
+            ctx.box(merge, x - sx / 2, low, z - sz / 2, x + sx / 2, high, z + sz / 2, color)
+            if collider:
+                box = aabb(f"{kind}_{collider}_{len(ctx.solids)}", x - sx / 2, low, z - sz / 2,
+                           x + sx / 2, high, z + sz / 2)
+                box["kind"] = collider
+                ctx.solids.append(box)
+                if collider != "wall":
+                    furniture.append(box)
+
+        def chair(x, z):
+            part(x, z, .9, .9, .42, .53, CHAIR)
+            part(x, z + .38, .9, .13, .5, 1.1, CHAIR)
+            for dx in (-.32, .32):
+                for dz in (-.32, .32):
+                    part(x + dx, z + dz, .09, .09, .05, .42, MONITOR)
+            # Full footprint: players cannot walk beneath the seat or between its legs.
+            box = aabb(f"{kind}_chair_{len(ctx.solids)}", x - .45, 0, z - .45, x + .45, 1.1, z + .45)
+            box["kind"] = "chair";ctx.solids.append(box);furniture.append(box)
+
+        def desk(x, z, computer=False, sx=2.4):
+            part(x, z, sx, 1.05, .73, .84, DESK)
+            for dx in (-sx / 2 + .15, sx / 2 - .15):
+                for dz in (-.37, .37):
+                    part(x + dx, z + dz, .12, .12, .05, .73, MONITOR)
+            box = aabb(f"{kind}_desk_{len(ctx.solids)}", x - sx / 2, 0, z - .525, x + sx / 2, 1.4, z + .525)
+            box["kind"] = "desk";ctx.solids.append(box);furniture.append(box)
+            if computer:
+                part(x, z - .2, .12, .12, .84, 1.05, MONITOR)
+                part(x, z - .25, 1.15, .13, 1.0, 1.65, MONITOR)
+                part(x, z - .17, 1.0, .025, 1.08, 1.55, LED)
+                part(x, z + .28, .8, .25, .84, .88, CHAIR)
+                part(x + sx / 2 - .3, z, .35, .65, .1, .7, RACK)
+            else:
+                part(x - .5, z, .45, .55, .84, .87, PORCELAIN)
+                part(x + .45, z, .35, .45, .84, .9, BOOKS)
+            chair(x, z + 1.25)
+
+        # Floor, repeated tile joints, three continuous walls and a wide entrance gap.
+        part(0, 0, width, depth, -.12, .03, TYPE_FLOOR[kind])
+        for x in range(-int(w) + 2, int(w), 2):
+            part(x, 0, .035, depth - .1, .031, .063, FLOOR_LOBBY)
+        for z in range(-int(d) + 2, int(d), 2):
+            part(0, z, width - .1, .035, .031, .063, FLOOR_LOBBY)
+        part(-w, 0, .3, depth, 0, 3.5, layout["palette"]["wall_cream"], "wall")
+        part(w, 0, .3, depth, 0, 3.5, layout["palette"]["wall_cream"], "wall")
+        part(0, -d, width, .3, 0, 3.5, layout["palette"]["wall_cream"], "wall")
+        door = specs["doorWidth"]
+        for side in (-1, 1):
+            span = w - door / 2
+            part(side * (w + door / 2) / 2, d, span, .3, 0, 3.5, layout["palette"]["wall_cream"], "wall")
+        part(0, d - .7, door, .8, .04, .08, STAIR_MARK)
+        for x in (-w + .2, w - .2):
+            for z in (-d * .55, 0, d * .55):
+                part(x, z, .08, 2.3, .9, 2.5, WINDOW_IN)
+
+        if kind in ("classroom", "lecture", "server", "office"):
+            computer = kind in ("server", "office")
+            for x in spec["columns"]:
+                for z in spec["rows"]:
+                    desk(x, z, computer)
+            if kind in ("classroom", "lecture"):
+                part(0, -d + .25, width * .55, .13, .85, 2.8, BOARD)
+                desk(-5, -d + 3)
+                part(5, -d + 1, 4, 1.1, 0, 1.4, CABINET, "cabinet")
+            elif kind == "server":
+                for x in (-8, -4, 4, 8):
+                    part(x, -d + 2, 2.4, 1.2, 0, 2.4, RACK, "rack")
+                    for y in (.4, .7, 1.0, 1.3):
+                        part(x, -d + 2.62, 1.9, .06, y, y + .06, LED)
+            else:
+                part(-w + .7, -d + 2, 1, 3, 0, 1.4, CABINET, "cabinet")
+                part(w - .7, -d + 2, 1, 3, 0, 1.4, CABINET, "cabinet")
+        elif kind == "lab":
+            for x in spec["columns"]:
+                for z in spec["rows"]:
+                    part(x, z, 5, 1.7, 0, .9, CABINET, "lab-bench")
+                    part(x, z, 5, 1.7, .9, 1, BENCH_LAB)
+                    for dx in (-1.3, 1.3):
+                        part(x + dx, z, .5, .6, 1, 1.1, MONITOR)
+                        part(x + dx, z - .15, .16, .16, 1.1, 1.4, GLASS)
+                        chair(x + dx, z + 1.7)
+            part(-6, -d + 2, 6, 1.6, 0, 1.4, HOOD, "equipment")
+            part(6, -d + 2, 6, 1.6, 0, 1.1, CABINET, "cabinet")
+            part(6, -d + 2, 1.2, .9, 1.1, 1.15, MONITOR)
+        elif kind == "meeting":
+            part(0, 0, 5.5, 11, 0, .82, TABLE, "table")
+            for z in (-4, -1.4, 1.4, 4):
+                chair(-3.6, z);chair(3.6, z)
+            part(0, -d + .3, 8, .15, .8, 2.8, BOARD)
+        elif kind == "library":
+            for x in spec["columns"]:
+                for z in (-5, 1):
+                    part(x, z, 1.1, 4, 0, 2.2, SHELF, "shelf")
+                    for y in (.4, .85, 1.3):
+                        part(x + .57, z, .08, 3.6, y, y + .28, BOOKS)
+            desk(-5, 7);desk(5, 7)
+        elif kind == "lounge":
+            part(-6, -2, 2, 7, 0, .9, SOFA, "sofa")
+            part(6, -2, 2, 7, 0, .9, SOFA, "sofa")
+            part(-3.5, -2, 1.5, 3, 0, .5, TABLE, "table")
+            part(3.5, -2, 1.5, 3, 0, .5, TABLE, "table")
+        elif kind == "exhibit":
+            for x in (-6, 6):
+                for z in (-6, 0, 6):
+                    part(x, z, 3, 2, 0, 1, CASE, "display")
+                    part(x, z, 2.8, 1.8, 1, 1.4, GLASS)
+        elif kind == "wc":
+            for x in (-4, 0, 4):
+                part(x, -d + 2, 2.8, 3.2, 0, 1.4, STALL, "stall")
+            part(-w + 1, 1, 1.3, 4, 0, .9, PORCELAIN, "sink")
+
+        ctx.g.write(folder / (kind + ".glb"))
+        templates[kind] = {
+            "kind": kind, "model": "models/interiors/rooms/" + kind + ".glb",
+            "modelSha256": hashlib.sha256((folder / (kind + ".glb")).read_bytes()).hexdigest(),
+            "width": width + 4, "depth": depth + 4, "sourceCenter": [0, 0],
+            "regions": [[-w, -d, w, d]], "clipRect": [-w, -d, w, d],
+            "entry": [0, d - 2.2], "solids": ctx.solids, "furniture": furniture,
+            "walkPoints": spec["walkPoints"], "camera": specs["camera"], "verified": False,
+        }
+        print("Room template", kind, width, depth, len(furniture), "furniture colliders")
+    (ROOT / "data/room_templates.json").write_text(json.dumps(templates, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
 
 def build(layout_path):
     layout = json.loads(layout_path.read_text(encoding="utf-8"))
@@ -1591,6 +1944,7 @@ def build(layout_path):
             groups.append(b["group"])
     for group in groups:
         group_rooms(ctx, group, room_report)
+    emit_hall_junctions(ctx)
     for link in layout.get("links", []):
         emit_link(ctx, link)
     if layout.get("gatehouse"):
@@ -1645,6 +1999,7 @@ def build(layout_path):
         "lamps": layout.get("lamps", {}).get("positions", []),
         "stairs": ctx.stairs,
         "halls": ctx.halls,
+        "junctions": ctx.junctions,
         "rooms": ctx.rooms,
         "label_groups": ctx.label_groups,
         "floor_labels": ctx.floor_labels,
@@ -1676,10 +2031,15 @@ def build(layout_path):
     (ROOT / "data" / "build_report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
     print(json.dumps({k: v for k, v in report.items() if k != "reachability"} |
                      {"reachability": {k: v for k, v in reach.items() if k != "checks"}}, indent=2, ensure_ascii=False))
+    build_room_templates(layout_path)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--layout", type=Path, default=ROOT / "data/campus.layout.json")
+    parser.add_argument("--rooms-only", action="store_true", help="Rebuild standalone playable room maps only")
     args = parser.parse_args()
-    build(args.layout)
+    if args.rooms_only:
+        build_room_templates(args.layout)
+    else:
+        build(args.layout)

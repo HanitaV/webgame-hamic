@@ -1,8 +1,113 @@
 import * as THREE from "three";
+import { Navigation } from "./navigation";
 import { CampusCrowd } from "./crowd";
-import type { MapData, WalkCharacter } from "../core/data";
+import type { MapBuilding, MapData, WalkCharacter, WalkEasterEgg } from "../core/data";
 import { t } from "../core/i18n";
 
+import type { RoomData, Obstacle, RoomPortal } from "./interiors";
+const ROOM_ORIGIN = 1000;
+let activeBuilding: MapBuilding | null = null;
+let room: RoomData | null = null;
+let roomObstacles: Obstacle[] = [];
+let loadingRoom = false;
+let roomError = false;
+let transitionVersion = 0;
+let loadRoom: (b: MapBuilding, file?: string, isCurrent?: () => boolean) => Promise<{ data: RoomData; obstacles: Obstacle[] }>;
+let returnPosition: THREE.Vector3 | null = null;
+let activeRoom: RoomPortal | null = null;
+let corridorPosition: THREE.Vector3 | null = null;
+let corridorRoom: RoomData | null = null;
+let corridorNavigation: Navigation | null = null;
+export function roomState() {
+  const x=pos&&room?.sourceCenter ? pos.x-ROOM_ORIGIN+room.sourceCenter[0] : 0;
+  const z=pos&&room?.sourceCenter ? pos.z+room.sourceCenter[1] : 0;
+  const section=room?.buildingRegions?.find(({rect:r})=>x>=r[0]&&x<=r[2]&&z>=r[1]&&z<=r[3]);
+  return { building: activeBuilding, room, activeRoom, section, loading: loadingRoom, error: roomError };
+}
+function installIndoor(loaded: {data: RoomData; obstacles: Obstacle[]}) {
+  room=loaded.data; roomObstacles=loaded.obstacles;
+  const [cx,cz]=room.sourceCenter!;
+  const clip=room.clipRect;
+  const regions=room.regions?.map(r=>({x0:ROOM_ORIGIN+Math.max(r[0],clip?.[0]??-Infinity)-cx,z0:Math.max(r[1],clip?.[1]??-Infinity)-cz,x1:ROOM_ORIGIN+Math.min(r[2],clip?.[2]??Infinity)-cx,z1:Math.min(r[3],clip?.[3]??Infinity)-cz})).filter(r=>r.x1>r.x0&&r.z1>r.z0);
+  indoorNavigation=new Navigation(roomObstacles.map(o=>({...o,x:o.x+ROOM_ORIGIN})),.48,.5,{x0:ROOM_ORIGIN-room.width/2+.48,x1:ROOM_ORIGIN+room.width/2-.48,z0:-room.depth/2+.48,z1:room.depth/2-.48},regions);
+}
+export function nearbyRoom() {
+  if(!activeBuilding || !room || activeRoom || loadingRoom || !pos)return null;
+  const [cx,cz]=room.sourceCenter!;
+  return room.rooms?.find(r=>Math.hypot(pos!.x-ROOM_ORIGIN-r.approach[0]+cx,pos!.z-r.approach[1]+cz)<2)??null;
+}
+export async function enterRoom(file: string) {
+  const target=nearbyRoom();
+  if(!target || target.type==="office" || target.interiorFile!==file || !activeBuilding)return false;
+  return changeRoom(target);
+}
+async function changeRoom(target: RoomPortal | null) {
+  if(!activeBuilding || loadingRoom || !pos)return false;
+  const b=activeBuilding, previous=pos.clone(),previousRoom=room,previousNavigation=indoorNavigation,version=++transitionVersion;
+  loadingRoom=true;roomError=false;route=[];axis.set(0,0);
+  try{
+    const loaded=await loadRoom(b,target?.interiorFile,()=>version===transitionVersion&&enabled);
+    if(version!==transitionVersion || !enabled)return false;
+    installIndoor(loaded);
+    if(target){corridorPosition=previous;corridorRoom=previousRoom;corridorNavigation=previousNavigation;pos.set(ROOM_ORIGIN+room!.entry[0],0,room!.entry[1]);}
+    else if(corridorPosition){pos.copy(corridorPosition);corridorRoom=null;corridorNavigation=null;}
+    activeRoom=target;player.position.copy(pos);return true;
+  }catch{if(version===transitionVersion)roomError=true;return false;}
+  finally{if(version===transitionVersion)loadingRoom=false;}
+}
+export async function exitRoom() { if(!activeRoom)return false;return changeRoom(null); }
+export function nearbyEntrance() {
+  if (!pos || activeBuilding || loadingRoom) return null;
+  let nearest: MapBuilding | null = null, distance = .8;
+  for (const b of data.buildings) for (const door of b.entrances ?? []) {
+    const d = pos.distanceTo(point(...door.position));
+    if (d < distance) { nearest = { ...b, entrance: door.position, entranceZone: door.zone, entranceTitle: door.title, interiorFile: door.interiorFile??b.interiorFile }; distance = d; }
+  }
+  return nearest;
+}
+export async function enterBuilding(id: string) {
+  const b = nearbyEntrance();
+  if (b?.id !== id) return false;
+  if (!b?.enterable || !b.entrance || !pos || activeBuilding || loadingRoom) return false;
+  if (pos.distanceTo(point(...b.entrance)) > 1.1) return false;
+  loadingRoom = true; roomError = false; route = []; axis.set(0, 0);
+  const version = ++transitionVersion;
+  try {
+    const loaded = await loadRoom(b,undefined,()=>version===transitionVersion&&enabled);
+    if (version !== transitionVersion || !enabled) return false;
+    returnPosition = point(...b.entrance); activeBuilding = b; installIndoor(loaded);
+    pos.set(ROOM_ORIGIN + room!.entry[0], 0, room!.entry[1]); player.position.copy(pos);
+    return true;
+  } catch { if (version === transitionVersion) roomError = true; return false; }
+  finally { if (version === transitionVersion) loadingRoom = false; }
+}
+export function exitBuilding() {
+  transitionVersion++; loadingRoom = false;
+  const destination=activeBuilding ? nearestCampusExit()??returnPosition : null;
+  if (destination && pos) { pos.copy(destination); player.position.copy(pos); }
+  returnPosition=null;
+  activeBuilding = null; activeRoom=null;corridorPosition=null;corridorRoom=null;corridorNavigation=null;roomError=false;room = null; roomObstacles = []; route = []; axis.set(0, 0);
+}
+/** Interior models use their own origin; compare exits in the campus source coordinates. */
+function nearestCampusExit() {
+  const floor=activeRoom ? corridorRoom : room;
+  const location=activeRoom ? corridorPosition : pos;
+  const nav=activeRoom ? corridorNavigation : indoorNavigation;
+  if(!floor?.sourceCenter || !location || !nav)return null;
+  const [cx,cz]=floor.sourceCenter;
+  const mx=location.x-ROOM_ORIGIN+cx,mz=location.z+cz;
+  const doors=(floor.entrances??[]).slice().sort((a,b)=>
+    Math.hypot(a.position[0]-mx,a.position[1]-mz)-Math.hypot(b.position[0]-mx,b.position[1]-mz));
+  for(const door of doors){
+    const outside=point(...door.position);
+    if(!outdoorNavigation?.allowed(outside.x,outside.z))continue;
+    const inward=door.side.startsWith('+')?-2.5:2.5;
+    const inside={x:ROOM_ORIGIN+door.position[0]-cx+(door.side.endsWith('x')?inward:0),z:door.position[1]-cz+(door.side.endsWith('z')?inward:0)};
+    // An exit on the other side of a wall or the outdoor T1/T2 passage is not reachable.
+    if(nav.allowed(inside.x,inside.z) && (nav.clear(location,inside)||nav.path(location,inside).length))return outside;
+  }
+  return null;
+}
 let data: MapData;
 let group: THREE.Group;
 let player: THREE.Group;
@@ -21,8 +126,12 @@ let playerRing: THREE.Mesh;
 let crowd: CampusCrowd;
 let playerOccluded = false;
 const interactionListeners = new Set<(id: string) => void>();
+const eggInteractionListeners = new Set<(id: string) => void>();
 const projected = new THREE.Vector3();
 const lampPosts = new Map<string, { bulb: THREE.Mesh; halo: THREE.Mesh }>();
+const eggActors: THREE.Group[] = [];
+const eggTags: THREE.Sprite[] = [];
+const eggRings: THREE.Mesh[] = [];
 
 type ShirtKit = "hamic" | "hus" | "ussh";
 interface KitTextures {
@@ -70,27 +179,32 @@ function fillPique(g: CanvasRenderingContext2D, w: number, h: number, base: stri
   }
 }
 
-/** Circular HAMIC chest emblem + "HAMIC" wordmark (from docs/assets/hamic_polo_1.jpg). */
+/** Circular HAMIC chest emblem + "HAMIC" wordmark (matching official club logo). */
 function drawHamicChestLogo(g: CanvasRenderingContext2D, cx: number, cy: number, r: number) {
   g.save();
   g.beginPath();
   g.arc(cx, cy, r, 0, Math.PI * 2);
-  g.fillStyle = "#f7f9fd";
+  g.fillStyle = "#e6e9f0";
   g.fill();
 
-  const bits = "010100100001101001011010010110100101";
+  const bytes = ["01001000", "01000001", "01001101", "01001001", "01000011", "01001000", "01000001", "01001101", "01001001", "01000011"];
+  const totalBits = bytes.length * 8;
   g.save();
   g.translate(cx, cy);
-  g.fillStyle = "#de5928";
-  g.font = `700 ${Math.max(6, Math.round(r * 0.15))}px "Be Vietnam Pro", monospace`;
+  g.font = `800 ${Math.max(5, Math.round(r * 0.13))}px "Be Vietnam Pro", monospace`;
   g.textAlign = "center";
   g.textBaseline = "middle";
-  for (let i = 0; i < bits.length; i += 1) {
-    const a = (i / bits.length) * Math.PI * 2 - Math.PI / 2;
-    g.save();
-    g.rotate(a + Math.PI / 2);
-    g.fillText(bits[i], 0, -r * 0.89);
-    g.restore();
+  let bitIdx = 0;
+  for (let b = 0; b < bytes.length; b += 1) {
+    g.fillStyle = b % 2 === 0 ? "#d9821e" : "#c81e2b";
+    for (let k = 0; k < 8; k += 1) {
+      const a = (bitIdx / totalBits) * Math.PI * 2 - Math.PI * 0.42;
+      g.save();
+      g.rotate(a + Math.PI / 2);
+      g.fillText(bytes[b][k], 0, -r * 0.885);
+      g.restore();
+      bitIdx += 1;
+    }
   }
   g.restore();
 
@@ -99,23 +213,31 @@ function drawHamicChestLogo(g: CanvasRenderingContext2D, cx: number, cy: number,
   g.fillStyle = "#f9fbff";
   g.fill();
   g.lineWidth = r * 0.085;
-  g.strokeStyle = "#2960a5";
+  g.strokeStyle = "#1b4588";
   g.stroke();
 
-  g.strokeStyle = "#2960a5";
+  g.strokeStyle = "#1b4588";
   g.lineCap = "round";
-  g.lineWidth = r * 0.145;
+  g.lineWidth = r * 0.16;
   g.beginPath();
-  g.moveTo(cx, cy - r * 0.52);
+  g.moveTo(cx, cy - r * 0.50);
   g.lineTo(cx, cy - r * 0.02);
   g.stroke();
 
+  g.strokeStyle = "#2bb0f6";
+  g.lineWidth = r * 0.035;
+  g.beginPath();
+  g.moveTo(cx + r * 0.045, cy - r * 0.44);
+  g.lineTo(cx + r * 0.045, cy - r * 0.16);
+  g.stroke();
+
+  g.strokeStyle = "#1b4588";
   g.lineWidth = r * 0.115;
   g.beginPath();
-  g.arc(cx, cy - r * 0.05, r * 0.42, -Math.PI * 0.82, -Math.PI * 0.60);
+  g.arc(cx, cy - r * 0.05, r * 0.42, -Math.PI * 0.88, -Math.PI * 0.62);
   g.stroke();
   g.beginPath();
-  g.arc(cx, cy - r * 0.05, r * 0.42, -Math.PI * 0.40, -Math.PI * 0.18);
+  g.arc(cx, cy - r * 0.05, r * 0.42, -Math.PI * 0.38, -Math.PI * 0.12);
   g.stroke();
 
   g.lineWidth = r * 0.11;
@@ -125,15 +247,15 @@ function drawHamicChestLogo(g: CanvasRenderingContext2D, cx: number, cy: number,
 
   g.textAlign = "center";
   g.textBaseline = "middle";
-  g.fillStyle = "#e04839";
-  g.font = `800 ${Math.round(r * 0.36)}px "Be Vietnam Pro", sans-serif`;
-  g.fillText("A", cx - r * 0.39, cy + r * 0.14);
-  g.font = `800 ${Math.round(r * 0.21)}px "Be Vietnam Pro", sans-serif`;
-  g.fillText("+", cx - r * 0.20, cy + r * 0.02);
+  g.fillStyle = "#c81440";
+  g.font = `800 ${Math.round(r * 0.38)}px "Be Vietnam Pro", sans-serif`;
+  g.fillText("A", cx - r * 0.39, cy + r * 0.15);
+  g.font = `800 ${Math.round(r * 0.22)}px "Be Vietnam Pro", sans-serif`;
+  g.fillText("+", cx - r * 0.19, cy + r * 0.02);
 
-  g.fillStyle = "#e79824";
-  g.font = `800 ${Math.round(r * 0.39)}px "Be Vietnam Pro", sans-serif`;
-  g.fillText("$", cx + r * 0.38, cy + r * 0.14);
+  g.fillStyle = "#f59227";
+  g.font = `800 ${Math.round(r * 0.40)}px "Be Vietnam Pro", sans-serif`;
+  g.fillText("$", cx + r * 0.38, cy + r * 0.15);
 
   g.fillStyle = "#f7f9fe";
   g.font = `800 ${Math.round(r * 0.62)}px "Be Vietnam Pro", system-ui, sans-serif`;
@@ -592,7 +714,7 @@ export function student(color: string, role: string, plain = false) {
     sharedCollarGeo = collarGeometry();
   }
   const kit: ShirtKit = role === "player" || role === "chief" ? "hamic" : role === "math" ? "hus" : "ussh";
-  const tex = plain ? {base:color,torso:null,collar:null,leftSleeve:null,rightSleeve:null} : getKitTextures(kit, color);
+  const tex = plain ? { base: color, torso: null, collar: null, leftSleeve: null, rightSleeve: null } : getKitTextures(kit, color);
 
   const g = new THREE.Group();
   const shirtSolid = new THREE.MeshLambertMaterial({ color: plain ? color : tex.base, emissive: plain ? color : tex.base, emissiveIntensity: 0.14 });
@@ -794,11 +916,164 @@ export function student(color: string, role: string, plain = false) {
   return g;
 }
 
-export function initWalking(scene: THREE.Scene, map: MapData, convert: typeof point, label: (text: string) => THREE.Sprite) {
-  data = map; point = convert; group = new THREE.Group(); group.visible = false; scene.add(group);
+/** Dựng mô hình 3D thu nhỏ cho từng Easter Egg trong khuôn viên (giáo trình HUST, Toán cao cấp ĐHQGHN, Cục đá UET, Casio, v.v.). */
+function buildEasterEggProp(egg: WalkEasterEgg): { prop: THREE.Group; ring: THREE.Mesh } {
+  const g = new THREE.Group();
+  const addMesh = (parent: THREE.Object3D, geo: THREE.BufferGeometry, mat: THREE.Material, x = 0, y = 0, z = 0) => {
+    const m = new THREE.Mesh(geo, mat);
+    m.position.set(x, y, z);
+    parent.add(m);
+    return m;
+  };
+  const wood = new THREE.MeshLambertMaterial({ color: "#6e4b2e" });
+  const darkWood = new THREE.MeshLambertMaterial({ color: "#4a321e" });
+  const paper = new THREE.MeshLambertMaterial({ color: "#f6f2e4", emissive: "#ffd25e", emissiveIntensity: 0.12 });
+  const gold = new THREE.MeshBasicMaterial({ color: "#ffd25e" });
+  const slate = new THREE.MeshLambertMaterial({ color: "#1c2338" });
+
+  if (egg.kind === "uet_rock") {
+    // White, irregular monolith and two inset inscriptions, following docs/assets/UET_*.
+    const stone = new THREE.MeshLambertMaterial({ color: "#eeeade", flatShading: true });
+    const outline = new THREE.Shape();
+    outline.moveTo(-.22, 0); outline.lineTo(-.24, .16); outline.lineTo(-.17, .39);
+    outline.lineTo(-.11, .53); outline.lineTo(.03, .51); outline.lineTo(.13, .39);
+    outline.lineTo(.22, .41); outline.lineTo(.25, .25); outline.lineTo(.23, .02); outline.closePath();
+    const geo = new THREE.ExtrudeGeometry(outline, { depth: .25, bevelEnabled: true, bevelThickness: .025, bevelSize: .025, bevelSegments: 1, steps: 1 });
+    addMesh(g, geo, stone, 0, .015, -.13);
+    const plaque = (key: string, width: number, height: number) => {
+      const [c, ctx] = makeCanvas(512, 640); ctx.fillStyle = "#eeeade"; ctx.fillRect(0, 0, 512, 640);
+      ctx.fillStyle = "#154c79"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      const lines = t(key).split("\n");
+      lines.forEach((line, i) => { ctx.font = `${i === 0 ? 600 : 800} ${i === 0 ? 28 : 54}px "Be Vietnam Pro"`; ctx.fillText(line, 256, 100 + i * 118, 470); });
+      return new THREE.Mesh(new THREE.PlaneGeometry(width, height), new THREE.MeshBasicMaterial({ map: toTex(c) }));
+    };
+    const front = plaque("story.prop.uet.name", .28, .31); front.position.set(-.03, .24, .148); g.add(front);
+    const side = plaque("story.prop.uet.motto", .19, .27); side.rotation.y = Math.PI / 2; side.position.set(.255, .23, 0); g.add(side);
+
+  } else {
+    // Bàn/bục gỗ trưng bày nhỏ cho các kỷ vật trong phòng/căng-tin
+    addMesh(g, new THREE.BoxGeometry(0.28, 0.022, 0.20), wood, 0, 0.11, 0);
+    for (const [lx, lz] of [[-0.11, -0.07], [0.11, -0.07], [-0.11, 0.07], [0.11, 0.07]]) {
+      addMesh(g, new THREE.BoxGeometry(0.022, 0.11, 0.022), darkWood, lx, 0.055, lz);
+    }
+    if (egg.kind === "book_red") {
+      // Actual blue cover supplied by the user; no publisher crest is recreated in geometry.
+      const cover = new THREE.MeshLambertMaterial({ color: "#154c79" });
+      const book = new THREE.Group(); book.position.set(0, .30, 0); book.rotation.x = -.14;
+      addMesh(book, new THREE.BoxGeometry(.23, .32, .04), paper);
+      for (const z of [-.023, .023]) addMesh(book, new THREE.BoxGeometry(.245, .335, .006), cover, 0, 0, z);
+      addMesh(book, new THREE.BoxGeometry(.014, .335, .05), cover, -.12);
+      if (egg.texture) {
+        const texture = new THREE.TextureLoader().load(`${import.meta.env.BASE_URL}${egg.texture}`); texture.colorSpace = THREE.SRGBColorSpace;
+        addMesh(book, new THREE.PlaneGeometry(.245, .335), new THREE.MeshBasicMaterial({ map: texture }), 0, 0, .027);
+      }
+      g.add(book);
+    } else if (egg.kind === "book_stack") {
+      // Bộ 3 cuốn Toán cao cấp ĐHQGHN xếp chồng
+      const colors = ["#154c79", "#1e81b0", "#5ad8ff"];
+      colors.forEach((col, idx) => {
+        const bMat = new THREE.MeshLambertMaterial({ color: col, emissive: col, emissiveIntensity: 0.18 });
+        const bk = addMesh(g, new THREE.BoxGeometry(0.14, 0.026, 0.17), bMat, 0, 0.135 + idx * 0.028, 0);
+        bk.rotation.y = (idx - 1) * 0.18;
+      });
+    } else if (egg.kind === "casio") {
+      // Máy tính bỏ túi Casio fx-580VN X màn hình sáng xanh
+      addMesh(g, new THREE.BoxGeometry(0.11, 0.018, 0.17), slate, 0, 0.13, 0);
+      addMesh(g, new THREE.BoxGeometry(0.085, 0.006, 0.045), new THREE.MeshBasicMaterial({ color: "#5ad8ff" }), 0, 0.14, -0.045);
+      addMesh(g, new THREE.BoxGeometry(0.085, 0.004, 0.085), paper, 0, 0.14, 0.03);
+    } else if (egg.kind === "chronicle") {
+      // Kỷ yếu Tổng hợp 1956 mở hai trang + đèn đọc sách vàng
+      addMesh(g, new THREE.BoxGeometry(0.18, 0.014, 0.14), darkWood, 0, 0.128, 0);
+      addMesh(g, new THREE.BoxGeometry(0.082, 0.018, 0.125), paper, -0.044, 0.136, 0);
+      addMesh(g, new THREE.BoxGeometry(0.082, 0.018, 0.125), paper, 0.044, 0.136, 0);
+      addMesh(g, new THREE.SphereGeometry(0.024, 10, 8), gold, 0, 0.21, -0.05);
+    } else if (egg.kind === "iced_tea") {
+      // 2 ly trà đá + tờ nháp bí kíp qua môn
+      const teaMat = new THREE.MeshLambertMaterial({ color: "#f5b041", emissive: "#ffd25e", emissiveIntensity: 0.25 });
+      addMesh(g, new THREE.BoxGeometry(0.13, 0.005, 0.15), paper, -0.02, 0.124, 0.01);
+      addMesh(g, new THREE.CylinderGeometry(0.026, 0.020, 0.065, 12), teaMat, -0.04, 0.155, -0.01);
+      addMesh(g, new THREE.CylinderGeometry(0.026, 0.020, 0.065, 12), teaMat, 0.045, 0.155, 0.02);
+    } else if (egg.kind === "prism") {
+      const glass = new THREE.MeshLambertMaterial({ color: "#b8ebff", emissive: "#5ad8ff", emissiveIntensity: 0.32 });
+      const pr = addMesh(g, new THREE.CylinderGeometry(0.055, 0.055, 0.13, 3), glass, -0.02, 0.155, 0);
+      pr.rotation.z = Math.PI / 2;
+      ["#ff7b7b", "#ffd25e", "#5eeaa0", "#5ad8ff"].forEach((col, idx) => {
+        addMesh(g, new THREE.BoxGeometry(0.075, 0.006, 0.012), new THREE.MeshBasicMaterial({ color: col }), 0.07, 0.132 + idx * 0.008, -0.024 + idx * 0.016);
+      });
+    } else if (egg.kind === "logbook") {
+      const navy = new THREE.MeshLambertMaterial({ color: "#1a3b6e" });
+      addMesh(g, new THREE.BoxGeometry(0.19, 0.016, 0.145), navy, 0, 0.129, 0);
+      addMesh(g, new THREE.BoxGeometry(0.086, 0.016, 0.13), paper, -0.045, 0.139, 0);
+      addMesh(g, new THREE.BoxGeometry(0.086, 0.016, 0.13), paper, 0.045, 0.139, 0);
+      addMesh(g, new THREE.BoxGeometry(0.012, 0.008, 0.15), gold, 0, 0.146, 0.01);
+      addMesh(g, new THREE.CylinderGeometry(0.008, 0.008, 0.11, 8), gold, 0.08, 0.145, -0.03);
+    } else if (egg.kind === "duck") {
+      const duckYellow = new THREE.MeshLambertMaterial({ color: "#ffd25e", emissive: "#ffd25e", emissiveIntensity: 0.25 });
+      const beakMat = new THREE.MeshLambertMaterial({ color: "#ff7b54", emissive: "#ff7b54", emissiveIntensity: 0.2 });
+      const body = addMesh(g, new THREE.SphereGeometry(0.056, 12, 10), duckYellow, 0, 0.152, 0);
+      body.scale.set(1.2, 0.86, 0.95);
+      addMesh(g, new THREE.SphereGeometry(0.038, 12, 10), duckYellow, 0.045, 0.198, 0);
+      const beak = addMesh(g, new THREE.BoxGeometry(0.034, 0.012, 0.026), beakMat, 0.082, 0.192, 0);
+      beak.rotation.z = -0.08;
+    } else if (egg.kind === "chalk_board") {
+      const boardGreen = new THREE.MeshLambertMaterial({ color: "#1d4d3e", emissive: "#5eeaa0", emissiveIntensity: 0.1 });
+      const brd = addMesh(g, new THREE.BoxGeometry(0.20, 0.13, 0.014), boardGreen, 0, 0.19, -0.02);
+      brd.rotation.x = -0.18;
+      ["#eef1fb", "#ffd25e", "#5ad8ff"].forEach((col, idx) => {
+        addMesh(g, new THREE.CylinderGeometry(0.006, 0.006, 0.045, 6), new THREE.MeshBasicMaterial({ color: col }), -0.04 + idx * 0.04, 0.128, 0.045);
+      });
+    } else if (egg.kind === "survey_stack") {
+      addMesh(g, new THREE.BoxGeometry(0.13, 0.038, 0.16), paper, -0.035, 0.14, 0);
+      addMesh(g, new THREE.BoxGeometry(0.11, 0.012, 0.15), darkWood, 0.055, 0.128, 0.01);
+      addMesh(g, new THREE.BoxGeometry(0.095, 0.006, 0.13), paper, 0.055, 0.136, 0.01);
+      addMesh(g, new THREE.BoxGeometry(0.04, 0.008, 0.018), gold, 0.055, 0.14, -0.05);
+    } else if (egg.kind === "cipher_disk") {
+      const brass = new THREE.MeshLambertMaterial({ color: "#d4a23a", emissive: "#ffd25e", emissiveIntensity: 0.2 });
+      addMesh(g, new THREE.CylinderGeometry(0.082, 0.082, 0.014, 24), brass, -0.02, 0.128, 0);
+      addMesh(g, new THREE.CylinderGeometry(0.056, 0.056, 0.018, 24), slate, -0.02, 0.136, 0);
+      addMesh(g, new THREE.CylinderGeometry(0.016, 0.016, 0.024, 12), gold, -0.02, 0.144, 0);
+      addMesh(g, new THREE.BoxGeometry(0.075, 0.014, 0.11), paper, 0.075, 0.128, 0.01);
+    } else if (egg.kind === "old_map") {
+      const parchment = new THREE.MeshLambertMaterial({ color: "#ead9b5", emissive: "#ffd25e", emissiveIntensity: 0.14 });
+      addMesh(g, new THREE.BoxGeometry(0.21, 0.006, 0.15), parchment, 0, 0.125, 0.005);
+      const roll = addMesh(g, new THREE.CylinderGeometry(0.016, 0.016, 0.21, 12), parchment, 0, 0.136, -0.068);
+      roll.rotation.z = Math.PI / 2;
+      addMesh(g, new THREE.SphereGeometry(0.012, 8, 8), gold, -0.04, 0.135, 0.02);
+      addMesh(g, new THREE.SphereGeometry(0.012, 8, 8), new THREE.MeshBasicMaterial({ color: "#5ad8ff" }), 0.05, 0.135, -0.01);
+    } else if (egg.kind === "cat") {
+      // Giáo sư Mèo Vàng nằm cuộn tròn trên bàn đầu Nhà T5
+      const catMat = new THREE.MeshLambertMaterial({ color: "#f4a236", emissive: "#ffd25e", emissiveIntensity: 0.18 });
+      const body = addMesh(g, new THREE.SphereGeometry(0.065, 12, 10), catMat, 0, 0.155, 0);
+      body.scale.set(1.25, 0.78, 1.0);
+      addMesh(g, new THREE.SphereGeometry(0.044, 12, 10), catMat, 0.055, 0.185, 0.01);
+      addMesh(g, new THREE.ConeGeometry(0.016, 0.032, 4), catMat, 0.055, 0.228, -0.015);
+      addMesh(g, new THREE.ConeGeometry(0.016, 0.032, 4), catMat, 0.055, 0.228, 0.035);
+    } else {
+      // Máy chữ cổ & Cuộn phim tư liệu
+      const silver = new THREE.MeshLambertMaterial({ color: "#b8c2db", emissive: "#5ad8ff", emissiveIntensity: 0.15 });
+      const reel = addMesh(g, new THREE.CylinderGeometry(0.055, 0.055, 0.018, 16), silver, -0.05, 0.132, 0);
+      reel.rotation.x = Math.PI / 2;
+      addMesh(g, new THREE.BoxGeometry(0.095, 0.045, 0.085), slate, 0.045, 0.145, 0);
+      addMesh(g, new THREE.BoxGeometry(0.065, 0.055, 0.006), paper, 0.045, 0.185, -0.02);
+    }
+  }
+
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(0.16, 0.195, 24),
+    new THREE.MeshBasicMaterial({ color: egg.color || "#ffd25e", side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.018;
+  g.add(ring);
+  return { prop: g, ring };
+}
+
+export function initWalking(scene: THREE.Scene, map: MapData, convert: typeof point, label: (text: string) => THREE.Sprite, loader: typeof loadRoom) {
+  loadRoom = loader;
+  data = map; point = convert; group = new THREE.Group(); group.name = "walking"; group.visible = false; scene.add(group);
   for (const n of map.walk.nodes) nodes.set(n.id, point(n.x, n.z));
   const pathMat = new THREE.LineBasicMaterial({ color: "#ffd25e", transparent: true, opacity: .35 });
-  for (const [a,b] of map.walk.edges) {
+  for (const [a, b] of map.walk.edges) {
     const geo = new THREE.BufferGeometry().setFromPoints([nodes.get(a)!.clone().setY(.08), nodes.get(b)!.clone().setY(.08)]);
     group.add(new THREE.Line(geo, pathMat));
   }
@@ -806,17 +1081,29 @@ export function initWalking(scene: THREE.Scene, map: MapData, convert: typeof po
   player = student("#ffd25e", "player"); player.scale.setScalar(scale); group.add(player);
   legs.push(player.userData.legs); arms.push(player.userData.arms);
   playerRing = new THREE.Mesh(new THREE.RingGeometry(.10, .125, 24), new THREE.MeshBasicMaterial({ color: "#ffd25e", side: THREE.DoubleSide }));
-  playerRing.rotation.x = -Math.PI/2; group.add(playerRing);
+  playerRing.rotation.x = -Math.PI / 2; group.add(playerRing);
   for (const npc of map.walk.characters) {
     const g = student(npc.color, npc.role, npc.plain);
     g.scale.setScalar(scale);
-    g.position.copy(nodes.get(npc.node)!).add(new THREE.Vector3((npc.offset?.[0] ?? 2.5)*map.scale,0,(npc.offset?.[1] ?? 0)*map.scale));
+    g.position.copy(nodes.get(npc.node)!).add(new THREE.Vector3((npc.offset?.[0] ?? 2.5) * map.scale, 0, (npc.offset?.[1] ?? 0) * map.scale));
     const tag = label(t(npc.name)); tag.position.copy(g.position).y = map.walk.avatar.height * map.scale + .10; tag.scale.multiplyScalar(.18); group.add(tag); nameTags.push(tag);
     group.add(g); actors.push(g);
   }
-  crowd = new CampusCrowd(scene,map,point);
+  for (const egg of map.walk.easterEggs ?? []) {
+    const { prop, ring } = buildEasterEggProp(egg);
+    prop.position.copy(point(egg.x, egg.z));
+    const tag = label(`★ ${t(egg.title)}`);
+    tag.position.copy(prop.position).y = 0.28;
+    tag.scale.multiplyScalar(0.11);
+    tag.visible = false;
+    group.add(prop, tag);
+    eggActors.push(prop);
+    eggTags.push(tag);
+    eggRings.push(ring);
+  }
+  crowd = new CampusCrowd(scene, map, point);
   marker = new THREE.Mesh(new THREE.TorusGeometry(.32, .018, 5, 32), new THREE.MeshBasicMaterial({ color: "#ffd25e" }));
-  marker.rotation.x = -Math.PI/2; group.add(marker);
+  marker.rotation.x = -Math.PI / 2; group.add(marker);
 }
 
 /** Đặt NPC theo chương (story.json → npcs[].chapters). Thiếu thì giữ vị trí mặc định trong map.json. */
@@ -855,49 +1142,108 @@ export function setLamps(ids: readonly string[], lit: readonly string[]) {
 }
 
 export function walkMode(on: boolean) {
-  enabled = on; group.visible = on; axis.set(0,0); route = []; paused = false;
+  if (!on) exitBuilding();
+  enabled = on; group.visible = on; axis.set(0, 0); route = []; paused = false;
   if (on) { if (!pos) pos = nodes.get(data.walk.spawn)!.clone(); player.position.copy(pos); }
 }
-export function setWalkingLow(low:boolean) { crowd?.setLow(low); }
+export function setWalkingLow(low: boolean) { crowd?.setLow(low); }
 export function resetWalkPosition() {
+  exitBuilding();
   pos = nodes.get(data.walk.spawn)!.clone();
-  player.position.copy(pos); route = []; axis.set(0,0);
+  player.position.copy(pos); route = []; axis.set(0, 0);
 }
 /** Đặt người chơi ngay tại một node (Hack mode và kiểm thử tự động). */
 export function teleportTo(id: string) {
+  exitBuilding();
   const n = nodes.get(id); if (!n) return;
   pos = n.clone(); player.position.copy(pos); route = []; axis.set(0, 0);
 }
-export function pauseWalk(on: boolean) { paused = on; axis.set(0,0); }
-export function walkAxis(x: number, z: number) { axis.set(x,z); if (x || z) route = []; }
+/** Đặt người chơi ngay tại tọa độ bản đồ (mx, mz) bất kỳ (kiểm thử vào tòa nhà / Easter Egg). */
+export function teleportToPoint(mx: number, mz: number) {
+  if (!point) return;
+  exitBuilding();
+  pos = point(mx, mz); player.position.copy(pos); route = []; axis.set(0, 0);
+}
+/** Kiểm tra người chơi có đang đứng trong lòng một tòa nhà hay giảng đường không. */
+export function buildingAtPosition(p: THREE.Vector3 | null = pos): MapBuilding | null {
+  return activeBuilding;
+}
+export function setFoundEggs(ids: readonly string[]) {
+  (data?.walk.easterEggs ?? []).forEach((egg, i) => {
+    const ring = eggRings[i];
+    if (!ring) return;
+    const found = ids.includes(egg.id);
+    (ring.material as THREE.MeshBasicMaterial).color.set(found ? "#5eeaa0" : (egg.color || "#ffd25e"));
+  });
+}
+export function nearEasterEgg(id: string) {
+  const eggs = data?.walk.easterEggs ?? [];
+  const index = eggs.findIndex((e) => e.id === id);
+  return !!pos && index >= 0 && eggActors[index].visible && pos.distanceTo(eggActors[index].position) <= (activeBuilding ? 1.6 : data.walk.avatar.talkDistance * data.scale);
+}
+export function nearbyEasterEgg(): WalkEasterEgg | null {
+  if (!enabled || !pos) return null;
+  const eggs = data.walk.easterEggs ?? [];
+  return eggs
+    .filter((e) => nearEasterEgg(e.id))
+    .sort((a, b) => {
+      const pa = eggActors[eggs.indexOf(a)].position;
+      const pb = eggActors[eggs.indexOf(b)].position;
+      return pos!.distanceToSquared(pa) - pos!.distanceToSquared(pb);
+    })[0] ?? null;
+}
+export function easterEggAtScreen(camera: THREE.Camera, x: number, y: number, width: number, height: number) {
+  const eggs = data?.walk.easterEggs ?? [];
+  let best: string | null = null, distance = 28;
+  eggs.forEach((egg, i) => {
+    if (!nearEasterEgg(egg.id)) return;
+    projected.copy(eggActors[i].position).y += 0.18;
+    projected.project(camera);
+    if (projected.z < -1 || projected.z > 1) return;
+    const sx = ((projected.x + 1) * width) / 2;
+    const sy = ((1 - projected.y) * height) / 2;
+    const d = Math.hypot(sx - x, sy - y);
+    if (d < distance) { distance = d; best = egg.id; }
+  });
+  return best;
+}
+export function requestEasterEggInteraction(id: string) {
+  if (nearEasterEgg(id)) for (const fn of eggInteractionListeners) fn(id);
+}
+export function onEasterEggInteraction(fn: (id: string) => void) {
+  eggInteractionListeners.add(fn);
+  return () => { eggInteractionListeners.delete(fn); };
+}
+export function pauseWalk(on: boolean) { paused = on; axis.set(0, 0); }
+export function walkAxis(x: number, z: number) { axis.set(x, z); if (x || z) route = []; }
 export function walkTarget(id: string) { marker.position.copy(nodes.get(id)!).y = .12; }
-export function nearNode(id: string) { return !!pos && pos.distanceTo(nodes.get(id)!) < data.walk.avatar.talkDistance * data.scale; }
+export function nearNode(id: string) { return !activeBuilding && !!pos && pos.distanceTo(nodes.get(id)!) < data.walk.avatar.talkDistance * data.scale; }
 export function nearCharacter(id: string) {
   const index = data.walk.characters.findIndex((c) => c.id === id);
-  return !!pos && index >= 0 && pos.distanceTo(actors[index].position) <= data.walk.avatar.talkDistance * data.scale;
+  return !activeBuilding && !!pos && index >= 0 && pos.distanceTo(actors[index].position) <= data.walk.avatar.talkDistance * data.scale;
 }
 export function nearbyCharacter(preferred?: string): WalkCharacter | null {
   if (!enabled || !pos) return null;
   if (preferred && nearCharacter(preferred)) return data.walk.characters.find((c) => c.id === preferred)!;
-  return data.walk.characters.filter((c) => nearCharacter(c.id)).sort((a,b) => {
-    const pa=actors[data.walk.characters.indexOf(a)].position, pb=actors[data.walk.characters.indexOf(b)].position;
-    return pos!.distanceToSquared(pa)-pos!.distanceToSquared(pb);
+  return data.walk.characters.filter((c) => nearCharacter(c.id)).sort((a, b) => {
+    const pa = actors[data.walk.characters.indexOf(a)].position, pb = actors[data.walk.characters.indexOf(b)].position;
+    return pos!.distanceToSquared(pa) - pos!.distanceToSquared(pb);
   })[0] ?? null;
 }
 export function characterAtScreen(camera: THREE.Camera, x: number, y: number, width: number, height: number) {
   let best: string | null = null, distance = 26;
-  for (const npc of characterScreenPositions(camera,width,height)) {
+  for (const npc of characterScreenPositions(camera, width, height)) {
     if (!npc.near || !npc.visible) continue;
-    const d=Math.hypot(npc.x-x,npc.y-y);
-    if (d < distance) { distance=d; best=npc.id; }
+    const d = Math.hypot(npc.x - x, npc.y - y);
+    if (d < distance) { distance = d; best = npc.id; }
   }
   return best;
 }
 export function characterScreenPositions(camera: THREE.Camera, width: number, height: number) {
-  return actors.map((actor,i) => {
+  return actors.map((actor, i) => {
     projected.copy(actor.position).y += data.walk.avatar.height * data.scale * .6;
     projected.project(camera);
-    return { id: data.walk.characters[i].id, x:(projected.x+1)*width/2, y:(1-projected.y)*height/2, visible: projected.z >= -1 && projected.z <= 1, near: nearCharacter(data.walk.characters[i].id) };
+    return { id: data.walk.characters[i].id, x: (projected.x + 1) * width / 2, y: (1 - projected.y) * height / 2, visible: !activeBuilding && projected.z >= -1 && projected.z <= 1, near: nearCharacter(data.walk.characters[i].id) };
   });
 }
 export function requestCharacterInteraction(id: string) { if (nearCharacter(id)) for (const fn of interactionListeners) fn(id); }
@@ -911,82 +1257,159 @@ export function setPlayerOccluded(on: boolean) {
     const mesh = o as THREE.Mesh; if (!mesh.isMesh) return;
     mesh.renderOrder = on ? 30 : 0;
     const mat = mesh.material as THREE.MeshLambertMaterial;
-    mat.transparent=on; mat.depthTest=!on; mat.depthWrite=!on; mat.needsUpdate=true;
+    mat.transparent = on; mat.depthTest = !on; mat.depthWrite = !on; mat.needsUpdate = true;
   });
-  playerRing.renderOrder=on ? 40 : 0;
-  const ringMat=playerRing.material as THREE.MeshBasicMaterial;
-  ringMat.transparent=on; ringMat.depthTest=!on; ringMat.depthWrite=!on;
+  playerRing.renderOrder = on ? 40 : 0;
+  const ringMat = playerRing.material as THREE.MeshBasicMaterial;
+  ringMat.transparent = on; ringMat.depthTest = !on; ringMat.depthWrite = !on;
 }
-export function walkingMetrics() { return { characterHeight: data.walk.avatar.height * data.scale, sceneScale: data.scale, modelHeight: new THREE.Box3().setFromObject(player).getSize(new THREE.Vector3()).y, enabled, paused, route: route.length, crowd:crowd.count, questActors:actors.length }; }
+export function walkingMetrics() { return { characterHeight: data.walk.avatar.height * data.scale, sceneScale: data.scale, modelHeight: new THREE.Box3().setFromObject(player).getSize(new THREE.Vector3()).y, enabled, paused, route: route.length, crowd: crowd.count, questActors: actors.length }; }
 
 /** Walk the shortest route through the authored campus paths, including the canteen crossing. */
 export function walkTo(id: string) {
+  if (activeBuilding) exitBuilding();
   if (!pos) return;
-  const start = [...nodes].sort((a,b) => a[1].distanceToSquared(pos!) - b[1].distanceToSquared(pos!))[0][0];
-  const dist = new Map<string, number>([[start, 0]]), prev = new Map<string,string>();
-  const open = new Set(nodes.keys());
-  while (open.size) {
-    const a = [...open].sort((a,b) => (dist.get(a) ?? Infinity) - (dist.get(b) ?? Infinity))[0]; open.delete(a);
-    if (a === id) break;
-    for (const edge of data.walk.edges) {
-      const b = edge[0] === a ? edge[1] : edge[1] === a ? edge[0] : null;
-      if (!b) continue;
-      const d = (dist.get(a) ?? Infinity) + nodes.get(a)!.distanceTo(nodes.get(b)!);
-      if (d < (dist.get(b) ?? Infinity)) { dist.set(b,d); prev.set(b,a); }
-    }
-  }
-  const ids = [id];
-  while (ids[0] !== start) { const p = prev.get(ids[0]); if (!p) return; ids.unshift(p); }
-  route = ids.map((n) => nodes.get(n)!.clone());
+  const target = nodes.get(id); if (target) route = outdoorRoute(pos, target);
 }
 
 /** Walk directly to any map coordinate (x, z) in open-world campus bounds. */
 export function walkToPoint(mx: number, mz: number) {
   if (!pos) return;
+  if (activeBuilding) return;
   const cx = Math.max(-245, Math.min(245, mx));
   const cz = Math.max(-240, Math.min(25, mz));
   const target = point(cx, cz);
-  if (allowed(target)) route = [target];
+  if (allowed(target)) route = outdoorRoute(pos, target);
 }
 
 /** Walk directly to a 3D world-space coordinate (wx, wz) on the ground plane. */
 export function walkToWorldPoint(wx: number, wz: number) {
   if (!pos || !data) return;
+  if (activeBuilding) { const target = new THREE.Vector3(wx, 0, wz); if (allowed(target)) route = outdoorRoute(pos, target); return; }
   const mx = wx / data.scale + data.origin[0];
   const mz = wz / data.scale + data.origin[1];
   walkToPoint(mx, mz);
 }
 
-function allowed(p: THREE.Vector3) {
-  const mx = p.x / data.scale + data.origin[0];
-  const mz = p.z / data.scale + data.origin[1];
-  return mx >= -245 && mx <= 245 && mz >= -240 && mz <= 25;
+let outdoorNavigation: Navigation | null = null, indoorNavigation: Navigation | null = null;
+export function installCampusCollision(source: { player_radius: number; solids: { id: string; min: number[]; max: number[] }[] }) {
+  const walls = source.solids.filter(s => s.max[1] > .2 && s.min[1] < 1.7).map(s => ({
+    x: point((s.min[0]+s.max[0])/2,0).x, z: point(0,(s.min[2]+s.max[2])/2).z,
+    w:(s.max[0]-s.min[0])*data.scale,d:(s.max[2]-s.min[2])*data.scale
+  }));
+  for(const b of data.buildings)for(const r of b.entryBarriers??[])walls.push({x:point((r[0]+r[2])/2,0).x,z:point(0,(r[1]+r[3])/2).z,w:(r[2]-r[0])*data.scale,d:(r[3]-r[1])*data.scale});
+  outdoorNavigation = new Navigation(walls, source.player_radius*data.scale, .06, {
+    x0:point(-245,0).x,x1:point(245,0).x,z0:point(0,-240).z,z1:point(0,25).z
+  });
+}
+function navigation() { return activeBuilding ? indoorNavigation : outdoorNavigation; }
+function allowed(p: THREE.Vector3) { return navigation()?.allowed(p.x,p.z) ?? false; }
+function clearSegment(a: THREE.Vector3,b: THREE.Vector3) { return navigation()?.clear(a,b) ?? false; }
+function outdoorRoute(start: THREE.Vector3,target: THREE.Vector3) {
+  return (navigation()?.path(start,target) ?? []).map(p=>new THREE.Vector3(p.x,0,p.z));
+}
+function move(delta: THREE.Vector3) {
+  const steps = Math.max(1, Math.ceil(delta.length() / (activeBuilding ? .15 : .025))); delta.multiplyScalar(1 / steps);
+  for (let i = 0; i < steps; i++) {
+    const next = pos!.clone(); next.x += delta.x; if (allowed(next)) pos!.x = next.x;
+    next.copy(pos!); next.z += delta.z; if (allowed(next)) pos!.z = next.z;
+  }
+}
+function placeEggActor(ea: THREE.Group, egg: WalkEasterEgg) {
+  if (!activeBuilding) {
+    ea.visible = !egg.building;
+    if (ea.visible) ea.position.copy(point(egg.x, egg.z));
+    return;
+  }
+  if (!room) { ea.visible = false; return; }
+  if (activeRoom) {
+    ea.visible = egg.building === activeRoom.building && egg.room === activeRoom.num;
+    if (ea.visible) ea.position.set(ROOM_ORIGIN + (egg.roomPos?.[0] ?? room.exhibit[0]), 0, egg.roomPos?.[1] ?? room.exhibit[1]);
+    return;
+  }
+  if (egg.room || !egg.building) { ea.visible = false; return; }
+  if (egg.building === activeBuilding.id) {
+    ea.visible = true;
+    ea.position.set(ROOM_ORIGIN + room.exhibit[0], 0, room.exhibit[1]);
+    return;
+  }
+  if (room.connectedBuildings?.includes(egg.building) && room.sourceCenter) {
+    const eb = data.buildings.find((b) => b.id === egg.building);
+    const door = eb?.entrance ? room.entrances?.find((d) => Math.hypot(d.position[0] - eb.entrance![0], d.position[1] - eb.entrance![1]) < 0.05) : undefined;
+    if (eb?.entrance && door) {
+      const [cx, cz] = room.sourceCenter;
+      const inward = door.side.startsWith("+") ? -2.5 : 2.5;
+      const ex = eb.entrance[0] - cx + (door.side.endsWith("x") ? inward : 0) + 0.9;
+      const ez = eb.entrance[1] - cz + (door.side.endsWith("z") ? inward : 0);
+      ea.visible = true;
+      ea.position.set(ROOM_ORIGIN + ex, 0, ez);
+      return;
+    }
+  }
+  ea.visible = false;
+}
+export function nearbyDroneStation() {
+  if (!enabled || !pos || activeBuilding) return null;
+  for (const st of data.drone.stations) {
+    const node = data.walk.nodes.find((n) => n.id === st.node);
+    if (!node) continue;
+    const base = point(node.x + st.offset[0], node.z + st.offset[1]);
+    if (pos.distanceTo(base) <= 5.5 * data.scale) return st;
+  }
+  return null;
+}
+export function nearbyBoardBuilding(): MapBuilding | null {
+  if (!enabled || !pos) return null;
+  if (activeBuilding) {
+    if (activeRoom) return null;
+    const secId = roomState().section?.building;
+    const b = (secId ? data.buildings.find((x) => x.id === secId || secId.startsWith(`${x.id}_`)) : null) ?? activeBuilding;
+    return b.boardTitle ? b : null;
+  }
+  for (const b of data.buildings) {
+    if (b.enterable || !b.boardTitle) continue;
+    const shortId = b.id.split("_")[1]?.toLowerCase();
+    if (shortId && nearNode(shortId)) return b;
+  }
+  return null;
 }
 export function updateWalking(dt: number, time: number, reduceMotion: boolean): THREE.Vector3 | null {
   if (!enabled || !pos) return null;
-  crowd.update(dt,reduceMotion);
+  if (!activeBuilding) crowd.update(dt, reduceMotion);
   const before = pos.clone();
-  const speed = data.walk.avatar.speed * data.scale;
-  if (!paused) {
+  const speed = activeBuilding && room ? room.moveSpeed : data.walk.avatar.speed * data.scale;
+  player.scale.setScalar(data.walk.avatar.height * (activeBuilding ? 1 : data.scale) / data.walk.avatar.modelHeight);
+  if (!paused && !loadingRoom) {
     if (axis.lengthSq()) {
       const step = axis.clone().normalize().multiplyScalar(dt * speed * Math.min(1, axis.length()));
-      const next = pos.clone().add(new THREE.Vector3(step.x,0,step.y));
-      if (allowed(next)) pos.copy(next);
+      move(new THREE.Vector3(step.x, 0, step.y));
     } else if (route.length) {
       const d = pos.distanceTo(route[0]);
-      if (d <= dt*speed) { pos.copy(route.shift()!); } else pos.lerp(route[0], dt*speed/d);
+      move(route[0].clone().sub(pos).multiplyScalar(Math.min(1, dt * speed / Math.max(d, .00001))));
+      if (pos.distanceTo(route[0]) < .03) route.shift();
+      else if (pos.distanceToSquared(before) < .000001) route = [];
     }
   }
   const motion = pos.clone().sub(before);
   player.position.copy(pos);
   playerRing.position.copy(pos).y = .015;
   const moving = !reduceMotion && motion.lengthSq() > .000001;
-  if (motion.lengthSq() > .000001) player.rotation.y = Math.atan2(motion.x,motion.z);
-  for (const rig of legs) rig.children.forEach((l,i) => { l.rotation.x = moving ? Math.sin(time*12+i*Math.PI)*.55 : 0; });
-  for (const rig of arms) rig.children.forEach((a,i) => { a.rotation.x = moving ? Math.sin(time*12+(1-i)*Math.PI)*.30 : 0; });
-  actors.forEach((a,i) => {
-    a.rotation.y = Math.atan2(pos!.x-a.position.x, pos!.z-a.position.z);
-    nameTags[i].visible = pos!.distanceTo(a.position) < 3;
+  if (motion.lengthSq() > .000001) player.rotation.y = Math.atan2(motion.x, motion.z);
+  for (const rig of legs) rig.children.forEach((l, i) => { l.rotation.x = moving ? Math.sin(time * 12 + i * Math.PI) * .55 : 0; });
+  for (const rig of arms) rig.children.forEach((a, i) => { a.rotation.x = moving ? Math.sin(time * 12 + (1 - i) * Math.PI) * .30 : 0; });
+  actors.forEach((a, i) => {
+    a.visible = !activeBuilding;
+    a.rotation.y = Math.atan2(pos!.x - a.position.x, pos!.z - a.position.z);
+    nameTags[i].visible = !activeBuilding && pos!.distanceTo(a.position) < 3;
+  });
+  marker.visible = !activeBuilding;
+  eggActors.forEach((ea, i) => {
+    const egg = data.walk.easterEggs![i];
+    placeEggActor(ea, egg);
+
+
+    eggTags[i].position.copy(ea.position).y = .5;
+    eggTags[i].visible = ea.visible && pos!.distanceTo(ea.position) < 2.6;
   });
   return pos;
 }

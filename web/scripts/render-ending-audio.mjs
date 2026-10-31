@@ -15,11 +15,26 @@ const run = args => {
   if (result.status !== 0) throw new Error(result.stderr || String(result.error));
   return result.stderr;
 };
-const browser = await chromium.launch({ channel: "chrome" });
+let server = null;
+let renderUrl = process.env.RENDER_URL;
+if (!renderUrl) {
+  try {
+    const probe = await fetch("http://127.0.0.1:5173/render-audio.html");
+    if (probe.ok) renderUrl = "http://127.0.0.1:5173";
+  } catch { /* start embedded Vite server */ }
+  if (!renderUrl) {
+    const { createServer } = await import("vite");
+    server = await createServer({ root: resolve(root, "web"), server: { host: "127.0.0.1", port: 0 }, logLevel: "error" });
+    await server.listen();
+    const address = server.httpServer.address();
+    renderUrl = `http://127.0.0.1:${address.port}`;
+  }
+}
+const browser = await chromium.launch({ channel: "chrome", args: ["--no-sandbox", "--use-angle=d3d11", "--force_high_performance_gpu", "--ignore-gpu-blocklist"] });
 const measurements = {};
 try {
   const page = await browser.newPage();
-  await page.goto(`${process.env.RENDER_URL ?? "http://127.0.0.1:5173"}/render-audio.html`);
+  await page.goto(`${renderUrl}/render-audio.html`);
   await page.waitForFunction(() => window.__endingAudioRender);
   for (const id of endings) {
     const base64 = await page.evaluate(id => window.__endingAudioRender(id), id);
@@ -39,10 +54,10 @@ try {
     measurements[id] = { integratedLUFS: integrated, truePeakDBTP: peak, bytes: (await readFile(destination)).length };
     console.log(id, measurements[id]);
   }
-} finally { await browser.close(); }
+} finally { await browser.close(); await server?.close(); }
 await writeFile(resolve(output, "provenance.json"), JSON.stringify({
-  created: new Date().toISOString(), source: "Original Web Audio synthesis: layered oscillators, filtered noise, deterministic crackle and generated stereo room; no external samples or music.",
+  created: new Date().toISOString(), source: "Original Web Audio synthesis: layered harmonic oscillators, pink-filtered air, crystalline bell shimmer and damped stereo courtyard reverb; no external samples or music.",
   authoring: ["src/core/ending-score.ts", "public/data/ending-audio.json"],
   duration: score.duration, sampleRate: 48000, channels: 2, codec: "AAC 192 kbit/s", target: score.mix, measurements,
-  rebuild: "npm run dev; npm run render:ending-audio; npm run mux:ending-audio",
+  rebuild: "npm run render:ending-audio; npm run mux:ending-audio",
 }, null, 2));

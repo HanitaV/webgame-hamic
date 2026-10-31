@@ -10,7 +10,7 @@
     "E6": { "src": "cinematics/E6.mp4", "poster": "cinematics/E6.jpg", "audio": "audio/endings/E6.m4a", "duration": 16 }
   },
   "mode": "journey",
-  "title": "Hội tụ 70",
+  "title": "Đêm Toán Tin",
   "credits": "CLB Toán Tin (HAMIC)",
   "greeting": "Chúc mừng 70 năm Trường Đại học Khoa học Tự nhiên",
   "greetingVerified": false,

@@ -1,0 +1,17 @@
+{
+  "verified": false,
+  "doorWidth": 3.4,
+  "camera": { "height": 14, "distance": 10, "lookHeight": 0.7, "follow": true },
+  "rooms": {
+    "lab": { "width": 22, "depth": 26, "columns": [-6, 6], "rows": [-6, 0, 6], "walkPoints": [[0, 7], [0, -8], [-9.5, 0], [9.5, 0]] },
+    "classroom": { "width": 26, "depth": 28, "columns": [-9, -5, 5, 9], "rows": [-6, -2, 2, 6], "walkPoints": [[0, 7], [0, -8.5], [-11.5, 0], [11.5, 0]] },
+    "lecture": { "width": 30, "depth": 34, "columns": [-11, -6.5, 6.5, 11], "rows": [-8, -4, 0, 4, 8, 12], "walkPoints": [[0, 10], [0, -10], [-13.5, 0], [13.5, 0]] },
+    "server": { "width": 26, "depth": 28, "columns": [-9, -5, 5, 9], "rows": [-5, -1, 3, 7], "walkPoints": [[0, 8], [0, -9], [-11.5, 0], [11.5, 0]] },
+    "office": { "width": 20, "depth": 22, "columns": [-5.5, 5.5], "rows": [-5, 3], "walkPoints": [[0, 6], [0, -7], [-8.5, 0], [8.5, 0]] },
+    "meeting": { "width": 22, "depth": 24, "walkPoints": [[0, 9], [-7, 0], [7, 0], [0, -9]] },
+    "library": { "width": 26, "depth": 28, "columns": [-9, -5, 5, 9], "walkPoints": [[0, 7], [0, -10], [-11.5, 0], [11.5, 0]] },
+    "lounge": { "width": 22, "depth": 24, "walkPoints": [[0, 8], [0, -7], [-8.5, 0], [8.5, 0]] },
+    "exhibit": { "width": 24, "depth": 26, "walkPoints": [[0, 8], [0, -9], [-9.5, 0], [9.5, 0]] },
+    "wc": { "width": 14, "depth": 18, "walkPoints": [[0, 5], [0, -2], [4, 0]] }
+  }
+}
