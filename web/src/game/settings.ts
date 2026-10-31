@@ -4,6 +4,8 @@ import { Store } from "../core/storage";
 
 export interface Settings {
   sfxVolume: number;
+  musicVolume: number;
+  musicEnabled: boolean;
   mute: boolean;
   textSize: "100" | "115" | "130";
   colorblind: boolean;
@@ -24,6 +26,8 @@ export const settings = new Store<Settings>({
   version: 1,
   defaults: () => ({
     sfxVolume: 0.6,
+    musicVolume: 0.12,
+    musicEnabled: true,
     mute: false,
     textSize: "100",
     colorblind: false,
@@ -36,7 +40,8 @@ export const settings = new Store<Settings>({
     haptics: true,
     autoQuality: true,
   }),
-  validate: (s) => ({ ...s, sfxVolume: Math.min(1, Math.max(0, Number(s.sfxVolume) || 0)) }),
+  validate: (s) => ({ ...s, sfxVolume: Math.min(1, Math.max(0, Number(s.sfxVolume) || 0)),
+    musicVolume: Math.min(1, Math.max(0, Number(s.musicVolume) || 0)), musicEnabled: s.musicEnabled !== false }),
 });
 
 export function reducedMotion() {

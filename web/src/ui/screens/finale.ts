@@ -4,7 +4,8 @@ import { DATA } from "../../core/data";
 import { t } from "../../core/i18n";
 import { P, allLit, completeLevel, setFlag, type Mode } from "../../game/progress";
 import type { EvalResult, Stars } from "../../game/types";
-import { endShow, playShow } from "../../scene/world";
+import { endShow, playShow, skipShow } from "../../scene/world";
+import { playCinematic, type CinematicPlayback } from "../../scene/cinematic";
 import { refreshWorld } from "../shell";
 import { btn, el, star, starRow } from "../dom";
 import { modal } from "../overlay";
@@ -69,11 +70,21 @@ export function screenFinale(root: HTMLElement, params: Params) {
 function runShow(root: HTMLElement, mode: Mode) {
   const lit = mode === "guest" ? 3 : Math.max(3, new Set([...P.get().lit, ...P.get().casualLit]).size);
   const colors = DATA.circuits.map((c) => c.color);
-  root.append(el("div", { class: "screen show-screen" }, el("p", { class: "show-caption display", text: t("finale.showing") })));
+  let film: CinematicPlayback | null = null;
+  const caption = el("div", { class: "show-caption" }, el("p", { class: "display", text: t("finale.showing") }),
+    btn(t("story.ui.skip"), () => film ? film.skip() : skipShow(), "small", { "data-skip": true }));
+  root.append(el("div", { class: "screen show-screen" }, caption));
   document.body.classList.add("showing");
   let ended = false;
-  void playShow(lit, colors).then(() => {
+  const play = async () => {
+    film = playCinematic("E1");
+    const played = film ? await film.finished : false;
     if (ended) return;
+    if (!played) { film?.dispose(); film = null; await playShow(lit, colors); }
+  };
+  void play().then(() => {
+    if (ended) return;
+    caption.remove();
     if (mode !== "guest") setFlag("showSeen");
     const gold = mode !== "guest" && allLit();
     const greeting = DATA.config.greeting;
@@ -85,5 +96,5 @@ function runShow(root: HTMLElement, mode: Mode) {
         mode === "guest" ? btn(t("guest.again"), () => { P.startGuest(); reset("guest"); }, "primary") : btn(t("finale.card"), () => go("share"), "primary"),
         mode === "guest" ? null : btn(t("ui.home"), () => reset("title"), ""))));
   });
-  return () => { ended = true; document.body.classList.remove("showing"); endShow(); };
+  return () => { ended = true; film?.dispose(); skipShow(); document.body.classList.remove("showing"); endShow(); };
 }

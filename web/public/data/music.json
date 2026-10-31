@@ -1,0 +1,44 @@
+{
+  "tracks": [
+    {
+      "chapter": "ch0",
+      "src": "audio/bgm/WereWasI_0.ogg",
+      "title": "bgm.track.opening",
+      "artist": "yd",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/content/where-was-i"
+    },
+    {
+      "chapter": "ch1",
+      "src": "audio/bgm/Exploration Theme/Exploration Theme.ogg",
+      "title": "bgm.track.explore",
+      "artist": "CleytonKauffman",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/content/exploration-theme"
+    },
+    {
+      "chapter": "ch2a",
+      "src": "audio/bgm/chilllofir-loop.ogg",
+      "title": "bgm.track.canteen",
+      "artist": "omfgdude / qubodup",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/content/chill-lofi-inspired-loop-edit"
+    },
+    {
+      "chapter": "ch2b",
+      "src": "audio/bgm/Relaxing.mp3",
+      "title": "bgm.track.ussh",
+      "artist": "wipics",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/content/calm-loop"
+    },
+    {
+      "chapter": "ch3",
+      "src": "audio/bgm/Heavenly Loop.ogg",
+      "title": "bgm.track.finale",
+      "artist": "isaiah658",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/content/heavenly-loop"
+    }
+  ]
+}

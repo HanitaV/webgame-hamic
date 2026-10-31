@@ -1,5 +1,5 @@
 import type { StoryData } from "../game/story";
-import type { EndingRules } from "../puzzles/logic/story";
+import type { EndingId, EndingRules } from "../puzzles/logic/story";
 import { mapGraphLevel, type MapGraphCfg } from "../puzzles/logic/activities";
 /** Loads every content file listed in GDD 8.2 from public/data. Editing those files needs no code change. */
 
@@ -22,6 +22,7 @@ export interface Config {
   practice: { modules: string[] };
   splashes: string[];
   endings: EndingRules;
+  cinematics?: Partial<Record<EndingId, { src: string; poster: string; duration: number; audio?: string }>>;
 }
 
 export interface Achievement {
@@ -63,6 +64,7 @@ export interface CrowdSpot {
 }
 export interface AtmosphereFrame { step: number; label: string; sky: string; sunColor: string; sunIntensity: number; sunPosition: [number,number,number]; hemiSky: string; hemiGround: string; hemiIntensity: number; exposure: number; night: number; fogDensity: number }
 export interface MapData {
+  drone: { model: string; stations: { node: string; offset: [number, number]; count: number; scale: number; label: string }[] };
   atmosphere: AtmosphereFrame[];
   walk: { crowd: { normalCount:number; lowCount:number; routes: CrowdRoute[]; spots: CrowdSpot[] }; spawn: string; radius: number; nodes: WalkNode[]; edges: [string, string][]; characters: WalkCharacter[];
     avatar: { height: number; modelHeight: number; speed: number; talkDistance: number; camera: { height: number; distance: number; lookHeight: number; occlusionOpacity: number } } };

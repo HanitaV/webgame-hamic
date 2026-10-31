@@ -67,6 +67,12 @@ for (const run of process.env.ONLY === "hack" ? [] : RUNS) {
   const title = await runFinale(page, 1200);
   const want = await page.evaluate((id) => window.__hoitu.data.strings[window.__hoitu.data.story.endings[id].title], expected.id);
   check(title === want, `${run.name}: màn hình hiện ${expected.id}${expected.variant ? `/${expected.variant}` : ""} (“${title}”)`);
+  check(await page.locator("[data-ending-id]").getAttribute("data-ending-id") === expected.id, `${run.name}: hiện đúng mã kết cục`);
+  const risk = await page.locator('[data-ending-stat="risk"] dd').textContent();
+  check(Number(risk) === expected.risk, `${run.name}: điểm rủi ro ${risk} khớp các lựa chọn`);
+  check(await page.locator('[data-ending-stat="decisions"] dd').textContent() === "8/8", `${run.name}: tổng kết đủ 8 quyết định`);
+  check(await page.locator(".ending-stat").count() === 6, `${run.name}: hiện đủ 6 thông số`);
+  check(await page.locator(".walk-ending").evaluate((n) => n.scrollTop) === 0, `${run.name}: mở bảng tại đầu trang, thấy ngay kết cục`);
   check((await storyState(page)).endingsSeen.includes(expected.id), `${run.name}: lưu ${expected.id} vào Thư viện kết cục`);
   if (run.name.startsWith("build-easy")) {
     await page.locator("[data-rewind]").click(); await wait(500);
@@ -100,12 +106,12 @@ if (process.env.ONLY !== "hack") {
   await page.evaluate(() => window.__hoitu.go("walk")); await wait(600);
   for (const id of ["E1", "E2", "E3", "E4", "E5", "E6"]) {
     await page.evaluate(() => document.querySelectorAll("details.hud-more, details.dev-tools").forEach((d) => { d.open = true; }));
-    await page.locator(`[data-dev-ending="${id}"]`).click();
+    await page.locator(`[data-dev-ending="${id}"]`).dispatchEvent("click");
     await page.waitForSelector("[data-skip]"); await wait(700); await page.locator("[data-skip]").click();
     await page.waitForSelector(".ending-panel h2");
     const t = await page.locator(".ending-panel h2").textContent();
     check(Boolean(t), `Hack mode xem ${id}: “${t}”`);
-    if (id === "E2") check((await page.locator(".ending-caption").count()) > 0, "E2 có chú thích sa bàn mô phỏng");
+    if (id === "E2") check((await page.locator(".ending-caption").count()) > 0, "E2 có chú thích mô hình trên máy tính");
     await page.locator("[data-rewind]").click(); await wait(300);
   }
   await ctx.close();

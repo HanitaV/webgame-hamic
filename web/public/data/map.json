@@ -1,5 +1,12 @@
 {
-  "_note": "Sa bàn là bản đồ khối cơ sở 334–336 Nguyễn Trãi (USSH × HUS), dựng từ legacy/campus. Vị trí, kích thước, số tầng là ƯỚC LƯỢNG bằng đơn vị game, chưa đo đạc. Tọa độ dưới đây theo campus.layout.json (x: đông, z âm: vào sâu trong trường). Cần người của CLB xác nhận tên và vị trí trước khi phát hành; khi đã xác nhận, đổi mapVerified thành true.",
+  "drone": {
+    "model": "models/show-drone.glb",
+    "stations": [
+      { "node": "gate", "offset": [8, -5], "count": 2, "scale": 0.24, "label": "story.drone.station" },
+      { "node": "lawn", "offset": [12, 4], "count": 3, "scale": 0.3, "label": "story.drone.station" }
+    ]
+  },
+  "_note": "Mô hình là bản đồ khối cơ sở 334–336 Nguyễn Trãi (USSH × HUS), dựng từ legacy/campus. Vị trí, kích thước, số tầng là ƯỚC LƯỢNG bằng đơn vị game, chưa đo đạc. Tọa độ dưới đây theo campus.layout.json (x: đông, z âm: vào sâu trong trường). Cần người của CLB xác nhận tên và vị trí trước khi phát hành; khi đã xác nhận, đổi mapVerified thành true.",
   "mapVerified": false,
   "model": "models/campus.glb",
   "scale": 0.1,

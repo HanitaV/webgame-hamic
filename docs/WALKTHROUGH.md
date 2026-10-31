@@ -8,7 +8,7 @@ Tài liệu mô tả luồng chơi mới, các nhánh và cách đạt từng k�
 2. Lời mở đầu ở cổng HUS: chị Chủ nhiệm báo bản chạy thử bị lệch. Chọn cách làm việc: hỏi chuyện mọi người (listen) hoặc kiểm từng thông số (build).
 3. Đi qua 15 điểm dừng theo thứ tự. HUD ghi việc tiếp theo và nơi cần tới; nút Đi tới dẫn đường, bản đồ nhỏ đánh dấu NPC cần gặp. Đi lòng vòng hơn 75 giây thì đài nhắc chỗ cần tới.
 4. Mỗi điểm dừng: hội thoại → câu đố hoặc minigame → quyết định (nếu có) → Sổ ghi bằng chứng, vật phẩm, sự thật mới.
-5. Sau điểm dừng cuối, bấm Chạy Đêm Hội tụ (hoặc nói với chị Chủ nhiệm). Cảnh kết cục chạy trên sa bàn, có nút Bỏ qua cảnh; sau đó là bảng kết cục.
+5. Sau điểm dừng cuối, bấm Chạy Đêm Hội tụ (hoặc nói với chị Chủ nhiệm). Cảnh kết cục chạy trên mô hình, có nút Bỏ qua cảnh; sau đó là bảng kết cục, hiện mã E1–E6, tên kết cục và thông số lượt chơi: điểm rủi ro, số quyết định, sự thật, bằng chứng, đèn và thời gian chơi. Dòng thời gian ghi phương án đã chọn và số điểm rủi ro tương ứng.
 
 Thời lượng ước lượng: 20–25 phút cho chuỗi chính; thêm 5–10 phút nếu hỏi hết chủ đề và thắp đèn lối đi.
 
@@ -49,7 +49,7 @@ Kết cục tính từ tám quyết định (không ngẫu nhiên). Tổng rủi
 | Mã | Kết cục | Một cách đạt | Tỉ lệ trên mọi tổ hợp |
 |---|---|---|---|
 | E1 | Đêm Hội tụ | Chọn A ở cả tám quyết định. | 10.87% |
-| E2 | Sự cố sa bàn: nổ tung | Ví dụ: version B, notes B, captions C, final B, ha C, bursts B (tổng 19). | 70.30% |
+| E2 | Sự cố mô hình: nổ tung | Ví dụ: version B, notes B, captions C, final B, ha C, bursts B (tổng 19). | 70.30% |
 | E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Chọn A ở mọi quyết định, riêng ha chọn B (tổng 1, giữ lời ghi). | 5.52% |
 | E4 | Drone xếp thành 07 | Chọn A ở mọi quyết định, riêng drones chọn B. | 4.29% |
 | E5 | Pháo hoa bay mãi | Chọn A ở mọi quyết định, riêng firework chọn B. | 4.29% |

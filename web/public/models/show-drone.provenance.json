@@ -1,0 +1,8 @@
+{
+  "asset": "show-drone.glb",
+  "source": "Original procedural quadcopter authored in web/src/scene/drone.ts for this project; no external model or texture.",
+  "rebuild": "cd web; npm run build:drone",
+  "parts": ["white flight shell", "four arms", "four guarded rotors", "landing skids", "camera gimbal", "color-changing diffuser and navigation lights"],
+  "animation": "Named rotor nodes and LED material are controlled by the game. The ending keeps the same light positions as the hull fades with distance.",
+  "externalLicenses": []
+}

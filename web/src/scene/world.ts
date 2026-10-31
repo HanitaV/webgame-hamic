@@ -19,8 +19,12 @@ import { BuildingOcclusion } from "./occlusion";
 import type { EndingId } from "../puzzles/logic/story";
 import { t } from "../core/i18n";
 import { glowTexture } from "./textures";
+import { fireworkBouquets } from "./fireworks";
+import { buildDroneModel, createDrone, type Drone } from "./drone";
+import { endingImpact } from "./ending-impact";
+import { createEndingSound, type EndingSound } from "../core/ending-audio";
 
-export interface WorldOptions { low: boolean; reduceLights: boolean; reduceMotion: boolean }
+export interface WorldOptions { low: boolean; reduceLights: boolean; reduceMotion: boolean; offline?: boolean }
 
 const TAU = Math.PI * 2;
 let renderer: THREE.WebGLRenderer;
@@ -72,6 +76,60 @@ const beacons: Beacon[] = [];
 let showUpdate: ((dt: number, t: number) => boolean) | null = null;
 let showGroup: THREE.Group | null = null;
 let last = 0;
+let droneTemplate = buildDroneModel();
+let droneStations: THREE.Group | null = null;
+const demoDrones: { drone: Drone; base: THREE.Vector3; index: number }[] = [];
+let droneReveal = { seconds: 0, hull: 0, colored: 0 };
+
+async function loadDrones() {
+  try { droneTemplate = (await new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}${map.drone.model}`)).scene; }
+  catch (error) { console.warn("drone model, using original procedural source", error); }
+  droneStations = new THREE.Group(); droneStations.name = "drone_demo_stations"; scene.add(droneStations);
+  for (const station of map.drone.stations) {
+    const node = map.walk.nodes.find(n => n.id === station.node)!;
+    const base = P(node.x + station.offset[0], node.z + station.offset[1]);
+    const label = labelSprite(t(station.label), { size: .16 });
+    label.position.copy(base).add(new THREE.Vector3(0, .8, 0)); droneStations.add(label);
+    for (let i = 0; i < station.count; i++) {
+      const location = base.clone().add(new THREE.Vector3((i - (station.count - 1) / 2) * .52, 0, 0));
+      const pad = new THREE.Mesh(new THREE.CylinderGeometry(.235, .235, .025, 32), new THREE.MeshStandardMaterial({ color: "#121629", roughness: .9 }));
+      pad.position.copy(location).setY(.025); droneStations.add(pad);
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(.205, .009, 6, 40), new THREE.MeshBasicMaterial({ color: "#ffd25e" }));
+      ring.rotation.x = Math.PI / 2; ring.position.copy(location).setY(.04); droneStations.add(ring);
+      const drone = createDrone(droneTemplate); drone.root.scale.setScalar(station.scale);
+      const hover = location.clone().setY(.28 + i * .06); drone.root.position.copy(hover);
+      droneStations.add(drone.root); demoDrones.push({ drone, base: hover, index: i });
+    }
+  }
+}
+
+function updateDemoDrones(time: number) {
+  if (!droneStations) return;
+  droneStations.visible = walkingEnabled() && !showUpdate;
+  if (!droneStations.visible) return;
+  for (const item of demoDrones) {
+    const phase = opts.reduceMotion || opts.reduceLights ? 0 : (time * .16 + item.index * .7) % 3;
+    const colors = [new THREE.Color("#eef1fb"), new THREE.Color("#ffd25e"), new THREE.Color("#5ad8ff"), new THREE.Color("#eef1fb")];
+    const color = colors[Math.floor(phase)].clone().lerp(colors[Math.floor(phase) + 1], phase % 1);
+    item.drone.root.position.copy(item.base);
+    if (!opts.reduceMotion) item.drone.root.position.y += Math.sin(time * .8 + item.index) * .035;
+    item.drone.update(time, color, opts.reduceLights ? .08 : .38, opts.low && item.index > 0 ? 0 : 1, !opts.reduceMotion);
+  }
+}
+let renderOverride: (() => void) | null = null;
+let videoBackground = false;
+export function setVideoBackground(active: boolean) { videoBackground = active; }
+const draw = () => renderOverride ? renderOverride() : renderer.render(scene, camera);
+
+/** Offline export uses the actual game scene, with a fixed clock and GPU postprocessing. */
+export function offlineContext() { return { renderer, scene, camera }; }
+export function setOfflineRenderer(render: () => void) { renderOverride = render; }
+export function renderOfflineFrame(time: number, dt = 1 / 30) {
+  atmosphere.update(dt, true);
+  (stars.material as THREE.PointsMaterial).opacity = atmosphere.night;
+  (motes.material as THREE.PointsMaterial).opacity = .35 * atmosphere.night;
+  showUpdate?.(dt, time);
+}
 
 function mulberry(seed: number) {
   let a = seed >>> 0;
@@ -96,7 +154,7 @@ function sprite(color: THREE.Color | string, scale: number, opacity: number) {
 }
 
 /** A name tag: rounded dark pill with white text, always facing the camera. */
-function labelSprite(text: string, opt: { size?: number; accent?: string; strong?: boolean } = {}) {
+function labelSprite(text: string, opt: { size?: number; accent?: string; strong?: boolean; bare?: boolean } = {}) {
   const px = opt.strong ? 64 : 44;
   const c = document.createElement("canvas");
   const g = c.getContext("2d")!;
@@ -106,13 +164,15 @@ function labelSprite(text: string, opt: { size?: number; accent?: string; strong
   const h = Math.ceil(px * 1.7);
   c.width = w; c.height = h;
   g.font = font;
-  g.fillStyle = "rgba(10,13,26,0.82)";
-  g.beginPath();
-  g.roundRect(2, 2, w - 4, h - 4, h / 2 - 2);
-  g.fill();
-  g.strokeStyle = opt.accent ?? "rgba(255,255,255,0.22)";
-  g.lineWidth = 3;
-  g.stroke();
+  if (!opt.bare) {
+    g.fillStyle = "rgba(10,13,26,0.82)";
+    g.beginPath();
+    g.roundRect(2, 2, w - 4, h - 4, h / 2 - 2);
+    g.fill();
+    g.strokeStyle = opt.accent ?? "rgba(255,255,255,0.22)";
+    g.lineWidth = 3;
+    g.stroke();
+  }
   let x = px * 0.6;
   if (opt.accent) {
     g.fillStyle = opt.accent;
@@ -291,8 +351,8 @@ export function initWorld(canvas: HTMLCanvasElement, colors: string[], o: WorldO
     const id = characterAtScreen(camera,e.clientX,e.clientY,window.innerWidth,window.innerHeight);
     if (id) requestCharacterInteraction(id);
   });
-  requestAnimationFrame(loop);
-  return loadCampus().catch((e) => { console.warn("campus model", e); });
+  if (!o.offline) requestAnimationFrame(loop);
+  return Promise.all([loadCampus().catch((e) => { console.warn("campus model", e); }), loadDrones()]);
 }
 
 export function setWorldOptions(o: WorldOptions) {
@@ -352,7 +412,9 @@ function loop(now: number) {
   requestAnimationFrame(loop);
   const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016;
   last = now;
+  if (videoBackground) return;
   const tt = now / 1000;
+  updateDemoDrones(tt);
   atmosphere.update(dt,opts.reduceMotion);
   (stars.material as THREE.PointsMaterial).opacity = atmosphere.night;
   (motes.material as THREE.PointsMaterial).opacity = .55 * atmosphere.night * (opts.reduceLights ? .45 : 1);
@@ -402,7 +464,7 @@ function loop(now: number) {
   setPlayerOccluded(!!walker && (occlusion?.active ?? false));
   cameraDistance = camera.position.distanceTo(look);
   camera.lookAt(look);
-  renderer.render(scene, camera);
+  draw();
 }
 
 /* ---------- Đêm Hội tụ show ---------- */
@@ -422,8 +484,9 @@ export interface ShowEnding { id: EndingId; variant?: string | null }
 
 const showRestore: (() => void)[] = [];
 let showResolve: (() => void) | null = null;
-/** Nút "Bỏ qua cảnh": kết thúc ngay, sa bàn trở về như cũ khi màn hình gọi endShow(). */
-export function skipShow() { const r = showResolve; showResolve = null; r?.(); }
+let showSound: EndingSound | null = null;
+/** Nút "Bỏ qua cảnh": kết thúc ngay, mô hình trở về như cũ khi màn hình gọi endShow(). */
+export function skipShow() { showSound?.dispose(); showSound = null; const r = showResolve; showResolve = null; r?.(); }
 
 /** "70", "07" hay các cụm ước của 70 (kết cục E6) cho dàn drone. */
 function droneTargets(kind: "70" | "07" | "weird"): { cells: [number, number][]; labels: { text: string; x: number }[] } {
@@ -444,12 +507,16 @@ function droneTargets(kind: "70" | "07" | "weird"): { cells: [number, number][];
 
 /**
  * Play the show over the HUS lawn. `circuits` = number of lit circuits (≥ 3) decides how rich it is.
- * `ending` chọn biến thể của kết cục (ENDINGS.md): E1 trình diễn đầy đủ, E2 sa bàn "nổ" hoạt hình,
+ * `ending` chọn biến thể của kết cục (ENDINGS.md): E1 trình diễn đầy đủ, E2 mô hình "nổ" hoạt hình,
  * E3 cầu ánh sáng nối hai trường, E4 drone xếp "07", E5 pháo bay mãi, E6 các ước của 70.
  * Pháo cách nhau ≥ 0,45 s nên không có gì chớp quá 3 lần/giây. Cảnh E2: khối rơi chậm, hoa giấy,
  * không lửa/khói/người/chớp sáng; "Giảm hiệu ứng ánh sáng" hoặc "Giảm chuyển động" → mờ dần tại chỗ.
  */
 export function playShow(circuits: number, colors: string[], ending?: ShowEnding): Promise<void> {
+  showSound?.dispose();
+  const sound = opts.offline ? null : createEndingSound(ending?.id ?? "E1");
+  showSound = sound;
+  if (droneStations) droneStations.visible = false;
   occlusion?.clear();
   atmosphere.setShow(true);
   return new Promise((resolve) => {
@@ -458,57 +525,78 @@ export function playShow(circuits: number, colors: string[], ending?: ShowEnding
     const id = ending?.id;
     const boom = id === "E2";
     const fadeOnly = opts.reduceLights || opts.reduceMotion;
-    const blocks: { mesh: THREE.Mesh; base: THREE.Vector3; rot: THREE.Euler; vel: THREE.Vector3; spin: THREE.Vector3; mat: THREE.MeshLambertMaterial | null }[] = [];
+    const blocks: { mesh: THREE.Group; base: THREE.Vector3; rot: THREE.Euler; vel: THREE.Vector3; spin: THREE.Vector3; mats: THREE.MeshLambertMaterial[] }[] = [];
     const rndB = mulberry(70);
-    if (boom && campus) campus.traverse((obj) => {
-      const mesh = obj as THREE.Mesh;
-      if (!mesh.isMesh) return;
-      const gid = modelGroup(mesh);
-      if (!map.buildings.some((b) => gid === b.id || gid.startsWith(`${b.id}_`))) return;
-      const base = mesh.position.clone(), rot = mesh.rotation.clone();
-      const world = mesh.getWorldPosition(new THREE.Vector3());
-      const centre = gid.startsWith("USSH") ? P(map.campuses[0].x, -110) : P(map.campuses[1].x, -110);
-      const out = world.clone().sub(centre).setY(0).normalize();
-      const vel = new THREE.Vector3(out.x * (1.2 + rndB()), 2.2 + rndB() * 1.6, out.z * (1.2 + rndB()));
-      const spin = new THREE.Vector3((rndB() - .5) * .5, (rndB() - .5) * .5, (rndB() - .5) * .5);
-      let mat: THREE.MeshLambertMaterial | null = null;
-      if (fadeOnly) {
-        const old = mesh.material;
-        mat = (old as THREE.MeshLambertMaterial).clone(); mat.transparent = true;
-        mesh.material = mat;
-        showRestore.push(() => { mesh.material = old; mat!.dispose(); });
+    if (boom && campus) {
+      const buildings = new Map<string, THREE.Mesh[]>();
+      campus.traverse(obj => {
+        const mesh = obj as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        const gid = modelGroup(mesh);
+        const building = map.buildings.find(b => gid === b.id || gid.startsWith(`${b.id}_`));
+        if (!building) return;
+        const parts = buildings.get(building.id) ?? [];
+        parts.push(mesh); buildings.set(building.id, parts);
+      });
+      for (const parts of buildings.values()) {
+        const box = new THREE.Box3();
+        parts.forEach(mesh => box.expandByObject(mesh));
+        const pivot = box.getCenter(new THREE.Vector3());
+        const building = new THREE.Group();
+        building.position.copy(campus.worldToLocal(pivot.clone()));
+        campus.add(building); building.updateMatrixWorld(true);
+        const originals = parts.map(mesh => ({ mesh, parent: mesh.parent!, matrix: mesh.matrix.clone(), material: mesh.material }));
+        const mats: THREE.MeshLambertMaterial[] = [];
+        for (const part of originals) {
+          building.attach(part.mesh);
+          if (fadeOnly) {
+            const mat = (part.mesh.material as THREE.MeshLambertMaterial).clone();
+            mat.transparent = true; part.mesh.material = mat; mats.push(mat);
+          }
+        }
+        const base = building.position.clone(), rot = building.rotation.clone();
+        const out = pivot.clone().setY(0).normalize();
+        const vel = new THREE.Vector3(out.x * (1.1 + rndB()), 2 + rndB() * 1.3, out.z * (1.1 + rndB()));
+        const spin = new THREE.Vector3((rndB() - .5) * .12, (rndB() - .5) * .2, (rndB() - .5) * .12);
+        blocks.push({ mesh: building, base, rot, vel, spin, mats });
+        showRestore.push(() => {
+          for (const part of originals) {
+            part.parent.add(part.mesh); part.mesh.matrix.copy(part.matrix);
+            part.matrix.decompose(part.mesh.position, part.mesh.quaternion, part.mesh.scale);
+            part.mesh.material = part.material;
+          }
+          campus?.remove(building); mats.forEach(mat => mat.dispose());
+        });
       }
-      blocks.push({ mesh, base, rot, vel, spin, mat });
-      showRestore.push(() => { mesh.position.copy(base); mesh.rotation.copy(rot); mesh.updateMatrix(); });
-    });
+    }
     const group = new THREE.Group();
+    let anniversary: THREE.Sprite | null = null;
     if (id && id !== "E2") {
-      const title = labelSprite(t("story.anniversary"), { strong: true, size: 2 });
-      title.position.copy(corePos).add(new THREE.Vector3(0, 10, 0)); group.add(title);
+      const title = labelSprite(t("story.anniversary"), { strong: true, size: 1.2, bare: true });
+      title.position.copy(corePos).add(new THREE.Vector3(0, 3.7, 0)); group.add(title);
+      anniversary = title;
     }
     showGroup = group;
     scene.add(group);
     const palette = colors.slice(0, Math.max(3, circuits)).map((c) => new THREE.Color(c));
     const k = opts.reduceLights ? 0.5 : 1;
     const C = corePos.clone().setY(0);
+    const impact = boom ? endingImpact(P(map.campuses.reduce((sum, c) => sum + c.x, 0) / map.campuses.length, map.campuses.reduce((sum, c) => sum + c.z, 0) / map.campuses.length), opts.low) : null;
+    if (impact) group.add(impact.group);
     const H = 15;
     const fast = opts.reduceMotion;
     const sphere = new THREE.SphereGeometry(1, 16, 12);
+    const droneFormation = new THREE.Group();
+    group.add(droneFormation);
     const tops = beacons.filter(Boolean).map((b) => b.top);
     for (const l of labels) l.visible = false;
     for (const b of beacons) if (b) b.beam.visible = false;
 
-    type Rocket = { head: THREE.Sprite; x: number; z: number; b: number; t0: number; burst: boolean; color: THREE.Color };
-    const rockets: Rocket[] = [];
-    const bursts: { pts: THREE.Points; vel: Float32Array; life: number }[] = [];
-    const nRockets = fast ? 3 : Math.min(7, 2 + circuits);
-    for (let i = 0; i < nRockets; i += 1) {
-      const color = palette[i % palette.length];
-      const head = sprite(color, 1.4, k);
-      group.add(head);
-      const a = (i / nRockets) * Math.PI - Math.PI;
-      rockets.push({ head, x: C.x + Math.cos(a) * 9, z: C.z - 3 + Math.sin(a) * 3, b: 1.2 + (i % 3) * 0.25, t0: i * 0.45, burst: false, color });
-    }
+    const fireworks = fireworkBouquets(C, palette, id, opts.low);
+    fireworks.mesh.visible = !fadeOnly;
+    group.add(fireworks.mesh);
+    const bridgeFireworks = id === "E3" ? fireworkBouquets(P(map.campuses[0].x, -120), palette.slice().reverse(), id, opts.low) : null;
+    if (bridgeFireworks) { bridgeFireworks.mesh.visible = !fadeOnly; group.add(bridgeFireworks.mesh); }
     const meet = new THREE.Vector3(C.x, H * 0.55, C.z);
     const beams: THREE.Mesh[] = [];
     if (!boom) beacons.forEach((b, i) => {
@@ -527,7 +615,14 @@ export function playShow(circuits: number, colors: string[], ending?: ShowEnding
       const a = corePos.clone().setY(6), b = P(map.campuses[0].x, -120, 60);
       const mid = a.clone().lerp(b, .5).setY(Math.max(a.y, b.y) + 9);
       const curve = new THREE.QuadraticBezierCurve3(a, mid, b);
-      bridge = new THREE.Mesh(new THREE.TubeGeometry(curve, 64, .22, 8), new THREE.MeshBasicMaterial({ color: "#ffd25e", transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+      bridge = new THREE.Mesh(new THREE.TubeGeometry(curve, 160, .16, 12), new THREE.MeshBasicMaterial({ color: "#ffd25e", transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+      // A handful of parallel ribbons make the bridge read as a woven path of light.
+      for (let lane = -3; lane <= 3; lane++) {
+        if (!lane) continue;
+        const ribbon = new THREE.Mesh(new THREE.TubeGeometry(curve, 100, .035, 6), new THREE.MeshBasicMaterial({ color: palette[Math.abs(lane) % palette.length], transparent: true, opacity: .45, blending: THREE.AdditiveBlending, depthWrite: false }));
+        ribbon.position.x = lane * .22;
+        bridge.add(ribbon);
+      }
       group.add(bridge);
     }
     const drones: { mesh: THREE.Mesh; halo: THREE.Sprite; from: THREE.Vector3; to: THREE.Vector3 }[] = [];
@@ -545,15 +640,35 @@ export function playShow(circuits: number, colors: string[], ending?: ShowEnding
       mesh.position.copy(from);
       halo.position.copy(from);
       mesh.visible = halo.visible = false;
-      group.add(mesh, halo);
+      droneFormation.add(mesh, halo);
       drones.push({ mesh, halo, from, to });
     });
+    const white = new THREE.Color("#eef1fb");
+    const heroDrones = Array.from({ length: 6 }, (_, i) => {
+      const drone = createDrone(droneTemplate); drone.root.scale.setScalar(.95);
+      const from = C.clone().add(new THREE.Vector3((i % 3 - 1) * 2.4, 10.5 + Math.floor(i / 3) * .3, 6 - Math.floor(i / 3) * 2.4));
+      const point = drones.length ? drones[Math.floor(i * drones.length / 6)] : null;
+      const to = point?.to.clone() ?? C.clone().add(new THREE.Vector3((i - 2.5) * 4, 18, -24));
+      if (point) point.from.copy(from);
+      group.add(drone.root);
+      const halo = point?.halo ?? sprite(white, .6, 0);
+      if (!point) group.add(halo);
+      return { drone, from, to, point, halo, color: palette[i % palette.length] };
+    });
+    const key = new THREE.PointLight("#eef1fb", 28, 20, 1.5); key.position.copy(C).add(new THREE.Vector3(4, 15, 10)); group.add(key);
     const divisorTags = targets.labels.map((l) => {
-      const s = labelSprite(l.text, { size: .9 });
+      const s = labelSprite(l.text, { size: .9, bare: true });
       s.position.set(C.x + (l.x - 6) * spacing, H + 3.2 + 1.2, C.z);
       s.visible = false; group.add(s);
       return s;
     });
+    const divisorOrbits = id === "E6" ? targets.labels.map((l, i) => {
+      const radius = .65 + Math.sqrt([1, 2, 5, 7, 10, 14, 35][i]) * .21;
+      const orbit = new THREE.Mesh(new THREE.TorusGeometry(radius, .012, 6, 100), new THREE.MeshBasicMaterial({ color: palette[i % palette.length], transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+      orbit.position.set(C.x + (l.x - 6) * spacing, H + .5, C.z - .3);
+      group.add(orbit);
+      return orbit;
+    }) : [];
     // E2: hoa giấy rơi chậm (màu đặc, không cộng sáng, không chớp).
     let confetti: { pts: THREE.Points; vel: Float32Array } | null = null;
     if (boom) {
@@ -571,47 +686,22 @@ export function playShow(circuits: number, colors: string[], ending?: ShowEnding
       group.add(pts);
       confetti = { pts, vel };
     }
-    const duration = boom ? 9.5 : id === "E5" ? 8.6 : 7.6;
+    const prelude = fadeOnly ? 0 : 3.6;
+    const duration = 12.4 + prelude;
+    const coreOpacity = coreHalo.material.opacity;
+    showRestore.push(() => { coreHalo.material.opacity = coreOpacity; });
     let start = -1;
     let done = false;
     showUpdate = (dt, now) => {
       if (start < 0) start = now;
-      const t = (now - start) * (fast ? 2.5 : 1);
-      for (const r of rockets) {
-        const tt = t - r.t0;
-        if (tt < 0 || r.burst) continue;
-        // E5: hàm không hội tụ — pháo cứ lên mãi, không nổ.
-        const y = id === "E5" ? 1 + 6 * tt : 1 + H * (1 - Math.exp(-r.b * tt));
-        r.head.position.set(r.x, y, r.z);
-        if (id !== "E5" && tt > 2.4) {
-          r.burst = true;
-          r.head.visible = false;
-          const count = opts.low ? 40 : 70 + circuits * 10;
-          const pos = new Float32Array(count * 3), vel = new Float32Array(count * 3);
-          for (let s = 0; s < count; s += 1) {
-            pos.set([r.head.position.x, r.head.position.y, r.head.position.z], s * 3);
-            const th = rnd() * TAU, ph = Math.acos(2 * rnd() - 1), sp = 2.5 + rnd() * 1.5;
-            vel.set([Math.sin(ph) * Math.cos(th) * sp, Math.cos(ph) * sp, Math.sin(ph) * Math.sin(th) * sp], s * 3);
-          }
-          const geo = new THREE.BufferGeometry();
-          geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-          const pts = new THREE.Points(geo, new THREE.PointsMaterial({ map: glow, color: r.color, size: 0.55, transparent: true, opacity: k, depthWrite: false, blending: THREE.AdditiveBlending }));
-          group.add(pts);
-          bursts.push({ pts, vel, life: 2.2 });
-        }
-      }
-      for (const b of bursts) {
-        if (b.life <= 0) continue;
-        b.life -= dt;
-        const p = b.pts.geometry.getAttribute("position") as THREE.BufferAttribute;
-        for (let i = 0; i < p.count; i += 1) {
-          b.vel[i * 3 + 1] -= dt * 1.2;
-          p.setXYZ(i, p.getX(i) + b.vel[i * 3] * dt, p.getY(i) + b.vel[i * 3 + 1] * dt, p.getZ(i) + b.vel[i * 3 + 2] * dt);
-        }
-        p.needsUpdate = true;
-        (b.pts.material as THREE.PointsMaterial).opacity = Math.max(0, (b.life / 2.2) * k);
-        if (b.life <= 0) b.pts.visible = false;
-      }
+      const elapsed = (now - start) * (fast ? 2.5 : 1);
+      const t = Math.max(0, elapsed - prelude);
+      sound?.sync(prelude ? elapsed : elapsed + 3.6, !done && !document.hidden, fast ? 2.5 : 1);
+      impact?.update(t - 1.6, fadeOnly);
+      if (anniversary) anniversary.visible = fadeOnly || elapsed > 6;
+      coreHalo.material.opacity = coreOpacity * (fadeOnly ? 1 : THREE.MathUtils.lerp(.1, 1, THREE.MathUtils.smoothstep(elapsed, 3, 6.5)));
+      fireworks.update(t);
+      bridgeFireworks?.update(t - 1.15);
       const bt = Math.max(0, Math.min(1, (t - 3.2) / 1.2));
       for (const b of beams) (b.material as THREE.MeshBasicMaterial).opacity = bt * 0.7 * k;
       if (bridge) (bridge.material as THREE.MeshBasicMaterial).opacity = Math.max(0, Math.min(1, (t - 4) / 2.5)) * .75 * k;
@@ -621,14 +711,51 @@ export function playShow(circuits: number, colors: string[], ending?: ShowEnding
         const local = Math.max(0, Math.min(1, ease * 1.3 - (i / drones.length) * 0.3));
         d.mesh.visible = d.halo.visible = t > 4.6;
         d.mesh.position.lerpVectors(d.from, d.to, local);
+        if (id === "E6" && !fadeOnly) {
+          const gather = Math.sin(Math.max(0, Math.min(1, (t - 7) / 3)) * Math.PI) * .22;
+          d.mesh.position.x = THREE.MathUtils.lerp(d.mesh.position.x, C.x, gather);
+          d.mesh.position.y += Math.sin(t * .65 + Math.floor(i / 7)) * .15 * ease;
+        }
         d.halo.position.copy(d.mesh.position);
       });
+      const colorMix = fadeOnly ? 1 : THREE.MathUtils.smoothstep(elapsed, 1.1, 2.5);
+      const hull = fadeOnly ? 0 : 1 - THREE.MathUtils.smoothstep(elapsed, 6.2, 8.8);
+      droneReveal = { seconds: elapsed, hull, colored: colorMix };
+      heroDrones.forEach((hero, i) => {
+        const rise = fadeOnly ? 1 : THREE.MathUtils.smoothstep(elapsed, 2.5 + i * .08, 8.2 + i * .04);
+        const color = white.clone().lerp(hero.color, colorMix);
+        hero.drone.root.position.lerpVectors(hero.from, hero.to, rise);
+        hero.drone.root.position.y += Math.sin(rise * Math.PI) * 1.3;
+        hero.drone.root.rotation.y = .15 + (fadeOnly ? 0 : elapsed * .1);
+        hero.drone.update(elapsed, color, colorMix * (opts.reduceLights ? .15 : 1), hull, !fadeOnly);
+        hero.halo.visible = !fadeOnly && elapsed > 1.1;
+        hero.halo.position.copy(hero.drone.root.position).add(new THREE.Vector3(0, -.13 * hull, 0));
+        hero.halo.material.color.copy(color);
+        hero.halo.material.opacity = colorMix * (.12 + (1 - hull) * .43) * k;
+        hero.halo.scale.setScalar(.55 + (1 - hull) * .75);
+        if (hero.point && !fadeOnly) {
+          hero.point.mesh.visible = elapsed > 6.2;
+          hero.point.mesh.position.copy(hero.drone.root.position);
+          hero.point.mesh.scale.setScalar(.24 * (1 - hull));
+        }
+      });
+      // E4's formation is initially read from backstage; its true '07' is revealed by the camera.
+      if (id === "E4" && !fadeOnly) {
+        const turn = THREE.MathUtils.smoothstep(t, 7, 10.5);
+        const angle = (1 - turn) * THREE.MathUtils.smoothstep(t, 4, 6) * Math.PI;
+        droneFormation.position.set(C.x - C.x * Math.cos(angle) - C.z * Math.sin(angle), 0, C.z + C.x * Math.sin(angle) - C.z * Math.cos(angle));
+        droneFormation.rotation.y = angle;
+      }
       for (const s of divisorTags) s.visible = t > 6.4;
+      divisorOrbits.forEach((orbit, i) => {
+        (orbit.material as THREE.MeshBasicMaterial).opacity = THREE.MathUtils.smoothstep(t, 6.8, 8.5) * .55;
+        orbit.rotation.y = fadeOnly ? 0 : Math.sin(t * .24 + i) * .3;
+      });
       // E2: sau 1,6 s các khối tách nhau, bay lên chậm rồi rơi chậm; giảm hiệu ứng thì mờ dần tại chỗ.
       if (boom) {
         const bt2 = Math.max(0, t - 1.6);
         for (const b of blocks) {
-          if (fadeOnly) { if (b.mat) b.mat.opacity = Math.max(.12, 1 - bt2 / 3); continue; }
+          if (fadeOnly) { for (const mat of b.mats) mat.opacity = Math.max(.12, 1 - bt2 / 3); continue; }
           const g = 0.55;
           const u = 1 / map.scale, lift = Math.max(0, b.vel.y * bt2 - .5 * g * bt2 * bt2);
           b.mesh.position.set(b.base.x + b.vel.x * bt2 * .5 * u, b.base.y + lift * u, b.base.z + b.vel.z * bt2 * .5 * u);
@@ -647,22 +774,42 @@ export function playShow(circuits: number, colors: string[], ending?: ShowEnding
           p.needsUpdate = true;
         }
       }
-      if (!done && t > duration) { done = true; showResolve = null; resolve(); }
+      if (!done && elapsed > duration) { done = true; sound?.dispose(); showResolve = null; resolve(); }
       // stand south of the lawn (the HUS gate side), looking up over T2 at the sky above the core
-      camera.position.set(C.x + Math.sin(t * 0.05) * 3, 7, C.z + 30);
-      camera.lookAt(C.x, id === "E5" ? 10.5 + Math.min(8, t * .8) : 10.5, C.z);
-      if (boom || id === "E3") {
-        const a = opts.reduceMotion ? 0.5 : 0.5 + t * .06;
-        camera.position.set(Math.sin(a) * 52, 34, Math.cos(a) * 52);
-        camera.lookAt(0, 4, -8);
+      const sweep = fadeOnly ? 1 : THREE.MathUtils.smoothstep(t, 0, 12);
+      camera.position.set(C.x + 12 - sweep * 10, 11 - sweep * 2, C.z + 52 - sweep * 5);
+      camera.lookAt(C.x, id === "E5" ? 15 + Math.max(0, t - 2) * 3 : 15.5, C.z - 4);
+      if (id === "E6") {
+        const close = fadeOnly ? 1 : THREE.MathUtils.smoothstep(t, 4.5, 9.5);
+        camera.position.set(C.x + 6 * (1 - close), 11 + close * 2, C.z + 50 - close * 21);
+        camera.lookAt(C.x, 15 + close * 1.5, C.z);
       }
-      renderer.render(scene, camera);
+      if (boom || id === "E3") {
+        const a = fadeOnly ? 0.5 : .35 + t * .035;
+        camera.position.set(Math.sin(a) * 65, boom ? 30 : 27 - sweep * 5, Math.cos(a) * 65);
+        camera.lookAt(0, boom ? 8 : 9, -8);
+      }
+      if (!fadeOnly) {
+        const pull = THREE.MathUtils.smoothstep(elapsed, 2.6, 6.5);
+        const widePosition = camera.position.clone(), wideDirection = new THREE.Vector3();
+        camera.getWorldDirection(wideDirection);
+        const wideLook = widePosition.clone().addScaledVector(wideDirection, 30);
+        camera.position.lerpVectors(C.clone().add(new THREE.Vector3(1.1, 12.6, 14)), widePosition, pull);
+        camera.lookAt(C.clone().add(new THREE.Vector3(0, 10.8, 4.8)).lerp(wideLook, pull));
+        if (boom) {
+          const age = t - 1.6, strength = age > 0 && age < 1.1 ? .25 * Math.exp(-age * 3.5) : 0;
+          camera.position.x += Math.sin(age * 14) * strength;
+          camera.position.y += Math.sin(age * 11) * strength * .45;
+        }
+      }
+      draw();
       return true;
     };
   });
 }
 
 export function endShow() {
+  showSound?.dispose(); showSound = null;
   atmosphere?.setShow(false);
   occlusion?.clear();
   for (const restore of showRestore.splice(0)) restore();
@@ -674,7 +821,7 @@ export function endShow() {
     const geometries = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>(), textures = new Set<THREE.Texture>();
     showGroup.traverse((o) => {
       const m = o as THREE.Mesh;
-      if (m.geometry) geometries.add(m.geometry);
+      if (m.geometry && !m.userData.droneSharedGeometry) geometries.add(m.geometry);
       const mat = (o as THREE.Mesh | THREE.Sprite).material;
       if (mat) for (const v of Array.isArray(mat) ? mat : [mat]) { materials.add(v); const tx = (v as THREE.SpriteMaterial).map; if (tx && tx !== glow) textures.add(tx); }
     });
@@ -688,6 +835,7 @@ export function campusReady() { return campus !== null; }
 export function worldDiagnostics() {
   const c = map.walk.avatar.camera;
   return { showChangedMeshes: showRestore.length, litMaterials: beacons.map((b) => b.mats.length),
+    drones: { stationsVisible: droneStations?.visible ?? false, stationCount: demoDrones.length, reveal: droneReveal, positions: demoDrones.map(d => d.drone.root.position.toArray()) },
     atmosphere: atmosphere.diagnostics(), occlusion: occlusion?.diagnostics(), cameraDistance,
     characters: characterScreenPositions(camera,window.innerWidth,window.innerHeight),
     desiredCameraDistance: Math.hypot(c.height-c.lookHeight,c.distance)*map.scale };

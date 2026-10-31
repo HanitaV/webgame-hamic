@@ -4,7 +4,7 @@ import { DATA } from "../../core/data";
 import { t } from "../../core/i18n";
 import type { StoryState } from "../../game/story";
 import {
-  ENDING_IDS, TRUST_WARM, chatMessages, storyEvidence, storyFacts, storyItems, timeline, trustOf,
+  ENDING_IDS, TRUST_WARM, chatMessages, endingRisk, storyEvidence, storyFacts, storyItems, timeline, trustOf,
   type EndingResult, type Line,
 } from "../../puzzles/logic/story";
 import { btn, el, icon } from "../dom";
@@ -73,9 +73,25 @@ export function endingPanel(s: StoryState, r: EndingResult, preview: boolean, ac
   const variant = r.variant && e.variants ? e.variants[r.variant] : null;
   const trust = trustOf(st, s);
   const rows = timeline(st, DATA.config.endings, s);
+  const risk = endingRisk(DATA.config.endings, s.decisions);
+  const seconds = Math.floor(s.activeSeconds);
+  const stat = (key: string, value: string | number) => el("div", { class: "ending-stat", "data-ending-stat": key },
+    el("dt", { text: t(`story.ui.stats.${key}`) }), el("dd", { text: String(value) }));
   const root = el("div", { class: "ending-panel" },
-    el("p", { class: "kicker", text: preview ? t("story.ui.preview") : t("story.ui.ending", { id: r.id }) }),
-    el("h2", { class: "display", text: t(e.title) }),
+    el("p", { class: "kicker ending-code", "data-ending-id": r.id, text: t("story.ui.ending", { id: r.id }) }),
+    el("h2", { class: "display", tabindex: -1, text: t(e.title) }),
+    preview ? el("p", { class: "muted", text: t("story.ui.stats.preview") }) : null,
+    el("section", { class: "ending-summary", "aria-label": t("story.ui.stats.title") },
+      el("h3", { text: t("story.ui.stats.title") }),
+      el("dl", { class: "ending-stats" },
+        stat("risk", risk),
+        stat("decisions", t("story.ui.stats.count", { n: rows.length, max: Object.keys(st.decisions).length })),
+        stat("facts", t("story.ui.stats.count", { n: storyFacts(st, s).size, max: DATA.facts.length })),
+        stat("evidence", storyEvidence(st, s).length),
+        stat("lamps", t("story.ui.stats.count", { n: s.lamps.length, max: st.lamps.need })),
+        stat("time", t("story.ui.stats.duration", { minutes: Math.floor(seconds / 60), seconds: seconds % 60 }))),
+      el("p", { class: "muted ending-risk-note", text: DATA.config.endings.boom.enabled
+        ? t("story.ui.stats.threshold", { n: DATA.config.endings.threshold }) : t("story.ui.stats.boomDisabled") })),
     variant ? el("p", { class: "walk-question", text: t("story.ui.cause", { name: t(variant.title) }) }) : null,
     ...e.lines.map(lineEl), variant ? lineEl(variant.line) : null,
     e.caption ? el("p", { class: "ending-caption", role: "note" }, icon("sparkle", 16), el("span", { text: ` ${t(e.caption)}` })) : null,
@@ -84,8 +100,9 @@ export function endingPanel(s: StoryState, r: EndingResult, preview: boolean, ac
     el("details", { class: "ending-details", open: true }, el("summary", { text: t("story.ui.timeline") }),
       el("ol", { class: "timeline-list" }, ...rows.map((row) => el("li", { class: row.risk ? "risk" : "" },
         el("b", { text: t(st.stops.find((x) => x.id === row.stop)!.title) }),
+        el("p", { class: "muted", text: t(row.text) }),
         el("p", { text: t(row.effect) }),
-        el("small", { class: row.risk ? "warn" : "good", text: row.risk ? t("story.ui.timelineRisk") : t("story.ui.timelineSafe") }))))),
+        el("small", { class: row.risk ? "warn" : "good", text: t("story.ui.stats.contribution", { n: row.risk }) }))))),
     el("details", { class: "ending-details" }, el("summary", { text: t("story.ui.epilogues") }),
       el("ul", { class: "epilogue-list" }, ...DATA.map.walk.characters.map((c) => {
         const ep = st.npcs[c.id]?.epilogue;

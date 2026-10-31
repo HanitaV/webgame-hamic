@@ -1,15 +1,19 @@
 /**
  * Small synthesized sound effects (WebAudio, no files): a click, a soft chime for success, a low
- * gentle tone for "chưa đạt", and a chord when a circuit lights. No explosions (GDD 11.2).
+ * gentle tone for "chưa đạt", and a chord when a circuit lights. Ending stems share this SFX bus;
+ * their soft cartoon impacts avoid loud realistic explosions (GDD 11.2).
  */
 
 let ctx: AudioContext | null = null;
 let volume = 0.6;
 let muted = false;
+let master: GainNode | null = null;
+let meter: AnalyserNode | null = null;
 
 export function setAudio(v: number, mute: boolean) {
   volume = Math.max(0, Math.min(1, v));
   muted = mute;
+  if (ctx && master) master.gain.setTargetAtTime(muted ? 0 : volume, ctx.currentTime, .015);
 }
 
 function ac() {
@@ -17,9 +21,22 @@ function ac() {
     const C = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (!C) return null;
     ctx = new C();
+    const limiter = ctx.createDynamicsCompressor();
+    limiter.threshold.value = -3; limiter.knee.value = 3; limiter.ratio.value = 12;
+    limiter.attack.value = .004; limiter.release.value = .12;
+    master = ctx.createGain(); master.gain.value = muted ? 0 : volume;
+    meter = ctx.createAnalyser(); meter.fftSize = 512;
+    limiter.connect(master).connect(meter).connect(ctx.destination);
+    input = limiter;
   }
-  if (ctx.state === "suspended") void ctx.resume();
+  if (ctx.state === "suspended") void ctx.resume().catch(() => {});
   return ctx;
+}
+let input: DynamicsCompressorNode | null = null;
+export function audioBus() { const context = ac(); return context && input ? { context, input } : null; }
+export function audioDiagnostics() {
+  const samples = new Float32Array(512); meter?.getFloatTimeDomainData(samples);
+  return { volume, muted, gain: master?.gain.value ?? 0, state: ctx?.state ?? "uninitialized", rms: Math.sqrt(samples.reduce((sum, sample) => sum + sample * sample, 0) / samples.length) };
 }
 
 function tone(freq: number, start: number, dur: number, type: OscillatorType, gain: number) {
@@ -31,9 +48,9 @@ function tone(freq: number, start: number, dur: number, type: OscillatorType, ga
   o.frequency.value = freq;
   const t0 = a.currentTime + start;
   g.gain.setValueAtTime(0, t0);
-  g.gain.linearRampToValueAtTime(gain * volume, t0 + 0.01);
+  g.gain.linearRampToValueAtTime(gain, t0 + 0.01);
   g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  o.connect(g).connect(a.destination);
+  o.connect(g).connect(input!);
   o.start(t0);
   o.stop(t0 + dur + 0.02);
 }

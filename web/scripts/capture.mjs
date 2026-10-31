@@ -123,15 +123,16 @@ for (const reduce of [false, true]) await session(reduce ? "ending-reduced" : "e
   const list = reduce ? [["E2", "E2"]] : [["E1", "E1"], ["E2", "E2-version"], ["E3", "E3"], ["E4", "E4"], ["E5", "E5"], ["E6", "E6"]];
   for (const [id, name] of list) {
     await page.evaluate(() => document.querySelectorAll("details.hud-more, details.dev-tools").forEach((d) => { d.open = true; }));
-    await page.locator(`[data-dev-ending="${id}"]`).click();
-    await page.waitForSelector("[data-skip]"); await wait(id === "E2" ? 5200 : 6200); await snap(`${name}-scene`);
+    // Developer controls may sit outside the short HUD's visible area.
+    await page.locator(`[data-dev-ending="${id}"]`).dispatchEvent("click");
+    await page.waitForSelector("[data-skip]"); await wait(6200); await snap(`${name}-scene`);
     await page.locator("[data-skip]").click({ timeout: 3000 }).catch(() => {}); await page.waitForSelector(".ending-panel h2"); await snap(`${name}-panel`);
     await page.locator("[data-rewind]").click(); await wait(400);
   }
   if (!reduce) for (const v of ["notes", "final", "extra"]) {
     await page.evaluate(() => document.querySelectorAll("details.hud-more, details.dev-tools").forEach((d) => { d.open = true; }));
     const label = await page.evaluate((k) => window.__hoitu.data.strings[window.__hoitu.data.story.endings.E2.variants[k].title], v);
-    await page.locator(".dev-tools button", { hasText: label }).click();
+    await page.locator(".dev-tools button", { hasText: label }).dispatchEvent("click");
     await page.waitForSelector("[data-skip]"); await page.locator("[data-skip]").click({ timeout: 3000 }).catch(() => {}); await page.waitForSelector(".ending-panel h2"); await snap(`E2-${v}-panel`);
     await page.locator("[data-rewind]").click(); await wait(400);
   }

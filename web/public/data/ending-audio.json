@@ -1,0 +1,71 @@
+{
+  "duration": 16,
+  "sampleRate": 48000,
+  "mix": { "lufs": -20, "truePeak": -2, "loudnessRange": 9 },
+  "common": [
+    { "kind": "pad", "at": 0, "duration": 16, "db": -28, "notes": [130.81, 196, 293.66] },
+    { "kind": "rotor", "at": 0, "duration": 5.6, "db": -23 },
+    { "kind": "bell", "at": 1.1, "duration": 1.2, "db": -25, "frequency": 523.25, "pan": -0.65 },
+    { "kind": "bell", "at": 1.45, "duration": 1.2, "db": -25, "frequency": 659.25, "pan": -0.2 },
+    { "kind": "bell", "at": 1.8, "duration": 1.2, "db": -25, "frequency": 783.99, "pan": 0.25 },
+    { "kind": "bell", "at": 2.15, "duration": 1.4, "db": -24, "frequency": 1046.5, "pan": 0.65 },
+    { "kind": "whoosh", "at": 2.5, "duration": 3.6, "db": -22, "frequency": 250, "to": 1600, "pan": -0.35 }
+  ],
+  "endings": {
+    "E1": [
+      { "kind": "salvo", "at": 3.85, "duration": 4, "db": -16, "pan": -0.45 },
+      { "kind": "salvo", "at": 4.95, "duration": 4, "db": -17, "pan": 0.4 },
+      { "kind": "salvo", "at": 7.4, "duration": 4, "db": -16, "pan": -0.3 },
+      { "kind": "salvo", "at": 8.8, "duration": 4, "db": -15, "pan": 0.3 },
+      { "kind": "salvo", "at": 10.1, "duration": 4, "db": -15, "pan": 0 },
+      { "kind": "chord", "at": 11.2, "duration": 4.5, "db": -20, "notes": [261.63, 329.63, 392, 523.25] }
+    ],
+    "E2": [
+      { "kind": "whoosh", "at": 3.8, "duration": 1.4, "db": -17, "frequency": 180, "to": 1250 },
+      { "kind": "impact", "at": 5.2, "duration": 1.5, "db": -10 },
+      { "kind": "boing", "at": 5.48, "duration": 1.8, "db": -18, "frequency": 180, "pan": -0.3 },
+      { "kind": "clatter", "at": 5.6, "duration": 4.3, "db": -20 },
+      { "kind": "whoosh", "at": 6.2, "duration": 2.8, "db": -28, "frequency": 1600, "to": 450, "pan": 0.4 },
+      { "kind": "bell", "at": 10.7, "duration": 1.3, "db": -21, "frequency": 392, "pan": -0.4 },
+      { "kind": "bell", "at": 11.08, "duration": 1.6, "db": -21, "frequency": 329.63, "pan": 0.4 },
+      { "kind": "chord", "at": 13, "duration": 2.7, "db": -22, "notes": [196, 246.94, 293.66, 369.99] }
+    ],
+    "E3": [
+      { "kind": "salvo", "at": 3.85, "duration": 4, "db": -21, "pan": 0.7 },
+      { "kind": "salvo", "at": 5, "duration": 4, "db": -21, "pan": -0.7 },
+      { "kind": "whoosh", "at": 7.6, "duration": 2.5, "db": -20, "frequency": 350, "to": 2400, "pan": -0.75 },
+      { "kind": "chord", "at": 8.1, "duration": 5.5, "db": -21, "notes": [261.63, 392, 523.25, 659.25] },
+      { "kind": "salvo", "at": 8.8, "duration": 4, "db": -20, "pan": 0.7 },
+      { "kind": "salvo", "at": 9.95, "duration": 4, "db": -20, "pan": -0.7 },
+      { "kind": "bell", "at": 12.9, "duration": 2.6, "db": -23, "frequency": 1046.5, "pan": 0.6 }
+    ],
+    "E4": [
+      { "kind": "salvo", "at": 3.85, "duration": 4, "db": -20, "pan": -0.4 },
+      { "kind": "salvo", "at": 7.4, "duration": 4, "db": -20, "pan": 0.4 },
+      { "kind": "whoosh", "at": 10.6, "duration": 3.4, "db": -20, "frequency": 450, "to": 1600 },
+      { "kind": "scratch", "at": 14.1, "duration": 0.34, "db": -19 },
+      { "kind": "bell", "at": 14.42, "duration": 0.7, "db": -17, "frequency": 392, "pan": -0.3 },
+      { "kind": "bell", "at": 14.76, "duration": 0.9, "db": -17, "frequency": 311.13, "pan": 0.3 }
+    ],
+    "E5": [
+      { "kind": "comet", "at": 3.8, "duration": 2.4, "db": -19, "frequency": 350, "to": 1650, "pan": -0.5 },
+      { "kind": "comet", "at": 4.9, "duration": 2.7, "db": -21, "frequency": 440, "to": 2200, "pan": 0.5 },
+      { "kind": "comet", "at": 6, "duration": 3.2, "db": -22, "frequency": 523.25, "to": 2500, "pan": -0.2 },
+      { "kind": "comet", "at": 8.1, "duration": 3.3, "db": -21, "frequency": 659.25, "to": 3000, "pan": 0.5 },
+      { "kind": "comet", "at": 9.8, "duration": 3.5, "db": -22, "frequency": 783.99, "to": 3400, "pan": -0.5 },
+      { "kind": "comet", "at": 11.4, "duration": 3.8, "db": -23, "frequency": 880, "to": 3600, "pan": 0.2 }
+    ],
+    "E6": [
+      { "kind": "salvo", "at": 3.85, "duration": 4, "db": -22, "pan": -0.4 },
+      { "kind": "salvo", "at": 4.95, "duration": 4, "db": -22, "pan": 0.4 },
+      { "kind": "bell", "at": 10, "duration": 1.5, "db": -20, "frequency": 523.25, "pan": -0.8 },
+      { "kind": "bell", "at": 10.28, "duration": 1.5, "db": -21, "frequency": 587.33, "pan": -0.55 },
+      { "kind": "bell", "at": 10.56, "duration": 1.5, "db": -21, "frequency": 659.25, "pan": -0.3 },
+      { "kind": "bell", "at": 10.84, "duration": 1.5, "db": -21, "frequency": 783.99, "pan": 0 },
+      { "kind": "bell", "at": 11.12, "duration": 1.5, "db": -21, "frequency": 880, "pan": 0.3 },
+      { "kind": "bell", "at": 11.4, "duration": 1.5, "db": -21, "frequency": 987.77, "pan": 0.55 },
+      { "kind": "bell", "at": 11.68, "duration": 2, "db": -20, "frequency": 1174.66, "pan": 0.8 },
+      { "kind": "chord", "at": 12.8, "duration": 2.8, "db": -24, "notes": [261.63, 392, 554.37, 880] }
+    ]
+  }
+}

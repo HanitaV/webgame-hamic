@@ -11,6 +11,11 @@
     "check:strings": "node scripts/check-strings.mjs",
     "check": "npm run check:answers && npm run check:strings",
     "capture": "node scripts/capture.mjs",
+    "render:cinematics": "node scripts/render-cinematics.mjs",
+    "render:ending-audio": "node scripts/render-ending-audio.mjs",
+    "mux:ending-audio": "node scripts/mux-ending-audio.mjs",
+    "build:drone": "node scripts/build-drone.mjs",
+    "test:cinematics": "node scripts/cinematics-e2e.mjs",
     "test:story": "node scripts/story-e2e.mjs"
   },
   "dependencies": {

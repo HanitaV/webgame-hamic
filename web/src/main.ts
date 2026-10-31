@@ -1,3 +1,4 @@
+import { initMusic, musicDiagnostics } from "./core/music";
 import { storyProgress } from "./game/story";
 import * as storyLogic from "./puzzles/logic/story";
 import { storyTime } from "./puzzles/logic/story";
@@ -38,6 +39,8 @@ import { screenSettings } from "./ui/screens/settings";
 import { screenShare } from "./ui/screens/share";
 import { screenWalk } from "./ui/screens/walk";
 import { toggleDeveloper } from "./game/developer";
+import { audioDiagnostics } from "./core/audio";
+import { endingAudioDiagnostics } from "./core/ending-audio";
 import { screenTitle } from "./ui/screens/title";
 
 const bootBar = document.querySelector<HTMLElement>("#boot-fill")!;
@@ -79,6 +82,7 @@ async function main() {
   const screenRoot = el("main", { id: "screen", class: "screen-root" });
   document.body.append(screenRoot);
   initRouter(screenRoot);
+  await initMusic();
   register("title", screenTitle);
   register("walk", screenWalk);
   register("journey", screenJourney);
@@ -119,7 +123,7 @@ async function main() {
   else if (start) { reset("title"); go(start); }
   else reset("title");
 
-  Object.assign(window, { __hoitu: { ready: true, go, reset, data: DATA, progress: P, walkPosition, walkingMetrics, walkTo, teleportTo, pauseWalk, worldDiagnostics, storyProgress, storyLogic, playSettings, dailyIds } });
+  Object.assign(window, { __hoitu: { ready: true, go, reset, data: DATA, progress: P, walkPosition, walkingMetrics, walkTo, teleportTo, pauseWalk, worldDiagnostics, storyProgress, storyLogic, playSettings, dailyIds, musicDiagnostics, audioDiagnostics, endingAudioDiagnostics, settings } });
 
   if (import.meta.env.PROD && "serviceWorker" in navigator) {
     navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);

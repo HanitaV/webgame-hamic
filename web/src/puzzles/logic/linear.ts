@@ -103,7 +103,7 @@ export function evalTranspose(level: Level, sol: TransposeSolution): EvalResult 
   const detOk = sol.det === k * k;
   const ok = dirOk && fixOk;
   let message: string;
-  if (!dirOk) message = "Thử bấm Chạy thử và xem tia Rᵀ·d trên sa bàn đi về phía nào.";
+  if (!dirOk) message = "Thử bấm Chạy thử và xem tia Rᵀ·d trên mô hình đi về phía nào.";
   else if (!fixOk) message = `Nhân cả ma trận lên ${k} lần làm tia dài ra ${k} lần nhưng vẫn chúc xuống.`;
   else if (!detOk) message = `Đúng lỗi và cách sửa. Định thức của ${k}·R còn chưa đúng.`;
   else message = `Rᵀ là xoay ngược chiều; det(${k}·R) = ${k * k} ≠ 1 nên đó không phải cách sửa.`;

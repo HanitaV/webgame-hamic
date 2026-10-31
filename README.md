@@ -1,6 +1,6 @@
 # Hội tụ 70
 
-Game kể chuyện và giải đố trên web của CLB Toán Tin (HAMIC), bản 2.8.0. Người chơi là thành viên mới đi một vòng sa bàn 3D khuôn viên USSH × HUS để trả lời câu hỏi "Vì sao đèn lệch?": gặp 12 nhân vật, giải 13 câu đố và minigame Toán – Tin, đưa ra 8 quyết định và đến một trong 6 kết cục của Đêm Hội tụ. Kết cục do lựa chọn quyết định; khoảng 70% tổ hợp lựa chọn dẫn tới kết cục hài "sa bàn nổ tung" (hoạt hình, có chú thích mô phỏng).
+Game kể chuyện và giải đố trên web của CLB Toán Tin (HAMIC), bản 2.8.0. Người chơi là thành viên mới đi một vòng mô hình 3D khuôn viên USSH × HUS để trả lời câu hỏi "Vì sao đèn lệch?": gặp 12 nhân vật, giải 13 câu đố và minigame Toán – Tin, đưa ra 8 quyết định và đến một trong 6 kết cục của Đêm Hội tụ. Kết cục do lựa chọn quyết định; khoảng 70% tổ hợp lựa chọn dẫn tới kết cục hài "mô hình nổ tung" (hoạt hình, có chú thích mô phỏng).
 
 ![Màn hình chính](docs/screenshots/phone-title.png)
 
@@ -37,7 +37,7 @@ python3 content/gen_levels.py --out web/public/data   # 266 màn, 445 phép ki�
 | Mã | Kết cục | Cách đạt (tóm tắt) |
 |---|---|---|
 | E1 | Đêm Hội tụ | Chọn an toàn cả tám lần |
-| E2 | Sự cố sa bàn: nổ tung | Tổng rủi ro các lựa chọn ≥ ngưỡng; nguyên nhân hiển thị là sai sót gốc nặng nhất |
+| E2 | Sự cố mô hình: nổ tung | Tổng rủi ro các lựa chọn ≥ ngưỡng; nguyên nhân hiển thị là sai sót gốc nặng nhất |
 | E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Giữ nguyên lời ghi, còn sai sót nhỏ |
 | E4 | Drone xếp thành 07 | Bản vẽ drone nhìn từ phía sân khấu |
 | E5 | Pháo hoa bay mãi | Cho pháo vút lên không dừng |
@@ -55,7 +55,7 @@ Chi tiết, bảng trọng số và tỉ lệ: [docs/STORY_BIBLE.md](docs/STORY_
 | `web/public/data/` (còn lại) | Màn chơi, thành tựu, sự thật về 70, chuỗi giao diện, dữ liệu sinh tự động. |
 | `web/src/puzzles/logic/` | Luật chấm thuần: câu đố (`analysis`, `linear`, `blocks`, `discrete`), minigame truyện (`activities.ts`), cốt truyện và kết cục (`story.ts`). |
 | `web/src/ui/screens/walk.ts`, `web/src/ui/story/` | Màn đi bộ, minigame, Sổ, tin nhắn, bản đồ nhỏ, bảng kết cục. |
-| `web/src/scene/` | Sa bàn 3D (Three.js), nhân vật, cảnh kết cục. |
+| `web/src/scene/` | Mô hình 3D (Three.js), nhân vật, cảnh kết cục. |
 | `web/src/ui/rich.ts` | Hiển thị công thức (KaTeX, tải khi cần) và giả mã thuật toán. |
 | `web/scripts/` | `check-answers.ts`, `check-strings.mjs`, `story-e2e.mjs`, `story-driver.mjs`, `capture.mjs`, `build-map.mjs`. |
 | `content/` | `gen_levels.py` và dữ liệu gốc v2.2 để đối chiếu. |

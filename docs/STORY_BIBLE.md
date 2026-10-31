@@ -4,7 +4,7 @@ Tài liệu thiết kế cốt truyện, sinh từ `web/public/data/story.json`,
 
 ## 0. Quyết định mặc định đã tự đặt
 
-- Xương sống: điều tra "Vì sao sa bàn chạy thử bị lệch một đoạn?". Nguyên nhân là ba sai sót nhỏ cộng dồn, không có phản diện.
+- Xương sống: điều tra "Vì sao mô hình chạy thử bị lệch một đoạn?". Nguyên nhân là ba sai sót nhỏ cộng dồn, không có phản diện.
 - Thời lượng chuỗi chính mục tiêu 20–25 phút (15 điểm dừng, 12 minigame/câu đố, 1 bảng đối chiếu). Không có khóa thời gian hay đồng hồ đếm ngược.
 - Kết cục do lựa chọn quyết định hoàn toàn, không quay ngẫu nhiên (yêu cầu bổ sung của người phụ trách, thay cho mục 2 của ENDINGS.md bản đầu). Trọng số rủi ro được chỉnh để khoảng 70% tổ hợp lựa chọn dẫn tới E2.
 - E1 là kết cục của lượt chơi không để lại rủi ro nào; E3 dành cho người giữ nguyên lời ghi nhưng còn sai sót nhỏ; E6 cần đủ bảy sự thật về 70 và một lựa chọn riêng ở bước cuối.
@@ -14,7 +14,7 @@ Tài liệu thiết kế cốt truyện, sinh từ `web/public/data/story.json`,
 
 ## 1. Câu hỏi dẫn dắt và xương sống
 
-Bạn mới vào HAMIC được vài hôm. Tối nay chạy thử sa bàn mừng 70 năm, nhưng bản chạy thử chiều nay lệch một đoạn. Chị Chủ nhiệm nhờ bạn đi một vòng hai trường tìm nguyên nhân.
+Bạn mới vào HAMIC được vài hôm. Tối nay chạy thử mô hình mừng 70 năm, nhưng bản chạy thử chiều nay lệch một đoạn. Chị Chủ nhiệm nhờ bạn đi một vòng hai trường tìm nguyên nhân.
 
 Ba sai sót gốc, mỗi sai sót có bằng chứng và một quyết định để sửa hoặc để lại:
 
@@ -24,7 +24,7 @@ Ba sai sót gốc, mỗi sai sót có bằng chứng và một quyết định �
 | Thiếu tệp ghi chú: mẫu đồng bộ bỏ thư mục `_ghichu` | Tệp ghi chú gốc, Mẫu đồng bộ, Lời ghi đi theo ảnh | `notes` (Vy) | Thiếu tệp ghi chú |
 | Hai nhóm hiểu khác nhau về bản chốt lịch | Hai bản lịch | `final` (Đức) | Hai bản chốt |
 
-Ở bước cuối, bảng "Đối chiếu bằng chứng" yêu cầu chọn đúng ba nguyên nhân này và loại ba nguyên nhân giả (có người phá, máy hỏng, sa bàn quá nặng).
+Ở bước cuối, bảng "Đối chiếu bằng chứng" yêu cầu chọn đúng ba nguyên nhân này và loại ba nguyên nhân giả (có người phá, máy hỏng, mô hình quá nặng).
 
 ## 2. Bản đồ chương và điểm dừng
 
@@ -87,7 +87,7 @@ Cờ không được lưu riêng mà suy ra từ trạng thái (`deriveFlags` tr
 | Cờ | Nơi tạo | Nơi dùng | Hệ quả |
 |---|---|---|---|
 | `dec:version:A` | Hai bản cùng tên | thoại gọi lại của Minh; tin nhắn m1a | Bản về T3 khớp mã băm với bản đã duyệt. |
-| `dec:version:B` | Hai bản cùng tên | thoại gọi lại của Minh; tin nhắn m1b; rủi ro kết cục +6 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên sa bàn. |
+| `dec:version:B` | Hai bản cùng tên | thoại gọi lại của Minh; tin nhắn m1b; rủi ro kết cục +6 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên mô hình. |
 | `dec:version:C` | Hai bản cùng tên | thoại gọi lại của Chị Chủ nhiệm HAMIC; tin nhắn m1c; rủi ro kết cục +2 | Hai bản cùng tên về T3, người nhận phải tự đoán. |
 | `dec:firework:A` | Căn dải sáng | thoại gọi lại của Thành viên Ban Học tập | Pháo hoa giữ hàm hội tụ về 70 m. |
 | `dec:firework:B` | Căn dải sáng | thoại gọi lại của Thành viên Ban Học tập; tin nhắn m2b; rủi ro kết cục +10; kết cục → E5 | Pháo hoa được đổi sang hàm không hội tụ. |
@@ -253,8 +253,8 @@ Cờ không được lưu riêng mà suy ra từ trạng thái (`deriveFlags` tr
 |---|---|---|
 | Hai bản cùng tên | Tớ kể cậu nghe: hôm đầu vào nhóm tớ cũng cầm nhầm USB của chị. Chị chỉ bảo, lần sau nhìn mã băm. Mã băm là gì vậy? Là dấu vân tay của tệp. Đổi một chữ là đổi hết. (thân thiết +) | Cho mình xem thông tin tệp trước đã. Đây, có giờ sửa và mã băm. Cậu tính so cả hai à? Ừ. Giờ sửa có thể đổi khi chép tệp, mã băm thì không. (thêm ghi chú kỹ thuật: Giờ sửa và mã băm) |
 | Căn dải sáng | Hồi mới vào, tớ ngồi cả buổi mà pháo vẫn hụt. Chị bảo: nhìn đồ thị, đừng nhìn số. Nhìn đồ thị thì thấy gì? Thấy nó tiến sát vạch đến đâu. Cậu thử là biết. (thân thiết +) | h(t) = a(1 − e^(−bt)). a quyết định đích, b quyết định nhanh chậm đúng không? Chuẩn. Đích lấy a, tốc độ lấy b. Cậu đọc đề kỹ ghê. Tớ đưa cậu bảng b thử nghiệm của tớ, đỡ dò. (thêm ghi chú kỹ thuật: Bảng b thử nghiệm) |
-| Mở tủ tư liệu | Tủ này có từ hồi tôi chưa vào. Mấy khóa trước để lại cả hộp bút với bản vẽ cũ. Bản vẽ cũ của gì vậy? Sa bàn năm nào đó. Ông mở được tủ thì xem luôn. (thân thiết +) | Ba ổ khóa chia 2, 5, 7. Nhân lại là 70, nên chỉ có một số nhỏ hơn 70 thỏa cả ba. Ông nói gì tôi không hiểu lắm, nhưng nghe chắc chắn đấy. Chỉ cần thử các số lẻ chia 5 dư 2 thôi. (thêm ghi chú kỹ thuật: Ba ổ khóa) |
-| Bộ ảnh bên USSH | Có một anh cựu sinh viên gửi ảnh kèm thư tay. Anh viết: ảnh mờ rồi, nhưng nhớ thì không mờ. Lời ghi trong ảnh là của anh ấy à? Ừ. Nên bọn mình mới muốn giữ nguyên. (thân thiết +) | Khung chữ trên sa bàn rộng bao nhiêu ký tự? Khoảng sáu mươi. Lời ghi dài nhất có năm mươi tư. Vậy vừa khung, không cần rút gọn. (thêm ghi chú kỹ thuật: Khung chữ) |
+| Mở tủ tư liệu | Tủ này có từ hồi tôi chưa vào. Mấy khóa trước để lại cả hộp bút với bản vẽ cũ. Bản vẽ cũ của gì vậy? Mô hình năm nào đó. Ông mở được tủ thì xem luôn. (thân thiết +) | Ba ổ khóa chia 2, 5, 7. Nhân lại là 70, nên chỉ có một số nhỏ hơn 70 thỏa cả ba. Ông nói gì tôi không hiểu lắm, nhưng nghe chắc chắn đấy. Chỉ cần thử các số lẻ chia 5 dư 2 thôi. (thêm ghi chú kỹ thuật: Ba ổ khóa) |
+| Bộ ảnh bên USSH | Có một anh cựu sinh viên gửi ảnh kèm thư tay. Anh viết: ảnh mờ rồi, nhưng nhớ thì không mờ. Lời ghi trong ảnh là của anh ấy à? Ừ. Nên bọn mình mới muốn giữ nguyên. (thân thiết +) | Khung chữ trên mô hình rộng bao nhiêu ký tự? Khoảng sáu mươi. Lời ghi dài nhất có năm mươi tư. Vậy vừa khung, không cần rút gọn. (thêm ghi chú kỹ thuật: Khung chữ) |
 | Thứ tự tổng duyệt | Năm ngoái tổng duyệt, anh run đến mức bấm nhầm nút tắt đèn cả sân. Rồi sao nữa anh? Cả sân cười. Chị bật lại, bảo: lỗi lúc tổng duyệt là lỗi tốt. (thân thiết +) | Anh có bảng phụ thuộc giữa các cảnh không? Có, anh vẽ tay đây. Mũi tên chỉ cảnh nào cần cảnh nào. Vậy tìm cảnh không cần gì trước, rồi gỡ dần. (thêm ghi chú kỹ thuật: Bảng phụ thuộc) |
 
 ## 6. Kết cục
@@ -273,7 +273,7 @@ Thứ tự xét:
 | Mã | Kết cục | Cách đạt | Tỉ lệ trên mọi tổ hợp | Mục tiêu |
 |---|---|---|---|---|
 | E1 | Đêm Hội tụ | Chọn phương án an toàn ở cả tám quyết định, hoặc chỉ sai sót nhẹ mà không giữ nguyên lời ghi. | 10.87% | 12% |
-| E2 | Sự cố sa bàn: nổ tung | Để lại nhiều sai sót cho tới khi tổng rủi ro ≥ 18. | 70.30% | 70% |
+| E2 | Sự cố mô hình: nổ tung | Để lại nhiều sai sót cho tới khi tổng rủi ro ≥ 18. | 70.30% | 70% |
 | E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Giữ nguyên lời ghi; còn vài sai sót nhỏ chưa tới ngưỡng. | 5.52% | 6% |
 | E4 | Drone xếp thành 07 | Bản vẽ drone nhìn từ phía sân khấu; tổng rủi ro dưới ngưỡng. | 4.29% | 4% |
 | E5 | Pháo hoa bay mãi | Cho pháo vút lên không dừng; tổng rủi ro dưới ngưỡng. | 4.29% | 4% |
@@ -286,7 +286,7 @@ Tổng số tổ hợp: 2916. E2 theo nguyên nhân: Nhầm phiên bản 919, Th
 | Quyết định | NPC | Phương án | Rủi ro | Hệ quả |
 |---|---|---|---|---|
 | `version` | Minh | A. Gửi Bản 1, mã băm 3f70a1 khớp với bản chị đã duyệt.  | 0 | Bản về T3 khớp mã băm với bản đã duyệt. |
-| `version` | Minh | B. Gửi Bản 2, giờ sửa muộn hơn chắc là mới hơn.  | 6 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên sa bàn. |
+| `version` | Minh | B. Gửi Bản 2, giờ sửa muộn hơn chắc là mới hơn.  | 6 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên mô hình. |
 | `version` | Minh | C. Gửi cả hai, để T3 tự chọn.  | 2 | Hai bản cùng tên về T3, người nhận phải tự đoán. |
 | `firework` | Thành viên Ban Học tập | A. Giữ hàm dừng ở 70 m như đã căn.  | 0 | Pháo hoa giữ hàm hội tụ về 70 m. |
 | `firework` | Thành viên Ban Học tập | B. Thêm hệ số cho pháo vút lên không dừng. → E5 | 10 | Pháo hoa được đổi sang hàm không hội tụ. |
@@ -310,9 +310,9 @@ Tổng số tổ hợp: 2916. E2 theo nguyên nhân: Nhầm phiên bản 919, Th
 
 ### Màn kết
 
-- Cảnh 3D trên sa bàn (E1 trình diễn đầy đủ; E2 khối tòa nhà tách ra, bay lên chậm rồi rơi chậm, hoa giấy; E3 cầu ánh sáng nối hai trường; E4 drone xếp 07; E5 pháo bay mãi; E6 drone tách thành các cụm 1, 2, 5, 7, 10, 14, 35).
+- Cảnh 3D trên mô hình (E1 trình diễn đầy đủ; E2 khối tòa nhà tách ra, bay lên chậm rồi rơi chậm, hoa giấy; E3 cầu ánh sáng nối hai trường; E4 drone xếp 07; E5 pháo bay mãi; E6 drone tách thành các cụm 1, 2, 5, 7, 10, 14, 35).
 - Nút "Bỏ qua cảnh" có ngay từ đầu. "Giảm hiệu ứng ánh sáng" hoặc "Giảm chuyển động" thì cảnh E2 chuyển sang mờ dần tại chỗ.
-- E2 luôn có chú thích: “Đây là sa bàn mô phỏng. Khuôn viên thật vẫn nguyên vẹn.”
+- E2 luôn có chú thích: “Đây là mô hình trên máy tính. Khuôn viên thật vẫn nguyên vẹn.”
 - Bảng kết: lời thoại, nguyên nhân hiển thị (E2), dòng thời gian nhân quả (tám lựa chọn, đánh dấu mục góp vào sự cố), mười hai lời kết NPC.
 - Nút: Chọn lại từ tổng duyệt (giữ mọi lựa chọn trước điểm dừng Thứ tự tổng duyệt), Chơi lại từ đầu, Thư viện kết cục, Về menu. Thư viện giữ qua các lượt chơi và có gợi ý cách đạt kết cục chưa gặp.
 

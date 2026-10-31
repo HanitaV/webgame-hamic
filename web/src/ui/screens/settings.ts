@@ -17,6 +17,8 @@ type Opt =
 
 const GROUPS: { title: string; opts: Opt[] }[] = [
   { title: "set.audio", opts: [
+    { kind: "toggle", key: "musicEnabled", label: "bgm.title", help: "bgm.help" },
+    { kind: "slider", key: "musicVolume", label: "bgm.volume", help: "bgm.help" },
     { kind: "slider", key: "sfxVolume", label: "set.sfx", help: "set.sfxHelp" },
     { kind: "toggle", key: "mute", label: "set.mute", help: "set.muteHelp" },
   ] },
@@ -50,7 +52,7 @@ export function screenSettings(root: HTMLElement) {
     for (const o of g.opts) {
       let node: HTMLElement;
       if (o.kind === "slider") {
-        node = slider({ label: t(o.label), min: 0, max: 1, step: 0.05, value: Number(settings.get()[o.key]), format: (v) => `${Math.round(v * 100)}%`, onInput: (v) => save({ [o.key]: v } as Partial<Settings>) }).root;
+        node = slider({ label: t(o.label), min: 0, max: 1, step: o.key === "musicVolume" ? 0.01 : 0.05, value: Number(settings.get()[o.key]), format: (v) => `${Math.round(v * 100)}%`, onInput: (v) => save({ [o.key]: v } as Partial<Settings>) }).root;
         node.addEventListener("change", () => sfx.click());
       } else {
         const b = btn(`${t(o.label)}: ${valueText(o)}`, () => {

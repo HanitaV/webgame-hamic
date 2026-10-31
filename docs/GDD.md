@@ -53,7 +53,7 @@
 1. **Lõi là Toán – Tin.** Phần câu đố và kiến thức học phải là Toán – Tin đã kiểm tra. Cốt truyện, hội thoại và bối cảnh được phép nhắc tới trường, đơn vị bạn và lịch sử ở mức nền (một hai câu), miễn là chính xác, trân trọng, không chọn phe và có người của CLB xem qua. Không đưa nội dung triết học hay học thuật ngành khác vào phần câu đố. Lời chúc 70 năm vẫn là một dòng cố định (mục 11.3).
 2. **Không chế giễu ai.** Hài hước chỉ nhắm vào *tình huống kỹ thuật* trong game.
 3. **Không gắn nhãn tính cách cho người chơi.** Phản hồi mô tả hệ quả của lựa chọn, không đánh giá con người.
-4. **Sai là một phần của học.** Mạch chưa ổn chỉ chuyển xám và hiện số liệu; không có lửa, khói thật hay âm nổ lớn. Ngoại lệ có chủ đích: các kết cục hài ở mục 5.4 được phép có cảnh sa bàn "nổ" dạng hoạt hình.
+4. **Sai là một phần của học.** Mạch chưa ổn chỉ chuyển xám và hiện số liệu; không có lửa, khói thật hay âm nổ lớn. Ngoại lệ có chủ đích: các kết cục hài ở mục 5.4 được phép có cảnh mô hình "nổ" dạng hoạt hình.
 5. **Không thành tựu tiêu cực.** Nghiên cứu thiết kế thành tựu khuyến nghị tránh vì làm người chơi mất cảm giác năng lực và dễ đổ lỗi cho game [4].
 6. **Không dùng người thật, logo, ảnh chụp, nhạc có bản quyền.** Nhân vật (Tia, người chơi và các NPC trong khuôn viên) đều hư cấu, không đại diện phát ngôn chính thức của CLB hay trường.
 7. **Giữ độ chính xác Toán – Tin tuyệt đối.** Mọi đáp án phải qua kiểm tra chéo (mục 12.2).
@@ -75,7 +75,7 @@
 ### 3.1. Vòng lặp một màn chơi `[ĐỀ XUẤT]`
 
 ```
-Đọc đề (một câu) -> Thao tác trên sa bàn (kéo thanh trượt, đặt gương, ghép khối lệnh...)
+Đọc đề (một câu) -> Thao tác trên mô hình (kéo thanh trượt, đặt gương, ghép khối lệnh...)
    -> Bấm "Chạy thử" -> Quan sát hệ quả bằng ánh sáng -> Điều chỉnh -> Đạt mục tiêu
    -> Nhận sao -> Mạch sáng thêm
 ```
@@ -216,11 +216,11 @@ Sau khi xong, chạy **màn trình diễn**: pháo hoa, tia sáng và drone mà 
 
 ## 5. KHÔNG GIAN, TRÌNH DIỄN VÀ PHẦN THƯỞNG
 
-### 5.1. Sa bàn ánh sáng `[ĐÃ SỬA 2.3]` `[XÁC MINH]`
+### 5.1. Mô hình ánh sáng `[ĐÃ SỬA 2.3]` `[XÁC MINH]`
 
-> **Thay đổi ở bản 2.3 (quyết định của nhóm làm game):** bản 2.2 đề xuất sa bàn trừu tượng, không tên tòa nhà, không bản đồ thật. Bản 2.3 thay bằng **bản đồ khối khuôn viên 334–336 Nguyễn Trãi (USSH × HUS) ban đêm, có tên trường và tên tòa nhà**. Lý do giữ nguyên rủi ro cũ: bản đồ là *ước lượng* (bố cục theo sơ đồ chỉ dẫn, kích thước bằng đơn vị game, chưa đo đạc), nên **phải có người của CLB xác nhận** trước khi phát hành (Phụ lục, mục 6).
+> **Thay đổi ở bản 2.3 (quyết định của nhóm làm game):** bản 2.2 đề xuất mô hình trừu tượng, không tên tòa nhà, không bản đồ thật. Bản 2.3 thay bằng **bản đồ khối khuôn viên 334–336 Nguyễn Trãi (USSH × HUS) ban đêm, có tên trường và tên tòa nhà**. Lý do giữ nguyên rủi ro cũ: bản đồ là *ước lượng* (bố cục theo sơ đồ chỉ dẫn, kích thước bằng đơn vị game, chưa đo đạc), nên **phải có người của CLB xác nhận** trước khi phát hành (Phụ lục, mục 6).
 
-- Sa bàn là bản đồ khối hai trường USSH và HUS vào ban đêm, góc nhìn từ trên cao, nhãn tên trường và tên tòa nhà (Nhà B, C, D, E, G, H; Nhà T1–T5, Nhà Chuyên đề).
+- Mô hình là bản đồ khối hai trường USSH và HUS vào ban đêm, góc nhìn từ trên cao, nhãn tên trường và tên tòa nhà (Nhà B, C, D, E, G, H; Nhà T1–T5, Nhà Chuyên đề).
 - Mỗi mạch gắn với một tòa nhà; mạch sáng thì tòa nhà đó bừng màu của mạch, có đèn pha lê trên mái và cột sáng lên trời. Mạch 7 (Đêm Hội tụ) là lõi sáng phía trên bãi cỏ HUS; lõi sáng thêm theo mỗi mạch.
 - Màn trình diễn (mục 4.7) diễn ra trên bãi cỏ HUS: tia sáng từ các tòa nhà đã sáng hội tụ về lõi, drone xếp chữ "70".
 - Không dùng logo trường, ảnh chụp thật hay người thật. Chỉ dùng chữ "HUS", "USSH" và tên tòa nhà dạng nhãn.
@@ -249,12 +249,16 @@ Mỗi sự thật mở khi hoàn thành một mạch và là kiến thức Toán
 
 ### 5.4. Kết cục `[ĐỀ XUẤT]`
 
-Cuối cốt truyện, game chọn một trong nhiều kết cục. Tất cả diễn ra trên sa bàn mô phỏng, không có người trong cảnh, luôn có nút bỏ qua, chơi lại và "Thử lần quay khác".
+**Hiệu ứng và âm thanh E2:** cho phép vòng xung lực, tia hình học và các mảnh màu của mô hình bật ra ở nhịp tách khối; không lửa/khói/chớp sáng. Cú rung máy quay nhẹ và các lớp này tắt khi giảm ánh sáng hoặc chuyển động. Cả sáu ending có track SFX riêng, theo volume/mute, dừng khi bỏ qua và không dùng tiếng nổ thật lớn.
+
+**Trình bày hiện hành:** E1–E6 có sáu cutscene riêng, 16 giây/cảnh, render bằng GPU thành video nền 1080p. Đầu cảnh thấy rõ model drone bốn cánh, đèn chuyển màu rồi máy bay bay xa thành các điểm sáng; trong lúc chơi cũng gặp các drone thử đèn tại cổng và bãi cỏ. Pháo bắn theo loạt, tỏa chùm tia có đuôi rủ. E2 cho drone rời khu vực rồi dùng chuyển động khối nhà và hoa giấy. Không hiện trình phát video; có nút Bỏ qua và bảng kết quả sau cảnh. Nếu video không tải được hoặc bật giảm ánh sáng/chuyển động, dùng cảnh Three.js trực tiếp. Chi tiết dàn cảnh và công cụ xuất ở [CINEMATICS.md](CINEMATICS.md). Luật chọn ending không đổi.
+
+Cuối cốt truyện, game chọn một trong nhiều kết cục. Tất cả diễn ra trên mô hình trên máy tính, không có người trong cảnh, luôn có nút bỏ qua, chơi lại và "Thử lần quay khác".
 
 | Mã | Kết cục | Tỉ lệ mục tiêu (trên mọi tổ hợp lựa chọn) | Ghi chú |
 |---|---|---|---|
 | E1 | Pháo hoa mừng 70 năm HUS | 12% | Kết cục chính thức: tia sáng, pháo hoa và drone hội tụ thành chữ 70 |
-| E2 | Sa bàn nổ tung (HUS và USSH) | 70% | Kết cục hài: các khối tòa nhà rời nhau, rơi chậm, hoa giấy; có ba biến thể theo nguyên nhân |
+| E2 | Mô hình nổ tung (HUS và USSH) | 70% | Kết cục hài: các khối tòa nhà rời nhau, rơi chậm, hoa giấy; có ba biến thể theo nguyên nhân |
 | E3 | Cầu ánh sáng Tự nhiên – Nhân văn | 6% | Tia sáng nối hai trường |
 | E4 | Drone xếp thành "07" | 4% | Kết cục hài nhẹ |
 | E5 | Pháo hoa bay mãi không dừng | 4% | Chơi chữ với giới hạn: hàm không hội tụ về 70 |
@@ -265,7 +269,7 @@ Quy tắc:
 - Nguyên nhân hiển thị của E2 là sai sót gốc nặng nhất người chơi để lại: nhầm phiên bản, thiếu tệp ghi chú, hai nhóm hiểu khác nhau về bản chốt; nếu cả ba đã sửa thì biến thể "thêm một chùm". Dòng thời gian cuối game nêu từng lựa chọn và lựa chọn nào góp vào sự cố.
 - Nút "Chọn lại từ tổng duyệt" thay cho "Thử lần quay khác": giữ mọi lựa chọn trước đó, chọn lại hai quyết định cuối.
 - Có "Thư viện kết cục" xem lại các kết cục đã gặp và thành tựu "Gặp đủ kết cục" (không phạt, không thành tựu tiêu cực).
-- Cảnh nổ: hoạt hình các khối, rơi chậm, hoa giấy; không lửa, khói thật, người, tiếng nổ lớn hay chớp sáng; tôn trọng "Giảm hiệu ứng ánh sáng" (chuyển sang mờ dần); chú thích rõ đây là sa bàn mô phỏng. Công tắc `endings.boom.enabled` cho phép tắt E2 ở nơi trình diễn cần.
+- Cảnh nổ: hoạt hình các khối, rơi chậm, hoa giấy; không lửa, khói thật, người, tiếng nổ lớn hay chớp sáng; tôn trọng "Giảm hiệu ứng ánh sáng" (chuyển sang mờ dần); chú thích rõ đây là mô hình trên máy tính. Công tắc `endings.boom.enabled` cho phép tắt E2 ở nơi trình diễn cần.
 - Cần người có trách nhiệm của CLB đồng ý cảnh nổ có tên HUS và USSH trước khi phát hành (thêm vào Phụ lục).
 
 ---
@@ -417,7 +421,7 @@ Toàn bộ nội dung nằm trong các tệp JSON, không cần sửa mã:
 
 | Màn hình | Thành phần |
 |---|---|
-| Sảnh | Sa bàn với bảy mạch; số sao; nút Chế độ Khách; nút Cài đặt |
+| Sảnh | Mô hình với bảy mạch; số sao; nút Chế độ Khách; nút Cài đặt |
 | Màn chơi | Đề (một câu), vùng thao tác, nút Chạy thử, nút Gợi ý, nút Về sảnh |
 | Kết quả | Ba sao, phản hồi của Tia, nút Thử lại / Màn tiếp |
 | Sổ tay | 7 sự thật; các khái niệm đã gặp |
@@ -450,7 +454,7 @@ PuzzleModule {
 ```
 
 - Giao diện, lưu tiến độ, thành tựu, cài đặt dùng chung cho mọi mô-đun.
-- Công nghệ cụ thể (Canvas 2D hay WebGL cho sa bàn) do nhóm kỹ thuật chọn. Gợi ý: câu đố vẽ bằng Canvas 2D; chỉ sa bàn và màn trình diễn dùng 3D; chạy được ngoại tuyến.
+- Công nghệ cụ thể (Canvas 2D hay WebGL cho mô hình) do nhóm kỹ thuật chọn. Gợi ý: câu đố vẽ bằng Canvas 2D; chỉ mô hình và màn trình diễn dùng 3D; chạy được ngoại tuyến.
 - Lưu tiến độ cục bộ trên thiết bị; không thu thập dữ liệu cá nhân.
 
 ### 10.2. Ví dụ dữ liệu màn chơi
@@ -595,7 +599,7 @@ Nếu một mẫu bị phát hiện lỗi, chỉ sửa mẫu rồi sinh lại; k
 
 - [ ] Không câu chữ nào chế giễu, so sánh hơn kém hoặc đánh giá người chơi.
 - [ ] Không thành tựu hay phản hồi mang tính chê hay phạt.
-- [ ] Không lửa, khói thật hay tiếng nổ lớn. Cảnh sa bàn "nổ" ở mục 5.4 đúng điều kiện: hoạt hình khối, rơi chậm, không người, không chớp sáng, có nút bỏ qua.
+- [ ] Không lửa, khói thật hay tiếng nổ lớn. Cảnh mô hình "nổ" ở mục 5.4 đúng điều kiện: hoạt hình khối, rơi chậm, không người, không chớp sáng, có nút bỏ qua.
 - [ ] Hiệu ứng ánh sáng không nhấp nháy quá ba lần mỗi giây.
 - [ ] Không logo, ảnh người thật.
 - [ ] Bản đồ khuôn viên và tên tòa nhà (USSH, HUS) đã được người của CLB đối chiếu và xác nhận; sau đó đặt `mapVerified: true` trong `map.json`. *(Bản 2.3 dùng bản đồ thật, thay cho mục "không bản đồ hay tên địa điểm thật" của bản 2.2.)*
@@ -609,7 +613,7 @@ Nếu một mẫu bị phát hiện lỗi, chỉ sửa mẫu rồi sinh lại; k
 
 | Mức | Hạng mục |
 |---|---|
-| Must | Mạch 1, 2, 3; màn Đêm Hội tụ rút gọn; hệ thống sao và gợi ý; sa bàn và màn trình diễn; Chế độ Khách; cài đặt và trợ năng; thẻ chia sẻ; kiểm thử đáp án R1 |
+| Must | Mạch 1, 2, 3; màn Đêm Hội tụ rút gọn; hệ thống sao và gợi ý; mô hình và màn trình diễn; Chế độ Khách; cài đặt và trợ năng; thẻ chia sẻ; kiểm thử đáp án R1 |
 | Should | Chế độ Dạo chơi (5 dạng đầu: `plot-limit`, `series`, `beam-order`, `graph`, `count`), thành tựu A23–A25; Mạch 4; Sổ tay; thành tựu A01–A15; Phòng thí nghiệm; Thử thách hằng ngày; Luyện tập vô hạn; Sổ tay "sự thật về n"; thành tựu A19–A22 |
 | Could | Mạch 5, 6; thành tựu ẩn; mã lời giải; mở rộng màn trình diễn |
 | Won't (giai đoạn này) | Trình soạn màn cho người chơi, nhiều người chơi, bảng xếp hạng, bản tiếng Anh |
@@ -664,9 +668,9 @@ Ngày cụ thể do CLB đặt theo lịch sự kiện.
 2. Hình thức phát hành chính: điểm trình diễn tại sự kiện, web cá nhân, hay cả hai? Cấu hình máy trình diễn và có cảm ứng không?
 3. Ngày trình diễn và số người làm kỹ thuật, đồ họa, nội dung để chốt lại các mức Must/Should/Could.
 4. Có muốn giữ mạch 5 và 6 (số học, tổ hợp) trong bản đầu không, hay để sau sự kiện?
-5. Công nghệ dùng cho sa bàn 3D và câu đố (nhóm kỹ thuật chọn).
+5. Công nghệ dùng cho mô hình 3D và câu đố (nhóm kỹ thuật chọn).
 6. Bản đồ USSH × HUS (bản 2.3): tên và vị trí các tòa nhà có đúng không? Việc gắn mạch với tòa nhà (`anchors` trong `map.json`: 1 → T1, 2 → Nhà E, 3 → T5, 4 → Nhà C, 5 → T3, 6 → T4, 7 → bãi cỏ HUS) có phù hợp không? Có được phép hiển thị tên trường USSH trong game của CLB không?
-7. Bản 2.8: đồng ý cho cảnh kết cục E2 "sa bàn nổ tung" (hoạt hình, có tên HUS và USSH, có chú thích "Đây là sa bàn mô phỏng. Khuôn viên thật vẫn nguyên vẹn.")? Nếu không, đặt `endings.boom.enabled = false`.
+7. Bản 2.8: đồng ý cho cảnh kết cục E2 "mô hình nổ tung" (hoạt hình, có tên HUS và USSH, có chú thích "Đây là mô hình trên máy tính. Khuôn viên thật vẫn nguyên vẹn.")? Nếu không, đặt `endings.boom.enabled = false`.
 8. Bản 2.8: xác nhận hai chi tiết lịch sử nền trong lời thoại: hai trường cùng tên Đại học Tổng hợp Hà Nội giai đoạn 1956–1995; câu nhắc bài lượng – chất trong môn triết học năm nhất.
 9. Bản 2.8: xác nhận tên ngắn của các điểm dừng dùng trong lời thoại (`map.json → walk.nodes[].short`) cùng với bản đồ (`mapVerified`).
 10. Dòng chúc 70 năm (`config.json → greeting`, đang `greetingVerified: false`).

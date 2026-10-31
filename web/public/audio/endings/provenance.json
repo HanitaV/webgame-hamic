@@ -1,0 +1,50 @@
+{
+  "created": "2026-10-31T06:37:04.583Z",
+  "source": "Original Web Audio synthesis: layered oscillators, filtered noise, deterministic crackle and generated stereo room; no external samples or music.",
+  "authoring": [
+    "src/core/ending-score.ts",
+    "public/data/ending-audio.json"
+  ],
+  "duration": 16,
+  "sampleRate": 48000,
+  "channels": 2,
+  "codec": "AAC 192 kbit/s",
+  "target": {
+    "lufs": -20,
+    "truePeak": -2,
+    "loudnessRange": 9
+  },
+  "measurements": {
+    "E1": {
+      "integratedLUFS": -20,
+      "truePeakDBTP": -5.3,
+      "bytes": 385342
+    },
+    "E2": {
+      "integratedLUFS": -20,
+      "truePeakDBTP": -4.8,
+      "bytes": 381170
+    },
+    "E3": {
+      "integratedLUFS": -20,
+      "truePeakDBTP": -6.2,
+      "bytes": 382175
+    },
+    "E4": {
+      "integratedLUFS": -20.2,
+      "truePeakDBTP": -4.5,
+      "bytes": 386549
+    },
+    "E5": {
+      "integratedLUFS": -20,
+      "truePeakDBTP": -9.7,
+      "bytes": 380839
+    },
+    "E6": {
+      "integratedLUFS": -20,
+      "truePeakDBTP": -4.6,
+      "bytes": 380454
+    }
+  },
+  "rebuild": "npm run dev; npm run render:ending-audio; npm run mux:ending-audio"
+}

@@ -45,6 +45,21 @@
 }
 html.colorblind { --gold: #ffb000; --gold-2: #ff9500; --good: #3aa0ff; --cyan: #9fd2ff; }
 
+.music-dock { position: fixed; z-index: 85; right: var(--edge-r); bottom: calc(var(--notice-height) + 12px); pointer-events: auto; }
+.music-dock > .btn { background: var(--surface-solid); border-color: var(--line-2); }
+.music-panel { position: absolute; right: 0; bottom: calc(100% + 8px); width: min(270px, 65vw); padding: 14px; display: grid; gap: 9px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface-solid); }
+.music-panel b { color: var(--gold); }
+.music-panel small { font-size: .72rem; }
+.music-panel label { display: grid; gap: 6px; font-size: .75rem; }
+.music-panel input { width: 100%; accent-color: var(--gold); }
+body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 172px); bottom: auto; }
+body[data-screen="walk"] .music-panel { top: 0; right: calc(100% + 8px); bottom: auto; }
+@media (max-height: 520px) {
+  body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 118px); }
+  .music-panel { padding: 10px; gap: 7px; }
+  .music-dock .btn { min-height: 32px; font-size: .72rem; }
+}
+
 html { font-size: calc(16px * var(--text-scale)); }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
@@ -55,6 +70,10 @@ button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 #world { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+.ending-film { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--bg); z-index: 1; pointer-events: none; opacity: 0; transition: opacity .6s var(--ease); }
+.ending-film.ready { opacity: 1; }
+.ending-film::-webkit-media-controls { display: none !important; }
+@media (max-aspect-ratio: 1/1) { .ending-film { object-fit: contain; } }
 
 .game-notice {
   position: fixed; right: 0; bottom: 0; z-index: 110;
@@ -371,6 +390,7 @@ html.reduce-lights .logo .logo-70 { text-shadow: none; }
 /* ---------- Show ---------- */
 .show-screen { pointer-events: none; display: grid; place-items: start center; }
 .show-caption { font-size: 1rem; font-weight: 700; color: var(--muted); }
+.show-caption .btn { pointer-events: auto; }
 .show-end { position: fixed; left: 50%; bottom: calc(var(--edge-b) + 12px); transform: translateX(-50%); width: min(560px, 92vw); display: grid; gap: 10px; justify-items: center; text-align: center; pointer-events: auto; }
 .show-end .logo { font-size: 2.4rem; }
 .show-end .gold { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--gold); }
@@ -657,8 +677,23 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .chat-list li.new { border-left: 3px solid var(--gold); }
 .chat-list b { color: var(--gold); font-size: .85rem; }
 .ending-panel { display: grid; gap: 10px; }
+.ending-code { color: var(--gold); font-weight: 800; }
+.ending-summary { padding: 10px 12px; border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--fill); }
+.ending-summary h3 { margin: 0 0 8px; font-size: .85rem; }
+.ending-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.ending-stat { min-width: 0; }
+.ending-stat dt { color: var(--muted); font-size: .72rem; }
+.ending-stat dd { margin: 3px 0 0; color: var(--gold); font-weight: 800; font-size: .95rem; }
+.ending-risk-note { font-size: .72rem; margin: 8px 0 0; }
+@media (max-width: 600px) {
+  .walk-dialog.walk-ending { width: calc(100vw - var(--edge-l) - var(--edge-r)); }
+}
+@media (max-width: 420px) {
+  .ending-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 .ending-line b { color: var(--gold); }
 .ending-caption { color: var(--cyan); }
+.walk-caption.impact-caption { top: var(--edge-t); bottom: auto; width: min(720px, calc(100vw - var(--edge-l) - var(--edge-r))); font-size: .74rem; padding: 8px 12px; }
 .ending-actions { flex-wrap: wrap; }
 .ending-details summary { cursor: pointer; font-weight: 600; }
 .timeline-list, .epilogue-list { margin: 8px 0 0; padding-left: 1.2em; display: grid; gap: 8px; }

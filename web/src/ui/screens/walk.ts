@@ -1,3 +1,4 @@
+import { refreshMusic, quietMusic } from "../../core/music";
 /**
  * Màn đi bộ — cốt truyện 2.8 "Vì sao đèn lệch?" (docs/STORY_BIBLE.md).
  * Dữ liệu ở story.json, luật ở puzzles/logic/story.ts. Không đồng hồ đếm ngược, không phạt.
@@ -15,6 +16,7 @@ import {
   type E2Variant, type EndingId, type EndingResult, type Stop,
 } from "../../puzzles/logic/story";
 import { endShow, focusCircuit, playShow, setStoryTime, skipShow } from "../../scene/world";
+import { playCinematic, type CinematicPlayback } from "../../scene/cinematic";
 import {
   nearCharacter, nearNode, nearbyCharacter, onCharacterInteraction, pauseWalk, placeCharacters, resetWalkPosition,
   setLamps, walkAxis, walkMode, walkTarget, walkTo,
@@ -43,6 +45,7 @@ export function screenWalk(root: HTMLElement) {
   let legacyNote = false;
   if (save.get().legacyStep) { save.replace(migrateLegacy(st, save.get())); legacyNote = true; }
   let disposed = false, showing = false, dialogOpen = false, closable = true;
+  let film: CinematicPlayback | null = null;
   const held = new Set<string>();
   const hud = el("div", { class: "walk-hud panel dark" });
   const dialog = el("section", { class: "walk-dialog panel dark", role: "dialog", "aria-modal": "true", "aria-label": t("story.title"), hidden: true });
@@ -110,6 +113,7 @@ export function screenWalk(root: HTMLElement) {
 
   /* ---------- HUD ---------- */
   function render() {
+    refreshMusic();
     const s = state(), cur = stop(), chapter = currentChapter(st, s);
     setStoryTime(storyTime(st, s));
     placeAll();
@@ -341,17 +345,27 @@ export function screenWalk(root: HTMLElement) {
   }
 
   async function showEnding(r: EndingResult, preview: boolean) {
+    quietMusic(true);
+    film?.dispose(); film = null;
     if (dialogOpen) { dialog.hidden = true; dialogOpen = false; }
     showing = true; held.clear(); walkMode(false); hud.hidden = controls.hidden = radio.hidden = fab.hidden = map.root.hidden = true;
     const def = st.endings[r.id];
-    const caption = el("p", { class: "walk-caption panel", role: "status" }, el("span", { text: t("story.ui.showing") }));
+    const caption = el("p", { class: `walk-caption panel${r.id === "E2" ? " impact-caption" : ""}`, role: "status" }, el("span", { text: t("story.ui.showing") }));
     if (def.caption) caption.append(el("span", { class: "ending-caption", text: ` ${t(def.caption)}` }));
     if (settings.get().reduceLights) caption.append(el("small", { class: "muted", text: ` ${t("story.ui.reduced")}` }));
-    caption.append(btn(t("story.ui.skip"), () => skipShow(), "small", { "data-skip": true }));
+    caption.append(btn(t("story.ui.skip"), () => film ? film.skip() : skipShow(), "small", { "data-skip": true }));
     view.append(caption);
     caption.querySelector<HTMLButtonElement>("[data-skip]")?.focus();
     const lit = Math.max(3, new Set([...P.get().lit, ...P.get().casualLit, ...storyFacts(st, state())]).size);
-    await playShow(Math.min(7, lit), DATA.circuits.map((c) => c.color), { id: r.id, variant: r.variant });
+    const status = caption.querySelector("span")!;
+    film = playCinematic(r.id, seconds => { status.textContent = t(seconds < 3.6 ? "story.drone.launch" : "story.ui.showing"); });
+    if (film) status.textContent = t("story.drone.launch");
+    const played = film ? await film.finished : false;
+    if (disposed) return;
+    if (!played) {
+      film?.dispose(); film = null;
+      await playShow(Math.min(7, lit), DATA.circuits.map((c) => c.color), { id: r.id, variant: r.variant });
+    }
     if (disposed) return;
     caption.remove();
     if (!preview || developerMode()) {
@@ -364,13 +378,19 @@ export function screenWalk(root: HTMLElement) {
       btn(t("story.ui.library"), () => { dialog.replaceChildren(el("h2", { class: "display", text: t("story.ui.library") }), endingLibrary(state()), btn(t("story.ui.back"), () => { void reopen(); }, "primary")); }, "ghost", {}, "trophy"),
       btn(t("story.ui.home"), () => reset("title"), "ghost"),
     ];
-    const reopen = async () => { dialog.replaceChildren(endingPanel(state(), r, preview, actions)); };
+    const reopen = async () => {
+      dialog.replaceChildren(endingPanel(state(), r, preview, actions));
+      dialog.scrollTop = 0;
+      dialog.querySelector<HTMLElement>(".ending-panel h2")?.focus({ preventScroll: true });
+    };
     dialog.classList.add("walk-ending");
     dialog.replaceChildren(endingPanel(state(), r, preview, actions));
     dialog.hidden = false; dialogOpen = true; closable = false; dialog.scrollTop = 0;
-    dialog.querySelector<HTMLButtonElement>("button")?.focus();
+    dialog.querySelector<HTMLElement>(".ending-panel h2")?.focus({ preventScroll: true });
   }
   function afterShow() {
+    quietMusic(false);
+    film?.dispose(); film = null;
     showing = false; hud.hidden = controls.hidden = radio.hidden = fab.hidden = false; map.root.hidden = !mapOn;
     dialog.classList.remove("walk-ending"); dialog.hidden = true; dialogOpen = false;
     walkMode(true); render();
@@ -423,6 +443,7 @@ export function screenWalk(root: HTMLElement) {
     else closeDialog();
   }, "notice.title", false);
   return () => {
+    film?.dispose(); film = null;
     disposed = true; offInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); skipShow();
     document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); document.removeEventListener("visibilitychange", visibility);
     endShow(); walkMode(false);

@@ -1,0 +1,24 @@
+{
+  "created": "2026-10-31T06:39:16.290Z",
+  "source": "Original in-repository campus model and procedural Three.js scenes. No external footage.",
+  "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3060 Laptop GPU (0x00002560) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "duration": 16,
+  "codec": "H.264 / yuv420p, CRF 19, faststart, AAC stereo",
+  "encoder": "libx264 (installed NVENC requires a newer driver; rasterization remains hardware GPU)",
+  "rebuild": "npm run dev; npm run render:cinematics",
+  "endings": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6"
+  ],
+  "renderedThisRun": [
+    "E2"
+  ],
+  "audio": "Original AAC soundtracks, public/audio/endings/provenance.json. Runtime uses the same separate stems through the SFX bus; video remains muted for inline autoplay."
+}

@@ -25,7 +25,7 @@ Tài liệu gồm ba phần: (1) chẩn đoán cốt truyện hiện tại, (2) 
 
 ### A. Xương sống cốt truyện (chọn một)
 
-**Phương án 1: "Vì sao đèn lệch?" (khuyến nghị).** Cả game là một cuộc điều tra nhỏ. Sa bàn chạy thử bị lệch một đoạn; mỗi điểm dừng cho một mảnh bằng chứng, cuối cùng người chơi ghép ra nguyên nhân thật. Ưu điểm lớn nhất: các mầm này đã có sẵn trong dữ liệu ("hai bản cùng tên", "tệp ghi chú bị bỏ sót khi đồng bộ", "chữ chưa kịp đọc"), chỉ cần nối chúng thành một chuỗi nhân quả thay vì vá thêm cảnh mới. Nguyên nhân cuối nên là ba sai sót nhỏ cộng dồn (nhầm phiên bản, thiếu tệp ghi chú, hai nhóm hiểu khác nhau về "bản chốt"), không có "kẻ xấu", đúng tinh thần CLB.
+**Phương án 1: "Vì sao đèn lệch?" (khuyến nghị).** Cả game là một cuộc điều tra nhỏ. Mô hình chạy thử bị lệch một đoạn; mỗi điểm dừng cho một mảnh bằng chứng, cuối cùng người chơi ghép ra nguyên nhân thật. Ưu điểm lớn nhất: các mầm này đã có sẵn trong dữ liệu ("hai bản cùng tên", "tệp ghi chú bị bỏ sót khi đồng bộ", "chữ chưa kịp đọc"), chỉ cần nối chúng thành một chuỗi nhân quả thay vì vá thêm cảnh mới. Nguyên nhân cuối nên là ba sai sót nhỏ cộng dồn (nhầm phiên bản, thiếu tệp ghi chú, hai nhóm hiểu khác nhau về "bản chốt"), không có "kẻ xấu", đúng tinh thần CLB.
 
 **Phương án 2: "Bảy mảnh ký ức hội tụ".** Mỗi mạch là một mảnh; ghép đủ bảy thì ra chữ 70. Hợp GDD 5.3 ("7 sự thật về số 70") nhưng ít kịch tính hơn.
 
@@ -141,7 +141,7 @@ Cách dùng: mở dự án bằng tác tử lập trình (Claude Code, Aider…)
 ### Bối cảnh chung (dán đầu mỗi phiên)
 
 ````
-Bạn đang làm việc trong dự án webgame-hamic ("Hội tụ 70", v2.7.0), game puzzle web cho CLB Toán Tin HAMIC (Khoa Toán, HUS). Người chơi là thành viên mới đi bộ trong sa bàn 3D khuôn viên USSH × HUS, trò chuyện với NPC, nhận nhiệm vụ.
+Bạn đang làm việc trong dự án webgame-hamic ("Hội tụ 70", v2.7.0), game puzzle web cho CLB Toán Tin HAMIC (Khoa Toán, HUS). Người chơi là thành viên mới đi bộ trong mô hình 3D khuôn viên USSH × HUS, trò chuyện với NPC, nhận nhiệm vụ.
 
 Đọc trước khi làm bất cứ điều gì: AGENTS.md, docs/GDD.md, docs/WALKTHROUGH.md, web/public/data/story.json, web/public/data/map.json, web/public/data/i18n/vi.json (các khóa story.*), web/src/game/story.ts, web/src/ui/screens/walk.ts, web/src/puzzles/logic/story.ts, web/public/data/levels/circuits.json.
 
@@ -157,7 +157,7 @@ Ràng buộc bắt buộc (từ AGENTS.md và GDD):
 - Mọi chuỗi giao diện qua t("khóa") trong web/public/data/i18n/vi.json; chạy npm run check:strings.
 - Luật chấm trong web/src/puzzles/logic phải là hàm thuần (không DOM, không ngẫu nhiên); chạy npm run check:answers và bổ sung ca kiểm cho mọi luật mới.
 - Dữ liệu sinh tự động chỉ sửa qua content/gen_levels.py. Lint chế độ Dạo chơi: câu ≤ 20 từ, ≤ 3 số, không thuật ngữ; phải ra 0 vi phạm.
-- Không timer đếm ngược, không chớp > 3 lần/giây, không lửa hay khói thật. Cảnh sa bàn "nổ" hoạt hình chỉ ở kết cục E2 theo docs/GDD.md mục 5.4. Không phạt người chơi.
+- Không timer đếm ngược, không chớp > 3 lần/giây, không lửa hay khói thật. Cảnh mô hình "nổ" hoạt hình chỉ ở kết cục E2 theo docs/GDD.md mục 5.4. Không phạt người chơi.
 - Giao diện: dùng token màu, phông Be Vietnam Pro, hàm btn() và ICONS có sẵn; bố cục ưu tiên màn ngang 844×390; mobile chỉ chạy ngang.
 - Nhân vật đều hư cấu, không đại diện phát ngôn của đơn vị thật. Không dùng logo trường, ảnh thật hay người thật.
 - StoryState lưu ở localStorage (storySave, version 3): nếu thêm trường thì tăng version, viết migration và sửa validate; không làm mất tiến độ cũ.
@@ -173,7 +173,7 @@ Mặc định đã chốt (nêu rõ nếu bạn đề xuất khác): thời lư�
 Nhiệm vụ: đại tu cốt truyện thành một câu chuyện liền mạch. Ở giai đoạn này CHỈ viết tài liệu thiết kế, chưa sửa mã hay dữ liệu game.
 
 Tạo docs/STORY_BIBLE.md gồm:
-1. Câu hỏi dẫn dắt và xương sống: "Vì sao sa bàn chạy thử bị lệch một đoạn?". Nguyên nhân cuối là ba sai sót nhỏ cộng dồn (nhầm phiên bản "hai bản cùng tên", tệp ghi chú bị bỏ sót khi đồng bộ, hai nhóm hiểu khác nhau về "bản chốt"); không có phản diện. Dùng lại các mầm này đã có trong story.json (fieldwork, rehearsal).
+1. Câu hỏi dẫn dắt và xương sống: "Vì sao mô hình chạy thử bị lệch một đoạn?". Nguyên nhân cuối là ba sai sót nhỏ cộng dồn (nhầm phiên bản "hai bản cùng tên", tệp ghi chú bị bỏ sót khi đồng bộ, hai nhóm hiểu khác nhau về "bản chốt"); không có phản diện. Dùng lại các mầm này đã có trong story.json (fieldwork, rehearsal).
 2. Bản đồ chương: Mở đầu, I, II-a, II-b, III, gắn với các node trong map.json; mỗi điểm dừng ghi rõ NPC, minigame, bằng chứng thu được, cờ trạng thái tạo ra và cờ được tiêu thụ.
 3. Đồ thị manh mối: bảng cờ (tên cờ, nơi tạo, nơi dùng, hệ quả hội thoại). Mọi cờ phải được dùng ít nhất một lần.
 4. Hồ sơ 12 NPC (chief, math, history, stage, minh, ha, nam, linh, an, bao, vy, duc): mục tiêu, giọng nói, 3 nhịp xuất hiện (lần đầu, gặp lại, chốt), chủ đề hỏi (2–3), vật phẩm có thể nhận hoặc đưa, nơi đứng theo từng chương (có thể đổi node), quan hệ với NPC khác.

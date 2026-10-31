@@ -1,5 +1,15 @@
 # Thay đổi
 
+## Chưa phát hành
+
+- E2 thêm vòng xung lực, tia bật, mảnh màu và rung máy quay nhẹ đồng bộ cú bung ở giây 5,2. Sáu ending có SFX stereo riêng: rotor, bật đèn, bay vút, pháo/chạm khối, chuông và nhịp hài. Audio chuẩn hóa hai lượt, qua bus SFX, theo pause/seek/volume/mute/bỏ qua; MP4 cũng có AAC khi xem ngoài game.
+
+- Thêm model quadcopter GLB dùng chung cho trạm thử drone trong lúc chơi và đoạn đầu cả sáu ending. Cutscene kéo dài 16 giây để thấy rõ thân máy, đèn đổi màu, quá trình bay lên và thu nhỏ thành điểm sáng; render lại toàn bộ phim.
+
+- Sáu cutscene ending riêng, render bằng GPU thành video nền 1080p. Pháo hoa chuyển từ chấm tròn sang các loạt chùm tia có đuôi; E2 giữ nguyên khối nhà khi bung, E3 có cầu dải sáng và pháo đáp nhau, E4 lộ đội hình 07, E5 sao chổi bay mãi, E6 các cụm ước có quỹ đạo riêng. Video không hiện trình phát; có bỏ qua, tự chuyển về cảnh trực tiếp khi lỗi hoặc bật giảm hiệu ứng.
+
+- Màn kết thúc hiện rõ mã và tên kết cục, bảng thông số lượt chơi và điểm rủi ro của từng lựa chọn. Khi bảng mở, giữ tiêu đề ở đầu để người chơi thấy ngay kết cục nhận được.
+
 ## 2.8.0 — Thay bộ tài liệu, nới lỏng GDD, thêm hệ thống nhiều kết cục
 
 ### Tài liệu

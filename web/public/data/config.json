@@ -1,6 +1,14 @@
 {
   "_note": "Cấu hình cho người làm game (GDD 2.3 mục 8.2). Sửa tệp này không cần sửa mã.",
   "version": "2.8.0",
+  "cinematics": {
+    "E1": { "src": "cinematics/E1.mp4", "poster": "cinematics/E1.jpg", "audio": "audio/endings/E1.m4a", "duration": 16 },
+    "E2": { "src": "cinematics/E2.mp4", "poster": "cinematics/E2.jpg", "audio": "audio/endings/E2.m4a", "duration": 16 },
+    "E3": { "src": "cinematics/E3.mp4", "poster": "cinematics/E3.jpg", "audio": "audio/endings/E3.m4a", "duration": 16 },
+    "E4": { "src": "cinematics/E4.mp4", "poster": "cinematics/E4.jpg", "audio": "audio/endings/E4.m4a", "duration": 16 },
+    "E5": { "src": "cinematics/E5.mp4", "poster": "cinematics/E5.jpg", "audio": "audio/endings/E5.m4a", "duration": 16 },
+    "E6": { "src": "cinematics/E6.mp4", "poster": "cinematics/E6.jpg", "audio": "audio/endings/E6.m4a", "duration": 16 }
+  },
   "mode": "journey",
   "title": "Hội tụ 70",
   "credits": "CLB Toán Tin (HAMIC)",
