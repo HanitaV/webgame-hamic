@@ -1,0 +1,169 @@
+{
+  "checked_on": "2026-10-30",
+  "scope": "334–336 Nguyen Trai, Hanoi; not HUS Le Thanh Tong or Me Tri",
+  "local_references": [
+    {
+      "path": "assets/references/user/campus_map_user.png",
+      "origin": "user_attachment",
+      "kind": "map_screenshot",
+      "note": "Original screenshot; retain displayed map attribution."
+    },
+    {
+      "path": "assets/references/user/campus_satellite_user.png",
+      "origin": "user_attachment",
+      "kind": "satellite_screenshot",
+      "note": "Original screenshot; map labels and vegetation may obscure footprint."
+    },
+    {
+      "id": "docs_map_ussh",
+      "path": "docs/map/ussh.png",
+      "origin": "added_locally",
+      "kind": "wayfinding_map",
+      "note": "USSH plan with Ngõ 336 Nguyễn Trãi along the top edge. Used for relative block arrangement. Not a measured survey."
+    },
+    {
+      "id": "docs_map_hus",
+      "path": "docs/map/hus.png",
+      "origin": "added_locally",
+      "kind": "campus_map",
+      "note": "HUS campus map. Street at the bottom, Hà Đông to the west, Ngã Tư Sở to the east. Used for T1–T5, the canteen and the special-purpose building. Sizes are still estimated."
+    },
+    {
+      "id": "docs_map_hus_directory",
+      "path": "docs/map/hus_directory.png",
+      "copy_of": "assets/references/user/hus_directory_user.png",
+      "origin": "user_attachment",
+      "kind": "wayfinding_directory_board",
+      "note": "HUS 'Sơ đồ chỉ dẫn' board with per-floor offices for T1, T2, T3, T4, T5 and Tòa nhà Chuyên đề. Year not shown. Used for floor counts, which office sits on which floor, room numbers, and the HUS footprints (uniform 0.16 units/px on the 2000 px copy)."
+    }
+  ],
+  "remote_images": [
+    {
+      "id": "campus_combined_2025",
+      "title": "Sơ đồ chung 334–336 trong thông báo thi USSH năm 2025",
+      "image_url": "https://tuyensinh.ussh.edu.vn/images/ckeditor/images/so-do-334-336-nguyen-trai.jpeg",
+      "page_url": "https://tuyensinh.ussh.edu.vn/so-do-khu-vuc-thi-huong-dan-thi-sinh-du-thi-lop-10-thpt-chuyen-khoa-hoc-xa-hoi-va-nhan-van-nam-2025.html",
+      "kind": "map",
+      "source_year": "2025",
+      "local_path": "assets/references/web/campus_combined_2025.jpeg",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    },
+    {
+      "id": "ussh_map_2022",
+      "title": "Sơ đồ khu vực thi USSH 2022",
+      "image_url": "https://tuyensinh.ussh.edu.vn/images/ckeditor/images/SO%20%20DO-01.jpg",
+      "page_url": "https://tuyensinh.ussh.edu.vn/so-do-khu-vuc-thi-va-huong-dan-thi-sinh-du-thi-lop-10-thpt-chuyen-khoa-hoc-xa-hoi-va-nhan-van-nam-2022.html",
+      "kind": "map",
+      "source_year": "2022",
+      "local_path": "assets/references/web/ussh_map_2022.jpg",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    },
+    {
+      "id": "hus_aerial_2021",
+      "title": "Ảnh HUS có nhãn T1 T3 T4 T5 và nhà G USSH",
+      "image_url": "https://hus.vnu.edu.vn/DATA/IMAGES/2021/06/so-do-cac-toa-nha-334-336-nguyen-trai.png",
+      "page_url": "https://hus.vnu.edu.vn/thong-bao/huong-dan-thi-sinh-va-phu-huynh-dua-don-thi-sinh-tai-diem-thi-tuyen-sinh-lop-10-truong-thpt-chuyen-khoa-hoc-tu-nhien-nam-2021-74961.html",
+      "kind": "annotated_aerial",
+      "source_year": "2021",
+      "local_path": "assets/references/web/hus_aerial_2021.png",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    },
+    {
+      "id": "ussh_c_renovation_design",
+      "title": "Phối cảnh thiết kế cải tạo nhà C; không phải ảnh hiện trạng",
+      "image_url": "https://ussh.vnu.edu.vn/uploads/ussh/news/2024_10/436223422_2784952608336400_3736214974850790987_n-2.jpg",
+      "page_url": "https://ussh.vnu.edu.vn/vi/news/hanh-chinh-tong-hop/thong-bao-khoi-cong-du-an-cai-tao-khuon-vien-vnu-ussh-336-nguyen-trai-22959.html",
+      "kind": "design_render_not_as_built",
+      "source_year": "2024",
+      "local_path": "assets/references/web/ussh_c_design.jpg",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    },
+    {
+      "id": "ussh_axis_renovation_design",
+      "title": "Phối cảnh thiết kế đường vào sân E; không phải ảnh hiện trạng",
+      "image_url": "https://ussh.vnu.edu.vn/uploads/ussh/news/2024_10/427834100_2742039662627695_8602022968660366984_n_1.jpg",
+      "page_url": "https://ussh.vnu.edu.vn/vi/news/hanh-chinh-tong-hop/thong-bao-khoi-cong-du-an-cai-tao-khuon-vien-vnu-ussh-336-nguyen-trai-22959.html",
+      "kind": "design_render_not_as_built",
+      "source_year": "2024",
+      "local_path": "assets/references/web/ussh_axis_design.jpg",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    },
+    {
+      "id": "ussh_c_construction",
+      "title": "Nhà C trong giai đoạn thi công, ảnh 2024",
+      "image_url": "https://ussh.vnu.edu.vn/uploads/ussh/news/2024_10/z5955171702425_f5d25ce07d1b88191e718ae76c4346f9_1.jpg",
+      "page_url": "https://ussh.vnu.edu.vn/vi/news/hanh-chinh-tong-hop/thong-bao-khoi-cong-du-an-cai-tao-khuon-vien-vnu-ussh-336-nguyen-trai-22959.html",
+      "kind": "construction_photo",
+      "source_year": "2024",
+      "local_path": "assets/references/web/ussh_c_construction.jpg",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    },
+    {
+      "id": "hus_entrance_2025",
+      "title": "Sảnh HUS trong bài nhập học K70 năm 2025",
+      "image_url": "https://hus.vnu.edu.vn/DATA/IMAGES/2025/09/27.8.25-nhap-hoc-6.jpg",
+      "page_url": "https://hus.vnu.edu.vn/tin-tuc-su-kien/cong-tac-sinh-vien/tan-sinh-vien-truong-dai-hoc-khoa-hoc-tu-nhien-142211",
+      "kind": "photo",
+      "source_year": "2025",
+      "local_path": "assets/references/web/hus_entrance_2025.jpg",
+      "included_in_initial_zip": false,
+      "rights": "third_party_reference_only; no redistribution_license_verified"
+    }
+  ],
+  "further_pages": [
+    {
+      "url": "https://tuyensinh.ussh.edu.vn/so-do-khu-vuc-thi-huong-dan-thi-sinh-du-thi-lop-10-thpt-chuyen-khoa-hoc-xa-hoi-va-nhan-van-nam-hoc-2026-2027.html",
+      "note": "2026 notice lists USSH A-B, B-C, C, G, I exam areas; not a definitive full campus survey."
+    },
+    {
+      "url": "https://demotuyensinh.hus.edu.vn/trang-chu/mot-vong-quanh-HUS/khuan-vien-va-ky-tuc-xa/khuon-vien-334-nguyen-trai-61426",
+      "note": "Campus description and garden/inter-campus context; availability may vary."
+    },
+    {
+      "url": "https://threejs.org/docs/pages/GLTFLoader",
+      "note": "Official model-loading documentation."
+    },
+    {
+      "url": "https://threejs.org/docs/pages/InstancedMesh.html",
+      "note": "Official repeated-mesh documentation."
+    },
+    {
+      "url": "https://docs.blender.org/manual/en/3.2/addons/import_export/scene_gltf2.html",
+      "note": "Official older glTF documentation; check the installed Blender version for current options."
+    },
+    {
+      "id": "vnu_labs_2014",
+      "title": "Danh sách các phòng thí nghiệm mở cửa của Trường ĐHKHTN",
+      "url": "https://vnu.edu.vn/danh-sach-cac-phong-thi-nghiem-mo-cua-cua-truong-dai-hoc-khoa-hoc-tu-nhien-post16276.html",
+      "checked_on": "2026-10-30",
+      "used_for": "Lab rooms in T1, T2, T3, T5 (e.g. T1 110–111, 124, 233, 326, 336; T2 105–107, 206, 210, 309–311, 406; T3 104–106, 205, 308, 404; T5 210). Page dated 2014, so assignments may be stale; two entries share room 106 (T2) and 104–105 (T3)."
+    },
+    {
+      "id": "hus_qtbv_contact",
+      "title": "Phòng Quản trị – Bảo vệ: Liên hệ",
+      "url": "https://hus.vnu.edu.vn/gioi-thieu/co-cau-to-chuc/phong-ban-chuc-nang/phong-quan-tri-bao-ve/lien-he",
+      "checked_on": "2026-10-30",
+      "used_for": "Confirms phòng 309–312 nhà T1, matching the directory board."
+    },
+    {
+      "id": "hus_bio_contact",
+      "title": "Khoa Sinh học: Liên hệ",
+      "url": "https://bio.hus.vnu.edu.vn/lien-he/",
+      "checked_on": "2026-10-30",
+      "used_for": "Confirms phòng 427 nhà T1 for Khoa Sinh học, matching the directory board."
+    },
+    {
+      "id": "hsgs_exam_2021",
+      "title": "Hướng dẫn thí sinh tại điểm thi lớp 10 THPT Chuyên KHTN năm 2021",
+      "url": "https://hsgs.edu.vn/vi/thong-tin-chung/tuyen-sinh-a-thi-thu/1662-huong-dan-danh-cho-thi-sinh-va-phu-huynh-dua-don-thi-sinh-tai-diem-thi-tuyen-sinh-lop-10-truong-thpt-chuyen-khoa-hoc-tu-nhien-nam-2021",
+      "checked_on": "2026-10-30",
+      "used_for": "T1 and T5 entered from the HUS gate; exam rooms on T1 floor 4 and T5 floor 1."
+    }
+  ]
+}

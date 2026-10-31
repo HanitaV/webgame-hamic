@@ -1,141 +1,151 @@
+/**
+ * Chụp ảnh màn hình toàn bộ luồng chơi (điện thoại ngang 844×390, máy tính 1280×800, điện thoại dọc).
+ * Playwright nằm trong devDependencies; mặc định dùng Chrome có sẵn trên máy.
+ * Có thể đặt CAPTURE_CHANNEL=chromium sau khi cài trình duyệt bằng npx playwright install chromium.
+ *   npm run build && npx vite preview --port 4173 &
+ *   npm run capture -- [thư-mục-ra] [phone|desk|portrait]
+ * Mặc định ghi vào ../docs/screenshots. In ra mọi lỗi console; thoát mã 1 nếu có lỗi.
+ */
+import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-import puppeteer from "puppeteer-core";
-
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
-const out = resolve(root, "output/shots");
+const { chromium } = createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE ?? "playwright");
+const out = process.argv[2] ?? "../docs/screenshots";
+const only = process.argv[3] ?? "";
+const url = process.env.CAPTURE_URL ?? "http://127.0.0.1:4173/";
 mkdirSync(out, { recursive: true });
-const consoleErrors = [];
+const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const errors = [];
 
-const defaultChrome = {
-  win32: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  darwin: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-  linux: "/usr/bin/google-chrome",
-}[process.platform];
-const browser = await puppeteer.launch({
-  // Set CHROME_PATH to any Chrome/Chromium binary.
-  executablePath: process.env.CHROME_PATH || defaultChrome,
-  headless: true,
-  args: ["--hide-scrollbars", "--enable-webgl", "--ignore-gpu-blocklist", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"],
-  defaultViewport: { width: 1280, height: 800, deviceScaleFactor: 1 },
-});
-const page = await browser.newPage();
-page.on("console", (msg) => {
-  if (msg.type() === "error") consoleErrors.push(msg.text());
-});
-page.on("pageerror", (error) => consoleErrors.push(String(error)));
-page.on("response", (response) => {
-  if (response.status() >= 400) consoleErrors.push(`${response.status()} ${response.url()}`);
-});
-
-await page.goto(process.env.APP_URL || "http://127.0.0.1:4173/", { waitUntil: "networkidle0", timeout: 120000 });
-await page.waitForFunction(() => window.__campus && window.__campus.ready, { timeout: 120000 });
-const report = await page.evaluate(() => ({
-  selfTest: window.__campus.selfTest,
-  errors: window.__campus.errors,
-  graphics: window.__campus.graphics(),
-}));
-console.log(JSON.stringify(report, null, 2));
-if (!report.selfTest.ok) {
-  throw new Error("in-page control self-test failed");
+async function session(name, viewport, mobile, fn) {
+  if (only && !name.startsWith(only)) return;
+  const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
+  const page = await ctx.newPage();
+  page.on("console", (m) => { if (m.type() === "error") errors.push(`${name}: ${m.text()}`); });
+  page.on("pageerror", (e) => errors.push(`${name}: ${e.stack ?? e}`));
+  await page.goto(url, { waitUntil: "load", timeout: 120000 });
+  await page.waitForFunction(() => window.__hoitu?.ready, null, { timeout: 120000 });
+  const snap = async (shot) => { await wait(500); await page.screenshot({ path: `${out}/${name}-${shot}.png`, timeout: 120000, animations: "disabled" }); };
+  try { await fn(page, snap); }
+  catch (e) {
+    console.log("FAILED STATE",name,await page.evaluate(() => ({ position:window.__hoitu.walkPosition(), walking:window.__hoitu.walkingMetrics(), world:window.__hoitu.worldDiagnostics(), story:window.__hoitu.storyProgress.get(), visible:document.visibilityState, dialog:document.querySelector('.walk-dialog')?.textContent })));
+    throw e;
+  } finally { await ctx.close(); }
 }
 
-await page.evaluate(() => { window.__campus.setGraphics(false); window.__campus.setHour(10, false); });
-await page.evaluate(() => document.body.classList.add("ui-off"));
-const hidden = await page.evaluate(() => getComputedStyle(document.querySelector("#title")).display);
-console.log("title display while UI hidden:", hidden);
-await page.screenshot({ path: resolve(out, "overview.png") });
-await page.evaluate(() => window.__campus.flyTo("ussh"));
-await new Promise((resolveWait) => setTimeout(resolveWait, 250));
-await page.screenshot({ path: resolve(out, "ussh.png") });
-await page.evaluate(() => window.__campus.flyTo("hus"));
-await new Promise((resolveWait) => setTimeout(resolveWait, 250));
-await page.screenshot({ path: resolve(out, "hus.png") });
-await page.evaluate(() => window.__campus.setMode("cine"));
-await new Promise((resolveWait) => setTimeout(resolveWait, 2500));
-await page.screenshot({ path: resolve(out, "cine.png") });
-await page.evaluate(() => document.querySelector("#cine-pause").click());
-await page.evaluate(() => window.__campus.setMode("walk"));
-await new Promise((resolveWait) => setTimeout(resolveWait, 300));
-await page.screenshot({ path: resolve(out, "walk.png") });
+const flow = async (page, snap) => {
+  await snap("title");
+  await page.getByText("Bản vẽ kỹ thuật", {exact:true}).click();
+  await snap("journey");
+  await page.click("text=Chơi màn 1.1");
+  await wait(300);
+  await snap("level-1.1");
+  // set a = 70 via slider input, b = 1.65
+  await page.evaluate(() => {
+    const ins = document.querySelectorAll(".slider input");
+    const set = (i, v) => { ins[i].value = String(v); ins[i].dispatchEvent(new Event("input", { bubbles: true })); };
+    set(0, 70); set(1, 1.65);
+  });
+  await page.click(".run");
+  await wait(1600);
+  await snap("level-1.1-result");
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("Escape");
+  // unlock circuits 1-3 for the remaining screens
+  await page.evaluate(() => {
+    const P = window.__hoitu.progress;
+    const lv = {};
+    for (const id of ["1.1","1.2","1.3","1.4","2.1","2.2","2.3","2.4","3.1","3.2","3.3","3.4","3.5"]) lv[id] = { done: true, stars: [true, true, id !== "1.4"], hints: 0, runs: 1 };
+    P.set({ levels: lv, lit: [1, 2, 3], factsN: [1,2,3,6,14,17,28,70] });
+    window.__hoitu.reset("title");
+  });
+  await snap("title-progress");
+  await page.evaluate(() => { window.__hoitu.go("level", { id: "2.3", mode: "journey" }); });
+  await page.click(".palette .tile >> nth=0");
+  await page.click(".palette .tile >> nth=1");
+  await snap("level-2.3");
+  await page.evaluate(() => { window.__hoitu.go("level", { id: "3.2", mode: "journey" }); });
+  await page.click(".blk-tile.blk-repeat");
+  await page.click(".blk-list .blk-drop >> nth=0");
+  await page.click(".blk-tile.blk-place");
+  await page.click(".blk-tile.blk-move");
+  await snap("level-3.2");
+  await page.click(".run");
+  await wait(2600);
+  await snap("level-3.2-run");
+  await page.evaluate(() => { document.querySelectorAll(".modal-layer").forEach((n) => n.remove()); window.__hoitu.go("level", { id: "4.1", mode: "journey" }); });
+  await snap("level-4.1");
+  await page.evaluate(() => window.__hoitu.go("casual"));
+  await snap("casual");
+  await page.evaluate(() => window.__hoitu.go("notebook"));
+  await snap("notebook");
+  await page.evaluate(() => window.__hoitu.go("achievements"));
+  await snap("achievements");
+  await page.evaluate(() => window.__hoitu.go("settings"));
+  await snap("settings");
+  await page.evaluate(() => window.__hoitu.go("share"));
+  await wait(600);
+  await snap("share");
+  await page.evaluate(() => window.__hoitu.go("finale", { mode: "journey", showOnly: true }));
+  await wait(9000);
+  await snap("show");
+};
 
-const wait = (ms) => new Promise((resolveWait) => setTimeout(resolveWait, ms));
-await page.evaluate(() => window.__campus.view([221, 123.5, 52], [119.6, 5.2, -123.5]));
-await page.evaluate(() => window.__campus.showFloor(3));
-await page.evaluate(() => window.__campus.view([221, 123.5, 52], [119.6, 5.2, -123.5]));
-await wait(300);
-await page.screenshot({ path: resolve(out, "hus-floor3.png") });
-await page.evaluate(() => window.__campus.showFloor(1));
-await page.evaluate(() => window.__campus.view([106.6, 91, 13], [106.6, 0, -91]));
-await wait(300);
-await page.screenshot({ path: resolve(out, "hus-floor1-axis.png") });
-await page.evaluate(() => window.__campus.showFloor(7));
-await page.evaluate(() => window.__campus.view([240.5, 91, -78], [187.2, 26, -156]));
-await wait(300);
-await page.screenshot({ path: resolve(out, "hus-t5-floor7.png") });
-await page.evaluate(() => window.__campus.showFloor(null));
-await page.evaluate(() => window.__campus.view([106.6, 18.2, 23.4], [106.6, 7.8, -78]));
-await wait(300);
-await page.screenshot({ path: resolve(out, "hus-gate-axis.png") });
-await page.evaluate(() => window.__campus.teleport(72.8, -73.2, 3, -Math.PI / 2));
-await wait(400);
-await page.screenshot({ path: resolve(out, "walk-t1-floor3.png") });
-await page.evaluate(() => window.__campus.teleport(106.6, -52, 1, 0));
-await wait(400);
-await page.screenshot({ path: resolve(out, "walk-t1-lobby.png") });
-// Camera against a wall: standing in the T1 corridor with the back to the street wall.
-await page.evaluate(() => window.__campus.teleport(78, -71.8, 2, 0));
-await page.evaluate(() => window.__campus.step(30));
-await wait(500);
-console.log("camera clear in corridor:", await page.evaluate(() => window.__campus.cameraClear()));
-await page.screenshot({ path: resolve(out, "walk-wall.png") });
-await page.evaluate(() => window.__campus.showFloor(5));
-await page.evaluate(() => window.__campus.showFloor(null));
-await page.evaluate(() => window.__campus.view([124.8, 24.7, -145.6], [174.2, 22.8, -154.7]));
-await wait(400);
-await page.screenshot({ path: resolve(out, "hus-t5-logo.png") });
-await page.evaluate(() => window.__campus.showFloor(1));
-await page.evaluate(() => window.__campus.view([67.6, 20.8, -59.8], [53.3, 0, -80.6]));
-await wait(400);
-await page.screenshot({ path: resolve(out, "hus-wc-t1.png") });
-await page.evaluate(() => window.__campus.showFloor(null));
-await page.evaluate(() => window.__campus.view([130, 18.2, -135.2], [174.2, 2.6, -140.4]));
-await wait(400);
-await page.screenshot({ path: resolve(out, "hus-t5-doors.png") });
-await page.evaluate(() => window.__campus.setHour(18.1, false));
-await page.evaluate(() => window.__campus.view([244.4, 88.4, 20.8], [117, 10.4, -143]));
-await wait(500);
-await page.screenshot({ path: resolve(out, "dusk.png") });
-await page.evaluate(() => window.__campus.setHour(22, false));
-await page.evaluate(() => window.__campus.view([78, 52, 52], [130, 15.6, -143]));
-await wait(500);
-await page.screenshot({ path: resolve(out, "night.png") });
-await page.evaluate(() => { window.__campus.setGraphics(true); window.__campus.setHour(10, false); });
-await page.evaluate(() => window.__campus.view([244.4, 88.4, 20.8], [117, 10.4, -143]));
-await wait(1500);
-await page.screenshot({ path: resolve(out, "fancy-day.png") });
-await page.evaluate(() => window.__campus.setGraphics(false));
-await page.evaluate(() => window.__campus.setHour(10, false));
+/* ---------- Cốt truyện 2.8 (dùng chung bộ điều khiển với story-e2e.mjs) ---------- */
+const { startStory, playStop, runFinale } = await import("./story-driver.mjs");
 
-await page.evaluate(() => {
-  document.body.classList.remove("ui-off");
-  window.__campus.setMode("orbit");
-  window.__campus.flyTo("overview");
+await session("story", { width: 844, height: 390 }, true, async (page, snap) => {
+  await startStory(page, "build", snap);
+  await wait(1500); await snap("walk-start");
+  const seen = new Set();
+  for (let i = 0; i < 30; i++) {
+    const chapter = await page.evaluate(() => { const h = window.__hoitu; return h.storyLogic.currentChapter(h.data.story, h.storyProgress.get()).id; });
+    if (!seen.has(chapter)) { seen.add(chapter); await page.evaluate((n) => window.__hoitu.teleportTo(n), await page.evaluate(() => { const h = window.__hoitu, st = h.data.story, s = h.storyProgress.get(), stop = st.stops[s.step]; if (!stop) return "t3"; const c = h.data.map.walk.characters.find((x) => x.id === stop.npc); return h.storyLogic.npcPlace(st, stop.chapter, stop.npc, { node: c.node }).node; })); await wait(900); await snap(`chapter-${chapter}`); }
+    const id = await playStop(page, { ha: "B", captions: "A" }, async (shot) => { if (!seen.has(shot)) { seen.add(shot); await snap(shot); } });
+    if (!id) break;
+    if (id === "s4") { await page.locator("[data-chat]").click(); await snap("chat"); await page.keyboard.press("Escape"); }
+    if (id === "s9") { await page.locator("[data-notebook]").click(); await snap("notebook-evidence"); await page.locator('[data-tab="timeline"]').click(); await snap("notebook-timeline"); await page.keyboard.press("Escape"); }
+  }
+  await page.evaluate(() => window.__hoitu.teleportTo("lawn")); await wait(400);
+  await page.evaluate(() => window.__walkTest.interact("math")); await wait(300); await snap("npc-chat");
+  for (let i = 0; i < 4 && await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count(); i++) await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").click();
+  await snap("topics"); await page.keyboard.press("Escape");
+  await runFinale(page, 4000, snap); await snap("ending-panel");
+  await page.locator("[data-rewind]").click(); await wait(600); await snap("after-rewind");
 });
-await page.screenshot({ path: resolve(out, "ui-desktop.png") });
 
-await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
-await new Promise((resolveWait) => setTimeout(resolveWait, 400));
-await page.screenshot({ path: resolve(out, "mobile.png") });
+for (const reduce of [false, true]) await session(reduce ? "ending-reduced" : "ending", { width: 844, height: 390 }, true, async (page, snap) => {
+  if (reduce) await page.evaluate(() => { localStorage.setItem("hoitu70:settings", JSON.stringify({ version: 1, savedAt: 0, data: { reduceLights: true } })); });
+  if (reduce) { await page.reload(); await page.waitForFunction(() => window.__hoitu?.ready); }
+  await page.keyboard.press("Control+Shift+H");
+  await page.evaluate(() => { window.__hoitu.storyProgress.set({ introSeen: true }); window.__hoitu.go("walk"); });
+  await wait(800);
+  const list = reduce ? [["E2", "E2"]] : [["E1", "E1"], ["E2", "E2-version"], ["E3", "E3"], ["E4", "E4"], ["E5", "E5"], ["E6", "E6"]];
+  for (const [id, name] of list) {
+    await page.evaluate(() => document.querySelectorAll("details.hud-more, details.dev-tools").forEach((d) => { d.open = true; }));
+    await page.locator(`[data-dev-ending="${id}"]`).click();
+    await page.waitForSelector("[data-skip]"); await wait(id === "E2" ? 5200 : 6200); await snap(`${name}-scene`);
+    await page.locator("[data-skip]").click({ timeout: 3000 }).catch(() => {}); await page.waitForSelector(".ending-panel h2"); await snap(`${name}-panel`);
+    await page.locator("[data-rewind]").click(); await wait(400);
+  }
+  if (!reduce) for (const v of ["notes", "final", "extra"]) {
+    await page.evaluate(() => document.querySelectorAll("details.hud-more, details.dev-tools").forEach((d) => { d.open = true; }));
+    const label = await page.evaluate((k) => window.__hoitu.data.strings[window.__hoitu.data.story.endings.E2.variants[k].title], v);
+    await page.locator(".dev-tools button", { hasText: label }).click();
+    await page.waitForSelector("[data-skip]"); await page.locator("[data-skip]").click({ timeout: 3000 }).catch(() => {}); await page.waitForSelector(".ending-panel h2"); await snap(`E2-${v}-panel`);
+    await page.locator("[data-rewind]").click(); await wait(400);
+  }
+});
 
-await page.evaluate(() => window.__campus.setMode("walk"));
-await new Promise((resolveWait) => setTimeout(resolveWait, 300));
-await page.screenshot({ path: resolve(out, "mobile-walk.png") });
+await session("library", { width: 844, height: 390 }, true, async (page, snap) => {
+  await page.evaluate(() => { window.__hoitu.storyProgress.set({ introSeen: true, endingsSeen: ["E1", "E2", "E4"] }); window.__hoitu.go("walk"); });
+  await wait(800); await page.locator("[data-notebook]").click(); await page.locator('[data-tab="endings"]').click(); await snap("endings-library");
+  await page.locator('[data-tab="facts"]').click(); await snap("facts");
+});
 
-console.log("console errors:", consoleErrors);
-if (consoleErrors.length) {
-  throw new Error("page logged console errors");
-}
+await session("phone", { width: 844, height: 390 }, true, flow);
+await session("desk", { width: 1280, height: 800 }, false, flow);
+await session("portrait", { width: 390, height: 844 }, true, async (page, snap) => { await snap("cover"); });
+console.log("ERRORS", JSON.stringify(errors, null, 1));
 await browser.close();
-console.log("shots:", out);
+if (errors.length) process.exit(1);

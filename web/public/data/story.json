@@ -1,0 +1,2801 @@
+{
+ "_note": "Cốt truyện 2.8 (docs/STORY_BIBLE.md). Văn bản nằm ở i18n/vi.json, khóa story.*. Kết cục do lựa chọn quyết định; trọng số và ngưỡng ở config.json → endings.",
+ "version": 4,
+ "title": "story.title",
+ "intro": "story.intro",
+ "prologue": [
+  {
+   "speaker": "story.dialogue.narrator",
+   "text": "story.prologue.0.text"
+  },
+  {
+   "speaker": "story.npc.chief",
+   "text": "story.prologue.1.text"
+  },
+  {
+   "speaker": "story.npc.chief",
+   "text": "story.prologue.2.text"
+  },
+  {
+   "speaker": "story.dialogue.narrator",
+   "text": "story.prologue.3.text"
+  }
+ ],
+ "bondChoice": {
+  "prompt": "story.bondChoice.prompt",
+  "listen": {
+   "text": "story.bondChoice.listen.text",
+   "reply": "story.bondChoice.listen.reply"
+  },
+  "build": {
+   "text": "story.bondChoice.build.text",
+   "reply": "story.bondChoice.build.reply"
+  }
+ },
+ "chapters": [
+  {
+   "id": "ch0",
+   "title": "story.chapters.ch0.title",
+   "time": 0,
+   "travel": "story.chapters.ch0.travel"
+  },
+  {
+   "id": "ch1",
+   "title": "story.chapters.ch1.title",
+   "time": 1,
+   "travel": "story.chapters.ch1.travel"
+  },
+  {
+   "id": "ch2a",
+   "title": "story.chapters.ch2a.title",
+   "time": 3,
+   "travel": "story.chapters.ch2a.travel"
+  },
+  {
+   "id": "ch2b",
+   "title": "story.chapters.ch2b.title",
+   "time": 4,
+   "travel": "story.chapters.ch2b.travel"
+  },
+  {
+   "id": "ch3",
+   "title": "story.chapters.ch3.title",
+   "time": 5,
+   "travel": "story.chapters.ch3.travel"
+  }
+ ],
+ "stops": [
+  {
+   "id": "s0",
+   "chapter": "ch0",
+   "npc": "minh",
+   "title": "story.stops.s0.title",
+   "objective": "story.stops.s0.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.minh",
+     "text": "story.stops.s0.lines.0.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s0.lines.1.text"
+    },
+    {
+     "speaker": "story.npc.minh",
+     "text": "story.stops.s0.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "versions",
+    "title": "story.stops.s0.activity.title",
+    "prompt": "story.stops.s0.activity.prompt",
+    "promptEasy": "story.stops.s0.activity.promptEasy",
+    "files": [
+     {
+      "name": "story.stops.s0.activity.files.0.name",
+      "meta": "story.stops.s0.activity.files.0.meta",
+      "lines": [
+       "story.stops.s0.activity.files.0.lines.0",
+       "story.stops.s0.activity.files.0.lines.1",
+       "story.stops.s0.activity.files.0.lines.2",
+       "story.stops.s0.activity.files.0.lines.3",
+       "story.stops.s0.activity.files.0.lines.4",
+       "story.stops.s0.activity.files.0.lines.5",
+       "story.stops.s0.activity.files.0.lines.6"
+      ]
+     },
+     {
+      "name": "story.stops.s0.activity.files.1.name",
+      "meta": "story.stops.s0.activity.files.1.meta",
+      "lines": [
+       "story.stops.s0.activity.files.1.lines.0",
+       "story.stops.s0.activity.files.1.lines.1",
+       "story.stops.s0.activity.files.1.lines.2",
+       "story.stops.s0.activity.files.1.lines.3",
+       "story.stops.s0.activity.files.1.lines.4",
+       "story.stops.s0.activity.files.1.lines.5",
+       "story.stops.s0.activity.files.1.lines.6"
+      ]
+     }
+    ],
+    "hints": [
+     "story.stops.s0.activity.hints.0",
+     "story.stops.s0.activity.hints.1",
+     "story.stops.s0.activity.hints.2"
+    ],
+    "hintsEasy": [
+     "story.stops.s0.activity.hintsEasy.0",
+     "story.stops.s0.activity.hintsEasy.1",
+     "story.stops.s0.activity.hintsEasy.2"
+    ],
+    "success": "story.stops.s0.activity.success"
+   },
+   "decision": "version",
+   "after": [
+    {
+     "speaker": "story.npc.minh",
+     "text": "story.stops.s0.after.0.text"
+    }
+   ],
+   "evidence": [
+    "versions"
+   ],
+   "items": [
+    "card"
+   ]
+  },
+  {
+   "id": "s1",
+   "chapter": "ch1",
+   "npc": "math",
+   "title": "story.stops.s1.title",
+   "objective": "story.stops.s1.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.math",
+     "text": "story.stops.s1.lines.0.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s1.lines.1.text"
+    },
+    {
+     "speaker": "story.npc.math",
+     "text": "story.stops.s1.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "level",
+    "title": "story.stops.s1.activity.title",
+    "note": "story.stops.s1.activity.note",
+    "levels": {
+     "easy": "plot-limit-d1-s1003",
+     "normal": "1.1",
+     "hard": "plot-limit-d5-s5001"
+    }
+   },
+   "decision": "firework",
+   "after": [
+    {
+     "speaker": "story.npc.math",
+     "text": "story.stops.s1.after.0.text"
+    }
+   ],
+   "evidence": [
+    "height"
+   ],
+   "facts": [
+    1
+   ]
+  },
+  {
+   "id": "s2",
+   "chapter": "ch1",
+   "npc": "ha",
+   "title": "story.stops.s2.title",
+   "objective": "story.stops.s2.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.ha",
+     "text": "story.stops.s2.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.ha",
+     "text": "story.stops.s2.lines.1.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s2.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "level",
+    "title": "story.stops.s2.activity.title",
+    "note": "story.stops.s2.activity.note",
+    "levels": {
+     "easy": "series-d1-s101004",
+     "normal": "1.2",
+     "hard": "series-d4-s104000"
+    }
+   },
+   "decision": "ha",
+   "after": [
+    {
+     "speaker": "story.npc.ha",
+     "text": "story.stops.s2.after.0.text"
+    }
+   ],
+   "evidence": [
+    "oldLamp"
+   ]
+  },
+  {
+   "id": "s3",
+   "chapter": "ch1",
+   "npc": "math",
+   "title": "story.stops.s3.title",
+   "objective": "story.stops.s3.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.math",
+     "text": "story.stops.s3.lines.0.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s3.lines.1.text"
+    },
+    {
+     "speaker": "story.npc.math",
+     "text": "story.stops.s3.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "level",
+    "title": "story.stops.s3.activity.title",
+    "note": "story.stops.s3.activity.note",
+    "levels": {
+     "easy": "beam-order-d1-s401003",
+     "normal": "2.3",
+     "hard": "beam-order-d4-s404001"
+    }
+   },
+   "after": [
+    {
+     "speaker": "story.npc.math",
+     "text": "story.stops.s3.after.0.text"
+    }
+   ],
+   "evidence": [
+    "order"
+   ],
+   "facts": [
+    2
+   ]
+  },
+  {
+   "id": "s4",
+   "chapter": "ch1",
+   "npc": "chief",
+   "title": "story.stops.s4.title",
+   "objective": "story.stops.s4.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s4.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s4.lines.1.text"
+    },
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s4.lines.2.text"
+    }
+   ],
+   "after": [
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s4.after.0.text"
+    }
+   ],
+   "items": [
+    "synclist"
+   ]
+  },
+  {
+   "id": "s5",
+   "chapter": "ch2a",
+   "npc": "nam",
+   "title": "story.stops.s5.title",
+   "objective": "story.stops.s5.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.nam",
+     "text": "story.stops.s5.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.nam",
+     "text": "story.stops.s5.lines.1.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s5.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "level",
+    "title": "story.stops.s5.activity.title",
+    "note": "story.stops.s5.activity.note",
+    "levels": {
+     "easy": "5.1",
+     "normal": "5.1",
+     "hard": "modular-d4-s804000"
+    }
+   },
+   "after": [
+    {
+     "speaker": "story.npc.nam",
+     "text": "story.stops.s5.after.0.text"
+    },
+    {
+     "speaker": "story.npc.nam",
+     "text": "story.stops.s5.after.1.text"
+    }
+   ],
+   "evidence": [
+    "notesFile"
+   ],
+   "items": [
+    "notes"
+   ],
+   "facts": [
+    5
+   ]
+  },
+  {
+   "id": "s6",
+   "chapter": "ch2a",
+   "npc": "vy",
+   "title": "story.stops.s6.title",
+   "objective": "story.stops.s6.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.vy",
+     "text": "story.stops.s6.lines.0.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s6.lines.1.text"
+    },
+    {
+     "speaker": "story.npc.vy",
+     "text": "story.stops.s6.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "sync",
+    "title": "story.stops.s6.activity.title",
+    "prompt": "story.stops.s6.activity.prompt",
+    "promptEasy": "story.stops.s6.activity.promptEasy",
+    "folders": [
+     {
+      "id": "anh",
+      "label": "story.stops.s6.activity.folders.anh.label",
+      "desc": "story.stops.s6.activity.folders.anh.desc",
+      "role": "need"
+     },
+     {
+      "id": "amthanh",
+      "label": "story.stops.s6.activity.folders.amthanh.label",
+      "desc": "story.stops.s6.activity.folders.amthanh.desc",
+      "role": "need"
+     },
+     {
+      "id": "cauhinh",
+      "label": "story.stops.s6.activity.folders.cauhinh.label",
+      "desc": "story.stops.s6.activity.folders.cauhinh.desc",
+      "role": "need"
+     },
+     {
+      "id": "ghichu",
+      "label": "story.stops.s6.activity.folders.ghichu.label",
+      "desc": "story.stops.s6.activity.folders.ghichu.desc",
+      "role": "need"
+     },
+     {
+      "id": "tam",
+      "label": "story.stops.s6.activity.folders.tam.label",
+      "desc": "story.stops.s6.activity.folders.tam.desc",
+      "role": "junk"
+     },
+     {
+      "id": "video",
+      "label": "story.stops.s6.activity.folders.video.label",
+      "desc": "story.stops.s6.activity.folders.video.desc",
+      "role": "junk"
+     }
+    ],
+    "start": [
+     "anh",
+     "amthanh",
+     "cauhinh",
+     "video"
+    ],
+    "rule": "story.stops.s6.activity.rule",
+    "hints": [
+     "story.stops.s6.activity.hints.0",
+     "story.stops.s6.activity.hints.1",
+     "story.stops.s6.activity.hints.2"
+    ],
+    "hintsEasy": [
+     "story.stops.s6.activity.hintsEasy.0",
+     "story.stops.s6.activity.hintsEasy.1",
+     "story.stops.s6.activity.hintsEasy.2"
+    ],
+    "success": "story.stops.s6.activity.success"
+   },
+   "decision": "notes",
+   "after": [
+    {
+     "speaker": "story.npc.vy",
+     "text": "story.stops.s6.after.0.text"
+    }
+   ],
+   "evidence": [
+    "sync"
+   ]
+  },
+  {
+   "id": "s7",
+   "chapter": "ch2a",
+   "npc": "vy",
+   "title": "story.stops.s7.title",
+   "objective": "story.stops.s7.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.vy",
+     "text": "story.stops.s7.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.vy",
+     "text": "story.stops.s7.lines.1.text"
+    }
+   ],
+   "activity": {
+    "type": "mapgraph",
+    "title": "story.stops.s7.activity.title",
+    "note": "story.stops.s7.activity.note",
+    "prompt": "story.stops.s7.activity.prompt",
+    "from": "t3",
+    "to": "c",
+    "layout": {
+     "t3": [
+      0.72,
+      0.08
+     ],
+     "canteen": [
+      0.42,
+      0.08
+     ],
+     "cross": [
+      0.16,
+      0.42
+     ],
+     "e": [
+      0.5,
+      0.5
+     ],
+     "court": [
+      0.2,
+      0.9
+     ],
+     "c": [
+      0.64,
+      0.92
+     ],
+     "rear": [
+      0.96,
+      0.08
+     ],
+     "lawn": [
+      0.96,
+      0.62
+     ]
+    },
+    "nodes": [
+     "t3",
+     "canteen",
+     "cross",
+     "e",
+     "court",
+     "c",
+     "rear",
+     "lawn"
+    ],
+    "edges": [
+     [
+      "t3",
+      "canteen",
+      3
+     ],
+     [
+      "canteen",
+      "cross",
+      2
+     ],
+     [
+      "cross",
+      "e",
+      2
+     ],
+     [
+      "e",
+      "court",
+      3
+     ],
+     [
+      "court",
+      "c",
+      4
+     ],
+     [
+      "t3",
+      "cross",
+      6
+     ],
+     [
+      "canteen",
+      "e",
+      3
+     ],
+     [
+      "cross",
+      "court",
+      6
+     ],
+     [
+      "e",
+      "c",
+      8
+     ],
+     [
+      "rear",
+      "t3",
+      2
+     ],
+     [
+      "lawn",
+      "rear",
+      2
+     ],
+     [
+      "lawn",
+      "c",
+      16
+     ]
+    ],
+    "hints": [
+     "story.stops.s7.activity.hints.0",
+     "story.stops.s7.activity.hints.1",
+     "story.stops.s7.activity.hints.2"
+    ],
+    "short": {
+     "t3": "story.stops.s7.activity.short.t3",
+     "canteen": "story.stops.s7.activity.short.canteen",
+     "cross": "story.stops.s7.activity.short.cross",
+     "e": "story.stops.s7.activity.short.e",
+     "court": "story.stops.s7.activity.short.court",
+     "c": "story.stops.s7.activity.short.c",
+     "rear": "story.stops.s7.activity.short.rear",
+     "lawn": "story.stops.s7.activity.short.lawn"
+    }
+   },
+   "after": [
+    {
+     "speaker": "story.npc.vy",
+     "text": "story.stops.s7.after.0.text"
+    }
+   ],
+   "evidence": [
+    "route"
+   ],
+   "facts": [
+    4
+   ]
+  },
+  {
+   "id": "s8",
+   "chapter": "ch2b",
+   "npc": "history",
+   "title": "story.stops.s8.title",
+   "objective": "story.stops.s8.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.history",
+     "text": "story.stops.s8.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.history",
+     "text": "story.stops.s8.lines.1.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s8.lines.2.text"
+    },
+    {
+     "speaker": "story.npc.history",
+     "text": "story.stops.s8.lines.3.text"
+    }
+   ],
+   "after": [],
+   "items": [
+    "photos"
+   ]
+  },
+  {
+   "id": "s9",
+   "chapter": "ch2b",
+   "npc": "linh",
+   "title": "story.stops.s9.title",
+   "objective": "story.stops.s9.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.linh",
+     "text": "story.stops.s9.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.linh",
+     "text": "story.stops.s9.lines.1.text"
+    }
+   ],
+   "activity": {
+    "type": "captions",
+    "title": "story.stops.s9.activity.title",
+    "prompt": "story.stops.s9.activity.prompt",
+    "promptEasy": "story.stops.s9.activity.promptEasy",
+    "photos": [
+     {
+      "id": "p1",
+      "icon": "book",
+      "label": "story.stops.s9.activity.photos.p1.label"
+     },
+     {
+      "id": "p2",
+      "icon": "tree",
+      "label": "story.stops.s9.activity.photos.p2.label"
+     },
+     {
+      "id": "p3",
+      "icon": "board",
+      "label": "story.stops.s9.activity.photos.p3.label"
+     },
+     {
+      "id": "p4",
+      "icon": "music",
+      "label": "story.stops.s9.activity.photos.p4.label"
+     }
+    ],
+    "captions": [
+     {
+      "id": "c3",
+      "photo": "p3",
+      "text": "story.stops.s9.activity.captions.c3.text"
+     },
+     {
+      "id": "c1",
+      "photo": "p1",
+      "text": "story.stops.s9.activity.captions.c1.text"
+     },
+     {
+      "id": "c4",
+      "photo": "p4",
+      "text": "story.stops.s9.activity.captions.c4.text"
+     },
+     {
+      "id": "c2",
+      "photo": "p2",
+      "text": "story.stops.s9.activity.captions.c2.text"
+     }
+    ],
+    "hints": [
+     "story.stops.s9.activity.hints.0",
+     "story.stops.s9.activity.hints.1",
+     "story.stops.s9.activity.hints.2"
+    ],
+    "hintsEasy": [
+     "story.stops.s9.activity.hintsEasy.0",
+     "story.stops.s9.activity.hintsEasy.1",
+     "story.stops.s9.activity.hintsEasy.2"
+    ],
+    "success": "story.stops.s9.activity.success"
+   },
+   "decision": "captions",
+   "after": [
+    {
+     "speaker": "story.npc.linh",
+     "text": "story.stops.s9.after.0.text"
+    }
+   ],
+   "evidence": [
+    "captions"
+   ]
+  },
+  {
+   "id": "s10",
+   "chapter": "ch2b",
+   "npc": "an",
+   "title": "story.stops.s10.title",
+   "objective": "story.stops.s10.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.an",
+     "text": "story.stops.s10.lines.0.text"
+    },
+    {
+     "speaker": "story.dialogue.you",
+     "text": "story.stops.s10.lines.1.text"
+    },
+    {
+     "speaker": "story.npc.an",
+     "text": "story.stops.s10.lines.2.text"
+    }
+   ],
+   "activity": {
+    "type": "timing",
+    "title": "story.stops.s10.activity.title",
+    "prompt": "story.stops.s10.activity.prompt",
+    "promptEasy": "story.stops.s10.activity.promptEasy",
+    "rise": 1.2,
+    "total": 6,
+    "words": 9,
+    "rate": 3,
+    "delay": {
+     "min": 0,
+     "max": 4,
+     "step": 0.1,
+     "start": 0.4
+    },
+    "hold": {
+     "min": 1,
+     "max": 5,
+     "step": 0.1,
+     "start": 2
+    },
+    "hints": [
+     "story.stops.s10.activity.hints.0",
+     "story.stops.s10.activity.hints.1",
+     "story.stops.s10.activity.hints.2"
+    ],
+    "hintsEasy": [
+     "story.stops.s10.activity.hintsEasy.0",
+     "story.stops.s10.activity.hintsEasy.1",
+     "story.stops.s10.activity.hintsEasy.2"
+    ],
+    "success": "story.stops.s10.activity.success"
+   },
+   "after": [
+    {
+     "speaker": "story.npc.an",
+     "text": "story.stops.s10.after.0.text"
+    }
+   ],
+   "evidence": [
+    "timing"
+   ]
+  },
+  {
+   "id": "s11",
+   "chapter": "ch2b",
+   "npc": "bao",
+   "title": "story.stops.s11.title",
+   "objective": "story.stops.s11.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.bao",
+     "text": "story.stops.s11.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.bao",
+     "text": "story.stops.s11.lines.1.text"
+    }
+   ],
+   "activity": {
+    "type": "level",
+    "title": "story.stops.s11.activity.title",
+    "note": "story.stops.s11.activity.note",
+    "levels": {
+     "easy": "count-d1-s901000",
+     "normal": "6.1",
+     "hard": "6.3"
+    }
+   },
+   "after": [
+    {
+     "speaker": "story.npc.bao",
+     "text": "story.stops.s11.after.0.text"
+    }
+   ],
+   "evidence": [],
+   "facts": [
+    6
+   ]
+  },
+  {
+   "id": "s12",
+   "chapter": "ch2b",
+   "npc": "stage",
+   "title": "story.stops.s12.title",
+   "objective": "story.stops.s12.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.stage",
+     "text": "story.stops.s12.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.stage",
+     "text": "story.stops.s12.lines.1.text"
+    }
+   ],
+   "activity": {
+    "type": "level",
+    "title": "story.stops.s12.activity.title",
+    "note": "story.stops.s12.activity.note",
+    "levels": {
+     "easy": "3.2",
+     "normal": "3.2",
+     "hard": "block-vm-d4-s604002"
+    }
+   },
+   "decision": "drones",
+   "after": [
+    {
+     "speaker": "story.npc.stage",
+     "text": "story.stops.s12.after.0.text"
+    }
+   ],
+   "items": [
+    "program"
+   ],
+   "facts": [
+    3
+   ]
+  },
+  {
+   "id": "s13",
+   "chapter": "ch3",
+   "npc": "duc",
+   "title": "story.stops.s13.title",
+   "objective": "story.stops.s13.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.duc",
+     "text": "story.stops.s13.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.duc",
+     "text": "story.stops.s13.lines.1.text"
+    }
+   ],
+   "activity": {
+    "type": "topo",
+    "title": "story.stops.s13.activity.title",
+    "prompt": "story.stops.s13.activity.prompt",
+    "promptEasy": "story.stops.s13.activity.promptEasy",
+    "steps": [
+     {
+      "id": "dien",
+      "label": "story.stops.s13.activity.steps.dien.label",
+      "needs": []
+     },
+     {
+      "id": "nen",
+      "label": "story.stops.s13.activity.steps.nen.label",
+      "needs": [
+       "dien"
+      ]
+     },
+     {
+      "id": "guong",
+      "label": "story.stops.s13.activity.steps.guong.label",
+      "needs": [
+       "nen"
+      ]
+     },
+     {
+      "id": "drone",
+      "label": "story.stops.s13.activity.steps.drone.label",
+      "needs": [
+       "dien"
+      ]
+     },
+     {
+      "id": "phao",
+      "label": "story.stops.s13.activity.steps.phao.label",
+      "needs": [
+       "guong",
+       "drone"
+      ]
+     },
+     {
+      "id": "chu",
+      "label": "story.stops.s13.activity.steps.chu.label",
+      "needs": [
+       "phao"
+      ]
+     }
+    ],
+    "hints": [
+     "story.stops.s13.activity.hints.0",
+     "story.stops.s13.activity.hints.1",
+     "story.stops.s13.activity.hints.2"
+    ],
+    "hintsEasy": [
+     "story.stops.s13.activity.hintsEasy.0",
+     "story.stops.s13.activity.hintsEasy.1",
+     "story.stops.s13.activity.hintsEasy.2"
+    ],
+    "success": "story.stops.s13.activity.success"
+   },
+   "decision": "final",
+   "after": [
+    {
+     "speaker": "story.npc.duc",
+     "text": "story.stops.s13.after.0.text"
+    }
+   ],
+   "evidence": [
+    "schedule"
+   ],
+   "items": [
+    "schedule"
+   ]
+  },
+  {
+   "id": "s14",
+   "chapter": "ch3",
+   "npc": "chief",
+   "title": "story.stops.s14.title",
+   "objective": "story.stops.s14.objective",
+   "lines": [
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s14.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s14.lines.1.text"
+    }
+   ],
+   "activity": {
+    "type": "causes",
+    "title": "story.stops.s14.activity.title",
+    "prompt": "story.stops.s14.activity.prompt",
+    "promptEasy": "story.stops.s14.activity.promptEasy",
+    "cards": [
+     {
+      "id": "version",
+      "text": "story.stops.s14.activity.cards.version.text",
+      "real": true
+     },
+     {
+      "id": "notes",
+      "text": "story.stops.s14.activity.cards.notes.text",
+      "real": true
+     },
+     {
+      "id": "schedule",
+      "text": "story.stops.s14.activity.cards.schedule.text",
+      "real": true
+     },
+     {
+      "id": "sabotage",
+      "text": "story.stops.s14.activity.cards.sabotage.text",
+      "real": false
+     },
+     {
+      "id": "hardware",
+      "text": "story.stops.s14.activity.cards.hardware.text",
+      "real": false
+     },
+     {
+      "id": "heavy",
+      "text": "story.stops.s14.activity.cards.heavy.text",
+      "real": false
+     }
+    ],
+    "hints": [
+     "story.stops.s14.activity.hints.0",
+     "story.stops.s14.activity.hints.1",
+     "story.stops.s14.activity.hints.2"
+    ],
+    "hintsEasy": [
+     "story.stops.s14.activity.hintsEasy.0",
+     "story.stops.s14.activity.hintsEasy.1",
+     "story.stops.s14.activity.hintsEasy.2"
+    ],
+    "success": "story.stops.s14.activity.success"
+   },
+   "decision": "bursts",
+   "after": [
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.stops.s14.after.0.text"
+    }
+   ],
+   "evidence": []
+  }
+ ],
+ "decisions": {
+  "version": {
+   "stop": "s0",
+   "speaker": "minh",
+   "cause": "version",
+   "prompt": "story.decisions.version.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.version.options.A.text",
+     "reply": "story.decisions.version.options.A.reply",
+     "effect": "story.decisions.version.options.A.effect",
+     "trust": {
+      "minh": 1,
+      "chief": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.version.options.B.text",
+     "reply": "story.decisions.version.options.B.reply",
+     "effect": "story.decisions.version.options.B.effect",
+     "trust": {}
+    },
+    {
+     "id": "C",
+     "text": "story.decisions.version.options.C.text",
+     "reply": "story.decisions.version.options.C.reply",
+     "effect": "story.decisions.version.options.C.effect",
+     "trust": {
+      "minh": 1
+     }
+    }
+   ]
+  },
+  "firework": {
+   "stop": "s1",
+   "speaker": "math",
+   "tags": {},
+   "prompt": "story.decisions.firework.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.firework.options.A.text",
+     "reply": "story.decisions.firework.options.A.reply",
+     "effect": "story.decisions.firework.options.A.effect",
+     "trust": {
+      "math": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.firework.options.B.text",
+     "reply": "story.decisions.firework.options.B.reply",
+     "effect": "story.decisions.firework.options.B.effect",
+     "tags": [
+      "diverge"
+     ],
+     "trust": {}
+    }
+   ]
+  },
+  "ha": {
+   "stop": "s2",
+   "speaker": "ha",
+   "prompt": "story.decisions.ha.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.ha.options.A.text",
+     "reply": "story.decisions.ha.options.A.reply",
+     "effect": "story.decisions.ha.options.A.effect",
+     "trust": {
+      "ha": 2,
+      "chief": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.ha.options.B.text",
+     "reply": "story.decisions.ha.options.B.reply",
+     "effect": "story.decisions.ha.options.B.effect",
+     "trust": {
+      "ha": 1
+     }
+    },
+    {
+     "id": "C",
+     "text": "story.decisions.ha.options.C.text",
+     "reply": "story.decisions.ha.options.C.reply",
+     "effect": "story.decisions.ha.options.C.effect",
+     "trust": {}
+    }
+   ]
+  },
+  "notes": {
+   "stop": "s6",
+   "speaker": "vy",
+   "cause": "notes",
+   "prompt": "story.decisions.notes.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.notes.options.A.text",
+     "reply": "story.decisions.notes.options.A.reply",
+     "effect": "story.decisions.notes.options.A.effect",
+     "trust": {
+      "vy": 2
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.notes.options.B.text",
+     "reply": "story.decisions.notes.options.B.reply",
+     "effect": "story.decisions.notes.options.B.effect",
+     "trust": {}
+    },
+    {
+     "id": "C",
+     "text": "story.decisions.notes.options.C.text",
+     "reply": "story.decisions.notes.options.C.reply",
+     "effect": "story.decisions.notes.options.C.effect",
+     "trust": {
+      "vy": 1
+     }
+    }
+   ]
+  },
+  "captions": {
+   "stop": "s9",
+   "speaker": "linh",
+   "prompt": "story.decisions.captions.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.captions.options.A.text",
+     "reply": "story.decisions.captions.options.A.reply",
+     "effect": "story.decisions.captions.options.A.effect",
+     "tags": [
+      "kept"
+     ],
+     "trust": {
+      "linh": 2,
+      "history": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.captions.options.B.text",
+     "reply": "story.decisions.captions.options.B.reply",
+     "effect": "story.decisions.captions.options.B.effect",
+     "trust": {}
+    },
+    {
+     "id": "C",
+     "text": "story.decisions.captions.options.C.text",
+     "reply": "story.decisions.captions.options.C.reply",
+     "effect": "story.decisions.captions.options.C.effect",
+     "trust": {}
+    }
+   ]
+  },
+  "drones": {
+   "stop": "s12",
+   "speaker": "stage",
+   "prompt": "story.decisions.drones.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.drones.options.A.text",
+     "reply": "story.decisions.drones.options.A.reply",
+     "effect": "story.decisions.drones.options.A.effect",
+     "trust": {
+      "stage": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.drones.options.B.text",
+     "reply": "story.decisions.drones.options.B.reply",
+     "effect": "story.decisions.drones.options.B.effect",
+     "tags": [
+      "flip"
+     ],
+     "trust": {}
+    }
+   ]
+  },
+  "final": {
+   "stop": "s13",
+   "speaker": "duc",
+   "cause": "final",
+   "prompt": "story.decisions.final.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.final.options.A.text",
+     "reply": "story.decisions.final.options.A.reply",
+     "effect": "story.decisions.final.options.A.effect",
+     "trust": {
+      "duc": 1,
+      "bao": 1,
+      "stage": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.final.options.B.text",
+     "reply": "story.decisions.final.options.B.reply",
+     "effect": "story.decisions.final.options.B.effect",
+     "trust": {}
+    },
+    {
+     "id": "C",
+     "text": "story.decisions.final.options.C.text",
+     "reply": "story.decisions.final.options.C.reply",
+     "effect": "story.decisions.final.options.C.effect",
+     "trust": {
+      "bao": 1
+     }
+    }
+   ]
+  },
+  "bursts": {
+   "stop": "s14",
+   "speaker": "chief",
+   "prompt": "story.decisions.bursts.prompt",
+   "options": [
+    {
+     "id": "A",
+     "text": "story.decisions.bursts.options.A.text",
+     "reply": "story.decisions.bursts.options.A.reply",
+     "effect": "story.decisions.bursts.options.A.effect",
+     "trust": {
+      "chief": 1
+     }
+    },
+    {
+     "id": "B",
+     "text": "story.decisions.bursts.options.B.text",
+     "reply": "story.decisions.bursts.options.B.reply",
+     "effect": "story.decisions.bursts.options.B.effect",
+     "trust": {}
+    },
+    {
+     "id": "C",
+     "text": "story.decisions.bursts.options.C.text",
+     "reply": "story.decisions.bursts.options.C.reply",
+     "effect": "story.decisions.bursts.options.C.effect",
+     "tags": [
+      "weird"
+     ],
+     "requiresFacts": 7,
+     "trust": {
+      "math": 1
+     }
+    }
+   ]
+  }
+ },
+ "evidence": {
+  "versions": {
+   "title": "story.evidence.versions.title",
+   "text": "story.evidence.versions.text"
+  },
+  "height": {
+   "title": "story.evidence.height.title",
+   "text": "story.evidence.height.text"
+  },
+  "oldLamp": {
+   "title": "story.evidence.oldLamp.title",
+   "text": "story.evidence.oldLamp.text"
+  },
+  "order": {
+   "title": "story.evidence.order.title",
+   "text": "story.evidence.order.text"
+  },
+  "notesFile": {
+   "title": "story.evidence.notesFile.title",
+   "text": "story.evidence.notesFile.text"
+  },
+  "sync": {
+   "title": "story.evidence.sync.title",
+   "text": "story.evidence.sync.text"
+  },
+  "route": {
+   "title": "story.evidence.route.title",
+   "text": "story.evidence.route.text"
+  },
+  "captions": {
+   "title": "story.evidence.captions.title",
+   "text": "story.evidence.captions.text"
+  },
+  "timing": {
+   "title": "story.evidence.timing.title",
+   "text": "story.evidence.timing.text"
+  },
+  "schedule": {
+   "title": "story.evidence.schedule.title",
+   "text": "story.evidence.schedule.text"
+  },
+  "hashTip": {
+   "title": "story.evidence.hashTip.title",
+   "text": "story.evidence.hashTip.text",
+   "bond": "build"
+  },
+  "bTable": {
+   "title": "story.evidence.bTable.title",
+   "text": "story.evidence.bTable.text",
+   "bond": "build"
+  },
+  "crtTip": {
+   "title": "story.evidence.crtTip.title",
+   "text": "story.evidence.crtTip.text",
+   "bond": "build"
+  },
+  "frameTip": {
+   "title": "story.evidence.frameTip.title",
+   "text": "story.evidence.frameTip.text",
+   "bond": "build"
+  },
+  "depTip": {
+   "title": "story.evidence.depTip.title",
+   "text": "story.evidence.depTip.text",
+   "bond": "build"
+  }
+ },
+ "items": {
+  "card": {
+   "title": "story.items.card.title",
+   "text": "story.items.card.text"
+  },
+  "synclist": {
+   "title": "story.items.synclist.title",
+   "text": "story.items.synclist.text"
+  },
+  "notes": {
+   "title": "story.items.notes.title",
+   "text": "story.items.notes.text"
+  },
+  "photos": {
+   "title": "story.items.photos.title",
+   "text": "story.items.photos.text"
+  },
+  "program": {
+   "title": "story.items.program.title",
+   "text": "story.items.program.text"
+  },
+  "schedule": {
+   "title": "story.items.schedule.title",
+   "text": "story.items.schedule.text"
+  }
+ },
+ "npcs": {
+  "chief": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "seventy",
+     "label": "story.npcs.chief.topics.seventy.label",
+     "lines": [
+      {
+       "speaker": "story.npc.chief",
+       "text": "story.npcs.chief.topics.seventy.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "backup",
+     "label": "story.npcs.chief.topics.backup.label",
+     "lines": [
+      {
+       "speaker": "story.npc.chief",
+       "text": "story.npcs.chief.topics.backup.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s4"
+     ]
+    },
+    {
+     "id": "ussh",
+     "label": "story.npcs.chief.topics.ussh.label",
+     "lines": [
+      {
+       "speaker": "story.npc.chief",
+       "text": "story.npcs.chief.topics.ussh.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s9"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.chief.ambient.ch0",
+    "ch1": "story.npcs.chief.ambient.ch1",
+    "ch2a": "story.npcs.chief.ambient.ch2a",
+    "ch2b": "story.npcs.chief.ambient.ch2b",
+    "ch3": "story.npcs.chief.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:ha:A"
+     ],
+     "text": "story.npcs.chief.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:version:C"
+     ],
+     "text": "story.npcs.chief.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.chief.epilogue.warm",
+    "plain": "story.npcs.chief.epilogue.plain"
+   }
+  },
+  "math": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "limit",
+     "label": "story.npcs.math.topics.limit.label",
+     "lines": [
+      {
+       "speaker": "story.npc.math",
+       "text": "story.npcs.math.topics.limit.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "newbie",
+     "label": "story.npcs.math.topics.newbie.label",
+     "lines": [
+      {
+       "speaker": "story.npc.math",
+       "text": "story.npcs.math.topics.newbie.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "weird",
+     "label": "story.npcs.math.topics.weird.label",
+     "lines": [
+      {
+       "speaker": "story.npc.math",
+       "text": "story.npcs.math.topics.weird.lines.0.text"
+      },
+      {
+       "speaker": "story.npc.math",
+       "text": "story.npcs.math.topics.weird.lines.1.text"
+      }
+     ],
+     "requires": [
+      "chapter:ch3"
+     ],
+     "minFacts": 6,
+     "grantsFact": 7
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.math.ambient.ch0",
+    "ch1": "story.npcs.math.ambient.ch1",
+    "ch2a": "story.npcs.math.ambient.ch2a",
+    "ch2b": "story.npcs.math.ambient.ch2b",
+    "ch3": "story.npcs.math.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:firework:B"
+     ],
+     "text": "story.npcs.math.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:firework:A"
+     ],
+     "text": "story.npcs.math.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.math.epilogue.warm",
+    "plain": "story.npcs.math.epilogue.plain"
+   }
+  },
+  "history": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "shared",
+     "label": "story.npcs.history.topics.shared.label",
+     "lines": [
+      {
+       "speaker": "story.npc.history",
+       "text": "story.npcs.history.topics.shared.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "donors",
+     "label": "story.npcs.history.topics.donors.label",
+     "lines": [
+      {
+       "speaker": "story.npc.history",
+       "text": "story.npcs.history.topics.donors.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s8"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.history.ambient.ch0",
+    "ch1": "story.npcs.history.ambient.ch1",
+    "ch2a": "story.npcs.history.ambient.ch2a",
+    "ch2b": "story.npcs.history.ambient.ch2b",
+    "ch3": "story.npcs.history.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:captions:A"
+     ],
+     "text": "story.npcs.history.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:captions:C"
+     ],
+     "text": "story.npcs.history.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.history.epilogue.warm",
+    "plain": "story.npcs.history.epilogue.plain"
+   }
+  },
+  "stage": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "plan",
+     "label": "story.npcs.stage.topics.plan.label",
+     "lines": [
+      {
+       "speaker": "story.npc.stage",
+       "text": "story.npcs.stage.topics.plan.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "view",
+     "label": "story.npcs.stage.topics.view.label",
+     "lines": [
+      {
+       "speaker": "story.npc.stage",
+       "text": "story.npcs.stage.topics.view.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s11"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.stage.ambient.ch0",
+    "ch1": "story.npcs.stage.ambient.ch1",
+    "ch2a": "story.npcs.stage.ambient.ch2a",
+    "ch2b": "story.npcs.stage.ambient.ch2b",
+    "ch3": "story.npcs.stage.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:drones:B"
+     ],
+     "text": "story.npcs.stage.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:final:A"
+     ],
+     "text": "story.npcs.stage.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.stage.epilogue.warm",
+    "plain": "story.npcs.stage.epilogue.plain"
+   }
+  },
+  "minh": {
+   "chapters": {
+    "ch2a": {
+     "node": "rear",
+     "offset": [
+      2.5,
+      0
+     ]
+    },
+    "ch2b": {
+     "node": "rear",
+     "offset": [
+      2.5,
+      0
+     ]
+    },
+    "ch3": {
+     "node": "rear",
+     "offset": [
+      2.5,
+      0
+     ]
+    }
+   },
+   "topics": [
+    {
+     "id": "usb",
+     "label": "story.npcs.minh.topics.usb.label",
+     "lines": [
+      {
+       "speaker": "story.npc.minh",
+       "text": "story.npcs.minh.topics.usb.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "guests",
+     "label": "story.npcs.minh.topics.guests.label",
+     "lines": [
+      {
+       "speaker": "story.npc.minh",
+       "text": "story.npcs.minh.topics.guests.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s4"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.minh.ambient.ch0",
+    "ch1": "story.npcs.minh.ambient.ch1",
+    "ch2a": "story.npcs.minh.ambient.ch2a",
+    "ch2b": "story.npcs.minh.ambient.ch2b",
+    "ch3": "story.npcs.minh.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:version:A"
+     ],
+     "text": "story.npcs.minh.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:version:B"
+     ],
+     "text": "story.npcs.minh.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.minh.epilogue.warm",
+    "plain": "story.npcs.minh.epilogue.plain"
+   }
+  },
+  "ha": {
+   "chapters": {
+    "ch3": {
+     "node": "t3",
+     "offset": [
+      0,
+      2.6
+     ]
+    }
+   },
+   "topics": [
+    {
+     "id": "oldlamp",
+     "label": "story.npcs.ha.topics.oldlamp.label",
+     "lines": [
+      {
+       "speaker": "story.npc.ha",
+       "text": "story.npcs.ha.topics.oldlamp.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "afraid",
+     "label": "story.npcs.ha.topics.afraid.label",
+     "lines": [
+      {
+       "speaker": "story.npc.ha",
+       "text": "story.npcs.ha.topics.afraid.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s2"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.ha.ambient.ch0",
+    "ch1": "story.npcs.ha.ambient.ch1",
+    "ch2a": "story.npcs.ha.ambient.ch2a",
+    "ch2b": "story.npcs.ha.ambient.ch2b",
+    "ch3": "story.npcs.ha.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:ha:A"
+     ],
+     "text": "story.npcs.ha.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:ha:B"
+     ],
+     "text": "story.npcs.ha.callbacks.1.text"
+    },
+    {
+     "requires": [
+      "dec:ha:C"
+     ],
+     "text": "story.npcs.ha.callbacks.2.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.ha.epilogue.warm",
+    "plain": "story.npcs.ha.epilogue.plain"
+   }
+  },
+  "nam": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "locker",
+     "label": "story.npcs.nam.topics.locker.label",
+     "lines": [
+      {
+       "speaker": "story.npc.nam",
+       "text": "story.npcs.nam.topics.locker.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "food",
+     "label": "story.npcs.nam.topics.food.label",
+     "lines": [
+      {
+       "speaker": "story.npc.nam",
+       "text": "story.npcs.nam.topics.food.lines.0.text"
+      }
+     ],
+     "requires": []
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.nam.ambient.ch0",
+    "ch1": "story.npcs.nam.ambient.ch1",
+    "ch2a": "story.npcs.nam.ambient.ch2a",
+    "ch2b": "story.npcs.nam.ambient.ch2b",
+    "ch3": "story.npcs.nam.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:notes:A"
+     ],
+     "text": "story.npcs.nam.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:notes:B"
+     ],
+     "text": "story.npcs.nam.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.nam.epilogue.warm",
+    "plain": "story.npcs.nam.epilogue.plain"
+   }
+  },
+  "linh": {
+   "chapters": {
+    "ch3": {
+     "node": "court",
+     "offset": [
+      2.5,
+      1.5
+     ]
+    }
+   },
+   "topics": [
+    {
+     "id": "why",
+     "label": "story.npcs.linh.topics.why.label",
+     "lines": [
+      {
+       "speaker": "story.npc.linh",
+       "text": "story.npcs.linh.topics.why.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "quantity",
+     "label": "story.npcs.linh.topics.quantity.label",
+     "lines": [
+      {
+       "speaker": "story.npc.linh",
+       "text": "story.npcs.linh.topics.quantity.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s9"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.linh.ambient.ch0",
+    "ch1": "story.npcs.linh.ambient.ch1",
+    "ch2a": "story.npcs.linh.ambient.ch2a",
+    "ch2b": "story.npcs.linh.ambient.ch2b",
+    "ch3": "story.npcs.linh.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:captions:A"
+     ],
+     "text": "story.npcs.linh.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:captions:B"
+     ],
+     "text": "story.npcs.linh.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.linh.epilogue.warm",
+    "plain": "story.npcs.linh.epilogue.plain"
+   }
+  },
+  "an": {
+   "chapters": {
+    "ch3": {
+     "node": "lawn",
+     "offset": [
+      -2.5,
+      2
+     ]
+    }
+   },
+   "topics": [
+    {
+     "id": "seat",
+     "label": "story.npcs.an.topics.seat.label",
+     "lines": [
+      {
+       "speaker": "story.npc.an",
+       "text": "story.npcs.an.topics.seat.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "major",
+     "label": "story.npcs.an.topics.major.label",
+     "lines": [
+      {
+       "speaker": "story.npc.an",
+       "text": "story.npcs.an.topics.major.lines.0.text"
+      }
+     ],
+     "requires": []
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.an.ambient.ch0",
+    "ch1": "story.npcs.an.ambient.ch1",
+    "ch2a": "story.npcs.an.ambient.ch2a",
+    "ch2b": "story.npcs.an.ambient.ch2b",
+    "ch3": "story.npcs.an.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "done:s10"
+     ],
+     "text": "story.npcs.an.callbacks.0.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.an.epilogue.warm",
+    "plain": "story.npcs.an.epilogue.plain"
+   }
+  },
+  "bao": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "choose",
+     "label": "story.npcs.bao.topics.choose.label",
+     "lines": [
+      {
+       "speaker": "story.npc.bao",
+       "text": "story.npcs.bao.topics.choose.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "v3",
+     "label": "story.npcs.bao.topics.v3.label",
+     "lines": [
+      {
+       "speaker": "story.npc.bao",
+       "text": "story.npcs.bao.topics.v3.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s12"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.bao.ambient.ch0",
+    "ch1": "story.npcs.bao.ambient.ch1",
+    "ch2a": "story.npcs.bao.ambient.ch2a",
+    "ch2b": "story.npcs.bao.ambient.ch2b",
+    "ch3": "story.npcs.bao.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:final:A"
+     ],
+     "text": "story.npcs.bao.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:final:C"
+     ],
+     "text": "story.npcs.bao.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.bao.epilogue.warm",
+    "plain": "story.npcs.bao.epilogue.plain"
+   }
+  },
+  "vy": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "list",
+     "label": "story.npcs.vy.topics.list.label",
+     "lines": [
+      {
+       "speaker": "story.npc.vy",
+       "text": "story.npcs.vy.topics.list.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "twice",
+     "label": "story.npcs.vy.topics.twice.label",
+     "lines": [
+      {
+       "speaker": "story.npc.vy",
+       "text": "story.npcs.vy.topics.twice.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s6"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.vy.ambient.ch0",
+    "ch1": "story.npcs.vy.ambient.ch1",
+    "ch2a": "story.npcs.vy.ambient.ch2a",
+    "ch2b": "story.npcs.vy.ambient.ch2b",
+    "ch3": "story.npcs.vy.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:notes:A"
+     ],
+     "text": "story.npcs.vy.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:notes:C"
+     ],
+     "text": "story.npcs.vy.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.vy.epilogue.warm",
+    "plain": "story.npcs.vy.epilogue.plain"
+   }
+  },
+  "duc": {
+   "chapters": {},
+   "topics": [
+    {
+     "id": "rehearse",
+     "label": "story.npcs.duc.topics.rehearse.label",
+     "lines": [
+      {
+       "speaker": "story.npc.duc",
+       "text": "story.npcs.duc.topics.rehearse.lines.0.text"
+      }
+     ],
+     "requires": []
+    },
+    {
+     "id": "final",
+     "label": "story.npcs.duc.topics.final.label",
+     "lines": [
+      {
+       "speaker": "story.npc.duc",
+       "text": "story.npcs.duc.topics.final.lines.0.text"
+      }
+     ],
+     "requires": [
+      "done:s13"
+     ]
+    }
+   ],
+   "ambient": {
+    "ch0": "story.npcs.duc.ambient.ch0",
+    "ch1": "story.npcs.duc.ambient.ch1",
+    "ch2a": "story.npcs.duc.ambient.ch2a",
+    "ch2b": "story.npcs.duc.ambient.ch2b",
+    "ch3": "story.npcs.duc.ambient.ch3"
+   },
+   "callbacks": [
+    {
+     "requires": [
+      "dec:final:B"
+     ],
+     "text": "story.npcs.duc.callbacks.0.text"
+    },
+    {
+     "requires": [
+      "dec:final:A"
+     ],
+     "text": "story.npcs.duc.callbacks.1.text"
+    }
+   ],
+   "epilogue": {
+    "warm": "story.npcs.duc.epilogue.warm",
+    "plain": "story.npcs.duc.epilogue.plain"
+   }
+  }
+ },
+ "bondScenes": {
+  "s0": {
+   "listen": {
+    "lines": [
+     {
+      "speaker": "story.npc.minh",
+      "text": "story.bondScenes.s0.listen.lines.0.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s0.listen.lines.1.text"
+     },
+     {
+      "speaker": "story.npc.minh",
+      "text": "story.bondScenes.s0.listen.lines.2.text"
+     }
+    ],
+    "trust": {
+     "minh": 1
+    }
+   },
+   "build": {
+    "lines": [
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s0.build.lines.0.text"
+     },
+     {
+      "speaker": "story.npc.minh",
+      "text": "story.bondScenes.s0.build.lines.1.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s0.build.lines.2.text"
+     }
+    ],
+    "evidence": "hashTip"
+   }
+  },
+  "s1": {
+   "listen": {
+    "lines": [
+     {
+      "speaker": "story.npc.math",
+      "text": "story.bondScenes.s1.listen.lines.0.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s1.listen.lines.1.text"
+     },
+     {
+      "speaker": "story.npc.math",
+      "text": "story.bondScenes.s1.listen.lines.2.text"
+     }
+    ],
+    "trust": {
+     "math": 1
+    }
+   },
+   "build": {
+    "lines": [
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s1.build.lines.0.text"
+     },
+     {
+      "speaker": "story.npc.math",
+      "text": "story.bondScenes.s1.build.lines.1.text"
+     },
+     {
+      "speaker": "story.npc.math",
+      "text": "story.bondScenes.s1.build.lines.2.text"
+     }
+    ],
+    "evidence": "bTable"
+   }
+  },
+  "s5": {
+   "listen": {
+    "lines": [
+     {
+      "speaker": "story.npc.nam",
+      "text": "story.bondScenes.s5.listen.lines.0.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s5.listen.lines.1.text"
+     },
+     {
+      "speaker": "story.npc.nam",
+      "text": "story.bondScenes.s5.listen.lines.2.text"
+     }
+    ],
+    "trust": {
+     "nam": 1
+    }
+   },
+   "build": {
+    "lines": [
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s5.build.lines.0.text"
+     },
+     {
+      "speaker": "story.npc.nam",
+      "text": "story.bondScenes.s5.build.lines.1.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s5.build.lines.2.text"
+     }
+    ],
+    "evidence": "crtTip"
+   }
+  },
+  "s8": {
+   "listen": {
+    "lines": [
+     {
+      "speaker": "story.npc.history",
+      "text": "story.bondScenes.s8.listen.lines.0.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s8.listen.lines.1.text"
+     },
+     {
+      "speaker": "story.npc.history",
+      "text": "story.bondScenes.s8.listen.lines.2.text"
+     }
+    ],
+    "trust": {
+     "history": 1,
+     "linh": 1
+    }
+   },
+   "build": {
+    "lines": [
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s8.build.lines.0.text"
+     },
+     {
+      "speaker": "story.npc.history",
+      "text": "story.bondScenes.s8.build.lines.1.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s8.build.lines.2.text"
+     }
+    ],
+    "evidence": "frameTip"
+   }
+  },
+  "s13": {
+   "listen": {
+    "lines": [
+     {
+      "speaker": "story.npc.duc",
+      "text": "story.bondScenes.s13.listen.lines.0.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s13.listen.lines.1.text"
+     },
+     {
+      "speaker": "story.npc.duc",
+      "text": "story.bondScenes.s13.listen.lines.2.text"
+     }
+    ],
+    "trust": {
+     "duc": 1
+    }
+   },
+   "build": {
+    "lines": [
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s13.build.lines.0.text"
+     },
+     {
+      "speaker": "story.npc.duc",
+      "text": "story.bondScenes.s13.build.lines.1.text"
+     },
+     {
+      "speaker": "story.dialogue.you",
+      "text": "story.bondScenes.s13.build.lines.2.text"
+     }
+    ],
+    "evidence": "depTip"
+   }
+  }
+ },
+ "messages": [
+  {
+   "id": "m0",
+   "requires": [
+    "intro"
+   ],
+   "speaker": "story.npc.chief",
+   "text": "story.messages.m0.text"
+  },
+  {
+   "id": "m1a",
+   "requires": [
+    "dec:version:A"
+   ],
+   "speaker": "story.npc.chief",
+   "text": "story.messages.m1a.text"
+  },
+  {
+   "id": "m1b",
+   "requires": [
+    "dec:version:B"
+   ],
+   "speaker": "story.npc.duc",
+   "text": "story.messages.m1b.text"
+  },
+  {
+   "id": "m1c",
+   "requires": [
+    "dec:version:C"
+   ],
+   "speaker": "story.npc.chief",
+   "text": "story.messages.m1c.text"
+  },
+  {
+   "id": "m2a",
+   "requires": [
+    "dec:ha:A"
+   ],
+   "speaker": "story.npc.ha",
+   "text": "story.messages.m2a.text"
+  },
+  {
+   "id": "m2b",
+   "requires": [
+    "dec:firework:B"
+   ],
+   "speaker": "story.npc.math",
+   "text": "story.messages.m2b.text"
+  },
+  {
+   "id": "m3",
+   "requires": [
+    "done:s3"
+   ],
+   "speaker": "story.npc.math",
+   "text": "story.messages.m3.text"
+  },
+  {
+   "id": "m4",
+   "requires": [
+    "done:s4"
+   ],
+   "speaker": "story.npc.chief",
+   "text": "story.messages.m4.text"
+  },
+  {
+   "id": "m5a",
+   "requires": [
+    "dec:notes:A"
+   ],
+   "speaker": "story.npc.vy",
+   "text": "story.messages.m5a.text"
+  },
+  {
+   "id": "m5b",
+   "requires": [
+    "dec:notes:B"
+   ],
+   "speaker": "story.npc.vy",
+   "text": "story.messages.m5b.text"
+  },
+  {
+   "id": "m5c",
+   "requires": [
+    "dec:notes:C"
+   ],
+   "speaker": "story.npc.vy",
+   "text": "story.messages.m5c.text"
+  },
+  {
+   "id": "m6",
+   "requires": [
+    "done:s8"
+   ],
+   "speaker": "story.npc.history",
+   "text": "story.messages.m6.text"
+  },
+  {
+   "id": "m7a",
+   "requires": [
+    "dec:captions:A"
+   ],
+   "speaker": "story.npc.linh",
+   "text": "story.messages.m7a.text"
+  },
+  {
+   "id": "m7b",
+   "requires": [
+    "dec:captions:B"
+   ],
+   "speaker": "story.npc.linh",
+   "text": "story.messages.m7b.text"
+  },
+  {
+   "id": "m7c",
+   "requires": [
+    "dec:captions:C"
+   ],
+   "speaker": "story.npc.linh",
+   "text": "story.messages.m7c.text"
+  },
+  {
+   "id": "m8",
+   "requires": [
+    "done:s12"
+   ],
+   "speaker": "story.npc.stage",
+   "text": "story.messages.m8.text"
+  },
+  {
+   "id": "m9a",
+   "requires": [
+    "dec:final:A"
+   ],
+   "speaker": "story.npc.duc",
+   "text": "story.messages.m9a.text"
+  },
+  {
+   "id": "m9b",
+   "requires": [
+    "dec:final:B"
+   ],
+   "speaker": "story.npc.bao",
+   "text": "story.messages.m9b.text"
+  },
+  {
+   "id": "m9c",
+   "requires": [
+    "dec:final:C"
+   ],
+   "speaker": "story.npc.stage",
+   "text": "story.messages.m9c.text"
+  },
+  {
+   "id": "m10",
+   "requires": [
+    "done:s14"
+   ],
+   "speaker": "story.npc.chief",
+   "text": "story.messages.m10.text"
+  }
+ ],
+ "lamps": {
+  "need": 7,
+  "title": "story.lamps.title",
+  "notes": {
+   "gate": "story.lamps.notes.gate",
+   "axis": "story.lamps.notes.axis",
+   "lawn": "story.lamps.notes.lawn",
+   "rear": "story.lamps.notes.rear",
+   "t3": "story.lamps.notes.t3",
+   "canteen": "story.lamps.notes.canteen",
+   "cross": "story.lamps.notes.cross",
+   "e": "story.lamps.notes.e",
+   "court": "story.lamps.notes.court",
+   "c": "story.lamps.notes.c"
+  }
+ },
+ "endings": {
+  "E1": {
+   "title": "story.endings.E1.title",
+   "scene": "show",
+   "lines": [
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.endings.E1.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.history",
+     "text": "story.endings.E1.lines.1.text"
+    }
+   ],
+   "hint": "story.endings.E1.hint"
+  },
+  "E2": {
+   "title": "story.endings.E2.title",
+   "scene": "boom",
+   "lines": [
+    {
+     "speaker": "story.npc.an",
+     "text": "story.endings.E2.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.endings.E2.lines.1.text"
+    }
+   ],
+   "caption": "story.endings.E2.caption",
+   "variants": {
+    "version": {
+     "title": "story.endings.E2.variants.version.title",
+     "line": {
+      "speaker": "story.npc.minh",
+      "text": "story.endings.E2.variants.version.line.text"
+     }
+    },
+    "notes": {
+     "title": "story.endings.E2.variants.notes.title",
+     "line": {
+      "speaker": "story.npc.vy",
+      "text": "story.endings.E2.variants.notes.line.text"
+     }
+    },
+    "final": {
+     "title": "story.endings.E2.variants.final.title",
+     "line": {
+      "speaker": "story.npc.duc",
+      "text": "story.endings.E2.variants.final.line.text"
+     }
+    },
+    "extra": {
+     "title": "story.endings.E2.variants.extra.title",
+     "line": {
+      "speaker": "story.npc.chief",
+      "text": "story.endings.E2.variants.extra.line.text"
+     }
+    }
+   },
+   "hint": "story.endings.E2.hint"
+  },
+  "E3": {
+   "title": "story.endings.E3.title",
+   "scene": "bridge",
+   "lines": [
+    {
+     "speaker": "story.npc.linh",
+     "text": "story.endings.E3.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.history",
+     "text": "story.endings.E3.lines.1.text"
+    }
+   ],
+   "hint": "story.endings.E3.hint"
+  },
+  "E4": {
+   "title": "story.endings.E4.title",
+   "scene": "07",
+   "lines": [
+    {
+     "speaker": "story.npc.an",
+     "text": "story.endings.E4.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.stage",
+     "text": "story.endings.E4.lines.1.text"
+    }
+   ],
+   "hint": "story.endings.E4.hint"
+  },
+  "E5": {
+   "title": "story.endings.E5.title",
+   "scene": "forever",
+   "lines": [
+    {
+     "speaker": "story.npc.math",
+     "text": "story.endings.E5.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.endings.E5.lines.1.text"
+    }
+   ],
+   "hint": "story.endings.E5.hint"
+  },
+  "E6": {
+   "title": "story.endings.E6.title",
+   "scene": "weird",
+   "lines": [
+    {
+     "speaker": "story.npc.math",
+     "text": "story.endings.E6.lines.0.text"
+    },
+    {
+     "speaker": "story.npc.chief",
+     "text": "story.endings.E6.lines.1.text"
+    }
+   ],
+   "hint": "story.endings.E6.hint"
+  }
+ },
+ "difficulties": {
+  "easy": {
+   "name": "story.difficulty.easy",
+   "description": "story.difficulty.easy.desc",
+   "generated": [
+    1,
+    2
+   ],
+   "casualMax": 1,
+   "practice": 1,
+   "assist": true
+  },
+  "normal": {
+   "name": "story.difficulty.normal",
+   "description": "story.difficulty.normal.desc",
+   "generated": [
+    2,
+    3
+   ],
+   "casualMax": 2,
+   "practice": 3,
+   "assist": false
+  },
+  "hard": {
+   "name": "story.difficulty.hard",
+   "description": "story.difficulty.hard.desc",
+   "generated": [
+    4,
+    5
+   ],
+   "casualMax": 2,
+   "practice": 5,
+   "assist": false
+  }
+ },
+ "modes": {
+  "casual": {
+   "title": "story.mode.casual.title",
+   "speaker": "story.npc.math",
+   "intro": "story.mode.casual.intro",
+   "goal": "story.mode.casual.goal",
+   "payoff": "story.mode.casual.payoff",
+   "activities": {
+    "1": {
+     "title": "story.activity.casual.1.title",
+     "intro": "story.activity.casual.1.intro",
+     "payoff": "story.activity.casual.1.payoff"
+    },
+    "2": {
+     "title": "story.activity.casual.2.title",
+     "intro": "story.activity.casual.2.intro",
+     "payoff": "story.activity.casual.2.payoff"
+    },
+    "4": {
+     "title": "story.activity.casual.4.title",
+     "intro": "story.activity.casual.4.intro",
+     "payoff": "story.activity.casual.4.payoff"
+    },
+    "6": {
+     "title": "story.activity.casual.6.title",
+     "intro": "story.activity.casual.6.intro",
+     "payoff": "story.activity.casual.6.payoff"
+    }
+   }
+  },
+  "daily": {
+   "title": "story.mode.daily.title",
+   "speaker": "story.npc.chief",
+   "intro": "story.mode.daily.intro",
+   "goal": "story.mode.daily.goal",
+   "payoff": "story.mode.daily.payoff",
+   "activities": {
+    "0": {
+     "title": "story.activity.daily.0.title",
+     "intro": "story.activity.daily.0.intro",
+     "payoff": "story.activity.daily.0.payoff"
+    },
+    "1": {
+     "title": "story.activity.daily.1.title",
+     "intro": "story.activity.daily.1.intro",
+     "payoff": "story.activity.daily.1.payoff"
+    },
+    "2": {
+     "title": "story.activity.daily.2.title",
+     "intro": "story.activity.daily.2.intro",
+     "payoff": "story.activity.daily.2.payoff"
+    }
+   }
+  },
+  "practice": {
+   "title": "story.mode.practice.title",
+   "speaker": "story.npc.math",
+   "intro": "story.mode.practice.intro",
+   "goal": "story.mode.practice.goal",
+   "payoff": "story.mode.practice.payoff",
+   "activities": {
+    "plot-limit": {
+     "title": "story.activity.practice.plot-limit.title",
+     "intro": "story.activity.practice.plot-limit.intro",
+     "payoff": "story.activity.practice.plot-limit.payoff"
+    },
+    "series": {
+     "title": "story.activity.practice.series.title",
+     "intro": "story.activity.practice.series.intro",
+     "payoff": "story.activity.practice.series.payoff"
+    },
+    "removable": {
+     "title": "story.activity.practice.removable.title",
+     "intro": "story.activity.practice.removable.intro",
+     "payoff": "story.activity.practice.removable.payoff"
+    },
+    "pick-limit": {
+     "title": "story.activity.practice.pick-limit.title",
+     "intro": "story.activity.practice.pick-limit.intro",
+     "payoff": "story.activity.practice.pick-limit.payoff"
+    },
+    "beam-order": {
+     "title": "story.activity.practice.beam-order.title",
+     "intro": "story.activity.practice.beam-order.intro",
+     "payoff": "story.activity.practice.beam-order.payoff"
+    },
+    "transpose-bug": {
+     "title": "story.activity.practice.transpose-bug.title",
+     "intro": "story.activity.practice.transpose-bug.intro",
+     "payoff": "story.activity.practice.transpose-bug.payoff"
+    },
+    "block-vm": {
+     "title": "story.activity.practice.block-vm.title",
+     "intro": "story.activity.practice.block-vm.intro",
+     "payoff": "story.activity.practice.block-vm.payoff"
+    },
+    "graph": {
+     "title": "story.activity.practice.graph.title",
+     "intro": "story.activity.practice.graph.intro",
+     "payoff": "story.activity.practice.graph.payoff"
+    },
+    "modular": {
+     "title": "story.activity.practice.modular.title",
+     "intro": "story.activity.practice.modular.intro",
+     "payoff": "story.activity.practice.modular.payoff"
+    },
+    "count": {
+     "title": "story.activity.practice.count.title",
+     "intro": "story.activity.practice.count.intro",
+     "payoff": "story.activity.practice.count.payoff"
+    }
+   }
+  },
+  "guest": {
+   "title": "story.mode.guest.title",
+   "speaker": "story.npc.chief",
+   "intro": "story.mode.guest.intro",
+   "goal": "story.mode.guest.goal",
+   "payoff": "story.mode.guest.payoff",
+   "activities": {
+    "0": {
+     "title": "story.activity.guest.0.title",
+     "intro": "story.activity.guest.0.intro",
+     "payoff": "story.activity.guest.0.payoff"
+    },
+    "1": {
+     "title": "story.activity.guest.1.title",
+     "intro": "story.activity.guest.1.intro",
+     "payoff": "story.activity.guest.1.payoff"
+    },
+    "2": {
+     "title": "story.activity.guest.2.title",
+     "intro": "story.activity.guest.2.intro",
+     "payoff": "story.activity.guest.2.payoff"
+    }
+   }
+  },
+  "journey": {
+   "title": "story.mode.journey.title",
+   "speaker": "story.npc.chief",
+   "intro": "story.mode.journey.intro",
+   "goal": "story.mode.journey.goal",
+   "payoff": "story.mode.journey.payoff"
+  },
+  "lab": {
+   "title": "story.mode.lab.title",
+   "speaker": "story.npc.chief",
+   "intro": "story.mode.lab.intro",
+   "goal": "story.mode.lab.goal",
+   "payoff": "story.mode.lab.payoff",
+   "activities": {
+    "plot": {
+     "title": "story.activity.lab.plot.title",
+     "intro": "story.activity.lab.plot.intro",
+     "payoff": "story.activity.lab.plot.payoff"
+    },
+    "beam": {
+     "title": "story.activity.lab.beam.title",
+     "intro": "story.activity.lab.beam.intro",
+     "payoff": "story.activity.lab.beam.payoff"
+    },
+    "blocks": {
+     "title": "story.activity.lab.blocks.title",
+     "intro": "story.activity.lab.blocks.intro",
+     "payoff": "story.activity.lab.blocks.payoff"
+    }
+   }
+  }
+ }
+}

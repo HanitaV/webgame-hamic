@@ -1,0 +1,669 @@
+{
+  "_note": "Sa bàn là bản đồ khối cơ sở 334–336 Nguyễn Trãi (USSH × HUS), dựng từ legacy/campus. Vị trí, kích thước, số tầng là ƯỚC LƯỢNG bằng đơn vị game, chưa đo đạc. Tọa độ dưới đây theo campus.layout.json (x: đông, z âm: vào sâu trong trường). Cần người của CLB xác nhận tên và vị trí trước khi phát hành; khi đã xác nhận, đổi mapVerified thành true.",
+  "mapVerified": false,
+  "model": "models/campus.glb",
+  "scale": 0.1,
+  "origin": [
+    2.5,
+    -125
+  ],
+  "core": {
+    "x": 106.6,
+    "z": -167.2,
+    "label": "Bãi cỏ HUS"
+  },
+  "overview": {
+    "distance": 42,
+    "height": 24
+  },
+  "campuses": [
+    {
+      "id": "USSH",
+      "label": "USSH",
+      "name": "Trường ĐH Khoa học Xã hội và Nhân văn",
+      "x": -120.9,
+      "z": -10
+    },
+    {
+      "id": "HUS",
+      "label": "HUS",
+      "name": "Trường ĐH Khoa học Tự nhiên",
+      "x": 106.6,
+      "z": -10
+    }
+  ],
+  "buildings": [
+    {
+      "id": "USSH_B",
+      "name": "Nhà B",
+      "x": -211.77,
+      "z": -120.25,
+      "h": 17.78
+    },
+    {
+      "id": "USSH_C",
+      "name": "Nhà C",
+      "x": -135.33,
+      "z": -120.25,
+      "h": 17.78
+    },
+    {
+      "id": "USSH_H",
+      "name": "Nhà H",
+      "x": -84.24,
+      "z": -43.03,
+      "h": 14.44
+    },
+    {
+      "id": "USSH_D",
+      "name": "Nhà D",
+      "x": -173.68,
+      "z": -193.31,
+      "h": 13.33
+    },
+    {
+      "id": "USSH_E",
+      "name": "Nhà E",
+      "x": -48.49,
+      "z": -120.12,
+      "h": 20.0
+    },
+    {
+      "id": "USSH_G",
+      "name": "Nhà G",
+      "x": -46.28,
+      "z": -196.69,
+      "h": 12.22
+    },
+    {
+      "id": "HUS_T1",
+      "name": "Nhà T1",
+      "x": 106.8,
+      "z": -78.0,
+      "h": 16.0
+    },
+    {
+      "id": "HUS_T2",
+      "name": "Nhà T2",
+      "x": 104.65,
+      "z": -107.25,
+      "h": 20.0
+    },
+    {
+      "id": "HUS_T3",
+      "name": "Nhà T3",
+      "x": 65.52,
+      "z": -212.16,
+      "h": 20.0
+    },
+    {
+      "id": "HUS_T4",
+      "name": "Nhà T4",
+      "x": 152.88,
+      "z": -212.16,
+      "h": 20.0
+    },
+    {
+      "id": "HUS_T5",
+      "name": "Nhà T5",
+      "x": 187.07,
+      "z": -154.44,
+      "h": 28.0
+    },
+    {
+      "id": "HUS_SPECIAL",
+      "name": "Nhà Chuyên đề",
+      "x": 215.87,
+      "z": -31.2,
+      "h": 16.0
+    }
+  ],
+  "anchors": {
+    "1": "HUS_T1",
+    "2": "USSH_E",
+    "3": "HUS_T5",
+    "4": "USSH_C",
+    "5": "HUS_T3",
+    "6": "HUS_T4"
+  },
+  "walk": {
+    "spawn": "gate",
+    "radius": 7,
+    "nodes": [
+      {
+        "id": "gate",
+        "x": 106.6,
+        "z": -8.2,
+        "label": "story.place.gate",
+        "short": "story.place.gate.short"
+      },
+      {
+        "id": "axis",
+        "x": 106.6,
+        "z": -145,
+        "label": "story.place.axis",
+        "short": "story.place.axis.short"
+      },
+      {
+        "id": "lawn",
+        "x": 106.6,
+        "z": -167,
+        "label": "story.place.lawn",
+        "short": "story.place.lawn.short"
+      },
+      {
+        "id": "rear",
+        "x": 106.6,
+        "z": -196,
+        "label": "story.place.rear",
+        "short": "story.place.rear.short"
+      },
+      {
+        "id": "t3",
+        "x": 65.52,
+        "z": -196,
+        "label": "story.place.t3",
+        "short": "story.place.t3.short"
+      },
+      {
+        "id": "canteen",
+        "x": 15,
+        "z": -196,
+        "label": "story.place.canteen",
+        "short": "story.place.canteen.short"
+      },
+      {
+        "id": "cross",
+        "x": -10,
+        "z": -175,
+        "label": "story.place.cross",
+        "short": "story.place.cross.short"
+      },
+      {
+        "id": "e",
+        "x": -48.49,
+        "z": -175,
+        "label": "story.place.e",
+        "short": "story.place.e.short"
+      },
+      {
+        "id": "court",
+        "x": -100,
+        "z": -175,
+        "label": "story.place.court",
+        "short": "story.place.court.short"
+      },
+      {
+        "id": "c",
+        "x": -104,
+        "z": -101.4,
+        "label": "story.place.c",
+        "short": "story.place.c.short"
+      }
+    ],
+    "edges": [
+      [
+        "gate",
+        "axis"
+      ],
+      [
+        "axis",
+        "lawn"
+      ],
+      [
+        "lawn",
+        "rear"
+      ],
+      [
+        "rear",
+        "t3"
+      ],
+      [
+        "t3",
+        "canteen"
+      ],
+      [
+        "canteen",
+        "cross"
+      ],
+      [
+        "cross",
+        "e"
+      ],
+      [
+        "e",
+        "court"
+      ],
+      [
+        "court",
+        "c"
+      ]
+    ],
+    "characters": [
+      {
+        "id": "chief",
+        "node": "t3",
+        "name": "story.npc.chief",
+        "color": "#ffd25e",
+        "role": "chief"
+      },
+      {
+        "id": "math",
+        "node": "lawn",
+        "name": "story.npc.math",
+        "color": "#5ad8ff",
+        "role": "math"
+      },
+      {
+        "id": "history",
+        "node": "e",
+        "name": "story.npc.history",
+        "color": "#5eeaa0",
+        "role": "history"
+      },
+      {
+        "id": "stage",
+        "node": "c",
+        "name": "story.npc.stage",
+        "color": "#5eeaa0",
+        "role": "stage"
+      },
+      {
+        "id": "minh",
+        "node": "gate",
+        "name": "story.npc.minh",
+        "color": "#5ad8ff",
+        "role": "math",
+        "offset": [
+          5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "ha",
+        "node": "lawn",
+        "name": "story.npc.ha",
+        "color": "#5eeaa0",
+        "role": "history",
+        "offset": [
+          -5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "nam",
+        "node": "canteen",
+        "name": "story.npc.nam",
+        "color": "#ffd25e",
+        "role": "math",
+        "offset": [
+          5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "linh",
+        "node": "e",
+        "name": "story.npc.linh",
+        "color": "#5ad8ff",
+        "role": "history",
+        "offset": [
+          -5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "an",
+        "node": "court",
+        "name": "story.npc.an",
+        "color": "#5eeaa0",
+        "role": "math",
+        "offset": [
+          5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "bao",
+        "node": "c",
+        "name": "story.npc.bao",
+        "color": "#ffd25e",
+        "role": "history",
+        "offset": [
+          -5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "vy",
+        "node": "cross",
+        "name": "story.npc.vy",
+        "color": "#5ad8ff",
+        "role": "math",
+        "offset": [
+          5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "duc",
+        "node": "t3",
+        "name": "story.npc.duc",
+        "color": "#5eeaa0",
+        "role": "history",
+        "offset": [
+          -5,
+          0
+        ],
+        "plain": true
+      }
+    ],
+    "avatar": {
+      "height": 1.75,
+      "modelHeight": 1.42,
+      "speed": 18,
+      "talkDistance": 6,
+      "camera": {
+        "height": 26,
+        "distance": 34,
+        "lookHeight": 1.6,
+        "occlusionOpacity": 0.18
+      }
+    },
+    "crowd": {
+      "normalCount": 48,
+      "lowCount": 12,
+      "routes": [
+        {
+          "from": "gate",
+          "to": "axis",
+          "count": 2,
+          "near": 2
+        },
+        {
+          "from": "axis",
+          "to": "lawn",
+          "count": 2
+        },
+        {
+          "from": "lawn",
+          "to": "rear",
+          "count": 2
+        },
+        {
+          "from": "t3",
+          "to": "canteen",
+          "count": 2
+        },
+        {
+          "from": "e",
+          "to": "court",
+          "count": 2
+        }
+      ],
+      "spots": [
+        {
+          "kind": "phone",
+          "x": 96,
+          "z": -40,
+          "yaw": 180,
+          "span": 1.4,
+          "count": 2,
+          "near": 2
+        },
+        {
+          "kind": "phone",
+          "x": 118,
+          "z": -52,
+          "yaw": 200,
+          "span": 1.4,
+          "count": 2
+        },
+        {
+          "kind": "phone",
+          "x": -36,
+          "z": -181,
+          "yaw": 0,
+          "span": 1.3,
+          "count": 2
+        },
+        {
+          "kind": "lecture",
+          "x": 106.6,
+          "z": -66,
+          "door": [
+            106.6,
+            -71.0
+          ],
+          "away": [
+            106.6,
+            -36
+          ],
+          "spread": 1.35,
+          "count": 4,
+          "near": 2
+        },
+        {
+          "kind": "lecture",
+          "x": 106.6,
+          "z": -120,
+          "door": [
+            106.6,
+            -114.2
+          ],
+          "away": [
+            106.6,
+            -138
+          ],
+          "spread": 1.35,
+          "count": 4
+        },
+        {
+          "kind": "lecture",
+          "x": 101.27,
+          "z": -196.8,
+          "door": [
+            101.27,
+            -201.5
+          ],
+          "away": [
+            82,
+            -196.8
+          ],
+          "spread": 0.6,
+          "count": 4
+        },
+        {
+          "kind": "sit",
+          "x": 116.5,
+          "z": -173.2,
+          "yaw": 180,
+          "span": 0.95,
+          "count": 2,
+          "near": 2
+        },
+        {
+          "kind": "sit",
+          "x": 116.5,
+          "z": -176.0,
+          "yaw": 0,
+          "span": 0.95,
+          "count": 2,
+          "near": 2
+        },
+        {
+          "kind": "sit",
+          "x": 124.8,
+          "z": -177.6,
+          "yaw": 180,
+          "span": 0.95,
+          "count": 2
+        },
+        {
+          "kind": "sit",
+          "x": 124.8,
+          "z": -180.4,
+          "yaw": 0,
+          "span": 0.95,
+          "count": 2
+        },
+        {
+          "kind": "sit",
+          "x": -96.8,
+          "z": -183.2,
+          "yaw": 90,
+          "span": 0.95,
+          "count": 2
+        },
+        {
+          "kind": "sit",
+          "x": -94.2,
+          "z": -183.2,
+          "yaw": 270,
+          "span": 0.95,
+          "count": 2
+        },
+        {
+          "kind": "talk",
+          "x": 8,
+          "z": -201,
+          "yaw": 20,
+          "count": 2,
+          "near": 2
+        },
+        {
+          "kind": "talk",
+          "x": 120.5,
+          "z": -184.2,
+          "yaw": 10,
+          "count": 3
+        },
+        {
+          "kind": "talk",
+          "x": -90.5,
+          "z": -184.5,
+          "yaw": 0,
+          "count": 3
+        }
+      ]
+    },
+    "_shortNote": "short: tên ngắn của điểm dừng, dùng trong lời thoại qua mã {place:id} (viết hoa chữ đầu: {Place:id}). Sửa tên ở đây, lời thoại tự đổi theo."
+  },
+  "atmosphere": [
+    {
+      "step": 0,
+      "label": "story.time.day",
+      "sky": "#b6d3eb",
+      "sunColor": "#ffd25e",
+      "sunIntensity": 2.1,
+      "sunPosition": [
+        -30,
+        50,
+        25
+      ],
+      "hemiSky": "#eef1fb",
+      "hemiGround": "#a1a9c6",
+      "hemiIntensity": 1.8,
+      "exposure": 1.05,
+      "night": 0,
+      "fogDensity": 0.007
+    },
+    {
+      "step": 2,
+      "label": "story.time.sunset",
+      "sky": "#d3a396",
+      "sunColor": "#ffb83d",
+      "sunIntensity": 1.65,
+      "sunPosition": [
+        -40,
+        20,
+        15
+      ],
+      "hemiSky": "#eef1fb",
+      "hemiGround": "#6f789a",
+      "hemiIntensity": 1.4,
+      "exposure": 1.05,
+      "night": 0.12,
+      "fogDensity": 0.009
+    },
+    {
+      "step": 3,
+      "label": "story.time.sunset",
+      "sky": "#ad847f",
+      "sunColor": "#ffb83d",
+      "sunIntensity": 1.05,
+      "sunPosition": [
+        -45,
+        8,
+        10
+      ],
+      "hemiSky": "#a1a9c6",
+      "hemiGround": "#6f789a",
+      "hemiIntensity": 1.1,
+      "exposure": 1.05,
+      "night": 0.3,
+      "fogDensity": 0.011
+    },
+    {
+      "step": 4,
+      "label": "story.time.dusk",
+      "sky": "#60749b",
+      "sunColor": "#eef1fb",
+      "sunIntensity": 0.8,
+      "sunPosition": [
+        -30,
+        35,
+        25
+      ],
+      "hemiSky": "#a1a9c6",
+      "hemiGround": "#121629",
+      "hemiIntensity": 0.9,
+      "exposure": 1.05,
+      "night": 0.65,
+      "fogDensity": 0.012
+    },
+    {
+      "step": 5,
+      "label": "story.time.night",
+      "sky": "#19253e",
+      "sunColor": "#c4d0ff",
+      "sunIntensity": 0.95,
+      "sunPosition": [
+        -30,
+        50,
+        25
+      ],
+      "hemiSky": "#6c7cc4",
+      "hemiGround": "#06070e",
+      "hemiIntensity": 0.75,
+      "exposure": 1.05,
+      "night": 0.9,
+      "fogDensity": 0.013
+    },
+    {
+      "step": 6,
+      "label": "story.time.night",
+      "sky": "#070912",
+      "sunColor": "#c4d0ff",
+      "sunIntensity": 0.95,
+      "sunPosition": [
+        -30,
+        50,
+        25
+      ],
+      "hemiSky": "#6c7cc4",
+      "hemiGround": "#06070e",
+      "hemiIntensity": 0.75,
+      "exposure": 1.05,
+      "night": 1,
+      "fogDensity": 0.013
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="512" viewBox="0 0 1024 512">
+<rect width="1024" height="512" fill="#e8ddc2"/>
+<rect x="20" y="20" width="984" height="216" rx="8" fill="#943c3c"/>
+<rect x="20" y="276" width="984" height="216" rx="8" fill="#355e76"/>
+<g fill="#fff6dc" text-anchor="middle" font-family="Arial,sans-serif">
+<text x="512" y="105" font-size="68" font-weight="bold">USSH</text>
+<text x="512" y="155" font-size="30">KHOA HỌC XÃ HỘI VÀ NHÂN VĂN</text>
+<text x="512" y="202" font-size="26">336 NGUYỄN TRÃI</text>
+<text x="512" y="361" font-size="68" font-weight="bold">HUS</text>
+<text x="512" y="411" font-size="30">KHOA HỌC TỰ NHIÊN</text>
+<text x="512" y="458" font-size="26">334 NGUYỄN TRÃI</text>
+</g></svg>

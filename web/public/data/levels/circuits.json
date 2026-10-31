@@ -1,0 +1,360 @@
+{
+  "_note": "Màn viết tay theo GDD 2.3 mục 4. Đáp án được máy kiểm lại ở content/gen_levels.py (verify_core) và web/scripts/check-answers.ts.",
+  "circuits": [
+    { "id": 1, "name": "Hội tụ", "topic": "Giải tích: giới hạn, chuỗi, liên tục", "priority": "Must", "color": "#ffd23f", "levels": ["1.1", "1.2", "1.3", "1.4"] },
+    { "id": 2, "name": "Gương", "topic": "Đại số tuyến tính: ma trận biến đổi", "priority": "Must", "color": "#55e0ff", "levels": ["2.1", "2.2", "2.3", "2.4"] },
+    { "id": 3, "name": "Dàn drone", "topic": "Nhập môn lập trình: khối lệnh", "priority": "Must", "color": "#7cff6b", "levels": ["3.1", "3.2", "3.3", "3.4", "3.5"] },
+    { "id": 4, "name": "Dây đèn", "topic": "Đồ thị: đường đi ngắn nhất, cây khung, đường Euler", "priority": "Should", "color": "#ff9b3d", "levels": ["4.1", "4.2", "4.3"] },
+    { "id": 5, "name": "Ổ khóa", "topic": "Số học: đồng dư", "priority": "Could", "color": "#ff6bd5", "levels": ["5.1", "5.2", "5.3"] },
+    { "id": 6, "name": "Xếp đèn", "topic": "Tổ hợp: đếm cách", "priority": "Could", "color": "#b48cff", "levels": ["6.1", "6.2", "6.3"] },
+    { "id": 7, "name": "Đêm Hội tụ", "topic": "Tổng hợp", "priority": "Must", "color": "#ffffff", "levels": ["7.1"] }
+  ],
+  "levels": [
+    {
+      "id": "1.1", "circuit": 1, "module": "plot-limit", "title": "Pháo hoa dừng ở 70 m",
+      "prompt": "Pháo hoa phải dừng ở 70 m. Độ cao là h(t) = a·(1 − e^(−bt)); kéo thanh trượt chọn a và b.",
+      "data": { "T": 3, "eps": 0.5, "target": 70, "a_range": [0, 100], "a_step": 1, "b_range": [0.1, 3], "b_step": 0.05 },
+      "answer": { "a": 70, "b_min": 1.65 },
+      "stars": { "star1": { "limit": 70 }, "star2": { "at": 3, "maxError": 0.5 }, "star3": { "maxRuns": 3 } },
+      "starText": ["Pháo dừng ở 70 m", "Sau 3 s cách 70 m không quá 0,5 m", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Khi t rất lớn, e^(−bt) tiến về 0. Vậy h(t) tiến tới giá trị nào?",
+        "Giới hạn của h(t) khi t → ∞ là a, nên đặt a = 70. Sai số sau 3 s là 70·e^(−3b).",
+        "Cần 70·e^(−3b) ≤ 0,5, tức b ≥ ln140/3 ≈ 1,647. Bước chỉnh là 0,05 nên chọn b = 1,65."
+      ]
+    },
+    {
+      "id": "1.2", "circuit": 1, "module": "series", "title": "Dải đèn bật dần",
+      "prompt": "Đèn thứ n có độ sáng (1/2)ⁿ. Bật ít nhất mấy đèn đầu tiên để tổng độ sáng đạt 0,99?",
+      "data": { "q": "1/2", "percent": 99 },
+      "answer": { "N": 7 },
+      "starText": ["Tổng độ sáng đạt 0,99", "Dùng đúng số đèn ít nhất", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Mỗi đèn sáng bằng một nửa đèn trước. Tổng của N đèn đầu là 1 − 2^(−N).",
+        "Cần 1 − 2^(−N) ≥ 0,99, tức 2^(−N) ≤ 0,01.",
+        "2^(−6) ≈ 0,0156 chưa đủ; 2^(−7) ≈ 0,0078 đủ. Bật 7 đèn: tổng 0,9922."
+      ]
+    },
+    {
+      "id": "1.3", "circuit": 1, "module": "removable", "title": "Lấp điểm tối",
+      "prompt": "f(x) = (x² − 49)/(x − 7) có điểm tối tại x = 7. Chọn giá trị f(7) để đường sáng liền mạch.",
+      "data": { "c": 7, "numerator": [1, 0, -49] },
+      "answer": { "value": 14 },
+      "starText": ["Đường sáng liền mạch", "Giá trị đúng tuyệt đối", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Tại x = 7 mẫu số bằng 0. Thử phân tích tử số thành tích.",
+        "x² − 49 = (x − 7)(x + 7).",
+        "Với x ≠ 7, f(x) = x + 7, nên giới hạn khi x → 7 bằng 14. Chọn f(7) = 14."
+      ]
+    },
+    {
+      "id": "1.4", "circuit": 1, "module": "pick-limit", "title": "Chọn hàm tiệm cận",
+      "prompt": "Chọn tất cả hàm có giới hạn bằng 70 khi x → ∞.",
+      "data": {
+        "target": 70,
+        "options": [
+          { "label": "A", "f": "70x/(x + 1)", "limit": 70 },
+          { "label": "B", "f": "70(1 − e^(−x))", "limit": 70 },
+          { "label": "C", "f": "70x", "limit": "inf" },
+          { "label": "D", "f": "70·sin x", "limit": "dne" },
+          { "label": "E", "f": "70 + 1/x", "limit": 70 }
+        ]
+      },
+      "answer": { "correct": ["A", "B", "E"] },
+      "starText": ["Chọn đúng cả tập hàm", "Không thừa không thiếu", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Có ba kiểu: tiến tới một số, tiến tới vô cực, hoặc dao động mãi không dừng.",
+        "70x tăng mãi; 70·sin x dao động giữa −70 và 70 nên không có giới hạn.",
+        "Đáp án: A, B, E."
+      ]
+    },
+    {
+      "id": "2.1", "circuit": 2, "module": "beam-order", "title": "Gương đầu tiên",
+      "prompt": "Đưa tia (1, 0) tới hướng (0, 1). Đặt 1 gương.",
+      "data": { "vector": [1, 0], "target": [0, 1], "mirrors": ["R90", "FX"], "slots": 1 },
+      "answer": { "orders": [["R90"]] },
+      "starText": ["Tia tới đúng hướng", "Dùng đúng gương", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Mỗi gương là một ma trận 2×2 nhân với vectơ tia.",
+        "Muốn (1, 0) thành (0, 1) là quay ngược chiều kim đồng hồ 90°.",
+        "Dùng R: R·(1, 0) = (0, 1)."
+      ]
+    },
+    {
+      "id": "2.2", "circuit": 2, "module": "beam-order", "title": "Đổi chỗ hai tọa độ",
+      "prompt": "Đưa tia (2, 1) tới hướng (1, 2). Đặt 1 gương.",
+      "data": { "vector": [2, 1], "target": [1, 2], "mirrors": ["R90", "FD", "FX"], "slots": 1 },
+      "answer": { "orders": [["FD"]] },
+      "starText": ["Tia tới đúng hướng", "Dùng đúng gương", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "So sánh (2, 1) và (1, 2): hai tọa độ đổi chỗ cho nhau.",
+        "Phép đối xứng qua đường y = x đổi chỗ x và y.",
+        "Dùng S: S·(2, 1) = (1, 2)."
+      ]
+    },
+    {
+      "id": "2.3", "circuit": 2, "module": "beam-order", "title": "Thứ tự quan trọng",
+      "prompt": "Đặt hai gương theo đúng thứ tự để đưa tia (1, 0) tới (0, −1).",
+      "data": { "vector": [1, 0], "target": [0, -1], "mirrors": ["R90", "FX"], "slots": 2 },
+      "answer": { "orders": [["R90", "FX"]] },
+      "starText": ["Tia tới đúng hướng", "Đúng thứ tự gương", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Gương đặt trước tác dụng trước. Phép nhân ma trận không giao hoán.",
+        "Thử cả hai thứ tự và xem tia ra ở đâu.",
+        "R rồi F: R(1, 0) = (0, 1), F(0, 1) = (0, −1). Đảo thứ tự cho (0, 1)."
+      ]
+    },
+    {
+      "id": "2.4", "circuit": 2, "module": "transpose-bug", "title": "Tia chúc xuống đất",
+      "prompt": "Tia (1, 0) cần xoay 60° để đi lên. Hệ thống lỡ dùng Rᵀ thay cho R. Tia đi đâu, và nhân cả ma trận lên 70 lần có sửa được không?",
+      "data": { "angle": 60, "d": [1, 0], "scale": 70 },
+      "answer": { "up": ["1/2", "√3/2"], "down": ["1/2", "−√3/2"], "detScaled": 4900, "scalingFixes": false },
+      "starText": ["Tìm ra lỗi và cách sửa", "Tính đúng định thức", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Với ma trận xoay, Rᵀ chính là R⁻¹: áp nhầm Rᵀ là xoay ngược chiều.",
+        "R·(1, 0) = (1/2, √3/2) đi lên; Rᵀ·(1, 0) = (1/2, −√3/2) đi xuống.",
+        "det R = 1; nhân cả ma trận 2×2 lên 70 lần cho det = 70² = 4900, không còn là phép xoay."
+      ]
+    },
+    {
+      "id": "3.1", "circuit": 3, "module": "block-vm", "title": "Bảy đèn thẳng hàng",
+      "prompt": "Ghép khối lệnh để drone xếp 7 đèn thẳng hàng.",
+      "data": { "kind": "lights", "grid": [10, 7], "pattern": [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0]], "palette": ["repeat", "place", "move"] },
+      "answer": { "solution": [{ "t": "repeat", "n": 7, "body": [{ "t": "place" }, { "t": "move", "dir": "right" }] }] },
+      "stars": { "star3": { "maxBlocks": 3 } },
+      "starText": ["Đủ 7 đèn", "Không thừa đèn", "Dùng tối đa 3 khối"],
+      "hints": [
+        "Một đèn cần hai việc: đặt đèn rồi di chuyển sang bên.",
+        "Thay vì ghép 14 khối, dùng khối Lặp.",
+        "Lặp 7 lần { Đặt đèn; Sang phải }."
+      ]
+    },
+    {
+      "id": "3.2", "circuit": 3, "module": "block-vm", "title": "Dàn 70 drone",
+      "prompt": "Xếp 70 drone thành 7 hàng × 10 cột.",
+      "data": { "kind": "lights", "grid": [10, 7], "pattern": "rect:10x7", "palette": ["repeat", "place", "move", "newline"] },
+      "answer": { "solution": [{ "t": "repeat", "n": 7, "body": [{ "t": "repeat", "n": 10, "body": [{ "t": "place" }, { "t": "move", "dir": "right" }] }, { "t": "newline" }] }] },
+      "stars": { "star3": { "maxBlocks": 5 } },
+      "starText": ["Đủ 70 drone", "Không thừa drone", "Dùng tối đa 5 khối"],
+      "hints": [
+        "Một hàng là 10 lần đặt đèn và sang phải.",
+        "Đặt vòng lặp một hàng vào trong một vòng lặp khác, thêm Xuống hàng.",
+        "Lặp 7 lần { Lặp 10 lần { Đặt đèn; Sang phải }; Xuống hàng }. 7 × 10 = 70."
+      ]
+    },
+    {
+      "id": "3.3", "circuit": 3, "module": "block-vm", "title": "Tô màu chẵn lẻ",
+      "prompt": "Với i từ 1 đến 10, đèn thứ i có màu A nếu i chẵn, màu B nếu i lẻ.",
+      "data": { "kind": "lights", "grid": [10, 7], "pattern": "parity:10", "palette": ["for", "ifEven", "color", "place", "move"] },
+      "answer": { "solution": [{ "t": "for", "v": "i", "from": 1, "to": 10, "body": [{ "t": "ifEven", "v": "i", "body": [{ "t": "color", "c": "A" }], "else": [{ "t": "color", "c": "B" }] }, { "t": "place" }, { "t": "move", "dir": "right" }] }] },
+      "stars": { "star3": { "maxBlocks": 6 } },
+      "starText": ["Đủ 10 đèn đúng màu", "Không thừa đèn", "Dùng tối đa 6 khối"],
+      "hints": [
+        "i chẵn khi i chia 2 dư 0.",
+        "Trong vòng Đếm i, đặt khối Nếu i chẵn để chọn màu trước khi đặt đèn.",
+        "Đếm i từ 1 đến 10 { Nếu i chẵn { Màu A } ngược lại { Màu B }; Đặt đèn; Sang phải }."
+      ]
+    },
+    {
+      "id": "3.4", "circuit": 3, "module": "block-vm", "title": "Cấp năng lượng",
+      "prompt": "Cấp năng lượng bằng tổng 1 + 2 + … + 70. Lưu kết quả vào biến tong.",
+      "data": { "kind": "var", "variable": "tong", "palette": ["set", "for", "addVar"] },
+      "answer": { "expected": 2485, "solution": [{ "t": "set", "v": "tong", "value": 0 }, { "t": "for", "v": "i", "from": 1, "to": 70, "body": [{ "t": "addVar", "v": "tong", "src": "i" }] }] },
+      "stars": { "star3": { "maxBlocks": 6 } },
+      "starText": ["tong = 2485", "Đúng giá trị", "Dùng tối đa 6 khối"],
+      "hints": [
+        "Dùng một biến tổng, bắt đầu từ 0.",
+        "Đếm i từ 1 đến 70 và cộng i vào tong.",
+        "Kết quả phải là 70·71/2 = 2485."
+      ]
+    },
+    {
+      "id": "3.5", "circuit": 3, "module": "block-vm", "title": "Lỗi lệch một",
+      "prompt": "Chương trình tính 1 + … + 70 nhưng cho 2415. Tìm lỗi và sửa.",
+      "data": { "kind": "var", "variable": "tong", "palette": ["set", "for", "addVar"],
+        "start": [{ "t": "set", "v": "tong", "value": 0 }, { "t": "for", "v": "i", "from": 1, "to": 69, "body": [{ "t": "addVar", "v": "tong", "src": "i" }] }],
+        "offByOne": { "buggyResult": 2415, "missing": 70 } },
+      "answer": { "expected": 2485, "solution": [{ "t": "set", "v": "tong", "value": 0 }, { "t": "for", "v": "i", "from": 1, "to": 70, "body": [{ "t": "addVar", "v": "tong", "src": "i" }] }] },
+      "stars": { "star3": { "maxBlocks": 3 } },
+      "starText": ["tong = 2485", "Đúng giá trị", "Dùng tối đa 3 khối"],
+      "hints": [
+        "Bấm Chạy thử và so với 2485: thiếu bao nhiêu?",
+        "Thiếu đúng 70, là số hạng cuối cùng.",
+        "Vòng lặp dừng ở 69. Sửa giới hạn thành 70."
+      ]
+    },
+    {
+      "id": "4.1", "circuit": 4, "module": "graph", "title": "Đường dây ngắn nhất",
+      "prompt": "Nối đường dây ngắn nhất từ A tới E.",
+      "data": { "n": 5, "task": "shortest", "from": "A", "to": "E", "edges": [[0, 1, 4], [0, 2, 2], [2, 1, 1], [1, 3, 5], [2, 3, 8], [3, 4, 3], [1, 4, 7], [2, 4, 12]] },
+      "answer": { "length": 10, "path": ["A", "C", "B", "E"] },
+      "starText": ["Có đường nối A tới E", "Đường ngắn nhất", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Cộng trọng số các dây trên mỗi đường đi rồi so sánh.",
+        "Đi vòng qua C rồi B có thể rẻ hơn đi thẳng A–B.",
+        "A–C–B–E = 2 + 1 + 7 = 10."
+      ]
+    },
+    {
+      "id": "4.2", "circuit": 4, "module": "graph", "title": "Nối mọi đèn",
+      "prompt": "Chọn dây để mọi đèn được nối với nhau, tổng độ dài ít nhất.",
+      "data": { "n": 5, "task": "mst", "edges": [[0, 1, 4], [0, 2, 2], [2, 1, 1], [1, 3, 5], [2, 3, 8], [3, 4, 3], [1, 4, 7], [2, 4, 12]] },
+      "answer": { "total": 11, "edges": [["C", "B", 1], ["A", "C", 2], ["D", "E", 3], ["B", "D", 5]] },
+      "starText": ["Mọi đèn được nối, không vòng kín", "Tổng dây ít nhất", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "5 đèn cần đúng 4 dây để nối hết mà không tạo vòng.",
+        "Lấy dây ngắn nhất trước; bỏ dây nào tạo chu trình (Kruskal).",
+        "C–B 1, A–C 2, D–E 3, B–D 5. Tổng 11; A–B bị bỏ vì tạo chu trình."
+      ]
+    },
+    {
+      "id": "4.3", "circuit": 4, "module": "graph", "title": "Đi qua mỗi dây một lần",
+      "prompt": "Có đi được qua mỗi dây đúng một lần không? Nếu có, bắt đầu và kết thúc ở đâu?",
+      "data": { "n": 5, "task": "euler", "edges": [[0, 1, 4], [0, 2, 2], [2, 1, 1], [1, 3, 5], [2, 3, 8], [3, 4, 3], [1, 4, 7], [2, 4, 12]] },
+      "answer": { "class": "path", "oddVertices": ["D", "E"] },
+      "starText": ["Đúng có/không", "Đúng điểm đầu và cuối", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Đếm số dây nối vào mỗi đèn (bậc của đỉnh).",
+        "Có đường đi qua mỗi dây một lần khi có 0 hoặc 2 đỉnh bậc lẻ.",
+        "Bậc: A 2, B 4, C 4, D 3, E 3. Đi được, từ D tới E."
+      ]
+    },
+    {
+      "id": "5.1", "circuit": 5, "module": "modular", "title": "Ba ổ khóa",
+      "prompt": "Tìm n trong 0..69 sao cho n ≡ 1 (mod 2), n ≡ 2 (mod 5), n ≡ 3 (mod 7).",
+      "data": { "kind": "crt", "moduli": [2, 5, 7], "residues": [1, 2, 3] },
+      "answer": { "x": 17, "M": 70 },
+      "starText": ["Mở cả ba ổ", "Nghiệm đúng", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "70 = 2·5·7, nên có đúng một nghiệm trong 0..69.",
+        "Số chia 7 dư 3: 3, 10, 17, 24, … Lọc tiếp theo mod 5 và mod 2.",
+        "n = 17: 17 mod 2 = 1, 17 mod 5 = 2, 17 mod 7 = 3."
+      ]
+    },
+    {
+      "id": "5.2", "circuit": 5, "module": "modular", "title": "Chia hết cho cả ba",
+      "prompt": "Trong 1..70, số nào chia hết cho cả 2, 5 và 7?",
+      "data": { "kind": "number", "min": 1, "max": 70 },
+      "answer": { "x": 70 },
+      "starText": ["Mở ổ khóa", "Đúng số", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Chia hết cho cả 2, 5, 7 nghĩa là chia hết cho tích của chúng.",
+        "2·5·7 = 70.",
+        "Chỉ có 70."
+      ]
+    },
+    {
+      "id": "5.3", "circuit": 5, "module": "modular", "title": "Bảy mươi ngày sau",
+      "prompt": "Lễ hội diễn ra hôm nay. 70 ngày sau là thứ mấy so với hôm nay?",
+      "data": { "kind": "choice", "options": ["Cùng thứ với hôm nay", "Sau hôm nay 1 thứ", "Sau hôm nay 3 thứ", "Trước hôm nay 1 thứ"] },
+      "answer": { "index": 0 },
+      "starText": ["Mở ổ khóa", "Đúng thứ", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Cứ 7 ngày thì quay lại cùng thứ.",
+        "70 chia 7 dư bao nhiêu?",
+        "70 = 10 tuần, dư 0, nên cùng thứ."
+      ]
+    },
+    {
+      "id": "6.1", "circuit": 6, "module": "count", "title": "Chọn 4 trong 8",
+      "prompt": "Chọn 4 trong 8 đèn để bật. Có bao nhiêu cách?",
+      "data": { "kind": "comb", "n": 8, "k": 4 },
+      "answer": { "count": 70 },
+      "starText": ["Đếm đúng", "Đúng số cách", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Thứ tự chọn không quan trọng.",
+        "Dùng C(8, 4) = 8!/(4!·4!).",
+        "40320/576 = 70."
+      ]
+    },
+    {
+      "id": "6.2", "circuit": 6, "module": "count", "title": "Ba đèn khác màu",
+      "prompt": "Xếp 3 đèn khác màu thành hàng, chọn từ 5 màu. Có bao nhiêu cách?",
+      "data": { "kind": "perm", "n": 5, "k": 3 },
+      "answer": { "count": 60 },
+      "starText": ["Đếm đúng", "Đúng số cách", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Thứ tự quan trọng và không lặp màu.",
+        "Đèn đầu có 5 lựa chọn, đèn thứ hai 4, đèn thứ ba 3.",
+        "5·4·3 = 60."
+      ]
+    },
+    {
+      "id": "6.3", "circuit": 6, "module": "count", "title": "Đường trên lưới",
+      "prompt": "Lưới 4 × 4 ô vuông: đếm đường ngắn nhất từ góc dưới trái tới góc trên phải (chỉ sang phải hoặc lên).",
+      "data": { "kind": "grid", "W": 4, "H": 4 },
+      "answer": { "count": 70 },
+      "starText": ["Đếm đúng", "Đúng số đường", "Đạt trong tối đa 3 lần chạy thử"],
+      "hints": [
+        "Mỗi đường gồm 4 bước sang phải và 4 bước lên.",
+        "Chọn vị trí 4 bước lên trong 8 bước.",
+        "C(8, 4) = 70."
+      ]
+    },
+    {
+      "id": "7.1", "circuit": 7, "module": "finale", "title": "Đêm Hội tụ",
+      "prompt": "Ba bước cuối: pháo hoa, gương, dàn drone. Xong là bắt đầu màn trình diễn.",
+      "data": { "steps": ["7.1a", "7.1b", "7.1c"] },
+      "answer": {},
+      "starText": ["Hoàn thành ba bước", "Cả ba bước đều chính xác", "Tổng tối đa 6 lần chạy thử"],
+      "hints": ["Mỗi bước có gợi ý riêng.", "Mỗi bước có gợi ý riêng.", "Mỗi bước có gợi ý riêng."]
+    }
+  ],
+  "finaleSteps": [
+    {
+      "id": "7.1a", "circuit": 7, "module": "pick-limit", "title": "Bước 1 · Pháo hoa",
+      "prompt": "Chọn các hàm đưa pháo hoa dừng ở 70 m khi t → ∞.",
+      "data": {
+        "target": 70,
+        "options": [
+          { "label": "A", "f": "70(1 − e^(−x))", "limit": 70 },
+          { "label": "B", "f": "70x", "limit": "inf" },
+          { "label": "C", "f": "80(1 − e^(−x))", "limit": 80 },
+          { "label": "D", "f": "70·sin x", "limit": "dne" },
+          { "label": "E", "f": "(70x² + 1)/(x² + 2)", "limit": 70 }
+        ]
+      },
+      "answer": { "correct": ["A", "E"] },
+      "hints": ["Hàm nào tiến tới đúng 70?", "C tiến tới 80; B tăng mãi; D dao động.", "Đáp án: A, E."]
+    },
+    {
+      "id": "7.1b", "circuit": 7, "module": "beam-order", "title": "Bước 2 · Gương",
+      "prompt": "Tia đang đi lên (0, 1). Đặt hai gương để tia quay về (−1, 0), gặp các tia khác ở tâm.",
+      "data": { "vector": [0, 1], "target": [-1, 0], "mirrors": ["FX", "R90"], "slots": 2 },
+      "answer": { "orders": [["R90", "FX"]] },
+      "hints": ["Thử cả hai thứ tự.", "R·(0, 1) = (−1, 0).", "R rồi F: F giữ nguyên (−1, 0)."]
+    },
+    {
+      "id": "7.1c", "circuit": 7, "module": "block-vm", "title": "Bước 3 · Dàn drone",
+      "prompt": "Chỉnh các con số trong chương trình để dàn drone xếp thành chữ số 70.",
+      "data": {
+        "kind": "lights", "grid": [9, 7], "pattern": "digits:70", "palette": [], "lockStructure": true,
+        "start": [
+          { "t": "repeat", "n": 1, "body": [{ "t": "place" }, { "t": "move", "dir": "right" }] },
+          { "t": "place" },
+          { "t": "repeat", "n": 1, "body": [{ "t": "move", "dir": "down" }, { "t": "place" }] },
+          { "t": "repeat", "n": 1, "body": [{ "t": "move", "dir": "up" }] },
+          { "t": "repeat", "n": 1, "body": [{ "t": "move", "dir": "right" }] },
+          { "t": "repeat", "n": 1, "body": [{ "t": "place" }, { "t": "move", "dir": "right" }] },
+          { "t": "place" },
+          { "t": "repeat", "n": 1, "body": [{ "t": "move", "dir": "down" }, { "t": "place" }] },
+          { "t": "repeat", "n": 1, "body": [{ "t": "move", "dir": "left" }, { "t": "place" }] },
+          { "t": "repeat", "n": 1, "body": [{ "t": "move", "dir": "up" }, { "t": "place" }] }
+        ]
+      },
+      "answer": { "solution": [
+        { "t": "repeat", "n": 2, "body": [{ "t": "place" }, { "t": "move", "dir": "right" }] },
+        { "t": "place" },
+        { "t": "repeat", "n": 4, "body": [{ "t": "move", "dir": "down" }, { "t": "place" }] },
+        { "t": "repeat", "n": 4, "body": [{ "t": "move", "dir": "up" }] },
+        { "t": "repeat", "n": 2, "body": [{ "t": "move", "dir": "right" }] },
+        { "t": "repeat", "n": 2, "body": [{ "t": "place" }, { "t": "move", "dir": "right" }] },
+        { "t": "place" },
+        { "t": "repeat", "n": 4, "body": [{ "t": "move", "dir": "down" }, { "t": "place" }] },
+        { "t": "repeat", "n": 2, "body": [{ "t": "move", "dir": "left" }, { "t": "place" }] },
+        { "t": "repeat", "n": 3, "body": [{ "t": "move", "dir": "up" }, { "t": "place" }] }
+      ] },
+      "hints": ["Mỗi chữ số cao 5 đèn, rộng 3 đèn.", "Cạnh ngang 3 đèn: 2 lần đặt và sang phải, rồi đặt thêm 1.", "Số lặp lần lượt: 2, 4, 4, 2, 2, 4, 2, 3."]
+    }
+  ]
+}

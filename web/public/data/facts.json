@@ -1,0 +1,63 @@
+{
+ "_note": "GDD 2.3 mục 5.3. Mỗi sự thật mở khi mạch tương ứng sáng. Nguồn ở trường source; [1]–[3] là mục Nguồn tham khảo của GDD.",
+ "facts": [
+  {
+   "circuit": 1,
+   "title": "Đích của pháo hoa",
+   "text": "70 là giới hạn mà mọi tia pháo hoa trong game hướng tới: $h(t) = 70\\,(1 - e^{-bt}) \\to 70$ khi $t \\to \\infty$.",
+   "casual": "Pháo hoa trong game càng bay càng sát vạch 70 mét.",
+   "source": "Do game đặt ra, không phải dữ kiện bên ngoài"
+  },
+  {
+   "circuit": 2,
+   "title": "Gương xoay giữ nguyên độ lớn",
+   "text": "Ma trận xoay $R$ có $R^{\\mathsf T} = R^{-1}$ và $\\det R = 1$.",
+   "casual": "Gương xoay chỉ đổi hướng tia, không làm tia dài hay ngắn đi.",
+   "source": "Kiến thức Đại số tuyến tính chuẩn"
+  },
+  {
+   "circuit": 3,
+   "title": "Tổng đến 70",
+   "text": "$1 + 2 + \\dots + 70 = \\dfrac{70 \\cdot 71}{2} = 2485$.",
+   "casual": "Cộng các số từ 1 tới 70 được 2485.",
+   "source": "Công thức 70·71/2"
+  },
+  {
+   "circuit": 4,
+   "title": "Đi qua mỗi dây một lần",
+   "text": "Đồ thị liên thông có đúng hai đỉnh bậc lẻ thì có đường đi qua mỗi cạnh đúng một lần, bắt đầu và kết thúc ở hai đỉnh đó.",
+   "casual": "Nếu đúng hai đèn có số dây lẻ, ta đi hết mọi dây một lần, từ đèn này tới đèn kia.",
+   "source": "Định lý Euler về đường Euler"
+  },
+  {
+   "circuit": 5,
+   "title": "Ba thừa số",
+   "text": "$70 = 2 \\cdot 5 \\cdot 7$, tích của ba số nguyên tố phân biệt.",
+   "casual": "70 = 2 · 5 · 7, và không tách nhỏ hơn được nữa.",
+   "source": "Phân tích ra thừa số nguyên tố"
+  },
+  {
+   "circuit": 6,
+   "title": "Chọn 4 trong 8",
+   "text": "$\\binom{8}{4} = \\dfrac{8!}{4!\\,4!} = 70$.",
+   "casual": "Có đúng 70 cách bật 4 trong 8 đèn.",
+   "source": "8!/(4!·4!)"
+  },
+  {
+   "circuit": 7,
+   "title": "Số kỳ lạ nhỏ nhất",
+   "text": "70 là số kỳ lạ (weird number) nhỏ nhất: các ước thực sự $1, 2, 5, 7, 10, 14, 35$ có tổng $74 > 70$, nhưng không tập con nào cộng lại bằng 70.",
+   "casual": "Các số chia hết 70 (trừ 70) cộng lại được 74, nhưng chọn kiểu gì cũng không ra đúng 70.",
+   "source": "[1] Wikipedia \"Weird number\"; [2] Wolfram MathWorld \"Weird Number\"; [3] OEIS A006037",
+   "divisors": [
+    1,
+    2,
+    5,
+    7,
+    10,
+    14,
+    35
+   ]
+  }
+ ]
+}

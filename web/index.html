@@ -2,99 +2,24 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='8' fill='%23943c3c'/%3E%3Crect y='8' width='16' height='8' fill='%23355e76'/%3E%3C/svg%3E" />
-  <title>USSH × HUS — sân ước lượng</title>
-  <link rel="stylesheet" href="./src/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#070912" />
+  <meta name="screen-orientation" content="landscape" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Hội tụ 70: thắp lại bảy mạch ánh sáng bằng các câu đố Toán – Tin. CLB Toán Tin (HAMIC)." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23070912'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23ffd25e' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23ffd25e'/%3E%3C/svg%3E" />
+  <title>Hội tụ 70</title>
 </head>
 <body>
-  <div id="stage">
-    <canvas id="view"></canvas>
-    <div id="labels"></div>
+  <canvas id="world" aria-hidden="true"></canvas>
+  <div id="boot" class="boot" role="status">
+    <p class="boot-logo">Hội tụ <span>70</span></p>
+    <div class="boot-bar" aria-hidden="true"><i id="boot-fill"></i></div>
+    <p id="boot-text">Đang dựng sa bàn…</p>
   </div>
-
-  <div id="boot">
-    <div>
-      <p id="boot-text">Đang dựng sân…</p>
-      <button id="retry" type="button" hidden>Thử lại</button>
-    </div>
-  </div>
-
-  <header class="panel" id="title">
-    <strong>USSH × HUS</strong>
-    <span>334–336 Nguyễn Trãi</span>
-    <small>Bản đồ cách điệu, bố cục ước lượng — không phải sơ đồ đo đạc. Tầng và phòng HUS theo bảng chỉ dẫn của trường.</small>
-  </header>
-
-  <section class="panel" id="tools">
-    <button type="button" id="cam-overview">Toàn cảnh</button>
-    <button type="button" id="cam-ussh">USSH</button>
-    <button type="button" id="cam-hus">HUS</button>
-    <button type="button" id="mode-orbit" aria-pressed="true">Quay quanh</button>
-    <button type="button" id="mode-walk" aria-pressed="false">Đi bộ</button>
-    <button type="button" id="mode-cine" aria-pressed="false">Quay cảnh</button>
-    <button type="button" id="cine-pause" hidden>Tạm dừng</button>
-    <button type="button" id="cine-reset" hidden>Về đầu</button>
-    <span id="cine-time" hidden>00:00 / 00:18</span>
-  </section>
-
-  <section class="panel" id="dock">
-    <p id="help">Chuột kéo để quay, lăn để phóng, kéo phải để dịch chuyển.</p>
-    <div class="clock">
-      <span>Giờ <strong id="hour-text">09:00</strong></span>
-      <input id="hour" type="range" min="0" max="24" step="0.25" value="9" aria-label="Giờ trong ngày" />
-      <button type="button" id="clock-run">Dừng giờ</button>
-      <button type="button" id="clock-day" title="10:00">Ngày</button>
-      <button type="button" id="clock-night" title="22:00">Đêm</button>
-    </div>
-    <div class="floors">
-      <span>Tầng HUS</span>
-      <div id="floor-buttons" role="group" aria-label="Cắt nhà HUS theo tầng"></div>
-    </div>
-    <div class="toggles">
-      <label><input id="show-buildings" type="checkbox" checked /> Nhãn nhà</label>
-      <label><input id="show-trees" type="checkbox" /> Nhãn cây</label>
-      <label><input id="show-tree-meshes" type="checkbox" checked /> Hiện cây</label>
-      <label><input id="show-colliders" type="checkbox" /> Khung va chạm</label>
-      <label title="Bóng đổ, vân bề mặt, trời có mây — nặng hơn"><input id="fancy" type="checkbox" /> Đồ hoạ đẹp</label>
-    </div>
-    <details>
-      <summary>Nguồn và giới hạn</summary>
-      <p>Vị trí tương đối theo sơ đồ trong docs/map. Nhà USSH (B, B-C, C, D, E, G, H, căng tin) là khối kín, không đi vào được. HUS có T1 chữ U, T2, T3, T4, T5, nhà Chuyên đề và căng tin; kích thước vẫn là ước lượng.</p>
-      <p>Số tầng và phòng nào ở tầng nào lấy từ bảng chỉ dẫn HUS (T1 4 tầng, T2–T4 5 tầng, T5 7 tầng, Chuyên đề 4 tầng), thêm vài phòng thí nghiệm theo danh sách ĐHQGHN năm 2014. Thứ tự phòng dọc hành lang do máy xếp: số phòng cho biết tầng, không chỉ đúng vị trí. T1 và T2 chỉ có văn phòng và phòng thí nghiệm. Nhà vệ sinh đặt ở các vị trí có biểu tượng WC trên bảng chỉ dẫn (sơ đồ tầng trệt), lặp lại ở mọi tầng.</p>
-      <p>Trời có ngày và đêm (một ngày chơi bằng 6 phút): mặt trời, mặt trăng vuông, sao và mây khối. Mặc định là đồ hoạ nhẹ (màu phẳng, không bóng, trời một màu). Bật "Đồ hoạ đẹp" để có bóng đổ, vân tường/mái/cỏ/gạch bằng shader và trời có mây — nặng hơn. Bản đồ nhỏ ở góc cho biết đang ở đâu; bấm vào bản đồ để đưa camera tới chỗ đó. Logo HUS trên mặt T5 nhìn ra sân dùng file người dùng gửi.</p>
-      <p>Lối đi rộng 18 đơn vị chạy từ cổng HUS qua sảnh T1, lối có mái (trên là cầu tầng 2–3), sảnh T2 ra vườn — rộng hơn thật để dễ đi. Cầu thang đánh dấu ô vàng. Phối cảnh cải tạo USSH năm 2024 không được dựng.</p>
-    </details>
-    <button type="button" id="hide-ui">Ẩn giao diện</button>
-  </section>
-
-  <section class="panel" id="mission">
-    <p id="mission-text">Ba tờ deadline đang nằm trong sân. Nhặt hết rồi ra cổng USSH hoặc cổng HUS. Trò chơi giả, không phải chuyện thật ở trường.</p>
-    <strong id="mission-count">Deadline: 0/3</strong>
-    <span id="where"></span>
-    <button type="button" id="mission-reset">Chơi lại</button>
-  </section>
-
-  <section class="panel" id="minimap" aria-label="Bản đồ nhỏ">
-    <div id="minimap-canvas"></div>
-    <small id="map-where"></small>
-  </section>
-
-  <section class="panel" id="stair" hidden>
-    <span id="stair-text">Cầu thang</span>
-    <div>
-      <button type="button" id="stair-down">▼ Xuống <kbd>Q</kbd></button>
-      <button type="button" id="stair-up">▲ Lên <kbd>E</kbd></button>
-    </div>
-  </section>
-
-  <div id="touch" hidden>
-    <div id="stick" class="pad"><i id="knob"></i><span>Đi</span></div>
-    <button type="button" id="jump" class="pad" aria-label="Nh?y">Nh?y</button>
-    <div id="lookpad" class="pad"><span>Nhìn</span></div>
-  </div>
-
-  <button type="button" id="reveal" hidden>Hiện giao diện</button>
   <script type="module" src="./src/main.ts"></script>
 </body>
 </html>

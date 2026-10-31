@@ -1,13 +1,24 @@
-# Hướng dẫn cho AI coding CLI
+# Quy ước cho tác tử / người sửa mã
 
-Đây là bộ nguyên liệu cho project 3D USSH/HUS. Nhiệm vụ đầy đủ: `prompts/BUILD_WITH_CLI.md`. Mở các ảnh cục bộ để quan sát trước khi sửa bố cục.
+- Đọc `docs/GDD.md` trước khi đổi luật chơi, sao, thành tựu hay câu chữ.
+- Nội dung nằm trong `web/public/data`. Thêm màn = thêm dữ liệu, không viết cứng trong TS.
+- Mọi chuỗi giao diện qua `t("khóa")` trong `web/public/data/i18n/vi.json`. `npm run check:strings` bắt khóa thiếu.
+- Luật chấm ở `web/src/puzzles/logic` phải thuần (không DOM, không ngẫu nhiên). Sửa luật thì chạy `npm run check:answers`.
+- Dữ liệu sinh tự động chỉ sửa qua `content/gen_levels.py`, rồi chạy lại để cập nhật `qa_report.json`. Lint "Dạo chơi" (≤ 20 từ, ≤ 3 số mỗi câu, cấm thuật ngữ) phải ra 0 vi phạm.
+- Trước khi giao: `npm run check && npm run build`, rồi `npm run capture` (cần Playwright) và xem ảnh ở 844×390.
 
-- Phạm vi: USSH 336 và HUS 334 Nguyễn Trãi, Hà Nội. Không lấy nhầm USSH TP.HCM, HUS 19 Lê Thánh Tông, hay cơ sở Mễ Trì.
-- Mục tiêu: vui, nhanh, khối đơn giản; dựng vị trí tương đối và dấu hiệu nhận diện.
-- `data/campus.layout.json` là bố cục nháp, không phải số đo. Dùng làm điểm bắt đầu, không xem đó là bằng chứng vị trí thật.
-- Tên khối `USSH_BLOCK_*`/`HUS_BLOCK_*` chưa khớp tên nhà thật. Chỉ gán tên A/B/C/E/G/I hoặc T1/T3/T4/T5 khi có sơ đồ/ảnh xác nhận. Nếu thiếu bằng chứng, giữ tên trung tính.
-- Ảnh mạng thiếu không được khiến project ngừng hoạt động. Không đưa nội dung HTML lỗi vào file ảnh.
-- Tạo web trong `web/`; giữ nguồn ảnh, dữ liệu và script gốc có thể tái tạo. Chỉ sửa file layout khi đang chủ động cải thiện bố cục; ghi rõ căn cứ và phần còn ước lượng.
-- Model bên trong chỉ chứa hình học + màu, không có texture hay font phụ thuộc mạng.
-- Không cần backend, tài khoản, thanh toán hay deploy. Không tự đẩy Git, publish hoặc ghi đè project ngoài thư mục này.
-- Thông báo thẳng điều đã chạy kiểm tra, điều chưa chạy và các giới hạn. Không tuyên bố đã render Blender nếu chưa thực thi.
+## Giao diện (2.3)
+
+- Phong cách: đêm hội ánh sáng hiện đại. Nền đêm `#070912`, panel kính mờ viền mảnh, một màu nhấn vàng `#ffd25e` cho hành động chính và vật đã sáng; mỗi mạch dùng màu riêng của nó trên đèn.
+- Một phông duy nhất: Be Vietnam Pro (đóng gói kèm, chạy offline), 800 cho tiêu đề, 600 cho nút.
+- Token màu, bo góc, khoảng cách ở đầu `web/src/style.css`. Không thêm màu ngoài token.
+- Nút dùng `btn(label, onClick, "primary|ghost|danger|small|big|wide", attrs, icon)` trong `ui/dom.ts`; biểu tượng là SVG nét trong `ICONS`.
+- Canvas dùng bảng màu `INK` và các hàm `polyline / dot / ring / arrow / roundRect` trong `ui/widgets.ts`; phát sáng tắt theo cài đặt "Giảm hiệu ứng ánh sáng".
+- Bố cục ưu tiên màn ngang thấp (`@media (max-height: 520px)`).
+- Không nhấp nháy > 3 lần/giây, không đồng hồ đếm ngược, không lửa hay khói thật. Cảnh sa bàn "nổ" hoạt hình ở kết cục hài (GDD 5.4) được phép nếu: khối rơi chậm, không người, không chớp sáng, có nút bỏ qua, tôn trọng "Giảm hiệu ứng ánh sáng".
+
+## Bản đồ USSH × HUS
+
+- Tên, vị trí, gắn mạch: `web/public/data/map.json` (tọa độ theo `legacy/campus/data/campus.layout.json`). Không viết cứng trong `scene/world.ts`.
+- Mô hình `web/public/models/campus.glb` sinh bằng `node web/scripts/build-map.mjs` (cần `@gltf-transform/core`, `@gltf-transform/functions`, `@gltf-transform/extensions`, `meshoptimizer`). Sửa hình khối thì sửa `legacy/campus/scripts/build_blockout.py`, sinh lại blockout rồi chạy build-map.
+- Bản đồ là ước lượng. Giữ `mapVerified: false` đến khi CLB xác nhận. Không thêm logo trường.

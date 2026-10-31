@@ -1,23 +1,32 @@
 {
-  "name": "ussh-hus-campus",
+  "name": "hoi-tu-70",
+  "version": "2.8.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "sync-assets": "node scripts/sync-assets.mjs",
-    "predev": "node scripts/sync-assets.mjs",
-    "prebuild": "node scripts/sync-assets.mjs",
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "check:motion": "node scripts/motion-check.mjs"
+    "check:answers": "node scripts/run-check-answers.mjs",
+    "check:strings": "node scripts/check-strings.mjs",
+    "check": "npm run check:answers && npm run check:strings",
+    "capture": "node scripts/capture.mjs",
+    "test:story": "node scripts/story-e2e.mjs"
   },
   "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.3.0",
+    "katex": "0.19.1",
     "three": "^0.186.1"
   },
   "devDependencies": {
     "@types/three": "^0.186.0",
+    "playwright": "^1.64.1",
     "puppeteer-core": "^25.16.0",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vite": "^8.3.5"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

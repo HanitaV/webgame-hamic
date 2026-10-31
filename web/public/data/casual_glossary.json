@@ -1,0 +1,8 @@
+{
+  "_note": "Thẻ \"Muốn biết tên gọi?\" của chế độ Dạo chơi (GDD 2.3 mục 6.1). Người chơi tự mở sau khi giải xong; ở đây được dùng thuật ngữ.",
+  "plot-limit": { "name": "Giới hạn", "text": "Người ta gọi chuyện này là giới hạn: khi thời gian trôi mãi, độ cao tiến sát một con số mà không vượt qua.", "more": "Đọc thêm: chương Giới hạn trong giáo trình Giải tích I." },
+  "series": { "name": "Chuỗi số", "text": "Người ta gọi chuyện này là chuỗi hình học: cộng mãi các phần nhỏ dần thì tổng tiến tới một giá trị hữu hạn.", "more": "Đọc thêm: chuỗi số và tổng cấp số nhân." },
+  "beam-order": { "name": "Ma trận và phép nhân không giao hoán", "text": "Mỗi tấm gương là một ma trận. Đặt gương theo thứ tự khác nhau là nhân ma trận theo thứ tự khác nhau, và kết quả có thể khác.", "more": "Đọc thêm: phép biến đổi tuyến tính trong Đại số tuyến tính." },
+  "graph": { "name": "Đồ thị", "text": "Người ta gọi mạng đèn và dây là đồ thị. Tìm đường ngắn nhất dùng thuật toán Dijkstra; nối mọi đèn rẻ nhất là cây khung nhỏ nhất.", "more": "Đọc thêm: Toán rời rạc, phần đồ thị." },
+  "count": { "name": "Tổ hợp", "text": "Người ta gọi phép đếm này là tổ hợp (không quan tâm thứ tự) hoặc chỉnh hợp (có quan tâm thứ tự).", "more": "Đọc thêm: Toán rời rạc, phần đếm." }
+}

@@ -1,0 +1,175 @@
+{
+ "verify_core_pass": 30,
+ "verify_core_items": [
+  "PASS 1.1: b = 1,65 cho sai số ≈ 0,496 m",
+  "PASS 1.1: b = 1,60 cho ≈ 0,576 m (không đạt)",
+  "PASS 1.1: ln140 ≈ 4,94 và ln140/3 ≈ 1,647",
+  "PASS Phần 1.1: h(5) ≈ 69,53 m",
+  "PASS 1.2: N = 7 (0,9922), N = 6 (0,984)",
+  "PASS 1.3: giới hạn tại x = 7 là 14",
+  "PASS 1.4: đáp án đúng là A, B, E (C: vô cực, D: không tồn tại)",
+  "PASS 2.3: R rồi F đưa (1,0) tới (0,-1)",
+  "PASS 2.3: F rồi R cho (0,1) (sai thứ tự)",
+  "PASS 2.3: F·R = [[0,-1],[-1,0]], R·F = [[0,1],[1,0]], không giao hoán",
+  "PASS 2.4: R(60°)·(1,0) hướng lên, Rᵀ·(1,0) hướng xuống",
+  "PASS 2.4: det R = 1; det(70·R) = 4900",
+  "PASS 3.2: 7 hàng × 10 cột = 70 drone",
+  "PASS 3.4: tổng 1..70 = 2485",
+  "PASS 3.5: lặp 1..69 cho 2415 (thiếu 70)",
+  "PASS 4.1: đường ngắn nhất A→E = 10 (Dijkstra và Floyd–Warshall)",
+  "PASS 4.1: sáu đường liệt kê trong GDD có tổng đúng 10, 11, 11, 12, 13, 14",
+  "PASS 4.1: duyệt mọi đường đơn, nhỏ nhất 10 và duy nhất",
+  "PASS 4.2: cây khung nhỏ nhất tổng 11 (Kruskal và Prim)",
+  "PASS 4.2: các dây C–B 1, A–C 2, D–E 3, B–D 5",
+  "PASS 4.3: bậc A2 B4 C4 D3 E3, đường Euler D→E tồn tại",
+  "PASS 5.1: n = 17 là nghiệm duy nhất trong 0..69",
+  "PASS 5.2: chỉ 70 chia hết cho 2, 5, 7 trong 1..70",
+  "PASS 5.3: 70 ngày = 10 tuần, cùng thứ",
+  "PASS 6.1: C(8,4) = 70 (công thức và liệt kê)",
+  "PASS 6.2: 5·4·3 = 60",
+  "PASS 6.3: lưới 4×4 có 70 đường ngắn nhất",
+  "PASS 70 = 2 · 5 · 7",
+  "PASS Các ước thực sự của 70 là 1, 2, 5, 7, 10, 14, 35, tổng 74",
+  "PASS Số kỳ lạ < 10000 khớp dãy OEIS A006037: 70, 836, 4030, 5830, 7192, 7912, 9272"
+ ],
+ "levels": 266,
+ "facts": 200,
+ "per_module": {
+  "plot-limit": {
+   "generated": 26,
+   "rejected": 0,
+   "duplicate": 4
+  },
+  "series": {
+   "generated": 16,
+   "rejected": 0,
+   "duplicate": 14
+  },
+  "removable": {
+   "generated": 29,
+   "rejected": 0,
+   "duplicate": 1
+  },
+  "pick-limit": {
+   "generated": 30,
+   "rejected": 0,
+   "duplicate": 0
+  },
+  "beam-order": {
+   "generated": 30,
+   "rejected": 0,
+   "duplicate": 0
+  },
+  "transpose-bug": {
+   "generated": 23,
+   "rejected": 0,
+   "duplicate": 7
+  },
+  "block-vm": {
+   "generated": 24,
+   "rejected": 0,
+   "duplicate": 6
+  },
+  "graph": {
+   "generated": 30,
+   "rejected": 0,
+   "duplicate": 0
+  },
+  "modular": {
+   "generated": 29,
+   "rejected": 0,
+   "duplicate": 1
+  },
+  "count": {
+   "generated": 29,
+   "rejected": 0,
+   "duplicate": 1
+  }
+ },
+ "levels_by_module_diff": {
+  "plot-limit/d1": 5,
+  "plot-limit/d2": 4,
+  "plot-limit/d3": 6,
+  "plot-limit/d4": 5,
+  "plot-limit/d5": 6,
+  "series/d1": 4,
+  "series/d2": 2,
+  "series/d3": 3,
+  "series/d4": 3,
+  "series/d5": 4,
+  "removable/d1": 6,
+  "removable/d2": 6,
+  "removable/d3": 6,
+  "removable/d4": 5,
+  "removable/d5": 6,
+  "pick-limit/d1": 6,
+  "pick-limit/d2": 6,
+  "pick-limit/d3": 6,
+  "pick-limit/d4": 6,
+  "pick-limit/d5": 6,
+  "beam-order/d1": 6,
+  "beam-order/d2": 6,
+  "beam-order/d3": 6,
+  "beam-order/d4": 6,
+  "beam-order/d5": 6,
+  "transpose-bug/d1": 6,
+  "transpose-bug/d2": 4,
+  "transpose-bug/d3": 5,
+  "transpose-bug/d4": 4,
+  "transpose-bug/d5": 4,
+  "block-vm/d1": 6,
+  "block-vm/d2": 5,
+  "block-vm/d3": 4,
+  "block-vm/d4": 4,
+  "block-vm/d5": 5,
+  "graph/d1": 6,
+  "graph/d2": 6,
+  "graph/d3": 6,
+  "graph/d4": 6,
+  "graph/d5": 6,
+  "modular/d1": 6,
+  "modular/d2": 6,
+  "modular/d3": 6,
+  "modular/d4": 6,
+  "modular/d5": 5,
+  "count/d1": 6,
+  "count/d2": 5,
+  "count/d3": 6,
+  "count/d4": 6,
+  "count/d5": 6
+ },
+ "independent_checks_recorded": 445,
+ "text_strings_linted": 1448,
+ "lint_violations": 0,
+ "lint_detail": [],
+ "casual_levels": 46,
+ "casual_by_module": {
+  "plot-limit": 9,
+  "series": 6,
+  "beam-order": 12,
+  "graph": 8,
+  "count": 11
+ },
+ "casual_rules": {
+  "banned_terms": [
+   "giới hạn",
+   "ma trận",
+   "đồ thị",
+   "đỉnh",
+   "cạnh",
+   "hàm",
+   "đạo hàm",
+   "modulo",
+   "tổ hợp",
+   "biến",
+   "vòng lặp",
+   "thuật toán"
+  ],
+  "max_words_per_sentence": 20,
+  "max_numbers_per_sentence": 3
+ },
+ "casual_strings_linted": 184,
+ "casual_lint_violations": 0,
+ "casual_lint_detail": [],
+ "sha256_levels": "0309be6f9942ff1731c0ec063a55bf1d20e30b7ef5abfbfce525155b12fcb118"
+}

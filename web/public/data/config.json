@@ -1,0 +1,154 @@
+{
+  "_note": "Cấu hình cho người làm game (GDD 2.3 mục 8.2). Sửa tệp này không cần sửa mã.",
+  "version": "2.8.0",
+  "mode": "journey",
+  "title": "Hội tụ 70",
+  "credits": "CLB Toán Tin (HAMIC)",
+  "greeting": "Chúc mừng 70 năm Trường Đại học Khoa học Tự nhiên",
+  "greetingVerified": false,
+  "circuitsEnabled": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "defaultMaxRuns": 3,
+  "assist": {
+    "toleranceFactor": 2,
+    "autoHintAfterFails": 2
+  },
+  "finaleUnlock": {
+    "journeyCircuits": [
+      1,
+      2,
+      3
+    ],
+    "casualAnyCircuits": 3
+  },
+  "guest": {
+    "levels": [
+      "1.2",
+      "2.1",
+      "3.2"
+    ],
+    "idleResetSeconds": 90
+  },
+  "casual": {
+    "enabled": true,
+    "maxDifficulty": 2,
+    "circuits": {
+      "1": [
+        "plot-limit",
+        "series"
+      ],
+      "2": [
+        "beam-order"
+      ],
+      "4": [
+        "graph"
+      ],
+      "6": [
+        "count"
+      ]
+    },
+    "levelsToLight": 3
+  },
+  "daily": {
+    "count": 3,
+    "maxDifficulty": 3,
+    "timeZone": "Asia/Ho_Chi_Minh"
+  },
+  "practice": {
+    "modules": [
+      "plot-limit",
+      "series",
+      "removable",
+      "pick-limit",
+      "beam-order",
+      "transpose-bug",
+      "block-vm",
+      "graph",
+      "modular",
+      "count"
+    ]
+  },
+  "factsUnlock": "Mỗi màn hoàn thành mở mục \"sự thật về n\" của đáp án số (nếu 1..200), nếu không thì mở n nhỏ nhất chưa mở.",
+  "splashes": [
+    "70 = 2·5·7!",
+    "C(8, 4) = 70!",
+    "1 + 2 + … + 70 = 2485!",
+    "70 là số kỳ lạ!",
+    "det R = 1!",
+    "17 ≡ 3 (mod 7)!",
+    "Thử thêm lần nữa!",
+    "Ánh sáng hội tụ!",
+    "7 × 10 = 70!"
+  ],
+  "endings": {
+    "_note": "Kết cục do lựa chọn của người chơi quyết định, không quay ngẫu nhiên (docs/ENDINGS.md). Mỗi phương án có trọng số rủi ro; tổng ≥ threshold thì ra E2. Chỉnh risk/threshold rồi chạy npm run check:answers: kiểm thử duyệt mọi tổ hợp lựa chọn và báo lỗi nếu tỉ lệ lệch target quá tolerance. Ba sai sót gốc (version, notes, final) cùng các lựa chọn nhỏ đủ để vượt ngưỡng mà không cần các lựa chọn đặc biệt.",
+    "boom": {
+      "enabled": true
+    },
+    "threshold": 18,
+    "risk": {
+      "version": {
+        "A": 0,
+        "B": 6,
+        "C": 2
+      },
+      "firework": {
+        "A": 0,
+        "B": 10
+      },
+      "ha": {
+        "A": 0,
+        "B": 1,
+        "C": 2
+      },
+      "notes": {
+        "A": 0,
+        "B": 3,
+        "C": 3
+      },
+      "captions": {
+        "A": 0,
+        "B": 2,
+        "C": 3
+      },
+      "drones": {
+        "A": 0,
+        "B": 10
+      },
+      "final": {
+        "A": 0,
+        "B": 3,
+        "C": 2
+      },
+      "bursts": {
+        "A": 0,
+        "B": 2,
+        "C": 8
+      }
+    },
+    "target": {
+      "E1": 12,
+      "E2": 70,
+      "E3": 6,
+      "E4": 4,
+      "E5": 4,
+      "E6": 4
+    },
+    "tolerance": {
+      "E2": 2,
+      "other": 3
+    },
+    "unlock": {
+      "E6": {
+        "facts": 7
+      }
+    }
+  }
+}

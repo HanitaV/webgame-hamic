@@ -1,0 +1,1468 @@
+[
+ {
+  "n": 1,
+  "text": "1 chỉ có một ước là 1; 1 không phải số nguyên tố cũng không phải hợp số.",
+  "tags": [
+   "unit"
+  ]
+ },
+ {
+  "n": 2,
+  "text": "2 = 2. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 2 nên 2 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 3,
+  "text": "3 = 3. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 3 nên 3 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 4,
+  "text": "4 = 2^2. Có 3 ước dương; tổng các ước thực sự là 3, nhỏ hơn 4 nên 4 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 5,
+  "text": "5 = 5. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 5 nên 5 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 6,
+  "text": "6 = 2 · 3. Có 4 ước dương; tổng các ước thực sự là 6, bằng 6 nên 6 là số hoàn hảo.",
+  "tags": [
+   "hoan hao"
+  ]
+ },
+ {
+  "n": 7,
+  "text": "7 = 7. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 7 nên 7 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 8,
+  "text": "8 = 2^3. Có 4 ước dương; tổng các ước thực sự là 7, nhỏ hơn 8 nên 8 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 9,
+  "text": "9 = 3^2. Có 3 ước dương; tổng các ước thực sự là 4, nhỏ hơn 9 nên 9 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 10,
+  "text": "10 = 2 · 5. Có 4 ước dương; tổng các ước thực sự là 8, nhỏ hơn 10 nên 10 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 11,
+  "text": "11 = 11. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 11 nên 11 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 12,
+  "text": "12 = 2^2 · 3. Có 6 ước dương; tổng các ước thực sự là 16, lớn hơn 12 nên 12 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 13,
+  "text": "13 = 13. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 13 nên 13 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 14,
+  "text": "14 = 2 · 7. Có 4 ước dương; tổng các ước thực sự là 10, nhỏ hơn 14 nên 14 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 15,
+  "text": "15 = 3 · 5. Có 4 ước dương; tổng các ước thực sự là 9, nhỏ hơn 15 nên 15 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 16,
+  "text": "16 = 2^4. Có 5 ước dương; tổng các ước thực sự là 15, nhỏ hơn 16 nên 16 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 17,
+  "text": "17 = 17. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 17 nên 17 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 18,
+  "text": "18 = 2 · 3^2. Có 6 ước dương; tổng các ước thực sự là 21, lớn hơn 18 nên 18 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 19,
+  "text": "19 = 19. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 19 nên 19 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 20,
+  "text": "20 = 2^2 · 5. Có 6 ước dương; tổng các ước thực sự là 22, lớn hơn 20 nên 20 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 21,
+  "text": "21 = 3 · 7. Có 4 ước dương; tổng các ước thực sự là 11, nhỏ hơn 21 nên 21 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 22,
+  "text": "22 = 2 · 11. Có 4 ước dương; tổng các ước thực sự là 14, nhỏ hơn 22 nên 22 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 23,
+  "text": "23 = 23. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 23 nên 23 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 24,
+  "text": "24 = 2^3 · 3. Có 8 ước dương; tổng các ước thực sự là 36, lớn hơn 24 nên 24 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 25,
+  "text": "25 = 5^2. Có 3 ước dương; tổng các ước thực sự là 6, nhỏ hơn 25 nên 25 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 26,
+  "text": "26 = 2 · 13. Có 4 ước dương; tổng các ước thực sự là 16, nhỏ hơn 26 nên 26 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 27,
+  "text": "27 = 3^3. Có 4 ước dương; tổng các ước thực sự là 13, nhỏ hơn 27 nên 27 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 28,
+  "text": "28 = 2^2 · 7. Có 6 ước dương; tổng các ước thực sự là 28, bằng 28 nên 28 là số hoàn hảo.",
+  "tags": [
+   "hoan hao"
+  ]
+ },
+ {
+  "n": 29,
+  "text": "29 = 29. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 29 nên 29 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 30,
+  "text": "30 = 2 · 3 · 5. Có 8 ước dương; tổng các ước thực sự là 42, lớn hơn 30 nên 30 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 31,
+  "text": "31 = 31. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 31 nên 31 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 32,
+  "text": "32 = 2^5. Có 6 ước dương; tổng các ước thực sự là 31, nhỏ hơn 32 nên 32 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 33,
+  "text": "33 = 3 · 11. Có 4 ước dương; tổng các ước thực sự là 15, nhỏ hơn 33 nên 33 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 34,
+  "text": "34 = 2 · 17. Có 4 ước dương; tổng các ước thực sự là 20, nhỏ hơn 34 nên 34 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 35,
+  "text": "35 = 5 · 7. Có 4 ước dương; tổng các ước thực sự là 13, nhỏ hơn 35 nên 35 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 36,
+  "text": "36 = 2^2 · 3^2. Có 9 ước dương; tổng các ước thực sự là 55, lớn hơn 36 nên 36 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 37,
+  "text": "37 = 37. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 37 nên 37 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 38,
+  "text": "38 = 2 · 19. Có 4 ước dương; tổng các ước thực sự là 22, nhỏ hơn 38 nên 38 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 39,
+  "text": "39 = 3 · 13. Có 4 ước dương; tổng các ước thực sự là 17, nhỏ hơn 39 nên 39 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 40,
+  "text": "40 = 2^3 · 5. Có 8 ước dương; tổng các ước thực sự là 50, lớn hơn 40 nên 40 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 41,
+  "text": "41 = 41. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 41 nên 41 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 42,
+  "text": "42 = 2 · 3 · 7. Có 8 ước dương; tổng các ước thực sự là 54, lớn hơn 42 nên 42 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 43,
+  "text": "43 = 43. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 43 nên 43 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 44,
+  "text": "44 = 2^2 · 11. Có 6 ước dương; tổng các ước thực sự là 40, nhỏ hơn 44 nên 44 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 45,
+  "text": "45 = 3^2 · 5. Có 6 ước dương; tổng các ước thực sự là 33, nhỏ hơn 45 nên 45 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 46,
+  "text": "46 = 2 · 23. Có 4 ước dương; tổng các ước thực sự là 26, nhỏ hơn 46 nên 46 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 47,
+  "text": "47 = 47. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 47 nên 47 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 48,
+  "text": "48 = 2^4 · 3. Có 10 ước dương; tổng các ước thực sự là 76, lớn hơn 48 nên 48 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 49,
+  "text": "49 = 7^2. Có 3 ước dương; tổng các ước thực sự là 8, nhỏ hơn 49 nên 49 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 50,
+  "text": "50 = 2 · 5^2. Có 6 ước dương; tổng các ước thực sự là 43, nhỏ hơn 50 nên 50 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 51,
+  "text": "51 = 3 · 17. Có 4 ước dương; tổng các ước thực sự là 21, nhỏ hơn 51 nên 51 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 52,
+  "text": "52 = 2^2 · 13. Có 6 ước dương; tổng các ước thực sự là 46, nhỏ hơn 52 nên 52 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 53,
+  "text": "53 = 53. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 53 nên 53 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 54,
+  "text": "54 = 2 · 3^3. Có 8 ước dương; tổng các ước thực sự là 66, lớn hơn 54 nên 54 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 55,
+  "text": "55 = 5 · 11. Có 4 ước dương; tổng các ước thực sự là 17, nhỏ hơn 55 nên 55 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 56,
+  "text": "56 = 2^3 · 7. Có 8 ước dương; tổng các ước thực sự là 64, lớn hơn 56 nên 56 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 57,
+  "text": "57 = 3 · 19. Có 4 ước dương; tổng các ước thực sự là 23, nhỏ hơn 57 nên 57 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 58,
+  "text": "58 = 2 · 29. Có 4 ước dương; tổng các ước thực sự là 32, nhỏ hơn 58 nên 58 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 59,
+  "text": "59 = 59. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 59 nên 59 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 60,
+  "text": "60 = 2^2 · 3 · 5. Có 12 ước dương; tổng các ước thực sự là 108, lớn hơn 60 nên 60 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 61,
+  "text": "61 = 61. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 61 nên 61 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 62,
+  "text": "62 = 2 · 31. Có 4 ước dương; tổng các ước thực sự là 34, nhỏ hơn 62 nên 62 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 63,
+  "text": "63 = 3^2 · 7. Có 6 ước dương; tổng các ước thực sự là 41, nhỏ hơn 63 nên 63 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 64,
+  "text": "64 = 2^6. Có 7 ước dương; tổng các ước thực sự là 63, nhỏ hơn 64 nên 64 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 65,
+  "text": "65 = 5 · 13. Có 4 ước dương; tổng các ước thực sự là 19, nhỏ hơn 65 nên 65 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 66,
+  "text": "66 = 2 · 3 · 11. Có 8 ước dương; tổng các ước thực sự là 78, lớn hơn 66 nên 66 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 67,
+  "text": "67 = 67. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 67 nên 67 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 68,
+  "text": "68 = 2^2 · 17. Có 6 ước dương; tổng các ước thực sự là 58, nhỏ hơn 68 nên 68 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 69,
+  "text": "69 = 3 · 23. Có 4 ước dương; tổng các ước thực sự là 27, nhỏ hơn 69 nên 69 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 70,
+  "text": "70 = 2 · 5 · 7. Có 8 ước dương; tổng các ước thực sự là 74, lớn hơn 70 nên 70 là số dư. Đặc biệt, không tập con nào của các ước thực sự cộng lại bằng chính nó: đây là số kỳ lạ.",
+  "tags": [
+   "du",
+   "sphenic",
+   "weird"
+  ]
+ },
+ {
+  "n": 71,
+  "text": "71 = 71. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 71 nên 71 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 72,
+  "text": "72 = 2^3 · 3^2. Có 12 ước dương; tổng các ước thực sự là 123, lớn hơn 72 nên 72 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 73,
+  "text": "73 = 73. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 73 nên 73 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 74,
+  "text": "74 = 2 · 37. Có 4 ước dương; tổng các ước thực sự là 40, nhỏ hơn 74 nên 74 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 75,
+  "text": "75 = 3 · 5^2. Có 6 ước dương; tổng các ước thực sự là 49, nhỏ hơn 75 nên 75 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 76,
+  "text": "76 = 2^2 · 19. Có 6 ước dương; tổng các ước thực sự là 64, nhỏ hơn 76 nên 76 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 77,
+  "text": "77 = 7 · 11. Có 4 ước dương; tổng các ước thực sự là 19, nhỏ hơn 77 nên 77 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 78,
+  "text": "78 = 2 · 3 · 13. Có 8 ước dương; tổng các ước thực sự là 90, lớn hơn 78 nên 78 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 79,
+  "text": "79 = 79. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 79 nên 79 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 80,
+  "text": "80 = 2^4 · 5. Có 10 ước dương; tổng các ước thực sự là 106, lớn hơn 80 nên 80 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 81,
+  "text": "81 = 3^4. Có 5 ước dương; tổng các ước thực sự là 40, nhỏ hơn 81 nên 81 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 82,
+  "text": "82 = 2 · 41. Có 4 ước dương; tổng các ước thực sự là 44, nhỏ hơn 82 nên 82 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 83,
+  "text": "83 = 83. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 83 nên 83 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 84,
+  "text": "84 = 2^2 · 3 · 7. Có 12 ước dương; tổng các ước thực sự là 140, lớn hơn 84 nên 84 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 85,
+  "text": "85 = 5 · 17. Có 4 ước dương; tổng các ước thực sự là 23, nhỏ hơn 85 nên 85 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 86,
+  "text": "86 = 2 · 43. Có 4 ước dương; tổng các ước thực sự là 46, nhỏ hơn 86 nên 86 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 87,
+  "text": "87 = 3 · 29. Có 4 ước dương; tổng các ước thực sự là 33, nhỏ hơn 87 nên 87 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 88,
+  "text": "88 = 2^3 · 11. Có 8 ước dương; tổng các ước thực sự là 92, lớn hơn 88 nên 88 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 89,
+  "text": "89 = 89. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 89 nên 89 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 90,
+  "text": "90 = 2 · 3^2 · 5. Có 12 ước dương; tổng các ước thực sự là 144, lớn hơn 90 nên 90 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 91,
+  "text": "91 = 7 · 13. Có 4 ước dương; tổng các ước thực sự là 21, nhỏ hơn 91 nên 91 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 92,
+  "text": "92 = 2^2 · 23. Có 6 ước dương; tổng các ước thực sự là 76, nhỏ hơn 92 nên 92 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 93,
+  "text": "93 = 3 · 31. Có 4 ước dương; tổng các ước thực sự là 35, nhỏ hơn 93 nên 93 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 94,
+  "text": "94 = 2 · 47. Có 4 ước dương; tổng các ước thực sự là 50, nhỏ hơn 94 nên 94 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 95,
+  "text": "95 = 5 · 19. Có 4 ước dương; tổng các ước thực sự là 25, nhỏ hơn 95 nên 95 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 96,
+  "text": "96 = 2^5 · 3. Có 12 ước dương; tổng các ước thực sự là 156, lớn hơn 96 nên 96 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 97,
+  "text": "97 = 97. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 97 nên 97 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 98,
+  "text": "98 = 2 · 7^2. Có 6 ước dương; tổng các ước thực sự là 73, nhỏ hơn 98 nên 98 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 99,
+  "text": "99 = 3^2 · 11. Có 6 ước dương; tổng các ước thực sự là 57, nhỏ hơn 99 nên 99 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 100,
+  "text": "100 = 2^2 · 5^2. Có 9 ước dương; tổng các ước thực sự là 117, lớn hơn 100 nên 100 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 101,
+  "text": "101 = 101. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 101 nên 101 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 102,
+  "text": "102 = 2 · 3 · 17. Có 8 ước dương; tổng các ước thực sự là 114, lớn hơn 102 nên 102 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 103,
+  "text": "103 = 103. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 103 nên 103 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 104,
+  "text": "104 = 2^3 · 13. Có 8 ước dương; tổng các ước thực sự là 106, lớn hơn 104 nên 104 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 105,
+  "text": "105 = 3 · 5 · 7. Có 8 ước dương; tổng các ước thực sự là 87, nhỏ hơn 105 nên 105 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 106,
+  "text": "106 = 2 · 53. Có 4 ước dương; tổng các ước thực sự là 56, nhỏ hơn 106 nên 106 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 107,
+  "text": "107 = 107. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 107 nên 107 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 108,
+  "text": "108 = 2^2 · 3^3. Có 12 ước dương; tổng các ước thực sự là 172, lớn hơn 108 nên 108 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 109,
+  "text": "109 = 109. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 109 nên 109 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 110,
+  "text": "110 = 2 · 5 · 11. Có 8 ước dương; tổng các ước thực sự là 106, nhỏ hơn 110 nên 110 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 111,
+  "text": "111 = 3 · 37. Có 4 ước dương; tổng các ước thực sự là 41, nhỏ hơn 111 nên 111 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 112,
+  "text": "112 = 2^4 · 7. Có 10 ước dương; tổng các ước thực sự là 136, lớn hơn 112 nên 112 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 113,
+  "text": "113 = 113. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 113 nên 113 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 114,
+  "text": "114 = 2 · 3 · 19. Có 8 ước dương; tổng các ước thực sự là 126, lớn hơn 114 nên 114 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 115,
+  "text": "115 = 5 · 23. Có 4 ước dương; tổng các ước thực sự là 29, nhỏ hơn 115 nên 115 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 116,
+  "text": "116 = 2^2 · 29. Có 6 ước dương; tổng các ước thực sự là 94, nhỏ hơn 116 nên 116 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 117,
+  "text": "117 = 3^2 · 13. Có 6 ước dương; tổng các ước thực sự là 65, nhỏ hơn 117 nên 117 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 118,
+  "text": "118 = 2 · 59. Có 4 ước dương; tổng các ước thực sự là 62, nhỏ hơn 118 nên 118 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 119,
+  "text": "119 = 7 · 17. Có 4 ước dương; tổng các ước thực sự là 25, nhỏ hơn 119 nên 119 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 120,
+  "text": "120 = 2^3 · 3 · 5. Có 16 ước dương; tổng các ước thực sự là 240, lớn hơn 120 nên 120 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 121,
+  "text": "121 = 11^2. Có 3 ước dương; tổng các ước thực sự là 12, nhỏ hơn 121 nên 121 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 122,
+  "text": "122 = 2 · 61. Có 4 ước dương; tổng các ước thực sự là 64, nhỏ hơn 122 nên 122 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 123,
+  "text": "123 = 3 · 41. Có 4 ước dương; tổng các ước thực sự là 45, nhỏ hơn 123 nên 123 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 124,
+  "text": "124 = 2^2 · 31. Có 6 ước dương; tổng các ước thực sự là 100, nhỏ hơn 124 nên 124 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 125,
+  "text": "125 = 5^3. Có 4 ước dương; tổng các ước thực sự là 31, nhỏ hơn 125 nên 125 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 126,
+  "text": "126 = 2 · 3^2 · 7. Có 12 ước dương; tổng các ước thực sự là 186, lớn hơn 126 nên 126 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 127,
+  "text": "127 = 127. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 127 nên 127 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 128,
+  "text": "128 = 2^7. Có 8 ước dương; tổng các ước thực sự là 127, nhỏ hơn 128 nên 128 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 129,
+  "text": "129 = 3 · 43. Có 4 ước dương; tổng các ước thực sự là 47, nhỏ hơn 129 nên 129 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 130,
+  "text": "130 = 2 · 5 · 13. Có 8 ước dương; tổng các ước thực sự là 122, nhỏ hơn 130 nên 130 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 131,
+  "text": "131 = 131. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 131 nên 131 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 132,
+  "text": "132 = 2^2 · 3 · 11. Có 12 ước dương; tổng các ước thực sự là 204, lớn hơn 132 nên 132 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 133,
+  "text": "133 = 7 · 19. Có 4 ước dương; tổng các ước thực sự là 27, nhỏ hơn 133 nên 133 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 134,
+  "text": "134 = 2 · 67. Có 4 ước dương; tổng các ước thực sự là 70, nhỏ hơn 134 nên 134 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 135,
+  "text": "135 = 3^3 · 5. Có 8 ước dương; tổng các ước thực sự là 105, nhỏ hơn 135 nên 135 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 136,
+  "text": "136 = 2^3 · 17. Có 8 ước dương; tổng các ước thực sự là 134, nhỏ hơn 136 nên 136 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 137,
+  "text": "137 = 137. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 137 nên 137 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 138,
+  "text": "138 = 2 · 3 · 23. Có 8 ước dương; tổng các ước thực sự là 150, lớn hơn 138 nên 138 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 139,
+  "text": "139 = 139. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 139 nên 139 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 140,
+  "text": "140 = 2^2 · 5 · 7. Có 12 ước dương; tổng các ước thực sự là 196, lớn hơn 140 nên 140 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 141,
+  "text": "141 = 3 · 47. Có 4 ước dương; tổng các ước thực sự là 51, nhỏ hơn 141 nên 141 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 142,
+  "text": "142 = 2 · 71. Có 4 ước dương; tổng các ước thực sự là 74, nhỏ hơn 142 nên 142 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 143,
+  "text": "143 = 11 · 13. Có 4 ước dương; tổng các ước thực sự là 25, nhỏ hơn 143 nên 143 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 144,
+  "text": "144 = 2^4 · 3^2. Có 15 ước dương; tổng các ước thực sự là 259, lớn hơn 144 nên 144 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 145,
+  "text": "145 = 5 · 29. Có 4 ước dương; tổng các ước thực sự là 35, nhỏ hơn 145 nên 145 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 146,
+  "text": "146 = 2 · 73. Có 4 ước dương; tổng các ước thực sự là 76, nhỏ hơn 146 nên 146 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 147,
+  "text": "147 = 3 · 7^2. Có 6 ước dương; tổng các ước thực sự là 81, nhỏ hơn 147 nên 147 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 148,
+  "text": "148 = 2^2 · 37. Có 6 ước dương; tổng các ước thực sự là 118, nhỏ hơn 148 nên 148 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 149,
+  "text": "149 = 149. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 149 nên 149 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 150,
+  "text": "150 = 2 · 3 · 5^2. Có 12 ước dương; tổng các ước thực sự là 222, lớn hơn 150 nên 150 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 151,
+  "text": "151 = 151. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 151 nên 151 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 152,
+  "text": "152 = 2^3 · 19. Có 8 ước dương; tổng các ước thực sự là 148, nhỏ hơn 152 nên 152 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 153,
+  "text": "153 = 3^2 · 17. Có 6 ước dương; tổng các ước thực sự là 81, nhỏ hơn 153 nên 153 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 154,
+  "text": "154 = 2 · 7 · 11. Có 8 ước dương; tổng các ước thực sự là 134, nhỏ hơn 154 nên 154 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 155,
+  "text": "155 = 5 · 31. Có 4 ước dương; tổng các ước thực sự là 37, nhỏ hơn 155 nên 155 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 156,
+  "text": "156 = 2^2 · 3 · 13. Có 12 ước dương; tổng các ước thực sự là 236, lớn hơn 156 nên 156 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 157,
+  "text": "157 = 157. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 157 nên 157 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 158,
+  "text": "158 = 2 · 79. Có 4 ước dương; tổng các ước thực sự là 82, nhỏ hơn 158 nên 158 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 159,
+  "text": "159 = 3 · 53. Có 4 ước dương; tổng các ước thực sự là 57, nhỏ hơn 159 nên 159 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 160,
+  "text": "160 = 2^5 · 5. Có 12 ước dương; tổng các ước thực sự là 218, lớn hơn 160 nên 160 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 161,
+  "text": "161 = 7 · 23. Có 4 ước dương; tổng các ước thực sự là 31, nhỏ hơn 161 nên 161 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 162,
+  "text": "162 = 2 · 3^4. Có 10 ước dương; tổng các ước thực sự là 201, lớn hơn 162 nên 162 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 163,
+  "text": "163 = 163. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 163 nên 163 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 164,
+  "text": "164 = 2^2 · 41. Có 6 ước dương; tổng các ước thực sự là 130, nhỏ hơn 164 nên 164 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 165,
+  "text": "165 = 3 · 5 · 11. Có 8 ước dương; tổng các ước thực sự là 123, nhỏ hơn 165 nên 165 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 166,
+  "text": "166 = 2 · 83. Có 4 ước dương; tổng các ước thực sự là 86, nhỏ hơn 166 nên 166 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 167,
+  "text": "167 = 167. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 167 nên 167 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 168,
+  "text": "168 = 2^3 · 3 · 7. Có 16 ước dương; tổng các ước thực sự là 312, lớn hơn 168 nên 168 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 169,
+  "text": "169 = 13^2. Có 3 ước dương; tổng các ước thực sự là 14, nhỏ hơn 169 nên 169 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 170,
+  "text": "170 = 2 · 5 · 17. Có 8 ước dương; tổng các ước thực sự là 154, nhỏ hơn 170 nên 170 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 171,
+  "text": "171 = 3^2 · 19. Có 6 ước dương; tổng các ước thực sự là 89, nhỏ hơn 171 nên 171 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 172,
+  "text": "172 = 2^2 · 43. Có 6 ước dương; tổng các ước thực sự là 136, nhỏ hơn 172 nên 172 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 173,
+  "text": "173 = 173. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 173 nên 173 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 174,
+  "text": "174 = 2 · 3 · 29. Có 8 ước dương; tổng các ước thực sự là 186, lớn hơn 174 nên 174 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 175,
+  "text": "175 = 5^2 · 7. Có 6 ước dương; tổng các ước thực sự là 73, nhỏ hơn 175 nên 175 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 176,
+  "text": "176 = 2^4 · 11. Có 10 ước dương; tổng các ước thực sự là 196, lớn hơn 176 nên 176 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 177,
+  "text": "177 = 3 · 59. Có 4 ước dương; tổng các ước thực sự là 63, nhỏ hơn 177 nên 177 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 178,
+  "text": "178 = 2 · 89. Có 4 ước dương; tổng các ước thực sự là 92, nhỏ hơn 178 nên 178 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 179,
+  "text": "179 = 179. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 179 nên 179 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 180,
+  "text": "180 = 2^2 · 3^2 · 5. Có 18 ước dương; tổng các ước thực sự là 366, lớn hơn 180 nên 180 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 181,
+  "text": "181 = 181. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 181 nên 181 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 182,
+  "text": "182 = 2 · 7 · 13. Có 8 ước dương; tổng các ước thực sự là 154, nhỏ hơn 182 nên 182 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 183,
+  "text": "183 = 3 · 61. Có 4 ước dương; tổng các ước thực sự là 65, nhỏ hơn 183 nên 183 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 184,
+  "text": "184 = 2^3 · 23. Có 8 ước dương; tổng các ước thực sự là 176, nhỏ hơn 184 nên 184 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 185,
+  "text": "185 = 5 · 37. Có 4 ước dương; tổng các ước thực sự là 43, nhỏ hơn 185 nên 185 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 186,
+  "text": "186 = 2 · 3 · 31. Có 8 ước dương; tổng các ước thực sự là 198, lớn hơn 186 nên 186 là số dư.",
+  "tags": [
+   "du",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 187,
+  "text": "187 = 11 · 17. Có 4 ước dương; tổng các ước thực sự là 29, nhỏ hơn 187 nên 187 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 188,
+  "text": "188 = 2^2 · 47. Có 6 ước dương; tổng các ước thực sự là 148, nhỏ hơn 188 nên 188 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 189,
+  "text": "189 = 3^3 · 7. Có 8 ước dương; tổng các ước thực sự là 131, nhỏ hơn 189 nên 189 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 190,
+  "text": "190 = 2 · 5 · 19. Có 8 ước dương; tổng các ước thực sự là 170, nhỏ hơn 190 nên 190 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 191,
+  "text": "191 = 191. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 191 nên 191 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 192,
+  "text": "192 = 2^6 · 3. Có 14 ước dương; tổng các ước thực sự là 316, lớn hơn 192 nên 192 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 193,
+  "text": "193 = 193. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 193 nên 193 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 194,
+  "text": "194 = 2 · 97. Có 4 ước dương; tổng các ước thực sự là 100, nhỏ hơn 194 nên 194 là số thiếu.",
+  "tags": [
+   "thieu"
+  ]
+ },
+ {
+  "n": 195,
+  "text": "195 = 3 · 5 · 13. Có 8 ước dương; tổng các ước thực sự là 141, nhỏ hơn 195 nên 195 là số thiếu.",
+  "tags": [
+   "thieu",
+   "sphenic"
+  ]
+ },
+ {
+  "n": 196,
+  "text": "196 = 2^2 · 7^2. Có 9 ước dương; tổng các ước thực sự là 203, lớn hơn 196 nên 196 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 197,
+  "text": "197 = 197. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 197 nên 197 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 198,
+  "text": "198 = 2 · 3^2 · 11. Có 12 ước dương; tổng các ước thực sự là 270, lớn hơn 198 nên 198 là số dư.",
+  "tags": [
+   "du"
+  ]
+ },
+ {
+  "n": 199,
+  "text": "199 = 199. Có 2 ước dương; tổng các ước thực sự là 1, nhỏ hơn 199 nên 199 là số thiếu.",
+  "tags": [
+   "thieu",
+   "prime"
+  ]
+ },
+ {
+  "n": 200,
+  "text": "200 = 2^3 · 5^2. Có 12 ước dương; tổng các ước thực sự là 265, lớn hơn 200 nên 200 là số dư.",
+  "tags": [
+   "du"
+  ]
+ }
+]

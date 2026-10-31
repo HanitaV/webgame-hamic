@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#121212" />
+  <meta name="description" content="Sân trường USSH và HUS ở 334–336 Nguyễn Trãi dựng bằng khối. Nhặt ba tờ deadline rồi nộp ở cổng." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23121212'/%3E%3Crect x='4' y='3' width='8' height='10' fill='%23ffd23f'/%3E%3C/svg%3E" />
+  <title>USSH × HUS — sân trường dựng khối</title>
+</head>
+<body>
+  <div id="stage">
+    <canvas id="view" aria-label="Cảnh 3D sân trường"></canvas>
+    <div id="labels"></div>
+  </div>
+
+  <!-- Loading -->
+  <div id="boot" class="boot" role="status">
+    <div class="boot-inner">
+      <p class="boot-mark">USSH × HUS</p>
+      <div class="boot-bar" aria-hidden="true"><i id="boot-fill"></i></div>
+      <p id="boot-text" class="num">Đang dựng sân</p>
+      <button id="retry" type="button" class="btn primary" hidden>Thử lại</button>
+    </div>
+  </div>
+
+  <!-- Title screen -->
+  <main id="title-screen" class="title" hidden>
+    <div class="title-panel">
+      <div class="title-head">
+        <h1 class="title-mark">USSH × HUS</h1>
+        <p class="title-place">334–336 Nguyễn Trãi, Hà Nội</p>
+      </div>
+      <p class="title-lead" id="title-lead"></p>
+      <nav class="title-menu" aria-label="Menu chính">
+        <button type="button" id="t-play" class="btn primary big" data-icon="walk"><span>Vào sân</span></button>
+        <button type="button" id="t-explore" class="btn big" data-icon="map"><span>Xem bản đồ</span></button>
+        <button type="button" id="t-cine" class="btn big" data-icon="film"><span>Xem quay cảnh</span></button>
+        <div class="title-row">
+          <button type="button" id="t-ach" class="btn" data-icon="trophy" data-feature="achievements"><span>Thành tựu</span><span class="count num" id="t-ach-count"></span></button>
+          <button type="button" id="t-settings" class="btn" data-icon="gear"><span>Cài đặt</span></button>
+        </div>
+      </nav>
+      <p id="t-best" class="title-best num" hidden></p>
+      <footer class="title-foot">
+        <p>Bố cục ước lượng, không phải sơ đồ đo đạc. Tầng và phòng HUS theo bảng chỉ dẫn của trường.</p>
+        <p><button type="button" id="t-about" class="link">Giới thiệu và nguồn</button> <span id="t-meta"></span></p>
+      </footer>
+    </div>
+  </main>
+
+  <!-- In-game HUD -->
+  <div id="hud" hidden>
+    <div class="hud-tl">
+      <div id="where" class="chip where" data-show="walk" aria-live="polite">
+        <strong id="where-name">Ngoài sân</strong>
+        <span id="where-floor" class="num" hidden></span>
+      </div>
+      <div id="bookmarks" class="group" data-show="orbit" role="group" aria-label="Điểm nhìn">
+        <button type="button" class="btn" data-bookmark="overview">Toàn cảnh</button>
+        <button type="button" class="btn" data-bookmark="ussh">USSH</button>
+        <button type="button" class="btn" data-bookmark="hus">HUS</button>
+      </div>
+    </div>
+
+    <div class="hud-tr">
+      <span id="clock" class="chip clock num" title="Giờ trong sân — đổi trong Cài đặt">09:00</span>
+      <div class="group modes" role="group" aria-label="Chế độ xem">
+        <button type="button" class="icon-btn" id="mode-walk" data-mode="walk" data-icon="walk" aria-label="Đi bộ" aria-pressed="false" data-tip="Đi bộ" data-kbd="1"></button>
+        <button type="button" class="icon-btn" id="mode-orbit" data-mode="orbit" data-icon="map" aria-label="Bản đồ" aria-pressed="true" data-tip="Bản đồ" data-kbd="2"></button>
+        <button type="button" class="icon-btn" id="mode-cine" data-mode="cine" data-icon="film" aria-label="Quay cảnh" aria-pressed="false" data-tip="Quay cảnh" data-kbd="3"></button>
+      </div>
+      <button type="button" class="icon-btn" id="open-menu" data-icon="menu" aria-label="Menu" data-tip="Menu" data-kbd="Esc"></button>
+    </div>
+
+    <section id="run" class="panel run" data-show="walk" aria-labelledby="run-title">
+      <div class="run-head">
+        <h2 id="run-title">Deadline</h2>
+        <span id="run-time" class="num" aria-label="Thời gian ván">0:00</span>
+      </div>
+      <div class="run-slots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p id="run-text" aria-live="polite">Nhặt ba tờ trong sân</p>
+      <button type="button" id="run-again" class="btn small" data-icon="restart" hidden><span>Chơi lại</span></button>
+    </section>
+
+    <nav id="floors" class="panel floors" data-show="orbit" aria-label="Cắt nhà HUS theo tầng">
+      <h2>Tầng HUS</h2>
+      <div id="floor-buttons" role="group" aria-label="Chọn tầng"></div>
+    </nav>
+
+    <aside id="map-panel" class="panel map-panel" data-show="walk orbit" aria-label="Bản đồ nhỏ">
+      <div id="minimap-canvas"></div>
+      <p id="map-where"></p>
+    </aside>
+
+    <div id="stair" class="panel prompt" data-show="walk" hidden>
+      <span id="stair-text">Cầu thang</span>
+      <div class="prompt-actions">
+        <button type="button" class="btn" id="stair-down" data-icon="down"><span>Xuống</span><kbd>Q</kbd></button>
+        <button type="button" class="btn" id="stair-up" data-icon="up"><span>Lên</span><kbd>E</kbd></button>
+      </div>
+    </div>
+
+    <div id="cinebar" class="panel cinebar" data-show="cine">
+      <button type="button" class="icon-btn" id="cine-pause" data-icon="pause" aria-label="Tạm dừng" data-tip="Tạm dừng"></button>
+      <button type="button" class="icon-btn" id="cine-reset" data-icon="restart" aria-label="Về đầu" data-tip="Về đầu"></button>
+      <div class="cine-track" aria-hidden="true"><i id="cine-fill"></i></div>
+      <span id="cine-time" class="num">0:00 / 0:18</span>
+    </div>
+
+    <p id="hint" class="hint" hidden></p>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <div id="touch" hidden>
+    <div id="stick" class="pad stick" aria-label="Kéo để đi"><i id="knob"></i></div>
+    <button type="button" id="jump" class="pad jump" aria-label="Nhảy">Nhảy</button>
+    <div id="lookpad" class="pad lookpad" aria-label="Kéo để nhìn"></div>
+  </div>
+
+  <button type="button" id="reveal" class="btn reveal" data-icon="eye" hidden><span>Hiện giao diện</span><kbd>H</kbd></button>
+
+  <!-- Screens (pushed on a stack; Esc closes the top one) -->
+  <dialog id="scr-pause" class="sheet sheet-narrow" aria-labelledby="pause-h">
+    <header class="sheet-head"><h2 id="pause-h">Tạm dừng</h2><button type="button" class="icon-btn" data-close data-icon="close" aria-label="Đóng"></button></header>
+    <nav class="sheet-body menu-list" aria-label="Menu">
+      <button type="button" class="btn primary big" id="p-resume" data-icon="play" data-autofocus><span>Tiếp tục</span></button>
+      <button type="button" class="btn big" id="p-howto" data-icon="keys"><span>Cách chơi</span></button>
+      <button type="button" class="btn big" id="p-ach" data-icon="trophy" data-feature="achievements"><span>Thành tựu</span><span class="count num" id="p-ach-count"></span></button>
+      <button type="button" class="btn big" id="p-settings" data-icon="gear"><span>Cài đặt</span></button>
+      <button type="button" class="btn big" id="p-share" data-icon="share" data-feature="share"><span>Chia sẻ</span></button>
+      <button type="button" class="btn big" id="p-hide" data-icon="eyeOff"><span>Ẩn giao diện</span><kbd>H</kbd></button>
+      <button type="button" class="btn big" id="p-restart" data-icon="restart"><span>Chơi lại từ cổng HUS</span></button>
+      <button type="button" class="btn big ghost" id="p-home" data-icon="home"><span>Về màn hình chính</span></button>
+    </nav>
+  </dialog>
+
+  <dialog id="scr-settings" class="sheet" aria-labelledby="settings-h">
+    <header class="sheet-head"><h2 id="settings-h">Cài đặt</h2><button type="button" class="icon-btn" data-close data-icon="close" aria-label="Đóng" data-autofocus></button></header>
+    <div class="sheet-body" id="settings-body"></div>
+  </dialog>
+
+  <dialog id="scr-achievements" class="sheet" aria-labelledby="ach-h">
+    <header class="sheet-head"><h2 id="ach-h">Thành tựu</h2><button type="button" class="icon-btn" data-close data-icon="close" aria-label="Đóng" data-autofocus></button></header>
+    <div class="sheet-body" id="ach-body"></div>
+  </dialog>
+
+  <dialog id="scr-share" class="sheet" aria-labelledby="share-h">
+    <header class="sheet-head"><h2 id="share-h">Chia sẻ</h2><button type="button" class="icon-btn" data-close data-icon="close" aria-label="Đóng"></button></header>
+    <div class="sheet-body share">
+      <figure class="share-shot"><img id="share-img" alt="Ảnh chụp cảnh hiện tại" /><figcaption>Ảnh chụp cảnh hiện tại, chưa có nhãn chữ.</figcaption></figure>
+      <div class="share-side">
+        <label class="set-label" for="share-text">Nội dung sẽ gửi</label>
+        <textarea id="share-text" rows="4" readonly></textarea>
+        <div class="share-actions">
+          <button type="button" class="btn primary" id="share-native" data-icon="share" data-autofocus><span>Chia sẻ…</span></button>
+          <button type="button" class="btn" id="share-copy" data-icon="copy"><span>Chép liên kết và lời mời</span></button>
+          <button type="button" class="btn" id="share-shot" data-icon="download"><span>Tải ảnh màn hình</span></button>
+        </div>
+        <p id="share-status" class="set-status" role="status"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="scr-howto" class="sheet" aria-labelledby="howto-h">
+    <header class="sheet-head"><h2 id="howto-h">Cách chơi</h2><button type="button" class="icon-btn" data-close data-icon="close" aria-label="Đóng" data-autofocus></button></header>
+    <div class="sheet-body prose">
+      <p>Ba tờ deadline màu vàng nằm rải trong sân. Đi bộ tới gần để nhặt, đủ ba tờ thì ra cổng USSH hoặc cổng HUS để nộp. Đồng hồ ván chạy khi bạn đi bộ. Trò chơi giả, không phải chuyện thật ở trường.</p>
+      <table class="keys" id="howto-keys"></table>
+      <p>Trong nhà HUS, tầng trên tự ẩn để thấy đường và số phòng gần nhất hiện quanh bạn. Ô vàng dưới chân là cầu thang. Nhà USSH là khối kín, không vào được.</p>
+      <p>Trên điện thoại: kéo nút tròn bên trái để đi, kéo nửa phải màn hình để nhìn.</p>
+    </div>
+  </dialog>
+
+  <dialog id="scr-about" class="sheet" aria-labelledby="about-h">
+    <header class="sheet-head"><h2 id="about-h">Giới thiệu và nguồn</h2><button type="button" class="icon-btn" data-close data-icon="close" aria-label="Đóng" data-autofocus></button></header>
+    <div class="sheet-body prose">
+      <p>Bản đồ khối đơn giản của khu USSH và HUS ở 334–336 Nguyễn Trãi, Hà Nội. Vị trí tương đối lấy theo sơ đồ trong <code>docs/map</code>. Kích thước, chiều cao, cổng và cây là ước lượng, không phải số đo.</p>
+      <p>Nhà USSH (B, B-C, C, D, E, G, H, căng tin) là khối kín. HUS có T1 chữ U, T2, T3, T4, T5, nhà Chuyên đề và căng tin.</p>
+      <p>Số tầng và phòng nào ở tầng nào lấy từ bảng chỉ dẫn HUS (T1 4 tầng, T2–T4 5 tầng, T5 7 tầng, Chuyên đề 4 tầng), thêm vài phòng thí nghiệm theo danh sách ĐHQGHN năm 2014. Thứ tự phòng dọc hành lang do máy xếp: số phòng cho biết tầng, không chỉ đúng vị trí. Nhà vệ sinh đặt theo biểu tượng WC trên bảng chỉ dẫn tầng trệt, lặp lại ở mọi tầng.</p>
+      <p>Lối đi từ cổng HUS qua sảnh T1, lối có mái, sảnh T2 ra vườn được làm rộng hơn thật để dễ đi. Phối cảnh cải tạo USSH năm 2024 không được dựng. Logo HUS trên mặt T5 dùng file người dùng gửi.</p>
+      <p id="about-meta" class="muted"></p>
+    </div>
+  </dialog>
+
+  <dialog id="scr-confirm" class="sheet sheet-narrow" aria-labelledby="confirm-h">
+    <header class="sheet-head"><h2 id="confirm-h">Xác nhận</h2></header>
+    <div class="sheet-body">
+      <p id="confirm-text"></p>
+      <div class="confirm-actions">
+        <button type="button" class="btn" id="confirm-no" data-autofocus>Giữ lại</button>
+        <button type="button" class="btn danger" id="confirm-yes">Xoá</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
