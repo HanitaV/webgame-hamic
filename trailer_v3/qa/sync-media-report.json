@@ -1,0 +1,27 @@
+{
+  "videos": [
+    {
+      "file": "trailer_v3\\output\\Hamic_Trailer_V3_16x9_synced.mp4",
+      "resolution": "1920x1080",
+      "frames": "1820",
+      "videoDuration": "60.666667",
+      "audioDuration": "60.666667"
+    },
+    {
+      "file": "trailer_v3\\output\\Hamic_Trailer_V3_Reels_synced.mp4",
+      "resolution": "1080x1920",
+      "frames": "1820",
+      "videoDuration": "60.666667",
+      "audioDuration": "60.666667"
+    },
+    {
+      "file": "trailer_v3\\output\\Hamic_Trailer_V3_Reels_synced_clean.mp4",
+      "resolution": "1080x1920",
+      "frames": "1820",
+      "videoDuration": "60.666667",
+      "audioDuration": "60.666667"
+    }
+  ],
+  "cues": 48,
+  "captionOverlap": false
+}

@@ -63,6 +63,7 @@ export function screenSettings(root: HTMLElement) {
         }, "opt");
         node = b;
       }
+      node.dataset.opt = o.key;
       const show = () => (help.textContent = t(o.help));
       node.addEventListener("pointerenter", show);
       node.addEventListener("focusin", show);

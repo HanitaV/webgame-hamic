@@ -69,6 +69,15 @@ export function screenWalk(root: HTMLElement) {
   const slideLabels = (name: string) => ({ hide: t("ui.slideHide", { name }), show: t("ui.slideShow", { name }) });
   const hudDock = slideDock("left", "hud", hud, slideLabels(t("story.title")));
   const radioDock = slideDock("left", "radio", radio, slideLabels(t("story.radio")), { clipped: true });
+  radioDock.setCollapsed(true);
+  let hudMoreOpen = false;
+  let radioTimer = 0;
+  function showRadio(text: string) {
+    radioText.textContent = text;
+    radioDock.setCollapsed(false);
+    clearTimeout(radioTimer);
+    radioTimer = window.setTimeout(() => { radioDock.setCollapsed(true); }, 6500);
+  }
   const portalDock = slideDock("right", "room", portal, slideLabels(t("story.space.confirmTitle")), { clipped: true });
   const fabDock = slideDock("right", "fab", fab, slideLabels(t("story.talk")));
   const view = el("div", { class: "walk-screen" });
@@ -100,6 +109,7 @@ export function screenWalk(root: HTMLElement) {
     dialog.classList.remove("walk-ending");
     dialogOpen = false; dialog.hidden = true; hudDock.root.inert = false; radioDock.root.inert = false; mapDock.root.inert = false; portalDock.root.inert = false; controls.inert = false; fabDock.root.inert = false; pauseWalk(false);
     render();
+
     hud.querySelector<HTMLButtonElement>("[data-talk]")?.focus({ preventScroll: true });
   }
   function openDialog(focusTop = false, canClose = true) {
@@ -136,7 +146,7 @@ export function screenWalk(root: HTMLElement) {
     placeAll();
     const target = cur ? placeOf(cur.npc).node : placeOf("chief").node;
     walkTarget(target);
-    radioText.textContent = t(chapter.travel);
+    if (radioDock.collapsed() || !radioText.textContent) radioText.textContent = t(chapter.travel);
     const unread = Math.max(0, deriveChat() - s.chatSeen);
     const talk = btn(t("story.talk"), () => interact(), "primary", { disabled: true, "data-talk": true }, "chat");
     const tool = (label: string, fn: () => void, ic: Parameters<typeof btn>[4], attrs: Record<string, string | boolean>, extra = "") =>
@@ -149,15 +159,17 @@ export function screenWalk(root: HTMLElement) {
       el("p", { class: "walk-objective", "data-objective": true, text: cur ? `${t(cur.objective)} · ${nodeLabel(target)}` : t("story.ui.done") }),
       el("div", { class: "row hud-actions" }, btn(t("story.travel"), () => { held.clear(); walkAxis(0, 0); walkTo(target); nudged = true; }, "small", { "data-travel": true }, "route"), talk,
         ...(cur ? [] : [btn(t("story.ui.finale"), () => finale(), "primary", { "data-finale": true }, "play")])),
-      el("small", { class: "muted hud-near", "data-nearby-npc": true }),
+      el("small", { class: "muted hud-near", "data-nearby-npc": true, hidden: true }),
       el("div", { class: "row walk-tools" },
         tool(t("story.ui.notebook", { n: storyEvidence(st, s).length }), () => notebook("evidence"), "book", { "data-notebook": true }),
         tool(t("story.ui.chat", { n: unread }), chat, "chat", { "data-chat": true }, unread ? " has-unread" : ""),
         tool(t("story.ui.lampCount", { n: s.lamps.length, max: st.lamps.need }), () => notebook("lamps"), "lamp", { "data-lamp-count": true })),
-      el("details", { class: "hud-more", open: true }, el("summary", { text: t("story.ui.more") }),
+      el("details", { class: "hud-more", open: hudMoreOpen || developerMode() }, el("summary", { text: t("story.ui.more") }),
         el("small", { class: "muted", text: t(DATA.story.difficulties[difficulty()].name) }),
         el("small", { class: "muted", text: t(DATA.map.atmosphere.filter((f) => f.step <= storyTime(st, s)).at(-1)!.label), "data-time-of-day": true }),
-        el("small", { class: "muted", text: t("story.ui.keys") })));
+        el("small", { class: "muted hud-keys", text: t("story.ui.keys") })));
+    const hudMoreEl = hud.querySelector<HTMLDetailsElement>(".hud-more")!;
+    hudMoreEl.addEventListener("toggle", () => { hudMoreOpen = hudMoreEl.open; });
     fab.replaceChildren(); fab.dataset.mode = "";
     map.draw();
     if (developerMode()) hud.querySelector(".hud-more")!.append(devTools());
@@ -224,7 +236,7 @@ export function screenWalk(root: HTMLElement) {
         if (droneStation) portal.append(btn(t("story.drone.switchMode", { mode: t(`story.drone.mode.${getDroneStationMode()}`) }), () => {
           const m = cycleDroneStationMode();
           sfx.ok();
-          radioText.textContent = t(`story.drone.radio.${m}`);
+          showRadio(t(`story.drone.radio.${m}`));
           syncInteraction();
         }, "small ghost", { "data-drone-station": droneStation.node }, "sparkle"));
       }
@@ -235,7 +247,7 @@ export function screenWalk(root: HTMLElement) {
     portalDock.root.hidden = portal.hidden;
     const talk = hud.querySelector<HTMLButtonElement>("[data-talk]");
     const name = hud.querySelector<HTMLElement>("[data-nearby-npc]");
-    if (talk) { talk.disabled = !npc && !egg; talk.dataset.npc = npc?.id ?? ""; }
+    if (talk) { talk.disabled = !npc && !egg; talk.hidden = talk.disabled; talk.dataset.npc = npc?.id ?? ""; }
     if (name) {
       name.textContent = npc
         ? t("story.ui.near", { name: t(npc.name) })
@@ -243,7 +255,7 @@ export function screenWalk(root: HTMLElement) {
           ? t("story.ui.near", { name: t(egg.title) })
           : inside
             ? t("story.ui.inside", { name: t(state.section?.title ?? inside.interiorTitle ?? inside.name) })
-            : t("story.ui.far");
+            : t("story.ui.far"); name.hidden = !npc && !egg && !inside;
     }
     // Nút hành động lớn cho ngón cái (góc phải dưới): trò chuyện, khám phá Easter Egg hoặc thắp đèn.
     const lampNode = lampHere();
@@ -368,17 +380,18 @@ export function screenWalk(root: HTMLElement) {
     if (!n) return;
     save.set({ lamps: [...state().lamps, n] });
     setLamps(lampNodes, state().lamps);
-    radioText.textContent = t(st.lamps.notes[n]);
+    showRadio(t(st.lamps.notes[n]));
     const count = state().lamps.length;
     if (count === lampNodes.length) {
       sfx.light();
-      radioText.textContent = t("story.lamps.all19Radio");
+      showRadio(t("story.lamps.all19Radio"));
       toast(t("story.lamps.all19Title"), t("story.lamps.all19Toast"), "info");
     } else {
       toast(t("story.ui.lampLit"), count === st.lamps.need ? t("story.ui.lampDone", { n: count }) : t("story.ui.lampCount", { n: count, max: st.lamps.need }), "info");
     }
     checkAchievements();
     render();
+
   }
 
   function interact(id?: string) {
@@ -710,18 +723,17 @@ export function screenWalk(root: HTMLElement) {
         triggerDroneChord();
         pulseCore();
         unlockNumberFact(70);
-        radioText.textContent = t("story.easter.chord257");
+        showRadio(t("story.easter.chord257"));
         toast(t("story.easter.chord257Title"), t("story.easter.chord257Toast"), "info");
       }
     }
   };
   const keyup = (e: KeyboardEvent) => { held.delete(e.code); if (mappings[e.code]) applyHeld(); };
   const blur = () => { held.clear(); walkAxis(0, 0); };
-  const syncHudSpace = () => { const more = hud.querySelector<HTMLDetailsElement>(".hud-more"); if (more && window.innerHeight > 520) more.open = true; };
   const visibility = () => { if (document.hidden) { blur(); pauseWalk(true); } else if (!dialogOpen && !showing) pauseWalk(false); };
   const stick = joystick(t("story.ui.joystick"), (x, z) => { if (showing || dialogOpen) return; walkAxis(x, z); });
   controls.append(stick.root);
-  document.addEventListener("keydown", keydown); document.addEventListener("keyup", keyup); window.addEventListener("blur", blur); window.addEventListener("resize", syncHudSpace); document.addEventListener("visibilitychange", visibility);
+  document.addEventListener("keydown", keydown); document.addEventListener("keyup", keyup); window.addEventListener("blur", blur); document.addEventListener("visibilitychange", visibility);
   const offInteraction = onCharacterInteraction((id) => interact(id));
   const offEggInteraction = onEasterEggInteraction((id) => inspectEgg(id));
   const timer = window.setInterval(syncInteraction, 120);
@@ -732,7 +744,7 @@ export function screenWalk(root: HTMLElement) {
     const cur = stop();
     if (cur && !dialogOpen && !nudged && state().activeSeconds - stopStarted > 75) {
       nudged = true;
-      radioText.textContent = t("story.ui.nudge", { name: npcName(cur.npc), place: nodeLabel(placeOf(cur.npc).node) });
+      showRadio(t("story.ui.nudge", { name: npcName(cur.npc), place: nodeLabel(placeOf(cur.npc).node) }));
       hud.querySelector("[data-travel]")?.classList.add("pulse");
     }
   }, 1000);
@@ -751,8 +763,8 @@ export function screenWalk(root: HTMLElement) {
   return () => {
     portalDock.root.remove();
     film?.dispose(); film = null;
-    disposed = true; offInteraction(); offEggInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); skipShow();
-    document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); window.removeEventListener("resize", syncHudSpace); document.removeEventListener("visibilitychange", visibility);
+    disposed = true; offInteraction(); offEggInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); clearTimeout(radioTimer); skipShow();
+    document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); document.removeEventListener("visibilitychange", visibility);
     endShow(); walkMode(false);
   };
 }

@@ -1,0 +1,1928 @@
+{
+  "version": "3.0.0",
+  "title": "HAMIC — Đêm Toán Tin (Trailer V3: Speedrun Gone Wrong)",
+  "brand": "HAMIC",
+  "fps": 30,
+  "durationSec": 59.0,
+  "totalFrames": 1770,
+  "primaryResolution": {
+    "width": 1080,
+    "height": 1920,
+    "aspect": "9:16"
+  },
+  "secondaryResolution": {
+    "width": 1920,
+    "height": 1080,
+    "aspect": "16:9"
+  },
+  "safeZone9x16": {
+    "width": 900,
+    "height": 1400,
+    "topClearPx": 120,
+    "bottomClearPx": 320,
+    "rightClearPx": 120
+  },
+  "shots": [
+    {
+      "id": "S01_HOOK_HUS_LIFT",
+      "section": "cold_open",
+      "startSec": 0.0,
+      "endSec": 3.1,
+      "startFrame": 0,
+      "endFrame": 93,
+      "cameraMode": "low_angle_foreground_hus",
+      "description": "Frame 0 HUS already leaving ground in close foreground silhouette; ground shadow separates; ĐỪNG BẤM! hook."
+    },
+    {
+      "id": "S02_HOOK_USSH_DRONE",
+      "section": "cold_open",
+      "startSec": 3.1,
+      "endSec": 6.3,
+      "startFrame": 93,
+      "endFrame": 189,
+      "cameraMode": "chase_fpv_ussh_dodge",
+      "description": "USSH lifts off after HUS; hero quadcopter banks hard dodging between airborne buildings; triggers rewind at 5.7s."
+    },
+    {
+      "id": "S03_REWIND_GLITCH_LED",
+      "section": "rewind_glitches",
+      "startSec": 6.3,
+      "endSec": 9.65,
+      "startFrame": 189,
+      "endFrame": 290,
+      "cameraMode": "macro_stage_led_glitch",
+      "description": "Fast visual rewind settles on central stage; LED #6 wobbles out-of-phase in red/magenta error."
+    },
+    {
+      "id": "S04_GLITCH_FILES_MIRROR_NOTE",
+      "section": "rewind_glitches",
+      "startSec": 9.65,
+      "endSec": 13.0,
+      "startFrame": 290,
+      "endFrame": 390,
+      "cameraMode": "whip_macro_glitches",
+      "description": "Rapid physical glitches: duplicate 3D file slabs collide, reversed mirror shoots laser beam off-target, yellow _ghichu post-it note dissolves into cubes."
+    },
+    {
+      "id": "S05_DECISION_01_02",
+      "section": "speedrun_8",
+      "startSec": 13.0,
+      "endSec": 16.4,
+      "startFrame": 390,
+      "endFrame": 492,
+      "cameraMode": "speedrun_led_mirror",
+      "description": "01/08 LED #6 snaps into golden series sync; 02/08 2x2 rotation matrix R physically rotates mirror normal to lock beam onto stage crest."
+    },
+    {
+      "id": "S06_DECISION_03_04",
+      "section": "speedrun_8",
+      "startSec": 16.4,
+      "endSec": 19.8,
+      "startFrame": 492,
+      "endFrame": 594,
+      "cameraMode": "speedrun_parabola_graph",
+      "description": "03/08 derivative tangent curve guides firework arc to apex; 04/08 shortest-path graph pulses cyan route along campus walkways."
+    },
+    {
+      "id": "S07_DECISION_05_06",
+      "section": "speedrun_8",
+      "startSec": 19.8,
+      "endSec": 22.2,
+      "startFrame": 594,
+      "endFrame": 666,
+      "cameraMode": "speedrun_hash_bridge",
+      "description": "05/08 SHA-256 hash locks canonical file slab; 06/08 _ghichu packet streams across light bridge between HUS and USSH."
+    },
+    {
+      "id": "S08_DECISION_07_08_CALM",
+      "section": "speedrun_8",
+      "startSec": 22.2,
+      "endSec": 27.1,
+      "startFrame": 666,
+      "endFrame": 813,
+      "cameraMode": "speedrun_drones_calm",
+      "description": "07/08 70 drones lock into glowing '70' formation; 08/08 USSH memory frames snap into place; 25.2-27.1s golden calm beat."
+    },
+    {
+      "id": "S09_MISCLICK_BUTTON",
+      "section": "misclick_countdown",
+      "startSec": 27.1,
+      "endSec": 30.13,
+      "startFrame": 813,
+      "endFrame": 904,
+      "cameraMode": "macro_button_press",
+      "description": "3D [THÊM PHÁO] button & finger/cursor: hesitation anticipation -> squash & shadow contact at 29.75s -> overshoot recoil -> 0.35s near-silence drop."
+    },
+    {
+      "id": "S10_COUNTDOWN_3_2_1",
+      "section": "misclick_countdown",
+      "startSec": 30.13,
+      "endSec": 33.0,
+      "startFrame": 904,
+      "endFrame": 990,
+      "cameraMode": "triple_cut_countdown",
+      "description": "Frame-exact 3->2->1 countdown paired to 3 physical objects: 3 = HUS Core, 2 = USSH E, 1 = T3 Console."
+    },
+    {
+      "id": "S11_DISASTER_GROUND_HUS",
+      "section": "disaster_launch",
+      "startSec": 33.0,
+      "endSec": 37.1,
+      "startFrame": 990,
+      "endFrame": 1113,
+      "cameraMode": "low_angle_hus_launch",
+      "description": "Ground trembles & foundation compresses; HUS lifts off FIRST with clear dark ground shadow separation and heavy stone arc."
+    },
+    {
+      "id": "S12_DISASTER_USSH_DRONE",
+      "section": "disaster_launch",
+      "startSec": 37.1,
+      "endSec": 39.6,
+      "startFrame": 1113,
+      "endFrame": 1188,
+      "cameraMode": "fpv_ussh_delayed_launch",
+      "description": "After clear lag, USSH lifts off SECOND on its own rolled trajectory; hero drone dives evasively between rising buildings."
+    },
+    {
+      "id": "S13_DISASTER_WIDE_HERO",
+      "section": "disaster_launch",
+      "startSec": 39.6,
+      "endSec": 43.0,
+      "startFrame": 1188,
+      "endFrame": 1290,
+      "cameraMode": "wide_hero_both_campuses",
+      "description": "Wide low-horizon hero shot showing both HUS and USSH airborne in playful simulation physics with festival fireworks."
+    },
+    {
+      "id": "S14_RELIEF_ROLLBACK",
+      "section": "relief_rollback",
+      "startSec": 43.0,
+      "endSec": 46.5,
+      "startFrame": 1290,
+      "endFrame": 1395,
+      "cameraMode": "rollback_restore",
+      "description": "Freeze punchline CHỈ LÀ MÔ PHỎNG; fast reverse rollback sets both campuses gently back onto their foundations intact."
+    },
+    {
+      "id": "S15_EVENT_REVEAL_P1",
+      "section": "event_reveal_cta",
+      "startSec": 46.5,
+      "endSec": 49.8,
+      "startFrame": 1395,
+      "endFrame": 1494,
+      "cameraMode": "festival_reveal_orbit",
+      "description": "Lit campus celebration + HAMIC logo + Phase 1 card: Công bố 01/11 — Đêm Toán Tin."
+    },
+    {
+      "id": "S16_EVENT_REVEAL_P2",
+      "section": "event_reveal_cta",
+      "startSec": 49.8,
+      "endSec": 53.9,
+      "startFrame": 1494,
+      "endFrame": 1617,
+      "cameraMode": "festival_booth_focus",
+      "description": "Phase 2 Location card: Gian hàng CLB Toán Tin HAMIC · Sự kiện Chào tân HUS · Cơ sở Nguyễn Trãi."
+    },
+    {
+      "id": "S17_CTA_CHOICE_LOOP",
+      "section": "event_reveal_cta",
+      "startSec": 53.9,
+      "endSec": 59.0,
+      "startFrame": 1617,
+      "endFrame": 1770,
+      "cameraMode": "cta_choice_to_frame0_loop",
+      "description": "2-outcome choice (Cứu đêm hội vs Phóng cả hai trường lên trời) and final 1.2s camera/rig rhyme matching Frame 0 for seamless loop."
+    }
+  ],
+  "clauses": [
+    {
+      "id": 1,
+      "section": "cold_open",
+      "sourceStartSec": 0.0,
+      "sourceEndSec": 0.78,
+      "startSec": 0.12,
+      "endSec": 0.9,
+      "startFrame": 4,
+      "endFrame": 27,
+      "text": "Đừng bấm nút đó!",
+      "ttsText": "Đừng bấm nút đó!",
+      "tokens": [
+        {
+          "text": "Đừng",
+          "startMs": 170,
+          "endMs": 385,
+          "clauseId": 1,
+          "section": "cold_open"
+        },
+        {
+          "text": "bấm",
+          "startMs": 385,
+          "endMs": 635,
+          "clauseId": 1,
+          "section": "cold_open"
+        },
+        {
+          "text": "nút",
+          "startMs": 635,
+          "endMs": 760,
+          "clauseId": 1,
+          "section": "cold_open"
+        },
+        {
+          "text": "đó!",
+          "startMs": 760,
+          "endMs": 890,
+          "clauseId": 1,
+          "section": "cold_open"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "section": "cold_open",
+      "sourceStartSec": 1.115,
+      "sourceEndSec": 1.4,
+      "startSec": 1.15,
+      "endSec": 1.435,
+      "startFrame": 34,
+      "endFrame": 43,
+      "text": "Muộn rồi,",
+      "ttsText": "Muộn rồi,",
+      "tokens": [
+        {
+          "text": "Muộn",
+          "startMs": 1160,
+          "endMs": 1350,
+          "clauseId": 2,
+          "section": "cold_open"
+        },
+        {
+          "text": "rồi,",
+          "startMs": 1350,
+          "endMs": 1410,
+          "clauseId": 2,
+          "section": "cold_open"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "section": "cold_open",
+      "sourceStartSec": 1.87,
+      "sourceEndSec": 2.815,
+      "startSec": 1.8,
+      "endSec": 2.745,
+      "startFrame": 54,
+      "endFrame": 82,
+      "text": "HUS đang bay!",
+      "ttsText": "Hớt đang bay!",
+      "tokens": [
+        {
+          "text": "HUS",
+          "startMs": 1805,
+          "endMs": 2295,
+          "clauseId": 3,
+          "section": "cold_open"
+        },
+        {
+          "text": "đang",
+          "startMs": 2295,
+          "endMs": 2580,
+          "clauseId": 3,
+          "section": "cold_open"
+        },
+        {
+          "text": "bay!",
+          "startMs": 2580,
+          "endMs": 2740,
+          "clauseId": 3,
+          "section": "cold_open"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "section": "cold_open",
+      "sourceStartSec": 3.3,
+      "sourceEndSec": 3.475,
+      "startSec": 3.1,
+      "endSec": 3.275,
+      "startFrame": 93,
+      "endFrame": 98,
+      "text": "Ủa,",
+      "ttsText": "Ủa,",
+      "tokens": [
+        {
+          "text": "Ủa,",
+          "startMs": 3112,
+          "endMs": 3269,
+          "clauseId": 4,
+          "section": "cold_open"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "section": "cold_open",
+      "sourceStartSec": 3.87,
+      "sourceEndSec": 5.055,
+      "startSec": 3.55,
+      "endSec": 4.735,
+      "startFrame": 106,
+      "endFrame": 142,
+      "text": "USSH cũng bay theo?!",
+      "ttsText": "U S S H cũng bay theo?!",
+      "tokens": [
+        {
+          "text": "USSH",
+          "startMs": 3560,
+          "endMs": 4185,
+          "clauseId": 5,
+          "section": "cold_open"
+        },
+        {
+          "text": "cũng",
+          "startMs": 4185,
+          "endMs": 4265,
+          "clauseId": 5,
+          "section": "cold_open"
+        },
+        {
+          "text": "bay",
+          "startMs": 4265,
+          "endMs": 4510,
+          "clauseId": 5,
+          "section": "cold_open"
+        },
+        {
+          "text": "theo?!",
+          "startMs": 4510,
+          "endMs": 4725,
+          "clauseId": 5,
+          "section": "cold_open"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "section": "cold_open",
+      "sourceStartSec": 5.5,
+      "sourceEndSec": 5.775,
+      "startSec": 5.4,
+      "endSec": 5.675,
+      "startFrame": 162,
+      "endFrame": 170,
+      "text": "Tua lại!",
+      "ttsText": "Tua lại!",
+      "tokens": [
+        {
+          "text": "Tua",
+          "startMs": 5410,
+          "endMs": 5520,
+          "clauseId": 6,
+          "section": "cold_open"
+        },
+        {
+          "text": "lại!",
+          "startMs": 5520,
+          "endMs": 5660,
+          "clauseId": 6,
+          "section": "cold_open"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "section": "rewind_glitches",
+      "sourceStartSec": 6.255,
+      "sourceEndSec": 7.18,
+      "startSec": 6.4,
+      "endSec": 7.325,
+      "startFrame": 192,
+      "endFrame": 220,
+      "text": "Đêm hội sắp bắt đầu,",
+      "ttsText": "Đêm hội sắp bắt đầu,",
+      "tokens": [
+        {
+          "text": "Đêm",
+          "startMs": 6415,
+          "endMs": 6520,
+          "clauseId": 7,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "hội",
+          "startMs": 6520,
+          "endMs": 6800,
+          "clauseId": 7,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "sắp",
+          "startMs": 6800,
+          "endMs": 6985,
+          "clauseId": 7,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "bắt",
+          "startMs": 6985,
+          "endMs": 7080,
+          "clauseId": 7,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "đầu,",
+          "startMs": 7080,
+          "endMs": 7315,
+          "clauseId": 7,
+          "section": "rewind_glitches"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "section": "rewind_glitches",
+      "sourceStartSec": 7.43,
+      "sourceEndSec": 8.575,
+      "startSec": 7.45,
+      "endSec": 8.595,
+      "startFrame": 224,
+      "endFrame": 258,
+      "text": "mà hệ thống thì lỗi tùm lum:",
+      "ttsText": "mà hệ thống thì lỗi tùm lum:",
+      "tokens": [
+        {
+          "text": "mà",
+          "startMs": 7465,
+          "endMs": 7585,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "hệ",
+          "startMs": 7585,
+          "endMs": 7800,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "thống",
+          "startMs": 7800,
+          "endMs": 7900,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "thì",
+          "startMs": 7900,
+          "endMs": 8125,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "lỗi",
+          "startMs": 8125,
+          "endMs": 8310,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "tùm",
+          "startMs": 8310,
+          "endMs": 8470,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "lum:",
+          "startMs": 8470,
+          "endMs": 8580,
+          "clauseId": 8,
+          "section": "rewind_glitches"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "section": "rewind_glitches",
+      "sourceStartSec": 8.905,
+      "sourceEndSec": 9.72,
+      "startSec": 8.8,
+      "endSec": 9.615,
+      "startFrame": 264,
+      "endFrame": 288,
+      "text": "đèn loạn nhịp,",
+      "ttsText": "đèn loạn nhịp,",
+      "tokens": [
+        {
+          "text": "đèn",
+          "startMs": 8815,
+          "endMs": 9200,
+          "clauseId": 9,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "loạn",
+          "startMs": 9200,
+          "endMs": 9415,
+          "clauseId": 9,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "nhịp,",
+          "startMs": 9415,
+          "endMs": 9605,
+          "clauseId": 9,
+          "section": "rewind_glitches"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "section": "rewind_glitches",
+      "sourceStartSec": 10.155,
+      "sourceEndSec": 11.17,
+      "startSec": 9.8,
+      "endSec": 10.815,
+      "startFrame": 294,
+      "endFrame": 324,
+      "text": "file trùng tên,",
+      "ttsText": "phai trùng tên,",
+      "tokens": [
+        {
+          "text": "file",
+          "startMs": 9810,
+          "endMs": 10070,
+          "clauseId": 10,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "trùng",
+          "startMs": 10070,
+          "endMs": 10565,
+          "clauseId": 10,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "tên,",
+          "startMs": 10565,
+          "endMs": 10780,
+          "clauseId": 10,
+          "section": "rewind_glitches"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "section": "rewind_glitches",
+      "sourceStartSec": 11.45,
+      "sourceEndSec": 12.26,
+      "startSec": 10.95,
+      "endSec": 11.76,
+      "startFrame": 328,
+      "endFrame": 353,
+      "text": "gương ngược,",
+      "ttsText": "gương ngược,",
+      "tokens": [
+        {
+          "text": "gương",
+          "startMs": 11010,
+          "endMs": 11420,
+          "clauseId": 11,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "ngược,",
+          "startMs": 11420,
+          "endMs": 11750,
+          "clauseId": 11,
+          "section": "rewind_glitches"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "section": "rewind_glitches",
+      "sourceStartSec": 12.755,
+      "sourceEndSec": 13.87,
+      "startSec": 11.85,
+      "endSec": 12.965,
+      "startFrame": 356,
+      "endFrame": 389,
+      "text": "ghi chú bốc hơi!",
+      "ttsText": "ghi chú bốc hơi!",
+      "tokens": [
+        {
+          "text": "ghi",
+          "startMs": 11870,
+          "endMs": 12000,
+          "clauseId": 12,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "chú",
+          "startMs": 12000,
+          "endMs": 12495,
+          "clauseId": 12,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "bốc",
+          "startMs": 12495,
+          "endMs": 12690,
+          "clauseId": 12,
+          "section": "rewind_glitches"
+        },
+        {
+          "text": "hơi!",
+          "startMs": 12690,
+          "endMs": 12945,
+          "clauseId": 12,
+          "section": "rewind_glitches"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "section": "speedrun_8",
+      "sourceStartSec": 14.26,
+      "sourceEndSec": 14.755,
+      "startSec": 13.15,
+      "endSec": 13.645,
+      "startFrame": 394,
+      "endFrame": 409,
+      "text": "Tám quyết định,",
+      "ttsText": "Tám quyết định,",
+      "tokens": [
+        {
+          "text": "Tám",
+          "startMs": 13155,
+          "endMs": 13355,
+          "clauseId": 13,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "quyết",
+          "startMs": 13355,
+          "endMs": 13490,
+          "clauseId": 13,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "định,",
+          "startMs": 13490,
+          "endMs": 13635,
+          "clauseId": 13,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "section": "speedrun_8",
+      "sourceStartSec": 14.965,
+      "sourceEndSec": 15.565,
+      "startSec": 13.75,
+      "endSec": 14.35,
+      "startFrame": 412,
+      "endFrame": 430,
+      "text": "chạy như speedrun:",
+      "ttsText": "chạy như spít-răn:",
+      "tokens": [
+        {
+          "text": "chạy",
+          "startMs": 13915,
+          "endMs": 14040,
+          "clauseId": 14,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "như",
+          "startMs": 14040,
+          "endMs": 14160,
+          "clauseId": 14,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "speedrun:",
+          "startMs": 14160,
+          "endMs": 14290,
+          "clauseId": 14,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "section": "speedrun_8",
+      "sourceStartSec": 15.975,
+      "sourceEndSec": 17.16,
+      "startSec": 14.8,
+      "endSec": 15.985,
+      "startFrame": 444,
+      "endFrame": 480,
+      "text": "Ma trận căn đèn,",
+      "ttsText": "Ma trận căn đèn,",
+      "tokens": [
+        {
+          "text": "Ma",
+          "startMs": 14820,
+          "endMs": 15265,
+          "clauseId": 15,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "trận",
+          "startMs": 15265,
+          "endMs": 15445,
+          "clauseId": 15,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "căn",
+          "startMs": 15445,
+          "endMs": 15690,
+          "clauseId": 15,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "đèn,",
+          "startMs": 15690,
+          "endMs": 15980,
+          "clauseId": 15,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "section": "speedrun_8",
+      "sourceStartSec": 17.565,
+      "sourceEndSec": 18.85,
+      "startSec": 16.3,
+      "endSec": 17.585,
+      "startFrame": 489,
+      "endFrame": 528,
+      "text": "đạo hàm sửa đường bay,",
+      "ttsText": "đạo hàm sửa đường bay,",
+      "tokens": [
+        {
+          "text": "đạo",
+          "startMs": 16310,
+          "endMs": 16695,
+          "clauseId": 16,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "hàm",
+          "startMs": 16695,
+          "endMs": 16955,
+          "clauseId": 16,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "sửa",
+          "startMs": 16955,
+          "endMs": 17155,
+          "clauseId": 16,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "đường",
+          "startMs": 17155,
+          "endMs": 17355,
+          "clauseId": 16,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "bay,",
+          "startMs": 17355,
+          "endMs": 17560,
+          "clauseId": 16,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "section": "speedrun_8",
+      "sourceStartSec": 19.18,
+      "sourceEndSec": 20.88,
+      "startSec": 17.9,
+      "endSec": 19.6,
+      "startFrame": 537,
+      "endFrame": 588,
+      "text": "đồ thị nối lối,",
+      "ttsText": "đồ thị nối lối,",
+      "tokens": [
+        {
+          "text": "đồ",
+          "startMs": 17920,
+          "endMs": 18295,
+          "clauseId": 17,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "thị",
+          "startMs": 18295,
+          "endMs": 18775,
+          "clauseId": 17,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "nối",
+          "startMs": 18775,
+          "endMs": 19010,
+          "clauseId": 17,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "lối,",
+          "startMs": 19010,
+          "endMs": 19590,
+          "clauseId": 17,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "section": "speedrun_8",
+      "sourceStartSec": 21.175,
+      "sourceEndSec": 22.715,
+      "startSec": 19.9,
+      "endSec": 21.44,
+      "startFrame": 597,
+      "endFrame": 643,
+      "text": "code tìm bug,",
+      "ttsText": "cốt tìm bấc,",
+      "tokens": [
+        {
+          "text": "code",
+          "startMs": 19915,
+          "endMs": 20325,
+          "clauseId": 18,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "tìm",
+          "startMs": 20325,
+          "endMs": 20790,
+          "clauseId": 18,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "bug,",
+          "startMs": 20790,
+          "endMs": 21435,
+          "clauseId": 18,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "section": "speedrun_8",
+      "sourceStartSec": 23.11,
+      "sourceEndSec": 24.5,
+      "startSec": 21.75,
+      "endSec": 23.14,
+      "startFrame": 652,
+      "endFrame": 694,
+      "text": "drone vào đội hình,",
+      "ttsText": "đrôn vào đội hình,",
+      "tokens": [
+        {
+          "text": "drone",
+          "startMs": 21770,
+          "endMs": 22150,
+          "clauseId": 19,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "vào",
+          "startMs": 22150,
+          "endMs": 22400,
+          "clauseId": 19,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "đội",
+          "startMs": 22400,
+          "endMs": 22710,
+          "clauseId": 19,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "hình,",
+          "startMs": 22710,
+          "endMs": 23125,
+          "clauseId": 19,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "section": "speedrun_8",
+      "sourceStartSec": 24.84,
+      "sourceEndSec": 25.145,
+      "startSec": 23.7,
+      "endSec": 24.005,
+      "startFrame": 711,
+      "endFrame": 720,
+      "text": "nhanh lên!",
+      "ttsText": "nhanh lên!",
+      "tokens": [
+        {
+          "text": "nhanh",
+          "startMs": 23765,
+          "endMs": 23825,
+          "clauseId": 20,
+          "section": "speedrun_8"
+        },
+        {
+          "text": "lên!",
+          "startMs": 23825,
+          "endMs": 24000,
+          "clauseId": 20,
+          "section": "speedrun_8"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "section": "misclick_countdown",
+      "sourceStartSec": 25.375,
+      "sourceEndSec": 26.11,
+      "startSec": 24.85,
+      "endSec": 25.585,
+      "startFrame": 746,
+      "endFrame": 768,
+      "text": "Ơ,",
+      "ttsText": "Ơ,",
+      "tokens": [
+        {
+          "text": "Ơ,",
+          "startMs": 24868,
+          "endMs": 25575,
+          "clauseId": 21,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "section": "misclick_countdown",
+      "sourceStartSec": 26.41,
+      "sourceEndSec": 27.85,
+      "startSec": 25.65,
+      "endSec": 27.09,
+      "startFrame": 770,
+      "endFrame": 813,
+      "text": "bên này có nút...",
+      "ttsText": "bên này có nút...",
+      "tokens": [
+        {
+          "text": "bên",
+          "startMs": 25665,
+          "endMs": 26015,
+          "clauseId": 22,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "này",
+          "startMs": 26015,
+          "endMs": 26400,
+          "clauseId": 22,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "có",
+          "startMs": 26400,
+          "endMs": 26650,
+          "clauseId": 22,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "nút...",
+          "startMs": 26650,
+          "endMs": 27070,
+          "clauseId": 22,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "section": "misclick_countdown",
+      "sourceStartSec": 28.17,
+      "sourceEndSec": 29.475,
+      "startSec": 27.15,
+      "endSec": 28.28,
+      "startFrame": 814,
+      "endFrame": 848,
+      "text": "Thêm pháo?",
+      "ttsText": "Thêm pháo?",
+      "tokens": [
+        {
+          "text": "Thêm",
+          "startMs": 27155,
+          "endMs": 27630,
+          "clauseId": 23,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "pháo?",
+          "startMs": 27630,
+          "endMs": 28275,
+          "clauseId": 23,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "section": "misclick_countdown",
+      "sourceStartSec": 29.86,
+      "sourceEndSec": 32.54,
+      "startSec": 28.35,
+      "endSec": 29.85,
+      "startFrame": 850,
+      "endFrame": 896,
+      "text": "Bấm thử thôi mà...",
+      "ttsText": "Bấm thử thôi mà...",
+      "tokens": [
+        {
+          "text": "Bấm",
+          "startMs": 28460,
+          "endMs": 28805,
+          "clauseId": 24,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "thử",
+          "startMs": 28805,
+          "endMs": 29110,
+          "clauseId": 24,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "thôi",
+          "startMs": 29110,
+          "endMs": 29500,
+          "clauseId": 24,
+          "section": "misclick_countdown"
+        },
+        {
+          "text": "mà...",
+          "startMs": 29500,
+          "endMs": 29835,
+          "clauseId": 24,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "section": "misclick_countdown",
+      "sourceStartSec": 34.31,
+      "sourceEndSec": 34.595,
+      "startSec": 30.13,
+      "endSec": 30.415,
+      "startFrame": 904,
+      "endFrame": 912,
+      "text": "Ba...",
+      "ttsText": "Ba...",
+      "tokens": [
+        {
+          "text": "Ba...",
+          "startMs": 30140,
+          "endMs": 30406,
+          "clauseId": 25,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "section": "misclick_countdown",
+      "sourceStartSec": 35.065,
+      "sourceEndSec": 35.365,
+      "startSec": 31.08,
+      "endSec": 31.38,
+      "startFrame": 932,
+      "endFrame": 941,
+      "text": "hai...",
+      "ttsText": "hai...",
+      "tokens": [
+        {
+          "text": "hai...",
+          "startMs": 31090,
+          "endMs": 31373,
+          "clauseId": 26,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "section": "misclick_countdown",
+      "sourceStartSec": 35.72,
+      "sourceEndSec": 35.905,
+      "startSec": 32.02,
+      "endSec": 32.205,
+      "startFrame": 961,
+      "endFrame": 966,
+      "text": "một...",
+      "ttsText": "một...",
+      "tokens": [
+        {
+          "text": "một...",
+          "startMs": 32029,
+          "endMs": 32196,
+          "clauseId": 27,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "section": "misclick_countdown",
+      "sourceStartSec": 36.245,
+      "sourceEndSec": 36.445,
+      "startSec": 32.72,
+      "endSec": 32.92,
+      "startFrame": 982,
+      "endFrame": 988,
+      "text": "chạy!",
+      "ttsText": "chạy!",
+      "tokens": [
+        {
+          "text": "chạy!",
+          "startMs": 32757,
+          "endMs": 32860,
+          "clauseId": 28,
+          "section": "misclick_countdown"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "section": "disaster_launch",
+      "sourceStartSec": 36.915,
+      "sourceEndSec": 37.125,
+      "startSec": 33.15,
+      "endSec": 33.36,
+      "startFrame": 994,
+      "endFrame": 1001,
+      "text": "Khoan!",
+      "ttsText": "Khoan!",
+      "tokens": [
+        {
+          "text": "Khoan!",
+          "startMs": 33163,
+          "endMs": 33350,
+          "clauseId": 29,
+          "section": "disaster_launch"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "section": "disaster_launch",
+      "sourceStartSec": 37.52,
+      "sourceEndSec": 38.68,
+      "startSec": 33.55,
+      "endSec": 34.71,
+      "startFrame": 1006,
+      "endFrame": 1041,
+      "text": "Nền sân sao rung dữ vậy?",
+      "ttsText": "Nền sân sao rung dữ vậy?",
+      "tokens": [
+        {
+          "text": "Nền",
+          "startMs": 33605,
+          "endMs": 33890,
+          "clauseId": 30,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "sân",
+          "startMs": 33890,
+          "endMs": 33950,
+          "clauseId": 30,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "sao",
+          "startMs": 33915,
+          "endMs": 34135,
+          "clauseId": 30,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "rung",
+          "startMs": 34135,
+          "endMs": 34335,
+          "clauseId": 30,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "dữ",
+          "startMs": 34335,
+          "endMs": 34500,
+          "clauseId": 30,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "vậy?",
+          "startMs": 34500,
+          "endMs": 34695,
+          "clauseId": 30,
+          "section": "disaster_launch"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "section": "disaster_launch",
+      "sourceStartSec": 39.07,
+      "sourceEndSec": 40.155,
+      "startSec": 35.2,
+      "endSec": 36.285,
+      "startFrame": 1056,
+      "endFrame": 1089,
+      "text": "HUS bật lên trước,",
+      "ttsText": "Hớt bật lên trước,",
+      "tokens": [
+        {
+          "text": "HUS",
+          "startMs": 35210,
+          "endMs": 35315,
+          "clauseId": 31,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "bật",
+          "startMs": 35315,
+          "endMs": 35650,
+          "clauseId": 31,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "lên",
+          "startMs": 35650,
+          "endMs": 35935,
+          "clauseId": 31,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "trước,",
+          "startMs": 35935,
+          "endMs": 36280,
+          "clauseId": 31,
+          "section": "disaster_launch"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "section": "disaster_launch",
+      "sourceStartSec": 40.465,
+      "sourceEndSec": 41.73,
+      "startSec": 37.45,
+      "endSec": 38.715,
+      "startFrame": 1124,
+      "endFrame": 1161,
+      "text": "USSH bay theo!",
+      "ttsText": "U S S H bay theo!",
+      "tokens": [
+        {
+          "text": "USSH",
+          "startMs": 37460,
+          "endMs": 38200,
+          "clauseId": 32,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "bay",
+          "startMs": 38200,
+          "endMs": 38465,
+          "clauseId": 32,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "theo!",
+          "startMs": 38465,
+          "endMs": 38700,
+          "clauseId": 32,
+          "section": "disaster_launch"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "section": "disaster_launch",
+      "sourceStartSec": 42.025,
+      "sourceEndSec": 44.72,
+      "startSec": 39.85,
+      "endSec": 42.545,
+      "startFrame": 1196,
+      "endFrame": 1276,
+      "text": "Ai nhập nhầm lực đẩy thế này?!",
+      "ttsText": "Ai nhập nhầm lực đẩy thế này?!",
+      "tokens": [
+        {
+          "text": "Ai",
+          "startMs": 39865,
+          "endMs": 40235,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "nhập",
+          "startMs": 40235,
+          "endMs": 40625,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "nhầm",
+          "startMs": 40625,
+          "endMs": 41175,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "lực",
+          "startMs": 41175,
+          "endMs": 41405,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "đẩy",
+          "startMs": 41405,
+          "endMs": 41690,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "thế",
+          "startMs": 41690,
+          "endMs": 42055,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        },
+        {
+          "text": "này?!",
+          "startMs": 42055,
+          "endMs": 42530,
+          "clauseId": 33,
+          "section": "disaster_launch"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "section": "relief_rollback",
+      "sourceStartSec": 45.14,
+      "sourceEndSec": 45.6,
+      "startSec": 43.05,
+      "endSec": 43.51,
+      "startFrame": 1292,
+      "endFrame": 1305,
+      "text": "Bình tĩnh,",
+      "ttsText": "Bình tĩnh,",
+      "tokens": [
+        {
+          "text": "Bình",
+          "startMs": 43055,
+          "endMs": 43205,
+          "clauseId": 34,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "tĩnh,",
+          "startMs": 43205,
+          "endMs": 43500,
+          "clauseId": 34,
+          "section": "relief_rollback"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "section": "relief_rollback",
+      "sourceStartSec": 45.96,
+      "sourceEndSec": 47.115,
+      "startSec": 43.65,
+      "endSec": 44.805,
+      "startFrame": 1310,
+      "endFrame": 1344,
+      "text": "đây chỉ là game mô phỏng.",
+      "ttsText": "đây chỉ là gêm mô phỏng.",
+      "tokens": [
+        {
+          "text": "đây",
+          "startMs": 43655,
+          "endMs": 43845,
+          "clauseId": 35,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "chỉ",
+          "startMs": 43845,
+          "endMs": 44115,
+          "clauseId": 35,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "là",
+          "startMs": 44115,
+          "endMs": 44300,
+          "clauseId": 35,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "game",
+          "startMs": 44300,
+          "endMs": 44485,
+          "clauseId": 35,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "mô",
+          "startMs": 44485,
+          "endMs": 44690,
+          "clauseId": 35,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "phỏng.",
+          "startMs": 44690,
+          "endMs": 44795,
+          "clauseId": 35,
+          "section": "relief_rollback"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "section": "relief_rollback",
+      "sourceStartSec": 47.565,
+      "sourceEndSec": 48.915,
+      "startSec": 44.95,
+      "endSec": 46.3,
+      "startFrame": 1348,
+      "endFrame": 1389,
+      "text": "Hai trường ngoài đời vẫn nguyên vẹn.",
+      "ttsText": "Hai trường ngoài đời vẫn nguyên vẹn.",
+      "tokens": [
+        {
+          "text": "Hai",
+          "startMs": 44955,
+          "endMs": 45130,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "trường",
+          "startMs": 45130,
+          "endMs": 45345,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "ngoài",
+          "startMs": 45345,
+          "endMs": 45510,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "đời",
+          "startMs": 45510,
+          "endMs": 45760,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "vẫn",
+          "startMs": 45760,
+          "endMs": 45845,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "nguyên",
+          "startMs": 45845,
+          "endMs": 46150,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        },
+        {
+          "text": "vẹn.",
+          "startMs": 46150,
+          "endMs": 46295,
+          "clauseId": 36,
+          "section": "relief_rollback"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 49.545,
+      "sourceEndSec": 50.48,
+      "startSec": 46.7,
+      "endSec": 47.635,
+      "startFrame": 1401,
+      "endFrame": 1429,
+      "text": "Ngày mùng một tháng mười một,",
+      "ttsText": "Ngày mùng một tháng mười một,",
+      "tokens": [
+        {
+          "text": "Ngày",
+          "startMs": 46705,
+          "endMs": 46865,
+          "clauseId": 37,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "mùng",
+          "startMs": 46865,
+          "endMs": 46975,
+          "clauseId": 37,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "một",
+          "startMs": 46975,
+          "endMs": 47200,
+          "clauseId": 37,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "tháng",
+          "startMs": 47200,
+          "endMs": 47320,
+          "clauseId": 37,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "mười",
+          "startMs": 47320,
+          "endMs": 47485,
+          "clauseId": 37,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "một,",
+          "startMs": 47485,
+          "endMs": 47630,
+          "clauseId": 37,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 50.84,
+      "sourceEndSec": 53.48,
+      "startSec": 47.8,
+      "endSec": 50.44,
+      "startFrame": 1434,
+      "endFrame": 1513,
+      "text": "HAMIC trình làng Đêm Toán Tin",
+      "ttsText": "Ha-mích trình làng Đêm Toán Tin",
+      "tokens": [
+        {
+          "text": "HAMIC",
+          "startMs": 47805,
+          "endMs": 48610,
+          "clauseId": 38,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "trình",
+          "startMs": 48610,
+          "endMs": 48880,
+          "clauseId": 38,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "làng",
+          "startMs": 48880,
+          "endMs": 49445,
+          "clauseId": 38,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Đêm",
+          "startMs": 49445,
+          "endMs": 49645,
+          "clauseId": 38,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Toán",
+          "startMs": 49645,
+          "endMs": 50020,
+          "clauseId": 38,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Tin",
+          "startMs": 50020,
+          "endMs": 50435,
+          "clauseId": 38,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 53.82,
+      "sourceEndSec": 55.38,
+      "startSec": 50.6,
+      "endSec": 52.16,
+      "startFrame": 1518,
+      "endFrame": 1565,
+      "text": "tại gian hàng Câu lạc bộ,",
+      "ttsText": "tại gian hàng Câu lạc bộ,",
+      "tokens": [
+        {
+          "text": "tại",
+          "startMs": 50615,
+          "endMs": 50920,
+          "clauseId": 39,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "gian",
+          "startMs": 50920,
+          "endMs": 51120,
+          "clauseId": 39,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "hàng",
+          "startMs": 51120,
+          "endMs": 51465,
+          "clauseId": 39,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Câu",
+          "startMs": 51465,
+          "endMs": 51655,
+          "clauseId": 39,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "lạc",
+          "startMs": 51655,
+          "endMs": 51835,
+          "clauseId": 39,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "bộ,",
+          "startMs": 51835,
+          "endMs": 52125,
+          "clauseId": 39,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 55.61,
+      "sourceEndSec": 56.39,
+      "startSec": 52.35,
+      "endSec": 53.13,
+      "startFrame": 1570,
+      "endFrame": 1594,
+      "text": "trong sự kiện Chào tân HUS,",
+      "ttsText": "trong sự kiện Chào tân Hớt,",
+      "tokens": [
+        {
+          "text": "trong",
+          "startMs": 52355,
+          "endMs": 52480,
+          "clauseId": 40,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "sự",
+          "startMs": 52480,
+          "endMs": 52665,
+          "clauseId": 40,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "kiện",
+          "startMs": 52665,
+          "endMs": 52725,
+          "clauseId": 40,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Chào",
+          "startMs": 52690,
+          "endMs": 52880,
+          "clauseId": 40,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "tân",
+          "startMs": 52880,
+          "endMs": 53005,
+          "clauseId": 40,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "HUS,",
+          "startMs": 53005,
+          "endMs": 53125,
+          "clauseId": 40,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 56.815,
+      "sourceEndSec": 57.12,
+      "startSec": 53.25,
+      "endSec": 53.555,
+      "startFrame": 1598,
+      "endFrame": 1607,
+      "text": "cơ sở Nguyễn Trãi.",
+      "ttsText": "cơ sở Nguyễn Trãi.",
+      "tokens": [
+        {
+          "text": "cơ",
+          "startMs": 53255,
+          "endMs": 53365,
+          "clauseId": 41,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "sở",
+          "startMs": 53365,
+          "endMs": 53425,
+          "clauseId": 41,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Nguyễn",
+          "startMs": 53420,
+          "endMs": 53505,
+          "clauseId": 41,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "Trãi.",
+          "startMs": 53505,
+          "endMs": 53565,
+          "clauseId": 41,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 57.565,
+      "sourceEndSec": 58.195,
+      "startSec": 54.0,
+      "endSec": 54.63,
+      "startFrame": 1620,
+      "endFrame": 1639,
+      "text": "Còn bạn:",
+      "ttsText": "Còn bạn:",
+      "tokens": [
+        {
+          "text": "Còn",
+          "startMs": 54005,
+          "endMs": 54325,
+          "clauseId": 42,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "bạn:",
+          "startMs": 54325,
+          "endMs": 54625,
+          "clauseId": 42,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 58.625,
+      "sourceEndSec": 59.35,
+      "startSec": 54.8,
+      "endSec": 55.525,
+      "startFrame": 1644,
+      "endFrame": 1666,
+      "text": "cứu đêm hội,",
+      "ttsText": "cứu đêm hội,",
+      "tokens": [
+        {
+          "text": "cứu",
+          "startMs": 54800,
+          "endMs": 55185,
+          "clauseId": 43,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "đêm",
+          "startMs": 55185,
+          "endMs": 55275,
+          "clauseId": 43,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "hội,",
+          "startMs": 55275,
+          "endMs": 55520,
+          "clauseId": 43,
+          "section": "event_reveal_cta"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "section": "event_reveal_cta",
+      "sourceStartSec": 59.4,
+      "sourceEndSec": 60.34,
+      "startSec": 55.65,
+      "endSec": 56.59,
+      "startFrame": 1670,
+      "endFrame": 1698,
+      "text": "hay phóng cả hai trường lên trời?",
+      "ttsText": "hay phóng cả hai trường lên trời?",
+      "tokens": [
+        {
+          "text": "hay",
+          "startMs": 55695,
+          "endMs": 55875,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "phóng",
+          "startMs": 55875,
+          "endMs": 55935,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "cả",
+          "startMs": 55900,
+          "endMs": 56080,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "hai",
+          "startMs": 56080,
+          "endMs": 56275,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "trường",
+          "startMs": 56275,
+          "endMs": 56345,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "lên",
+          "startMs": 56345,
+          "endMs": 56525,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        },
+        {
+          "text": "trời?",
+          "startMs": 56525,
+          "endMs": 56585,
+          "clauseId": 44,
+          "section": "event_reveal_cta"
+        }
+      ]
+    }
+  ]
+}

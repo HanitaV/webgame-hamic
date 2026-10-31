@@ -1,0 +1,600 @@
+{
+  "source": "ElevenLabs_2026-10-31T16_19_32_Phan Hưng - Professional & Clear_pvc_sp100_s50_sb75_v4.mp3",
+  "timingMethod": "source-pause phrase cues; no word interpolation",
+  "durationSec": 60.666666666666664,
+  "fps": 30,
+  "totalFrames": 1820,
+  "anchors": [
+    [
+      0,
+      0
+    ],
+    [
+      1.125,
+      1.0
+    ],
+    [
+      1.869,
+      1.8
+    ],
+    [
+      3.314,
+      2.85
+    ],
+    [
+      3.884,
+      3.1
+    ],
+    [
+      5.513,
+      5.65
+    ],
+    [
+      6.262,
+      6.3
+    ],
+    [
+      8.909,
+      8.7
+    ],
+    [
+      10.134,
+      9.75
+    ],
+    [
+      11.46,
+      10.65
+    ],
+    [
+      12.746,
+      11.35
+    ],
+    [
+      14.27,
+      12.45
+    ],
+    [
+      15.987,
+      13.0
+    ],
+    [
+      17.552,
+      15.0
+    ],
+    [
+      19.179,
+      16.4
+    ],
+    [
+      21.172,
+      18.2
+    ],
+    [
+      23.11,
+      19.8
+    ],
+    [
+      24.802,
+      21.0
+    ],
+    [
+      26.418,
+      22.2
+    ],
+    [
+      28.182,
+      23.8
+    ],
+    [
+      29.857,
+      25.2
+    ],
+    [
+      30.683,
+      27.1
+    ],
+    [
+      33.6,
+      29.74
+    ],
+    [
+      34.311,
+      30.1
+    ],
+    [
+      35.045,
+      31.08
+    ],
+    [
+      35.727,
+      32.02
+    ],
+    [
+      36.248,
+      32.72
+    ],
+    [
+      36.919,
+      33.0
+    ],
+    [
+      39.058,
+      35.0
+    ],
+    [
+      40.479,
+      37.15
+    ],
+    [
+      42.04,
+      39.6
+    ],
+    [
+      45.149,
+      43.0
+    ],
+    [
+      49.547,
+      46.5
+    ],
+    [
+      53.829,
+      49.8
+    ],
+    [
+      56.808,
+      53.9
+    ],
+    [
+      57.544,
+      54.45
+    ],
+    [
+      58.63,
+      55.25
+    ],
+    [
+      60.345,
+      58.15
+    ],
+    [
+      60.666666666666664,
+      59.0
+    ]
+  ],
+  "tokens": [],
+  "pages": [
+    {
+      "pageIndex": 0,
+      "clauseId": 1,
+      "section": "source",
+      "text": "ĐỪNG BẤM NÚT ĐÓ!",
+      "startMs": 0,
+      "endMs": 904,
+      "tokens": []
+    },
+    {
+      "pageIndex": 1,
+      "clauseId": 2,
+      "section": "source",
+      "text": "BÙM!",
+      "startMs": 1125,
+      "endMs": 1509,
+      "tokens": []
+    },
+    {
+      "pageIndex": 2,
+      "clauseId": 3,
+      "section": "source",
+      "text": "HUS nổ trước!",
+      "startMs": 1869,
+      "endMs": 2921,
+      "tokens": []
+    },
+    {
+      "pageIndex": 3,
+      "clauseId": 4,
+      "section": "source",
+      "text": "Ủa,",
+      "startMs": 3314,
+      "endMs": 3586,
+      "tokens": []
+    },
+    {
+      "pageIndex": 4,
+      "clauseId": 5,
+      "section": "source",
+      "text": "USSH cũng nổ theo?!",
+      "startMs": 3884,
+      "endMs": 5167,
+      "tokens": []
+    },
+    {
+      "pageIndex": 5,
+      "clauseId": 6,
+      "section": "source",
+      "text": "Tua lại!",
+      "startMs": 5513,
+      "endMs": 5889,
+      "tokens": []
+    },
+    {
+      "pageIndex": 6,
+      "clauseId": 7,
+      "section": "source",
+      "text": "Đêm hội chưa bắt đầu,",
+      "startMs": 6262,
+      "endMs": 7297,
+      "tokens": []
+    },
+    {
+      "pageIndex": 7,
+      "clauseId": 8,
+      "section": "source",
+      "text": "hệ thống đã báo bốn lỗi!",
+      "startMs": 7427,
+      "endMs": 8678,
+      "tokens": []
+    },
+    {
+      "pageIndex": 8,
+      "clauseId": 9,
+      "section": "source",
+      "text": "Đèn LED loạn nhịp!",
+      "startMs": 8909,
+      "endMs": 9827,
+      "tokens": []
+    },
+    {
+      "pageIndex": 9,
+      "clauseId": 10,
+      "section": "source",
+      "text": "File kịch bản trùng tên!",
+      "startMs": 10134,
+      "endMs": 11272,
+      "tokens": []
+    },
+    {
+      "pageIndex": 10,
+      "clauseId": 11,
+      "section": "source",
+      "text": "Gương phản xạ ngược!",
+      "startMs": 11460,
+      "endMs": 12369,
+      "tokens": []
+    },
+    {
+      "pageIndex": 11,
+      "clauseId": 12,
+      "section": "source",
+      "text": "Ghi chú...",
+      "startMs": 12746,
+      "endMs": 13274,
+      "tokens": []
+    },
+    {
+      "pageIndex": 12,
+      "clauseId": 13,
+      "section": "source",
+      "text": "bốc hơi!",
+      "startMs": 13463,
+      "endMs": 13978,
+      "tokens": []
+    },
+    {
+      "pageIndex": 13,
+      "clauseId": 14,
+      "section": "source",
+      "text": "Tám nhiệm vụ!",
+      "startMs": 14271,
+      "endMs": 14866,
+      "tokens": []
+    },
+    {
+      "pageIndex": 14,
+      "clauseId": 15,
+      "section": "source",
+      "text": "Speedrun!",
+      "startMs": 14965,
+      "endMs": 15671,
+      "tokens": []
+    },
+    {
+      "pageIndex": 15,
+      "clauseId": 16,
+      "section": "source",
+      "text": "Một: đồng bộ đèn LED!",
+      "startMs": 15987,
+      "endMs": 17263,
+      "tokens": []
+    },
+    {
+      "pageIndex": 16,
+      "clauseId": 17,
+      "section": "source",
+      "text": "Hai: ma trận xoay gương!",
+      "startMs": 17552,
+      "endMs": 18958,
+      "tokens": []
+    },
+    {
+      "pageIndex": 17,
+      "clauseId": 18,
+      "section": "source",
+      "text": "Ba: đạo hàm chỉnh quỹ đạo pháo!",
+      "startMs": 19179,
+      "endMs": 20985,
+      "tokens": []
+    },
+    {
+      "pageIndex": 18,
+      "clauseId": 19,
+      "section": "source",
+      "text": "Bốn: đồ thị tìm lối ngắn nhất!",
+      "startMs": 21172,
+      "endMs": 22817,
+      "tokens": []
+    },
+    {
+      "pageIndex": 19,
+      "clauseId": 20,
+      "section": "source",
+      "text": "Năm: mã băm, xóa trùng!",
+      "startMs": 23110,
+      "endMs": 24635,
+      "tokens": []
+    },
+    {
+      "pageIndex": 20,
+      "clauseId": 21,
+      "section": "source",
+      "text": "Sáu: khôi phục ghi chú!",
+      "startMs": 24802,
+      "endMs": 26228,
+      "tokens": []
+    },
+    {
+      "pageIndex": 21,
+      "clauseId": 22,
+      "section": "source",
+      "text": "Bảy: bảy mươi drone vào đội hình!",
+      "startMs": 26418,
+      "endMs": 27964,
+      "tokens": []
+    },
+    {
+      "pageIndex": 22,
+      "clauseId": 23,
+      "section": "source",
+      "text": "Tám: ghép khung ảnh kỷ niệm!",
+      "startMs": 28182,
+      "endMs": 29576,
+      "tokens": []
+    },
+    {
+      "pageIndex": 23,
+      "clauseId": 24,
+      "section": "source",
+      "text": "Xong!",
+      "startMs": 29857,
+      "endMs": 30239,
+      "tokens": []
+    },
+    {
+      "pageIndex": 24,
+      "clauseId": 25,
+      "section": "source",
+      "text": "Ơ, nút gì đây?",
+      "startMs": 30683,
+      "endMs": 31604,
+      "tokens": []
+    },
+    {
+      "pageIndex": 25,
+      "clauseId": 26,
+      "section": "source",
+      "text": "THÊM PHÁO?",
+      "startMs": 31916,
+      "endMs": 32687,
+      "tokens": []
+    },
+    {
+      "pageIndex": 26,
+      "clauseId": 27,
+      "section": "source",
+      "text": "Bấm thử thôi mà!",
+      "startMs": 32997,
+      "endMs": 33991,
+      "tokens": []
+    },
+    {
+      "pageIndex": 27,
+      "clauseId": 28,
+      "section": "source",
+      "text": "Ba...",
+      "startMs": 34311,
+      "endMs": 34725,
+      "tokens": []
+    },
+    {
+      "pageIndex": 28,
+      "clauseId": 29,
+      "section": "source",
+      "text": "hai...",
+      "startMs": 35045,
+      "endMs": 35478,
+      "tokens": []
+    },
+    {
+      "pageIndex": 29,
+      "clauseId": 30,
+      "section": "source",
+      "text": "một...",
+      "startMs": 35727,
+      "endMs": 36012,
+      "tokens": []
+    },
+    {
+      "pageIndex": 30,
+      "clauseId": 31,
+      "section": "source",
+      "text": "BẮN!",
+      "startMs": 36248,
+      "endMs": 36575,
+      "tokens": []
+    },
+    {
+      "pageIndex": 31,
+      "clauseId": 32,
+      "section": "source",
+      "text": "Khoan,",
+      "startMs": 36919,
+      "endMs": 37231,
+      "tokens": []
+    },
+    {
+      "pageIndex": 32,
+      "clauseId": 33,
+      "section": "source",
+      "text": "sao nền sân rung dữ vậy?!",
+      "startMs": 37441,
+      "endMs": 38784,
+      "tokens": []
+    },
+    {
+      "pageIndex": 33,
+      "clauseId": 34,
+      "section": "source",
+      "text": "HUS nổ tung trước!",
+      "startMs": 39058,
+      "endMs": 40261,
+      "tokens": []
+    },
+    {
+      "pageIndex": 34,
+      "clauseId": 35,
+      "section": "source",
+      "text": "USSH cũng nổ theo!",
+      "startMs": 40479,
+      "endMs": 41838,
+      "tokens": []
+    },
+    {
+      "pageIndex": 35,
+      "clauseId": 36,
+      "section": "source",
+      "text": "Cả hai trường nổ tung!",
+      "startMs": 42040,
+      "endMs": 43121,
+      "tokens": []
+    },
+    {
+      "pageIndex": 36,
+      "clauseId": 37,
+      "section": "source",
+      "text": "Ai tăng lực pháo lên một nghìn vậy?!",
+      "startMs": 43410,
+      "endMs": 44833,
+      "tokens": []
+    },
+    {
+      "pageIndex": 37,
+      "clauseId": 38,
+      "section": "source",
+      "text": "Bình tĩnh!",
+      "startMs": 45149,
+      "endMs": 45716,
+      "tokens": []
+    },
+    {
+      "pageIndex": 38,
+      "clauseId": 39,
+      "section": "source",
+      "text": "Đây chỉ là game mô phỏng.",
+      "startMs": 45941,
+      "endMs": 47233,
+      "tokens": []
+    },
+    {
+      "pageIndex": 39,
+      "clauseId": 40,
+      "section": "source",
+      "text": "Hai trường ngoài đời vẫn nguyên vẹn.",
+      "startMs": 47565,
+      "endMs": 49026,
+      "tokens": []
+    },
+    {
+      "pageIndex": 40,
+      "clauseId": 41,
+      "section": "source",
+      "text": "Ngày mùng một tháng mười một,",
+      "startMs": 49547,
+      "endMs": 50591,
+      "tokens": []
+    },
+    {
+      "pageIndex": 41,
+      "clauseId": 42,
+      "section": "source",
+      "text": "HAMIC trình làng Đêm Toán Tin",
+      "startMs": 50852,
+      "endMs": 52482,
+      "tokens": []
+    },
+    {
+      "pageIndex": 42,
+      "clauseId": 43,
+      "section": "source",
+      "text": "tại gian hàng câu lạc bộ,",
+      "startMs": 52525,
+      "endMs": 53586,
+      "tokens": []
+    },
+    {
+      "pageIndex": 43,
+      "clauseId": 44,
+      "section": "source",
+      "text": "trong sự kiện Chào Tân HUS,",
+      "startMs": 53829,
+      "endMs": 55511,
+      "tokens": []
+    },
+    {
+      "pageIndex": 44,
+      "clauseId": 45,
+      "section": "source",
+      "text": "cơ sở Nguyễn Trãi.",
+      "startMs": 55610,
+      "endMs": 56498,
+      "tokens": []
+    },
+    {
+      "pageIndex": 45,
+      "clauseId": 46,
+      "section": "source",
+      "text": "Còn bạn?",
+      "startMs": 56808,
+      "endMs": 57241,
+      "tokens": []
+    },
+    {
+      "pageIndex": 46,
+      "clauseId": 47,
+      "section": "source",
+      "text": "Cứu đêm hội...",
+      "startMs": 57544,
+      "endMs": 58342,
+      "tokens": []
+    },
+    {
+      "pageIndex": 47,
+      "clauseId": 48,
+      "section": "source",
+      "text": "hay cho cả hai trường NỔ TUNG?!",
+      "startMs": 58630,
+      "endMs": 60445,
+      "tokens": []
+    }
+  ]
+}

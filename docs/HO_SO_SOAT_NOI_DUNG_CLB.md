@@ -2195,11 +2195,11 @@ trong khi $Q$ khác rỗng
 
 | STT | Chương (`chapter`) | Tên bản nhạc (`title`) | Nghệ sĩ (`artist`) | Giấy phép | Tệp âm thanh (`src`) | Nguồn (`source`) |
 | :---: | :---: | :--- | :--- | :---: | :--- | :--- |
-| 1 | `ch0` | **Where was I?** | yd | `CC0-1.0` | `audio/bgm/WereWasI_0.ogg` | https://opengameart.org/content/where-was-i |
-| 2 | `ch1` | **Exploration Theme** | CleytonKauffman | `CC0-1.0` | `audio/bgm/Exploration Theme/Exploration Theme.ogg` | https://opengameart.org/content/exploration-theme |
-| 3 | `ch2a` | **Chill lofi inspired** | omfgdude / qubodup | `CC0-1.0` | `audio/bgm/chilllofir-loop.ogg` | https://opengameart.org/content/chill-lofi-inspired-loop-edit |
-| 4 | `ch2b` | **Calm Loop** | wipics | `CC0-1.0` | `audio/bgm/Relaxing.mp3` | https://opengameart.org/content/calm-loop |
-| 5 | `ch3` | **Heavenly Loop** | isaiah658 | `CC0-1.0` | `audio/bgm/Heavenly Loop.ogg` | https://opengameart.org/content/heavenly-loop |
+| 1 | `ch0` | **blu** | Zachz Winner | `NCS` | `audio/bgm/Zachz Winner - blu ｜ Pluggnb ｜ NCS - Copyright Free Music-pQ3zOvVrUnY.m4a` | https://www.youtube.com/watch?v=pQ3zOvVrUnY |
+| 2 | `ch1` | **Puzzle** | RetroVision | `NCS` | `audio/bgm/RetroVision - Puzzle ｜ Future House ｜ NCS - Copyright Free Music-TN_8D-79BZg.m4a` | https://www.youtube.com/watch?v=TN_8D-79BZg |
+| 3 | `ch2a` | **Imaginary Friends** | Laszlo | `NCS` | `audio/bgm/Laszlo - Imaginary Friends ｜ House ｜ NCS - Copyright Free Music-pXppQviIKCc.m4a` | https://www.youtube.com/watch?v=pXppQviIKCc |
+| 4 | `ch2b` | **Entropy** | Distrion & Alex Skrindo | `NCS` | `audio/bgm/Distrion & Alex Skrindo - Entropy ｜ House ｜ NCS - Copyright Free Music-iaKgF1Vf5bQ.m4a` | https://www.youtube.com/watch?v=iaKgF1Vf5bQ |
+| 5 | `ch3` | **Skyline** | Kovan & Electro-Light | `NCS` | `audio/bgm/Kovan & Electro-Light - Skyline ｜ House ｜ NCS - Copyright Free Music-FseAiTb8Se0.m4a` | https://www.youtube.com/watch?v=FseAiTb8Se0 |
 
 ### 7.4. Phụ lục: Các chuỗi Giao diện, Hướng dẫn & Tương tác còn lại trong `vi.json`
 

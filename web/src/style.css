@@ -67,10 +67,10 @@ html.colorblind {
   --hamic-sky: #56b4e9;
 }
 
-.music-dock { position: fixed; z-index: 85; right: 0; padding-right: var(--edge-r); bottom: calc(var(--notice-height) + 12px); align-items: center; }
-.music-dock-body { position: relative; }
-.music-dock-body > .btn { background: var(--surface-solid); border-color: var(--line-2); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
-.music-dock > .btn.tiny.slide-toggle { margin-top: 0; height: 36px; min-height: 36px; }
+.music-dock { position: fixed; z-index: 85; right: var(--edge-r); bottom: calc(var(--notice-height) + 12px); }
+.music-dock > .btn { background: var(--surface-solid); border-color: var(--line-2); }
+body[data-screen="walk"] .music-dock > .btn { min-width: 36px; width: 36px; padding: 0; justify-content: center; }
+body[data-screen="walk"] .music-dock > .btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .music-panel { position: absolute; right: 0; bottom: calc(100% + 8px); width: min(270px, 65vw); padding: 14px; display: grid; gap: 9px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface-solid); }
 .music-panel b { color: var(--gold); }
 .music-panel small { font-size: .72rem; }
@@ -82,7 +82,7 @@ body[data-screen="walk"] .music-panel { top: 0; right: calc(100% + 8px); bottom:
   body[data-screen="walk"] .music-dock { top: calc(var(--edge-t) + 194px); }
   .music-panel { padding: 10px; gap: 7px; }
   .music-dock .btn { min-height: 32px; font-size: .72rem; }
-  .music-dock > .btn.tiny.slide-toggle { height: 32px; min-height: 32px; }
+  body[data-screen="walk"] .music-dock > .btn { min-width: 32px; width: 32px; }
 }
 
 html { font-size: calc(16px * var(--text-scale)); }
@@ -575,7 +575,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .screen-root[data-screen="walk"] { pointer-events: none; }
 .screen-root[data-screen="walk"]::before { content: none; pointer-events: none; }
 .walk-screen { position: fixed; inset: 0; pointer-events: none; }
-.walk-hud { pointer-events: auto; position: relative; width: min(520px, calc(100vw - var(--edge-l) - var(--edge-r) - 280px)); padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; max-height: calc(100dvh - var(--notice-height) - var(--edge-t) - var(--edge-b)); overflow-x: hidden; overflow-y: auto; }
+.walk-hud { pointer-events: auto; position: relative; width: min(380px, calc(100vw - var(--edge-l) - var(--edge-r) - 260px)); padding: 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; max-height: calc(100dvh - var(--notice-height) - var(--edge-t) - var(--edge-b)); overflow-x: hidden; overflow-y: auto; }
 .walk-hud h2 { font-size: 1.15rem; }
 .walk-hud .row { flex-wrap: wrap; }
 .walk-objective { font-size: .8rem; color: var(--gold); }
@@ -604,7 +604,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .title-extras { color: var(--muted); font-size: .8rem; }
 .title-extras summary, .mode-brief summary, .decision-explanation summary { cursor: pointer; }
 .title-extras[open] { max-height: 95px; overflow: auto; }
-@media (min-height: 640px) { .title-extras[open] { max-height: none; overflow: visible; } .title-extras[open] > summary { display: none; } }
+@media (min-height: 640px) { .title-extras[open] { max-height: none; overflow: visible; } }
 .title-extras .progress-strip { margin-top: 8px; }
 .walk-radio { pointer-events: auto; position: relative; width: min(410px, 46vw); padding: 12px 16px; display: grid; gap: 5px; font-size: .85rem; line-height: 1.5; }
 .dialogue-speaker { display: flex; gap: 9px; align-items: center; color: var(--gold); }
@@ -637,7 +637,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
   .walk-radio { padding: 9px 12px; font-size: .74rem; max-height: 25vh; overflow: hidden; }
   .walk-radio .kicker { font-size: .65rem; }
   .walk-dialog .dialogue-prose { font-size: 1.02rem; min-height: 3.8em; }
-  .walk-hud { width: min(365px, 43.2vw); padding: 8px 10px; gap: 5px; }
+  .walk-hud { width: min(300px, 36vw); padding: 7px 9px; gap: 4px; }
   .walk-hud h2 { font-size: .96rem; }
   .walk-hud .muted { font-size: .68rem; }
   .walk-hud .btn { min-height: 32px; font-size: .76rem; padding: 0 9px; }
@@ -661,7 +661,11 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .hud-more > small:first-of-type, .hud-more > small[data-time-of-day] { display: inline-block; }
 .hud-more > small[data-time-of-day]::before { content: "· "; margin-left: .35em; }
 .hud-more > small:last-of-type { margin-top: 2px; }
-.hud-more[open] > summary { display: none; }
+.hud-top .btn.tool span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.walk-hud [data-talk]:disabled, .hud-near[hidden] { display: none; }
+.walk-indoors .walk-objective, .walk-indoors .hud-actions, .walk-indoors .hud-more { display: none; }
+.walk-hud .hud-top, .walk-hud .hud-actions, .walk-hud .walk-tools { flex-wrap: nowrap; }
+.walk-tools .btn { flex: 1; padding: 0 8px; font-size: .8rem; }
 .dev-tools { display: grid; gap: 6px; margin-top: 6px; }
 .btn.pulse { box-shadow: 0 0 0 2px var(--gold); }
 
@@ -745,7 +749,7 @@ kbd { font: 600 0.72rem/1 var(--font); color: var(--muted); padding: 4px 7px; bo
 .timeline-list small.good { color: var(--good); }
 
 @media (max-height: 520px) {
-  .walk-hud { width: min(365px, 43.2vw); padding: 8px 10px; gap: 5px; }
+  .walk-hud { width: min(300px, 36vw); padding: 7px 9px; gap: 4px; }
   .walk-hud h2 { font-size: .9rem; }
   .walk-objective { font-size: .72rem; }
   .walk-radio { width: min(230px, 27vw); padding: 7px 10px; font-size: .72rem; }
@@ -855,6 +859,15 @@ ol.algo li::marker { color: var(--faint); }
 @media (max-height: 520px) { .walk-room-controls { max-width: 196px; padding: 7px 8px; font-size: 11px; } .walk-room-controls .btn { white-space: normal; text-align: center; min-height: 30px; padding: 4px 7px; font-size: .72rem; line-height: 1.25; } }
 /* Keep doorway actions beside the exploration map. */
 body[data-screen="walk"] .walk-room-controls { top: auto; right: auto; }
+@media (hover: hover) and (pointer: fine) {
+  .walk-controls { display: none !important; }
+  .slide-dock-radio { left: 0; padding-left: var(--edge-l); clip-path: none; }
+  .slide-dock-fab:has([data-fab="talk"]) { display: none !important; }
+  [data-opt="haptics"] { display: none !important; }
+}
+@media (pointer: coarse) {
+  .walk-hud [data-talk], .hud-keys { display: none !important; }
+}
 @media (max-height: 520px) {
   body[data-screen="walk"] .walk-room-controls { right: auto; }
 }

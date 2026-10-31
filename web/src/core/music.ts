@@ -4,7 +4,7 @@ import { t } from "./i18n";
 import { settings } from "../game/settings";
 import { storyProgress, storySave } from "../game/story";
 import { currentChapter } from "../puzzles/logic/story";
-import { btn, el, slideDock } from "../ui/dom";
+import { btn, el } from "../ui/dom";
 import { onNavigate } from "../ui/router";
 
 interface Track { chapter: string; src: string; title: string; artist: string; source: string; license: string }
@@ -102,23 +102,7 @@ export async function initMusic() {
   }, "small", { "aria-label": t("bgm.open"), "aria-controls": "music-panel", "aria-expanded": "false" }, "music");
   const close = btn(t("bgm.close"), () => { panel.hidden = true; open.setAttribute("aria-expanded", "false"); open.focus(); }, "small ghost", {}, "close");
   panel.append(title, artist, status, toggle, el("label", {}, t("bgm.volume"), volume), close);
-  const body = el("div", { class: "music-dock-body" }, open, panel);
-  const dock = slideDock(
-    "right",
-    "music",
-    body,
-    { hide: t("ui.slideHide", { name: t("bgm.title") }), show: t("ui.slideShow", { name: t("bgm.title") }) },
-    {
-      tag: "aside",
-      extraClass: "music-dock",
-      onToggle: (collapsed) => {
-        if (collapsed && !panel.hidden) {
-          panel.hidden = true;
-          open.setAttribute("aria-expanded", "false");
-        }
-      },
-    },
-  ).root;
+  const dock = el("aside", { class: "music-dock" }, open, panel);
   document.body.append(dock);
   dock.addEventListener("keydown", event => {
     event.stopPropagation();

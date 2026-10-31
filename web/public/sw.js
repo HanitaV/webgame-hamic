@@ -5,7 +5,11 @@ const CACHE = "dem-toan-tin-v2.8.1-hamic";
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg",
   "./assets/hamic-logo.png", "./assets/hamic-mark.png", "./models/campus.glb",
   "./models/show-drone.glb", "./data/music.json",
-  "./audio/bgm/WereWasI_0.ogg", "./audio/bgm/Exploration Theme/Exploration Theme.ogg", "./audio/bgm/chilllofir-loop.ogg", "./audio/bgm/Relaxing.mp3", "./audio/bgm/Heavenly Loop.ogg",
+  "./audio/bgm/Zachz Winner - blu ｜ Pluggnb ｜ NCS - Copyright Free Music-pQ3zOvVrUnY.m4a",
+  "./audio/bgm/RetroVision - Puzzle ｜ Future House ｜ NCS - Copyright Free Music-TN_8D-79BZg.m4a",
+  "./audio/bgm/Laszlo - Imaginary Friends ｜ House ｜ NCS - Copyright Free Music-pXppQviIKCc.m4a",
+  "./audio/bgm/Distrion & Alex Skrindo - Entropy ｜ House ｜ NCS - Copyright Free Music-iaKgF1Vf5bQ.m4a",
+  "./audio/bgm/Kovan & Electro-Light - Skyline ｜ House ｜ NCS - Copyright Free Music-FseAiTb8Se0.m4a",
   "./data/config.json", "./data/story.json", "./data/map.json", "./data/i18n/vi.json", "./data/levels/circuits.json",
   "./data/levels_generated.json", "./data/achievements.json", "./data/facts.json", "./data/facts_generated.json",
   "./data/casual_glossary.json", "./data/qa_report.json"];

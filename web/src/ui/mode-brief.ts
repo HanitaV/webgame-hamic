@@ -6,7 +6,7 @@ import { P } from "../game/progress";
 
 export function modeBrief(mode: string, compact = false) {
   const brief = DATA.story.modes[mode];
-  const details = el("details", { class: "mode-brief-details", open: !compact && window.innerHeight > 560 }, el("summary", { text: t("story.brief.goal") }),
+  const details = el("details", { class: "mode-brief-details" }, el("summary", { text: t("story.brief.goal") }),
     el("p", { text: t(brief.goal) }), el("b", { text: t("story.brief.after") }), el("p", { text: t(brief.payoff) }));
   return el("section", { class: `mode-brief${compact ? " compact" : ""}` },
     el("small", { class: "kicker", text: t(brief.speaker) }),

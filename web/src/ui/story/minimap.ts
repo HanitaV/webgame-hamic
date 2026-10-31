@@ -45,12 +45,13 @@ export function minimap(getTarget: () => string | null, getLamps: () => readonly
     less.disabled = indoors || (!overview && zoom <= .65);
     more.disabled = indoors || (!overview && zoom >= 3);
     mode.disabled = indoors;
+    header.hidden = indoors;
     g.clearRect(0, 0, W, H);
     roundRect(g, 0, 0, W, H, 8, INK.bg);
     g.font = '600 10px "Be Vietnam Pro", sans-serif';
     if (indoors) {
       const room=roomState().room;
-      if(!room?.sourceCenter || !p){status.textContent=t("story.map.campusOutside");return;}
+      if(!room?.sourceCenter || !p){status.hidden=false;status.textContent=t("story.map.campusOutside");return;}
       const [sx,sz]=room.sourceCenter;
       const clip=room.clipRect??[sx-room.width/2,sz-room.depth/2,sx+room.width/2,sz+room.depth/2];
       cx=(clip[0]+clip[2])/2;cz=(clip[1]+clip[3])/2;
@@ -68,7 +69,7 @@ export function minimap(getTarget: () => string | null, getLamps: () => readonly
         g.fillText(t(part.title),px((r[0]+r[2])/2),pz((r[1]+r[3])/2)-4);
       }
       dot(g,px(p.x-1000+sx),pz(p.z+sz),3,INK.good,0);
-      status.textContent=t("story.space.mapHint");
+      status.hidden=false;status.textContent=t("story.space.mapHint");
       canvas.setAttribute("aria-label",t("story.map.indoors"));
       last = null; return;
     }
@@ -121,6 +122,7 @@ export function minimap(getTarget: () => string | null, getLamps: () => readonly
     }
     g.restore();
     g.textAlign = "left"; g.fillStyle = INK.text; g.fillText(t("story.map.north"), 5, 11);
+    status.hidden = !waypoint;
     status.textContent = waypoint ? t("story.map.waypoint") : t("story.map.hint");
     canvas.setAttribute("aria-label", t(overview ? "story.map.overviewLabel" : "story.map.followLabel"));
   };
@@ -139,6 +141,13 @@ export function minimap(getTarget: () => string | null, getLamps: () => readonly
     if (door && Math.hypot(px(door.position[0])-x,pz(door.position[1])-y)<5) [mx,mz]=door.position;
     waypoint = { x: mx, z: mz }; walkToPoint(mx, mz); draw();
   });
+  canvas.addEventListener("wheel", e => {
+    if (indoors) return;
+    e.preventDefault();
+    overview = false;
+    zoom = Math.max(.65, Math.min(3, zoom * (e.deltaY < 0 ? 1.2 : 1 / 1.2)));
+    draw();
+  }, { passive: false });
   const timer = window.setInterval(draw, 200);
   return { root, draw, destroy: () => clearInterval(timer) };
 }

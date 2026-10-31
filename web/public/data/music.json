@@ -2,43 +2,43 @@
   "tracks": [
     {
       "chapter": "ch0",
-      "src": "audio/bgm/WereWasI_0.ogg",
+      "src": "audio/bgm/Zachz Winner - blu ｜ Pluggnb ｜ NCS - Copyright Free Music-pQ3zOvVrUnY.m4a",
       "title": "bgm.track.opening",
-      "artist": "yd",
-      "license": "CC0-1.0",
-      "source": "https://opengameart.org/content/where-was-i"
+      "artist": "Zachz Winner",
+      "license": "NCS",
+      "source": "https://www.youtube.com/watch?v=pQ3zOvVrUnY"
     },
     {
       "chapter": "ch1",
-      "src": "audio/bgm/Exploration Theme/Exploration Theme.ogg",
+      "src": "audio/bgm/RetroVision - Puzzle ｜ Future House ｜ NCS - Copyright Free Music-TN_8D-79BZg.m4a",
       "title": "bgm.track.explore",
-      "artist": "CleytonKauffman",
-      "license": "CC0-1.0",
-      "source": "https://opengameart.org/content/exploration-theme"
+      "artist": "RetroVision",
+      "license": "NCS",
+      "source": "https://www.youtube.com/watch?v=TN_8D-79BZg"
     },
     {
       "chapter": "ch2a",
-      "src": "audio/bgm/chilllofir-loop.ogg",
+      "src": "audio/bgm/Laszlo - Imaginary Friends ｜ House ｜ NCS - Copyright Free Music-pXppQviIKCc.m4a",
       "title": "bgm.track.canteen",
-      "artist": "omfgdude / qubodup",
-      "license": "CC0-1.0",
-      "source": "https://opengameart.org/content/chill-lofi-inspired-loop-edit"
+      "artist": "Laszlo",
+      "license": "NCS",
+      "source": "https://www.youtube.com/watch?v=pXppQviIKCc"
     },
     {
       "chapter": "ch2b",
-      "src": "audio/bgm/Relaxing.mp3",
+      "src": "audio/bgm/Distrion & Alex Skrindo - Entropy ｜ House ｜ NCS - Copyright Free Music-iaKgF1Vf5bQ.m4a",
       "title": "bgm.track.ussh",
-      "artist": "wipics",
-      "license": "CC0-1.0",
-      "source": "https://opengameart.org/content/calm-loop"
+      "artist": "Distrion & Alex Skrindo",
+      "license": "NCS",
+      "source": "https://www.youtube.com/watch?v=iaKgF1Vf5bQ"
     },
     {
       "chapter": "ch3",
-      "src": "audio/bgm/Heavenly Loop.ogg",
+      "src": "audio/bgm/Kovan & Electro-Light - Skyline ｜ House ｜ NCS - Copyright Free Music-FseAiTb8Se0.m4a",
       "title": "bgm.track.finale",
-      "artist": "isaiah658",
-      "license": "CC0-1.0",
-      "source": "https://opengameart.org/content/heavenly-loop"
+      "artist": "Kovan & Electro-Light",
+      "license": "NCS",
+      "source": "https://www.youtube.com/watch?v=FseAiTb8Se0"
     }
   ]
 }

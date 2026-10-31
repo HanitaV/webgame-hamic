@@ -1,0 +1,264 @@
+{
+  "verifiedAt": "2026-10-31",
+  "brand": "HAMIC",
+  "models": {
+    "campusGlb": "web/public/models/campus.glb",
+    "showDroneGlb": "web/public/models/show-drone.glb",
+    "hamicLogo": "web/public/assets/hamic-logo.png"
+  },
+  "verifiedGlbNodes": {
+    "husBuildings": [
+      {
+        "nodeName": "G_HUS_T1",
+        "id": "hus_t1",
+        "label": "T1 · Hoá học",
+        "center": [
+          51.31,
+          -30.5
+        ],
+        "size": [
+          14.6,
+          21.0,
+          62.6
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_HUS_T2",
+        "id": "hus_t2",
+        "label": "T2 · Sinh học",
+        "center": [
+          51.05,
+          51.31
+        ],
+        "size": [
+          12.3,
+          15.0,
+          29.5
+        ]
+      },
+      {
+        "nodeName": "G_HUS_T3",
+        "id": "hus_t3",
+        "label": "T3 · Toán - Cơ - Tin học",
+        "center": [
+          109.76,
+          -34.23
+        ],
+        "size": [
+          14.7,
+          21.0,
+          56.1
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_HUS_T4",
+        "id": "hus_t4",
+        "label": "T4 · Vật lý",
+        "center": [
+          110.22,
+          16.58
+        ],
+        "size": [
+          14.6,
+          18.0,
+          32.6
+        ]
+      },
+      {
+        "nodeName": "G_HUS_T5",
+        "id": "hus_t5",
+        "label": "T5 · Thư viện",
+        "center": [
+          110.26,
+          51.31
+        ],
+        "size": [
+          14.6,
+          27.0,
+          29.5
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_HUS_CANTEEN",
+        "id": "hus_canteen",
+        "label": "Nhà ăn HUS",
+        "center": [
+          81.91,
+          56.51
+        ],
+        "size": [
+          22.9,
+          6.0,
+          14.3
+        ]
+      },
+      {
+        "nodeName": "G_HUS_SPECIAL",
+        "id": "hus_hall",
+        "label": "Hội trường Nguyễn Văn Đạo",
+        "center": [
+          40.07,
+          17.5
+        ],
+        "size": [
+          18.5,
+          9.0,
+          12.6
+        ]
+      },
+      {
+        "nodeName": "G_HUS_GATE",
+        "id": "hus_gate",
+        "label": "Cổng HUS",
+        "center": [
+          16.57,
+          -85.19
+        ],
+        "size": [
+          10.0,
+          6.0,
+          4.0
+        ]
+      }
+    ],
+    "usshBuildings": [
+      {
+        "nodeName": "G_USSH_E",
+        "id": "ussh_e",
+        "label": "Nhà E · USSH",
+        "center": [
+          -15.96,
+          -50.85
+        ],
+        "size": [
+          32.9,
+          20.0,
+          16.4
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_USSH_B",
+        "id": "ussh_b",
+        "label": "Nhà B · USSH",
+        "center": [
+          -72.09,
+          -63.06
+        ],
+        "size": [
+          48.1,
+          16.0,
+          14.4
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_USSH_C",
+        "id": "ussh_c",
+        "label": "Nhà C · USSH",
+        "center": [
+          -106.45,
+          -34.04
+        ],
+        "size": [
+          15.4,
+          24.0,
+          32.9
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_USSH_D",
+        "id": "ussh_d",
+        "label": "Nhà D · USSH",
+        "center": [
+          -49.19,
+          -29.08
+        ],
+        "size": [
+          18.3,
+          10.0,
+          26.2
+        ]
+      },
+      {
+        "nodeName": "G_USSH_G",
+        "id": "ussh_g",
+        "label": "Nhà G · USSH",
+        "center": [
+          -52.63,
+          -0.05
+        ],
+        "size": [
+          52.7,
+          16.0,
+          13.7
+        ],
+        "isPrimaryHero": true
+      },
+      {
+        "nodeName": "G_USSH_H",
+        "id": "ussh_h",
+        "label": "Nhà H · USSH",
+        "center": [
+          -90.41,
+          1.1
+        ],
+        "size": [
+          13.7,
+          12.0,
+          16.0
+        ]
+      },
+      {
+        "nodeName": "G_USSH_GATE",
+        "id": "ussh_gate",
+        "label": "Cổng USSH",
+        "center": [
+          -3.08,
+          -85.19
+        ],
+        "size": [
+          10.0,
+          6.0,
+          4.0
+        ]
+      }
+    ],
+    "droneParts": [
+      "body",
+      "arm_0",
+      "arm_1",
+      "arm_2",
+      "arm_3",
+      "motor_0",
+      "motor_1",
+      "motor_2",
+      "motor_3",
+      "rotor_0",
+      "rotor_1",
+      "rotor_2",
+      "rotor_3",
+      "led"
+    ]
+  },
+  "existingSceneApis": {
+    "world": "web/src/scene/world.ts -> CampusWorld",
+    "endingImpact": "web/src/scene/ending-impact.ts -> EndingImpactController",
+    "fireworks": "web/src/scene/fireworks.ts -> FireworksShow",
+    "drone": "web/src/scene/drone.ts -> DroneShow, buildDroneModel"
+  },
+  "proceduralV3Props": [
+    "BuildingLaunchRig (per-building pivot wrapper + dark ground contact shadow + thruster glow + dust ring)",
+    "StageLedStripRig (8 physical LED pillars with phaseError wobble and golden sync)",
+    "DuplicateFileSlabsRig (2 clashing 3D translucent file panes + SHA-256 lock)",
+    "LaserMirrorRig (rotatable 3D mirror frame + laser beam + 2x2 rotation matrix gizmo)",
+    "PostItNoteRig (yellow _ghichu note + voxel dissolve particles + packet bridge)",
+    "ParabolaLauncherRig (3D derivative tangent curve + firework shell tracer)",
+    "ShortestPathGraphRig (glowing 3D campus walkway nodes + edge pulse)",
+    "BigRedButtonRig (physical 3D [THÊM PHÁO] button + 3D articulated cursor finger with anticipation, squash, shadow contact, and recoil)"
+  ]
+}

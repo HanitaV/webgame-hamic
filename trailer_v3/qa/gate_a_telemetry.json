@@ -1,0 +1,848 @@
+{
+  "webglInfo": {
+    "vendor": "Google Inc. (NVIDIA)",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3060 Laptop GPU (0x00002560) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "stills": [
+    {
+      "frame": 0,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0000.png",
+      "timeSec": 0,
+      "storyboardSec": 0,
+      "shotId": "S01_HOOK_HUS_LIFT",
+      "section": "cold_open",
+      "shotProgress": 0,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 0,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": 0,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          18.6,
+          6.04,
+          17.65
+        ],
+        "target": [
+          8.6,
+          2.31,
+          -1.2
+        ],
+        "fov": 48
+      }
+    },
+    {
+      "frame": 42,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0042.png",
+      "timeSec": 1.4,
+      "storyboardSec": 1.296,
+      "shotId": "S01_HOOK_HUS_LIFT",
+      "section": "cold_open",
+      "shotProgress": 0.418,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0.145,
+        "usshLiftProgress": 0,
+        "husShadowScale": 0.895,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -15,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": 0,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          20.69,
+          7.72,
+          19.9
+        ],
+        "target": [
+          8.28,
+          2.68,
+          -1.52
+        ],
+        "fov": 48
+      }
+    },
+    {
+      "frame": 120,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0120.png",
+      "timeSec": 4,
+      "storyboardSec": 3.282,
+      "shotId": "S02_HOOK_USSH_DRONE",
+      "section": "cold_open",
+      "shotProgress": 0.057,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 1,
+        "usshLiftProgress": 0.125,
+        "husShadowScale": 0.28,
+        "usshShadowScale": 0.91,
+        "platformCompression": 0,
+        "droneBankDeg": 27,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": 0,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          -0.99,
+          5.97,
+          15.86
+        ],
+        "target": [
+          -8.71,
+          2.28,
+          -0.4
+        ],
+        "fov": 50
+      }
+    },
+    {
+      "frame": 276,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0276.png",
+      "timeSec": 9.2,
+      "storyboardSec": 8.949,
+      "shotId": "S03_REWIND_GLITCH_LED",
+      "section": "rewind_glitches",
+      "shotProgress": 0.791,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 6,
+        "ledPhaseError": 1,
+        "mirrorNormalDeg": 0,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          4.53,
+          1.16,
+          16.18
+        ],
+        "target": [
+          3.86,
+          0.95,
+          12.74
+        ],
+        "fov": 42
+      }
+    },
+    {
+      "frame": 495,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0495.png",
+      "timeSec": 16.5,
+      "storyboardSec": 13.656,
+      "shotId": "S05_DECISION_01_02",
+      "section": "speedrun_8",
+      "shotProgress": 0.193,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 12,
+        "ledPhaseError": 0.94,
+        "mirrorNormalDeg": 0,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          1.11,
+          1.39,
+          18.47
+        ],
+        "target": [
+          2.5,
+          0.95,
+          13.8
+        ],
+        "fov": 44
+      }
+    },
+    {
+      "frame": 546,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0546.png",
+      "timeSec": 18.2,
+      "storyboardSec": 15.558,
+      "shotId": "S05_DECISION_01_02",
+      "section": "speedrun_8",
+      "shotProgress": 0.752,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -4,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          1.6,
+          1.25,
+          17.45
+        ],
+        "target": [
+          2.15,
+          0.94,
+          13.9
+        ],
+        "fov": 42
+      }
+    },
+    {
+      "frame": 600,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0600.png",
+      "timeSec": 20,
+      "storyboardSec": 17.141,
+      "shotId": "S06_DECISION_03_04",
+      "section": "speedrun_8",
+      "shotProgress": 0.218,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -4,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          1.87,
+          1.6,
+          19.26
+        ],
+        "target": [
+          2.19,
+          1.88,
+          13.8
+        ],
+        "fov": 46
+      }
+    },
+    {
+      "frame": 654,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0654.png",
+      "timeSec": 21.8,
+      "storyboardSec": 18.718,
+      "shotId": "S06_DECISION_03_04",
+      "section": "speedrun_8",
+      "shotProgress": 0.682,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 10,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          1.7,
+          2.76,
+          18.57
+        ],
+        "target": [
+          2.5,
+          0.35,
+          15.2
+        ],
+        "fov": 44
+      }
+    },
+    {
+      "frame": 708,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0708.png",
+      "timeSec": 23.6,
+      "storyboardSec": 20.148,
+      "shotId": "S07_DECISION_05_06",
+      "section": "speedrun_8",
+      "shotProgress": 0.145,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -12,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          2.61,
+          1.14,
+          19.11
+        ],
+        "target": [
+          2.5,
+          0.95,
+          14.86
+        ],
+        "fov": 42
+      }
+    },
+    {
+      "frame": 759,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0759.png",
+      "timeSec": 25.3,
+      "storyboardSec": 21.37,
+      "shotId": "S07_DECISION_05_06",
+      "section": "speedrun_8",
+      "shotProgress": 0.654,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 11,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          2.5,
+          1.89,
+          16.35
+        ],
+        "target": [
+          4.15,
+          2.96,
+          1.5
+        ],
+        "fov": 48
+      }
+    },
+    {
+      "frame": 810,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0810.png",
+      "timeSec": 27,
+      "storyboardSec": 22.728,
+      "shotId": "S08_DECISION_07_08_CALM",
+      "section": "speedrun_8",
+      "shotProgress": 0.108,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -11,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          3.77,
+          2.24,
+          14.6
+        ],
+        "target": [
+          2.5,
+          6.2,
+          -4.2
+        ],
+        "fov": 48
+      }
+    },
+    {
+      "frame": 861,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_0861.png",
+      "timeSec": 28.7,
+      "storyboardSec": 24.233,
+      "shotId": "S08_DECISION_07_08_CALM",
+      "section": "speedrun_8",
+      "shotProgress": 0.415,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 13,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          2.17,
+          1.17,
+          18
+        ],
+        "target": [
+          2.5,
+          0.95,
+          14.68
+        ],
+        "fov": 42
+      }
+    },
+    {
+      "frame": 1029,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1029.png",
+      "timeSec": 34.3,
+      "storyboardSec": 30.094,
+      "shotId": "S09_MISCLICK_BUTTON",
+      "section": "misclick_countdown",
+      "shotProgress": 0.988,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 0,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0.72
+      },
+      "camera": {
+        "pos": [
+          3.15,
+          1.32,
+          17.05
+        ],
+        "target": [
+          2.5,
+          0.88,
+          14.9
+        ],
+        "fov": 38
+      }
+    },
+    {
+      "frame": 1055,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1055.png",
+      "timeSec": 35.167,
+      "storyboardSec": 31.248,
+      "shotId": "S10_COUNTDOWN_3_2_1",
+      "section": "misclick_countdown",
+      "shotProgress": 0.389,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -5,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0.72
+      },
+      "camera": {
+        "pos": [
+          -1.42,
+          1.37,
+          6.35
+        ],
+        "target": [
+          -5.1,
+          1.8,
+          0.5
+        ],
+        "fov": 44
+      }
+    },
+    {
+      "frame": 1075,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1075.png",
+      "timeSec": 35.833,
+      "storyboardSec": 32.163,
+      "shotId": "S10_COUNTDOWN_3_2_1",
+      "section": "misclick_countdown",
+      "shotProgress": 0.708,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 12,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0.72
+      },
+      "camera": {
+        "pos": [
+          2.5,
+          1.29,
+          17.23
+        ],
+        "target": [
+          2.5,
+          0.86,
+          14.9
+        ],
+        "fov": 38
+      }
+    },
+    {
+      "frame": 1095,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1095.png",
+      "timeSec": 36.5,
+      "storyboardSec": 32.825,
+      "shotId": "S10_COUNTDOWN_3_2_1",
+      "section": "misclick_countdown",
+      "shotProgress": 0.939,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -3,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0.72
+      },
+      "camera": {
+        "pos": [
+          2.5,
+          1.18,
+          16.95
+        ],
+        "target": [
+          2.5,
+          0.86,
+          14.9
+        ],
+        "fov": 38
+      }
+    },
+    {
+      "frame": 1176,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1176.png",
+      "timeSec": 39.2,
+      "storyboardSec": 35.215,
+      "shotId": "S11_DISASTER_GROUND_HUS",
+      "section": "disaster_launch",
+      "shotProgress": 0.54,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0.104,
+        "usshLiftProgress": 0,
+        "husShadowScale": 0.925,
+        "usshShadowScale": 1,
+        "platformCompression": 0.001,
+        "droneBankDeg": 39,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          18.84,
+          5.89,
+          17.54
+        ],
+        "target": [
+          8.63,
+          2.36,
+          -1.22
+        ],
+        "fov": 50
+      }
+    },
+    {
+      "frame": 1227,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1227.png",
+      "timeSec": 40.9,
+      "storyboardSec": 37.811,
+      "shotId": "S12_DISASTER_USSH_DRONE",
+      "section": "disaster_launch",
+      "shotProgress": 0.284,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 1,
+        "usshLiftProgress": 0.368,
+        "husShadowScale": 0.28,
+        "usshShadowScale": 0.735,
+        "platformCompression": 0,
+        "droneBankDeg": 1,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          -1.25,
+          5.59,
+          15.63
+        ],
+        "target": [
+          -8.69,
+          2.11,
+          -0.26
+        ],
+        "fov": 52
+      }
+    },
+    {
+      "frame": 1290,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1290.png",
+      "timeSec": 43,
+      "storyboardSec": 40.65,
+      "shotId": "S13_DISASTER_WIDE_HERO",
+      "section": "disaster_launch",
+      "shotProgress": 0.309,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 1,
+        "usshLiftProgress": 1,
+        "husShadowScale": 0.28,
+        "usshShadowScale": 0.28,
+        "platformCompression": 0,
+        "droneBankDeg": -15,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          0.47,
+          11.83,
+          26.99
+        ],
+        "target": [
+          -0.52,
+          2.43,
+          -1.25
+        ],
+        "fov": 54
+      }
+    },
+    {
+      "frame": 1380,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1380.png",
+      "timeSec": 46,
+      "storyboardSec": 43.677,
+      "shotId": "S14_RELIEF_ROLLBACK",
+      "section": "relief_rollback",
+      "shotProgress": 0.193,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 1,
+        "usshLiftProgress": 1,
+        "husShadowScale": 0.28,
+        "usshShadowScale": 0.28,
+        "platformCompression": 0,
+        "droneBankDeg": -12,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          0,
+          14.2,
+          30.5
+        ],
+        "target": [
+          -0.8,
+          2.6,
+          -1.6
+        ],
+        "fov": 48
+      }
+    },
+    {
+      "frame": 1530,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1530.png",
+      "timeSec": 51,
+      "storyboardSec": 47.62,
+      "shotId": "S15_EVENT_REVEAL_P1",
+      "section": "event_reveal_cta",
+      "shotProgress": 0.339,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 12,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          7.13,
+          3.09,
+          14.27
+        ],
+        "target": [
+          3.4,
+          3.53,
+          -2.58
+        ],
+        "fov": 46
+      }
+    },
+    {
+      "frame": 1650,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1650.png",
+      "timeSec": 55,
+      "storyboardSec": 51.412,
+      "shotId": "S16_EVENT_REVEAL_P2",
+      "section": "event_reveal_cta",
+      "shotProgress": 0.393,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -10,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          11.06,
+          3.36,
+          12.39
+        ],
+        "target": [
+          5.23,
+          3.86,
+          -2.64
+        ],
+        "fov": 45
+      }
+    },
+    {
+      "frame": 1780,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1780.png",
+      "timeSec": 59.333,
+      "storyboardSec": 56.439,
+      "shotId": "S17_CTA_CHOICE_LOOP",
+      "section": "event_reveal_cta",
+      "shotProgress": 0.498,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0,
+        "usshLiftProgress": 0,
+        "husShadowScale": 1,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": -5,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          14.57,
+          2.16,
+          11.76
+        ],
+        "target": [
+          8.46,
+          2.95,
+          0.5
+        ],
+        "fov": 46
+      }
+    },
+    {
+      "frame": 1819,
+      "file": "C:\\Users\\hanit\\Documents\\GitHub\\webgame-hamic\\trailer_v3\\qa\\stills\\frame_1819.png",
+      "timeSec": 60.633,
+      "storyboardSec": 58.912,
+      "shotId": "S17_CTA_CHOICE_LOOP",
+      "section": "event_reveal_cta",
+      "shotProgress": 0.983,
+      "aspectMode": "9x16",
+      "overlayMode": "burned",
+      "rigState": {
+        "husLiftProgress": 0.269,
+        "usshLiftProgress": 0,
+        "husShadowScale": 0.806,
+        "usshShadowScale": 1,
+        "platformCompression": 0,
+        "droneBankDeg": 0,
+        "ledPhaseError": 0,
+        "mirrorNormalDeg": -22,
+        "buttonPressProgress": 0
+      },
+      "camera": {
+        "pos": [
+          18.58,
+          5.78,
+          17.48
+        ],
+        "target": [
+          8.6,
+          2.2,
+          -1.19
+        ],
+        "fov": 46
+      }
+    }
+  ]
+}
