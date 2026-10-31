@@ -1,4 +1,4 @@
-> **Bản 2.8.0 (31/10/2026):** cốt truyện đại tu thành "Vì sao đèn lệch?" (15 điểm dừng, 12 NPC, 12 câu đố và minigame nối vào truyện, 8 quyết định). Kết cục E1–E6 do lựa chọn của người chơi quyết định; trọng số trong `config.json → endings` được chỉnh để khoảng 70% tổ hợp lựa chọn dẫn tới E2 (không quay ngẫu nhiên). Chi tiết: [STORY_BIBLE.md](STORY_BIBLE.md), [ENDINGS.md](ENDINGS.md). Thêm joystick ảo, HUD gọn cho màn ngang thấp, bản đồ nhỏ, lịch sử thoại, công thức KaTeX, tự hạ chất lượng trên máy yếu.
+> **Bản 2.8.0 (31/10/2026):** cốt truyện đại tu thành "Vì sao đèn lệch?" (15 điểm dừng, 12 NPC, 12 câu đố và minigame nối vào truyện, 8 quyết định). Kết cục E1–E6 do lựa chọn của người chơi quyết định; trọng số trong `config.json → endings` được chỉnh để khoảng 95% tổ hợp lựa chọn dẫn tới E2 (không quay ngẫu nhiên). Chi tiết: [STORY_BIBLE.md](STORY_BIBLE.md), [ENDINGS.md](ENDINGS.md). Thêm joystick ảo, HUD gọn cho màn ngang thấp, bản đồ nhỏ, lịch sử thoại, công thức KaTeX, tự hạ chất lượng trên máy yếu.
 
 > **Nới lỏng nguyên tắc nội dung (bản hiện hành):** GDD chuyển từ "bắt buộc, chỉ Toán – Tin" sang "định hướng". Phần lõi vẫn là Toán – Tin do HAMIC tự kiểm. Cốt truyện, NPC hư cấu, tên trường và tòa nhà, và một vài chi tiết đời sống CLB, kể cả nhắc ngắn đến thời chung mái nhà Đại học Tổng hợp Hà Nội, được phép khi giữ đúng các điều kiện ở mục 2.1. Các mục 2.1 và 12.2 đã được sửa theo. Khi nội dung game và GDD lệch nhau, ghi vào CHANGELOG rồi cập nhật GDD sau, không chặn việc làm game.
 
@@ -257,15 +257,15 @@ Cuối cốt truyện, game chọn một trong nhiều kết cục. Tất cả d
 
 | Mã | Kết cục | Tỉ lệ mục tiêu (trên mọi tổ hợp lựa chọn) | Ghi chú |
 |---|---|---|---|
-| E1 | Pháo hoa mừng 70 năm HUS | 12% | Kết cục chính thức: tia sáng, pháo hoa và drone hội tụ thành chữ 70 |
-| E2 | Mô hình nổ tung (HUS và USSH) | 70% | Kết cục hài: các khối tòa nhà rời nhau, rơi chậm, hoa giấy; có ba biến thể theo nguyên nhân |
-| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | 6% | Tia sáng nối hai trường |
-| E4 | Drone xếp thành "07" | 4% | Kết cục hài nhẹ |
-| E5 | Pháo hoa bay mãi không dừng | 4% | Chơi chữ với giới hạn: hàm không hội tụ về 70 |
-| E6 | Số kỳ lạ (bí mật) | 4% | Chỉ mở khi đã thu đủ 7 sự thật về 70; nếu chưa đủ, tỉ lệ này dồn về E1 |
+| E1 | Pháo hoa mừng 70 năm HUS | 1% | Kết cục chính thức: tia sáng, pháo hoa và drone hội tụ thành chữ 70 |
+| E2 | Mô hình nổ tung (HUS và USSH) | 95% | Kết cục hài: các khối tòa nhà rời nhau, rơi chậm, hoa giấy; có ba biến thể theo nguyên nhân |
+| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | 1% | Tia sáng nối hai trường |
+| E4 | Drone xếp thành "07" | 1% | Kết cục hài nhẹ |
+| E5 | Pháo hoa bay mãi không dừng | 1% | Chơi chữ với giới hạn: hàm không hội tụ về 70 |
+| E6 | Số kỳ lạ (bí mật) | 1% | Chỉ mở khi đã thu đủ 7 sự thật về 70; nếu chưa đủ, tỉ lệ này dồn về E1 |
 
 Quy tắc:
-- **[ĐÃ SỬA 2.8]** Kết cục do lựa chọn của người chơi quyết định, không quay ngẫu nhiên. Mỗi phương án của tám quyết định có trọng số rủi ro (`config.json → endings.risk`); tổng ≥ `endings.threshold` thì ra E2. Trọng số được chỉnh để khoảng 70% tổ hợp lựa chọn dẫn tới E2; `npm run check:answers` duyệt mọi tổ hợp và báo lỗi nếu lệch `endings.target`.
+- **[ĐÃ SỬA 2.8]** Kết cục do lựa chọn của người chơi quyết định, không quay ngẫu nhiên. Mỗi phương án của tám quyết định có trọng số rủi ro (`config.json → endings.risk`); tổng ≥ `endings.threshold` thì ra E2. Trọng số được chỉnh để khoảng 95% tổ hợp lựa chọn dẫn tới E2; `npm run check:answers` duyệt mọi tổ hợp và báo lỗi nếu lệch `endings.target`.
 - Nguyên nhân hiển thị của E2 là sai sót gốc nặng nhất người chơi để lại: nhầm phiên bản, thiếu tệp ghi chú, hai nhóm hiểu khác nhau về bản chốt; nếu cả ba đã sửa thì biến thể "thêm một chùm". Dòng thời gian cuối game nêu từng lựa chọn và lựa chọn nào góp vào sự cố.
 - Nút "Chọn lại từ tổng duyệt" thay cho "Thử lần quay khác": giữ mọi lựa chọn trước đó, chọn lại hai quyết định cuối.
 - Có "Thư viện kết cục" xem lại các kết cục đã gặp và thành tựu "Gặp đủ kết cục" (không phạt, không thành tựu tiêu cực).
@@ -674,4 +674,4 @@ Ngày cụ thể do CLB đặt theo lịch sự kiện.
 8. Bản 2.8: xác nhận hai chi tiết lịch sử nền trong lời thoại: hai trường cùng tên Đại học Tổng hợp Hà Nội giai đoạn 1956–1995; câu nhắc bài lượng – chất trong môn triết học năm nhất.
 9. Bản 2.8: xác nhận tên ngắn của các điểm dừng dùng trong lời thoại (`map.json → walk.nodes[].short`) cùng với bản đồ (`mapVerified`).
 10. Dòng chúc 70 năm (`config.json → greeting`, đang `greetingVerified: false`).
-11. Mức 70% tổ hợp lựa chọn ra E2 có phù hợp không, hay nên tăng `endings.threshold` để giảm?
+11. Mức 95% tổ hợp lựa chọn ra E2 có phù hợp không, hay nên tăng `endings.threshold` để giảm?

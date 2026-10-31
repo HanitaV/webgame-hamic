@@ -6,7 +6,7 @@ Tài liệu thiết kế cốt truyện, sinh từ `web/public/data/story.json`,
 
 - Xương sống: điều tra "Vì sao mô hình chạy thử bị lệch một đoạn?". Nguyên nhân là ba sai sót nhỏ cộng dồn, không có phản diện.
 - Thời lượng chuỗi chính mục tiêu 20–25 phút (15 điểm dừng, 12 minigame/câu đố, 1 bảng đối chiếu). Không có khóa thời gian hay đồng hồ đếm ngược.
-- Kết cục do lựa chọn quyết định hoàn toàn, không quay ngẫu nhiên (yêu cầu bổ sung của người phụ trách, thay cho mục 2 của ENDINGS.md bản đầu). Trọng số rủi ro được chỉnh để khoảng 70% tổ hợp lựa chọn dẫn tới E2.
+- Kết cục do lựa chọn quyết định hoàn toàn, không quay ngẫu nhiên (yêu cầu bổ sung của người phụ trách, thay cho mục 2 của ENDINGS.md bản đầu). Trọng số rủi ro được chỉnh để khoảng 95% tổ hợp lựa chọn dẫn tới E2.
 - E1 là kết cục của lượt chơi không để lại rủi ro nào; E3 dành cho người giữ nguyên lời ghi nhưng còn sai sót nhỏ; E6 cần đủ bảy sự thật về 70 và một lựa chọn riêng ở bước cuối.
 - Chi tiết lịch sử chỉ ở mức nền (một câu về thời chung tên Đại học Tổng hợp Hà Nội 1956–1995, một câu nhắc bài lượng – chất). Cần CLB xác nhận trước khi phát hành.
 - Tên địa điểm trong lời thoại viết bằng mã `{place:id}`, lấy tên ngắn từ `map.json` (`walk.nodes[].short`); sửa tên ở map là lời thoại tự đổi.
@@ -87,26 +87,26 @@ Cờ không được lưu riêng mà suy ra từ trạng thái (`deriveFlags` tr
 | Cờ | Nơi tạo | Nơi dùng | Hệ quả |
 |---|---|---|---|
 | `dec:version:A` | Hai bản cùng tên | thoại gọi lại của Minh; tin nhắn m1a | Bản về T3 khớp mã băm với bản đã duyệt. |
-| `dec:version:B` | Hai bản cùng tên | thoại gọi lại của Minh; tin nhắn m1b; rủi ro kết cục +6 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên mô hình. |
-| `dec:version:C` | Hai bản cùng tên | thoại gọi lại của Chị Chủ nhiệm HAMIC; tin nhắn m1c; rủi ro kết cục +2 | Hai bản cùng tên về T3, người nhận phải tự đoán. |
+| `dec:version:B` | Hai bản cùng tên | thoại gọi lại của Minh; tin nhắn m1b; rủi ro kết cục +15 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên mô hình. |
+| `dec:version:C` | Hai bản cùng tên | thoại gọi lại của Chị Chủ nhiệm HAMIC; tin nhắn m1c; rủi ro kết cục +4 | Hai bản cùng tên về T3, người nhận phải tự đoán. |
 | `dec:firework:A` | Căn dải sáng | thoại gọi lại của Thành viên Ban Học tập | Pháo hoa giữ hàm hội tụ về 70 m. |
-| `dec:firework:B` | Căn dải sáng | thoại gọi lại của Thành viên Ban Học tập; tin nhắn m2b; rủi ro kết cục +10; kết cục → E5 | Pháo hoa được đổi sang hàm không hội tụ. |
+| `dec:firework:B` | Căn dải sáng | thoại gọi lại của Thành viên Ban Học tập; tin nhắn m2b; rủi ro kết cục +9; kết cục → E5 | Pháo hoa được đổi sang hàm không hội tụ. |
 | `dec:ha:A` | Dải đèn bật dần | thoại gọi lại của Chị Chủ nhiệm HAMIC; thoại gọi lại của Hà; tin nhắn m2a | Hà báo lỗi sớm, chị biết bản đèn cũ đang lẫn trong thư mục. |
 | `dec:ha:B` | Dải đèn bật dần | thoại gọi lại của Hà; rủi ro kết cục +1 | Lỗi được sửa trên máy Hà, các máy khác vẫn giữ bản cũ. |
 | `dec:ha:C` | Dải đèn bật dần | thoại gọi lại của Hà; rủi ro kết cục +2 | Bản đèn cũ vẫn nằm lẫn, không ai được báo. |
 | `dec:notes:A` | Bắt lỗi đồng bộ | thoại gọi lại của Nam; thoại gọi lại của Vy; tin nhắn m5a | Mẫu đồng bộ có _ghichu, máy T3 nhận đủ lời ghi. |
-| `dec:notes:B` | Bắt lỗi đồng bộ | thoại gọi lại của Nam; tin nhắn m5b; rủi ro kết cục +3 | Máy T3 vẫn dùng mẫu cũ và không nhận lời ghi. |
-| `dec:notes:C` | Bắt lỗi đồng bộ | thoại gọi lại của Vy; tin nhắn m5c; rủi ro kết cục +3 | Lời ghi được chép tay, có thể sót vài dòng. |
+| `dec:notes:B` | Bắt lỗi đồng bộ | thoại gọi lại của Nam; tin nhắn m5b; rủi ro kết cục +13 | Máy T3 vẫn dùng mẫu cũ và không nhận lời ghi. |
+| `dec:notes:C` | Bắt lỗi đồng bộ | thoại gọi lại của Vy; tin nhắn m5c; rủi ro kết cục +13 | Lời ghi được chép tay, có thể sót vài dòng. |
 | `dec:captions:A` | Ghép ảnh với lời ghi | thoại gọi lại của Đại diện sinh viên USSH; thoại gọi lại của Linh; tin nhắn m7a; kết cục → E3 nếu còn sai sót nhỏ | Lời ghi được giữ nguyên chữ của người góp ảnh. |
-| `dec:captions:B` | Ghép ảnh với lời ghi | thoại gọi lại của Linh; tin nhắn m7b; rủi ro kết cục +2 | Lời ghi bị rút gọn, mất vài chi tiết. |
-| `dec:captions:C` | Ghép ảnh với lời ghi | thoại gọi lại của Đại diện sinh viên USSH; tin nhắn m7c; rủi ro kết cục +3 | Ảnh được chiếu không kèm lời ghi. |
+| `dec:captions:B` | Ghép ảnh với lời ghi | thoại gọi lại của Linh; tin nhắn m7b; rủi ro kết cục +3 | Lời ghi bị rút gọn, mất vài chi tiết. |
+| `dec:captions:C` | Ghép ảnh với lời ghi | thoại gọi lại của Đại diện sinh viên USSH; tin nhắn m7c; rủi ro kết cục +5 | Ảnh được chiếu không kèm lời ghi. |
 | `dec:drones:A` | Dàn drone chữ 70 | dòng thời gian, độ thân thiết | Drone xếp theo hướng nhìn của khán giả. |
-| `dec:drones:B` | Dàn drone chữ 70 | thoại gọi lại của Điều phối sân khấu USSH; rủi ro kết cục +10; kết cục → E4 | Drone xếp theo hướng sân khấu, khán giả nhìn ngược lại. |
+| `dec:drones:B` | Dàn drone chữ 70 | thoại gọi lại của Điều phối sân khấu USSH; rủi ro kết cục +9; kết cục → E4 | Drone xếp theo hướng sân khấu, khán giả nhìn ngược lại. |
 | `dec:final:A` | Thứ tự tổng duyệt | thoại gọi lại của Điều phối sân khấu USSH; thoại gọi lại của Bảo; thoại gọi lại của Đức; tin nhắn m9a | Cả nhóm xác nhận cùng một bản lịch. |
-| `dec:final:B` | Thứ tự tổng duyệt | thoại gọi lại của Đức; tin nhắn m9b; rủi ro kết cục +3 | T3 dùng bản lịch 3, sân khấu USSH dùng bản 4. |
-| `dec:final:C` | Thứ tự tổng duyệt | thoại gọi lại của Bảo; tin nhắn m9c; rủi ro kết cục +2 | Chỉ hai người biết bản chốt, những người khác đoán. |
+| `dec:final:B` | Thứ tự tổng duyệt | thoại gọi lại của Đức; tin nhắn m9b; rủi ro kết cục +9 | T3 dùng bản lịch 3, sân khấu USSH dùng bản 4. |
+| `dec:final:C` | Thứ tự tổng duyệt | thoại gọi lại của Bảo; tin nhắn m9c; rủi ro kết cục +8 | Chỉ hai người biết bản chốt, những người khác đoán. |
 | `dec:bursts:A` | Đối chiếu bằng chứng | dòng thời gian, độ thân thiết | Pháo hoa giữ đúng kịch bản. |
-| `dec:bursts:B` | Đối chiếu bằng chứng | rủi ro kết cục +2 | Kịch bản pháo hoa có thêm chùm ngoài dự kiến. |
+| `dec:bursts:B` | Đối chiếu bằng chứng | rủi ro kết cục +6 | Kịch bản pháo hoa có thêm chùm ngoài dự kiến. |
 | `dec:bursts:C` | Đối chiếu bằng chứng | rủi ro kết cục +8; kết cục → E6 (cần 7 sự thật) | Pháo hoa được xếp theo các ước thực sự của 70. |
 | `done:s2` | Dải đèn bật dần | chủ đề Hà: Ngại báo lỗi | Mở thêm nội dung |
 | `done:s3` | Chỉnh hướng chiếu | tin nhắn m3 | Mở thêm nội dung |
@@ -272,40 +272,40 @@ Thứ tự xét:
 
 | Mã | Kết cục | Cách đạt | Tỉ lệ trên mọi tổ hợp | Mục tiêu |
 |---|---|---|---|---|
-| E1 | Đêm Hội tụ | Chọn phương án an toàn ở cả tám quyết định, hoặc chỉ sai sót nhẹ mà không giữ nguyên lời ghi. | 10.87% | 12% |
-| E2 | Sự cố mô hình: nổ tung | Để lại nhiều sai sót cho tới khi tổng rủi ro ≥ 18. | 70.30% | 70% |
-| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Giữ nguyên lời ghi; còn vài sai sót nhỏ chưa tới ngưỡng. | 5.52% | 6% |
-| E4 | Drone xếp thành 07 | Bản vẽ drone nhìn từ phía sân khấu; tổng rủi ro dưới ngưỡng. | 4.29% | 4% |
-| E5 | Pháo hoa bay mãi | Cho pháo vút lên không dừng; tổng rủi ro dưới ngưỡng. | 4.29% | 4% |
-| E6 | Số kỳ lạ | Hỏi Ban Học tập chủ đề Số kỳ lạ khi đã có 6 sự thật, rồi chọn xếp pháo theo các ước của 70. | 4.73% | 4% |
+| E1 | Đêm Hội tụ | Chọn phương án an toàn ở cả tám quyết định, hoặc chỉ sai sót nhẹ mà không giữ nguyên lời ghi. | 1.65% | 1% |
+| E2 | Sự cố mô hình: nổ tung | Để lại nhiều sai sót cho tới khi tổng rủi ro ≥ 18. | 95.03% | 95% |
+| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Giữ nguyên lời ghi; còn vài sai sót nhỏ chưa tới ngưỡng. | 1.37% | 1% |
+| E4 | Drone xếp thành 07 | Bản vẽ drone nhìn từ phía sân khấu; tổng rủi ro dưới ngưỡng. | 0.65% | 1% |
+| E5 | Pháo hoa bay mãi | Cho pháo vút lên không dừng; tổng rủi ro dưới ngưỡng. | 0.65% | 1% |
+| E6 | Số kỳ lạ | Hỏi Ban Học tập chủ đề Số kỳ lạ khi đã có 6 sự thật, rồi chọn xếp pháo theo các ước của 70. | 0.65% | 1% |
 
-Tổng số tổ hợp: 2916. E2 theo nguyên nhân: Nhầm phiên bản 919, Thiếu tệp ghi chú 906, Hai bản chốt 180, Thêm một chùm 45. `npm run check:answers` duyệt lại toàn bộ và báo lỗi nếu tỉ lệ lệch mục tiêu quá dung sai (E2 ±2, còn lại ±3 điểm phần trăm).
+Tổng số tổ hợp: 2916. E2 theo nguyên nhân: Nhầm phiên bản 1042, Thiếu tệp ghi chú 1284, Hai bản chốt 390, Thêm một chùm 55. `npm run check:answers` duyệt lại toàn bộ và báo lỗi nếu tỉ lệ lệch mục tiêu quá dung sai (E2 ±2, còn lại ±3 điểm phần trăm).
 
 ### Bảng trọng số rủi ro
 
 | Quyết định | NPC | Phương án | Rủi ro | Hệ quả |
 |---|---|---|---|---|
 | `version` | Minh | A. Gửi Bản 1, mã băm 3f70a1 khớp với bản chị đã duyệt.  | 0 | Bản về T3 khớp mã băm với bản đã duyệt. |
-| `version` | Minh | B. Gửi Bản 2, giờ sửa muộn hơn chắc là mới hơn.  | 6 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên mô hình. |
-| `version` | Minh | C. Gửi cả hai, để T3 tự chọn.  | 2 | Hai bản cùng tên về T3, người nhận phải tự đoán. |
+| `version` | Minh | B. Gửi Bản 2, giờ sửa muộn hơn chắc là mới hơn.  | 15 | Bản đèn cũ của Hà, có giờ sửa muộn hơn, được đưa lên mô hình. |
+| `version` | Minh | C. Gửi cả hai, để T3 tự chọn.  | 4 | Hai bản cùng tên về T3, người nhận phải tự đoán. |
 | `firework` | Thành viên Ban Học tập | A. Giữ hàm dừng ở 70 m như đã căn.  | 0 | Pháo hoa giữ hàm hội tụ về 70 m. |
-| `firework` | Thành viên Ban Học tập | B. Thêm hệ số cho pháo vút lên không dừng. → E5 | 10 | Pháo hoa được đổi sang hàm không hội tụ. |
+| `firework` | Thành viên Ban Học tập | B. Thêm hệ số cho pháo vút lên không dừng. → E5 | 9 | Pháo hoa được đổi sang hàm không hội tụ. |
 | `ha` | Hà | A. Hà tự báo chị nhé, mình đi cùng.  | 0 | Hà báo lỗi sớm, chị biết bản đèn cũ đang lẫn trong thư mục. |
 | `ha` | Hà | B. Để mình sửa lặng lẽ, khỏi nói ai.  | 1 | Lỗi được sửa trên máy Hà, các máy khác vẫn giữ bản cũ. |
 | `ha` | Hà | C. Cứ để vậy, chắc không sao.  | 2 | Bản đèn cũ vẫn nằm lẫn, không ai được báo. |
 | `notes` | Vy | A. Sửa mẫu chung và báo cả nhóm đồng bộ lại.  | 0 | Mẫu đồng bộ có _ghichu, máy T3 nhận đủ lời ghi. |
-| `notes` | Vy | B. Chỉ sửa trên máy này thôi, chắc đủ.  | 3 | Máy T3 vẫn dùng mẫu cũ và không nhận lời ghi. |
-| `notes` | Vy | C. Chép tay lời ghi vào bản chính, khỏi đụng mẫu.  | 3 | Lời ghi được chép tay, có thể sót vài dòng. |
+| `notes` | Vy | B. Chỉ sửa trên máy này thôi, chắc đủ.  | 13 | Máy T3 vẫn dùng mẫu cũ và không nhận lời ghi. |
+| `notes` | Vy | C. Chép tay lời ghi vào bản chính, khỏi đụng mẫu.  | 13 | Lời ghi được chép tay, có thể sót vài dòng. |
 | `captions` | Linh | A. Giữ nguyên lời ghi, đặt cạnh ảnh. → E3 nếu còn sai sót nhỏ | 0 | Lời ghi được giữ nguyên chữ của người góp ảnh. |
-| `captions` | Linh | B. Rút gọn lời ghi cho vừa khung.  | 2 | Lời ghi bị rút gọn, mất vài chi tiết. |
-| `captions` | Linh | C. Bỏ lời ghi, chỉ chiếu ảnh.  | 3 | Ảnh được chiếu không kèm lời ghi. |
+| `captions` | Linh | B. Rút gọn lời ghi cho vừa khung.  | 3 | Lời ghi bị rút gọn, mất vài chi tiết. |
+| `captions` | Linh | C. Bỏ lời ghi, chỉ chiếu ảnh.  | 5 | Ảnh được chiếu không kèm lời ghi. |
 | `drones` | Điều phối sân khấu USSH | A. Nhìn từ phía khán giả.  | 0 | Drone xếp theo hướng nhìn của khán giả. |
-| `drones` | Điều phối sân khấu USSH | B. Nhìn từ phía sân khấu. → E4 | 10 | Drone xếp theo hướng sân khấu, khán giả nhìn ngược lại. |
+| `drones` | Điều phối sân khấu USSH | B. Nhìn từ phía sân khấu. → E4 | 9 | Drone xếp theo hướng sân khấu, khán giả nhìn ngược lại. |
 | `final` | Đức | A. Nhắn cả nhóm xác nhận bản chốt kèm mã băm.  | 0 | Cả nhóm xác nhận cùng một bản lịch. |
-| `final` | Đức | B. Tin lời Đức, bản 3 chắc chốt rồi.  | 3 | T3 dùng bản lịch 3, sân khấu USSH dùng bản 4. |
-| `final` | Đức | C. Chỉ hỏi riêng Bảo cho nhanh.  | 2 | Chỉ hai người biết bản chốt, những người khác đoán. |
+| `final` | Đức | B. Tin lời Đức, bản 3 chắc chốt rồi.  | 9 | T3 dùng bản lịch 3, sân khấu USSH dùng bản 4. |
+| `final` | Đức | C. Chỉ hỏi riêng Bảo cho nhanh.  | 8 | Chỉ hai người biết bản chốt, những người khác đoán. |
 | `bursts` | Chị Chủ nhiệm HAMIC | A. Giữ đúng kịch bản 70 chùm.  | 0 | Pháo hoa giữ đúng kịch bản. |
-| `bursts` | Chị Chủ nhiệm HAMIC | B. Thêm một chùm cho vui.  | 2 | Kịch bản pháo hoa có thêm chùm ngoài dự kiến. |
+| `bursts` | Chị Chủ nhiệm HAMIC | B. Thêm một chùm cho vui.  | 6 | Kịch bản pháo hoa có thêm chùm ngoài dự kiến. |
 | `bursts` | Chị Chủ nhiệm HAMIC | C. Xếp pháo theo các ước của 70. → E6 (cần 7 sự thật) | 8 | Pháo hoa được xếp theo các ước thực sự của 70. |
 
 ### Màn kết
@@ -349,5 +349,5 @@ Mọi minigame: không đồng hồ, không phạt, thử lại không giới h�
 - Chi tiết lịch sử nền: hai trường cùng tên Đại học Tổng hợp Hà Nội giai đoạn 1956–1995 (nguồn [7][8] trong GDD); câu nhắc bài lượng – chất.
 - Bản đồ và tên địa điểm (`mapVerified: false`), gồm tên ngắn dùng trong lời thoại.
 - Dòng chúc 70 năm (`greetingVerified: false`).
-- Tỉ lệ E2 70% theo yêu cầu: người chơi cẩn thận vẫn có thể tránh hoàn toàn; người chơi chọn tùy ý gặp E2 thường xuyên. Có thể hạ bằng cách tăng `threshold`.
+- Tỉ lệ E2 95% theo yêu cầu: người chơi cẩn thận vẫn có thể tránh hoàn toàn; người chơi chọn tùy ý gặp E2 thường xuyên. Có thể hạ bằng cách tăng `threshold`.
 - Thời lượng 20–25 phút là ước lượng theo số bước; cần chơi thử R3 để hiệu chỉnh.

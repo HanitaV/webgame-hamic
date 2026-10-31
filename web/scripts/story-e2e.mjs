@@ -4,7 +4,7 @@
  *  - mỗi lượt so kết cục trên màn hình với pickEnding (luật thuần);
  *  - tải lại trang giữa chừng, tua lại "Chọn lại từ tổng duyệt", bản lưu version 3 của bản 2.7;
  *  - xem thẳng cả sáu kết cục bằng Hack mode, kể cả E2 ở chế độ giảm hiệu ứng ánh sáng;
- *  - báo tỉ lệ kết cục trên mọi tổ hợp lựa chọn (E2 phải xấp xỉ 70%).
+ *  - báo tỉ lệ kết cục trên mọi tổ hợp lựa chọn (E2 phải xấp xỉ 95%).
  * Chạy: npm run build && npm run preview & ; npm run test:story
  */
 import { createRequire } from "node:module";
@@ -122,7 +122,8 @@ if (process.env.ONLY !== "hack") {
   const { ctx, page } = await open("distribution");
   const d = await page.evaluate(() => { const h = window.__hoitu; return h.storyLogic.enumerateEndings(h.data.story, h.data.config.endings); });
   console.log("tỉ lệ kết cục:", Object.entries(d.share).map(([k, v]) => `${k} ${v.toFixed(2)}%`).join(", "));
-  check(Math.abs(d.share.E2 - 70) <= 2, `E2 xuất hiện ${d.share.E2.toFixed(2)}% trên ${d.total} tổ hợp lựa chọn`);
+  const rules = await page.evaluate(() => window.__hoitu.data.config.endings);
+  check(Math.abs(d.share.E2 - rules.target.E2) <= rules.tolerance.E2, `E2 xuất hiện ${d.share.E2.toFixed(2)}% trên ${d.total} tổ hợp lựa chọn`);
   await ctx.close();
 }
 

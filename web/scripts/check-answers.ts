@@ -216,7 +216,7 @@ for (const [d, dec] of Object.entries(story.decisions)) for (const o of dec.opti
   check(used.has(`dec:${d}:${o.id}`) || (rules.risk[d]?.[o.id] ?? 0) > 0 || (o.tags ?? []).length > 0 || o.id === "A", `phương án ${d}.${o.id} để lại hệ quả`);
 }
 
-// Kết cục do lựa chọn quyết định: tỉ lệ trên mọi tổ hợp phải gần target (E2 ≈ 70%).
+// Kết cục do lựa chọn quyết định: tỉ lệ trên mọi tổ hợp phải gần target (E2 ≈ 95%).
 const dist = enumerateEndings(story, rules);
 console.log(`kết cục trên ${dist.total} tổ hợp lựa chọn:`, ENDING_IDS.map((id) => `${id} ${dist.share[id].toFixed(2)}%`).join(", "), "| E2 theo nguyên nhân:", JSON.stringify(dist.variants));
 for (const id of ENDING_IDS) check(Math.abs(dist.share[id] - rules.target[id]) <= (id === "E2" ? rules.tolerance.E2 : rules.tolerance.other), `tỉ lệ ${id} = ${dist.share[id].toFixed(2)}% gần ${rules.target[id]}%`);

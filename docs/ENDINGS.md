@@ -1,19 +1,19 @@
 # Hệ thống nhiều kết cục "Đêm Toán Tin"
 
-> **Cập nhật 2.8.0 (yêu cầu của người phụ trách, ưu tiên hơn mọi mô tả bên dưới):** tỉ lệ khoảng 70% cho E2 đạt được bằng cách **chỉnh thông số game để khoảng 70% tổ hợp lựa chọn của người chơi dẫn tới E2**, không dùng vòng quay, hạt giống hay nút "Thử lần quay khác". Mỗi phương án của tám quyết định có trọng số rủi ro trong `config.json → endings.risk`; tổng ≥ `threshold` thì ra E2. Kết quả duyệt mọi tổ hợp (2916): E1 10,87%, E2 70,30%, E3 5,52%, E4 4,29%, E5 4,29%, E6 4,73%. Ba sai sót gốc cùng các lựa chọn nhỏ đủ vượt ngưỡng mà không cần các lựa chọn đặc biệt. Chi tiết và bảng trọng số: `docs/STORY_BIBLE.md` mục 6. Nút "Thử lần quay khác" được thay bằng "Chọn lại từ tổng duyệt".
+> **Cập nhật 2.8.0 (yêu cầu của người phụ trách, ưu tiên hơn mọi mô tả bên dưới):** tỉ lệ khoảng 95% cho E2 đạt được bằng cách **chỉnh thông số game để khoảng 95% tổ hợp lựa chọn của người chơi dẫn tới E2**, không dùng vòng quay, hạt giống hay nút "Thử lần quay khác". Mỗi phương án của tám quyết định có trọng số rủi ro trong `config.json → endings.risk`; tổng ≥ `threshold` thì ra E2. Kết quả duyệt mọi tổ hợp (2916): E1 1,65%, E2 95,03%, E3 1,37%, E4 0,65%, E5 0,65%, E6 0,65%. Ba sai sót gốc cùng các lựa chọn nhỏ đủ vượt ngưỡng mà không cần các lựa chọn đặc biệt. Chi tiết và bảng trọng số: `docs/STORY_BIBLE.md` mục 6. Nút "Thử lần quay khác" được thay bằng "Chọn lại từ tổng duyệt".
 
-Bản này thay phần "ma trận kết cục" trong file đại tu trước. Hai kết cục bạn yêu cầu là **E1 Pháo hoa mừng 70 năm HUS** và **E2 Mô hình nổ tung HUS và USSH (khoảng 70%)**; các kết cục còn lại là gợi ý thêm.
+Bản này thay phần "ma trận kết cục" trong file đại tu trước. Hai kết cục bạn yêu cầu là **E1 Pháo hoa mừng 70 năm HUS** và **E2 Mô hình nổ tung HUS và USSH (khoảng 95%)**; các kết cục còn lại là gợi ý thêm.
 
 ## 1. Danh sách kết cục
 
 | Mã | Tên gợi ý | Tỉ lệ (mục tiêu) | Mô tả cảnh | Điều kiện (bản 2.8: xem STORY_BIBLE mục 6) |
 |---|---|---|---|---|
-| E1 | Đêm Hội tụ | 12% | Tia sáng từ các tòa nhà hội tụ về bãi cỏ HUS, pháo hoa và drone xếp chữ 70, dòng chúc "Chúc mừng 70 năm Trường Đại học Khoa học Tự nhiên" | Mặc định |
-| E2 | Sự cố mô hình: nổ tung | 70% | Pháo hoa quá liều, các khối tòa nhà HUS và USSH rời nhau, rơi chậm như phim quay chậm, hoa giấy rơi xuống; chị Chủ nhiệm: "May mà mới chạy trên máy, chị còn bản sao." | Mặc định; có 3 biến thể theo nguyên nhân (mục 3) |
-| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | 6% | Tia sáng nối hai trường thành một nhịp cầu; bạn USSH chụp lại gửi người góp ảnh | Mặc định (dùng lại kết cục `good` hiện có) |
-| E4 | Drone xếp thành "07" | 4% | Drone xếp ngược thành 07, cả nhóm cười, sửa lại một phím | Mặc định |
-| E5 | Pháo hoa bay mãi | 4% | Pháo hoa không dừng ở 70 m mà bay thẳng lên trời: "hàm này không hội tụ!" | Mặc định, chơi chữ với giới hạn |
-| E6 | Số kỳ lạ | 4% | Pháo hoa tách thành các ước 1, 2, 5, 7, 10, 14, 35 mà không ghép lại thành 70 được (70 là số kỳ lạ nhỏ nhất, GDD 5.3) | Chỉ khi đã thu đủ 7 sự thật; nếu chưa đủ, 4% dồn về E1 |
+| E1 | Đêm Hội tụ | 1% | Tia sáng từ các tòa nhà hội tụ về bãi cỏ HUS, pháo hoa và drone xếp chữ 70, dòng chúc "Chúc mừng 70 năm Trường Đại học Khoa học Tự nhiên" | Mặc định |
+| E2 | Sự cố mô hình: nổ tung | 95% | Pháo hoa quá liều, các khối tòa nhà HUS và USSH rời nhau, rơi chậm như phim quay chậm, hoa giấy rơi xuống; chị Chủ nhiệm: "May mà mới chạy trên máy, chị còn bản sao." | Mặc định; có 3 biến thể theo nguyên nhân (mục 3) |
+| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | 1% | Tia sáng nối hai trường thành một nhịp cầu; bạn USSH chụp lại gửi người góp ảnh | Mặc định (dùng lại kết cục `good` hiện có) |
+| E4 | Drone xếp thành "07" | 1% | Drone xếp ngược thành 07, cả nhóm cười, sửa lại một phím | Mặc định |
+| E5 | Pháo hoa bay mãi | 1% | Pháo hoa không dừng ở 70 m mà bay thẳng lên trời: "hàm này không hội tụ!" | Mặc định, chơi chữ với giới hạn |
+| E6 | Số kỳ lạ | 1% | Pháo hoa tách thành các ước 1, 2, 5, 7, 10, 14, 35 mà không ghép lại thành 70 được (70 là số kỳ lạ nhỏ nhất, GDD 5.3) | Chỉ khi đã thu đủ 7 sự thật; nếu chưa đủ, phần tỉ lệ này dồn về E1 |
 
 Gợi ý thêm nếu muốn mở rộng (chưa tính vào tỉ lệ):
 
@@ -26,16 +26,16 @@ Gợi ý thêm nếu muốn mở rộng (chưa tính vào tỉ lệ):
 | E11 | **Nhà E bay lên** (kết cục `oops` hiện có), dùng làm biến thể hài của E2 |
 | E12 | **Kết cục của An:** khán giả thử xem xong nói điều bất ngờ làm cả nhóm đổi chương trình |
 
-## 2. Cách chọn kết cục với tỉ lệ 70% (bản 2.8: theo lựa chọn)
+## 2. Cách chọn kết cục với tỉ lệ 95% (bản 2.8: theo lựa chọn)
 
 1. Luật nằm trong `web/public/data/config.json`:
 ```json
 "endings": {
   "boom": { "enabled": true },
   "threshold": 18,
-  "risk": { "version": {"A":0,"B":6,"C":2}, "firework": {"A":0,"B":10}, "ha": {"A":0,"B":1,"C":2}, "notes": {"A":0,"B":3,"C":3},
-            "captions": {"A":0,"B":2,"C":3}, "drones": {"A":0,"B":10}, "final": {"A":0,"B":3,"C":2}, "bursts": {"A":0,"B":2,"C":8} },
-  "target": { "E1": 12, "E2": 70, "E3": 6, "E4": 4, "E5": 4, "E6": 4 },
+  "risk": { "version": {"A":0,"B":15,"C":4}, "firework": {"A":0,"B":9}, "ha": {"A":0,"B":1,"C":2}, "notes": {"A":0,"B":13,"C":13},
+            "captions": {"A":0,"B":3,"C":5}, "drones": {"A":0,"B":9}, "final": {"A":0,"B":9,"C":8}, "bursts": {"A":0,"B":6,"C":8} },
+  "target": { "E1": 1, "E2": 95, "E3": 1, "E4": 1, "E5": 1, "E6": 1 },
   "tolerance": { "E2": 2, "other": 3 },
   "unlock": { "E6": { "facts": 7 } }
 }

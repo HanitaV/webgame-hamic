@@ -48,12 +48,12 @@ Kết cục tính từ tám quyết định (không ngẫu nhiên). Tổng rủi
 
 | Mã | Kết cục | Một cách đạt | Tỉ lệ trên mọi tổ hợp |
 |---|---|---|---|
-| E1 | Đêm Hội tụ | Chọn A ở cả tám quyết định. | 10.87% |
-| E2 | Sự cố mô hình: nổ tung | Ví dụ: version B, notes B, captions C, final B, ha C, bursts B (tổng 19). | 70.30% |
-| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Chọn A ở mọi quyết định, riêng ha chọn B (tổng 1, giữ lời ghi). | 5.52% |
-| E4 | Drone xếp thành 07 | Chọn A ở mọi quyết định, riêng drones chọn B. | 4.29% |
-| E5 | Pháo hoa bay mãi | Chọn A ở mọi quyết định, riêng firework chọn B. | 4.29% |
-| E6 | Số kỳ lạ | Hỏi chủ đề Số kỳ lạ ở Chương III, chọn A ở mọi quyết định, bursts chọn C. | 4.73% |
+| E1 | Đêm Hội tụ | Chọn A ở cả tám quyết định. | 1.65% |
+| E2 | Sự cố mô hình: nổ tung | Ví dụ: version B, notes B, captions C, final B, ha C, bursts B (tổng 50). | 95.03% |
+| E3 | Cầu ánh sáng Tự nhiên – Nhân văn | Chọn A ở mọi quyết định, riêng ha chọn B (tổng 1, giữ lời ghi). | 1.37% |
+| E4 | Drone xếp thành 07 | Chọn A ở mọi quyết định, riêng drones chọn B. | 0.65% |
+| E5 | Pháo hoa bay mãi | Chọn A ở mọi quyết định, riêng firework chọn B. | 0.65% |
+| E6 | Số kỳ lạ | Hỏi chủ đề Số kỳ lạ ở Chương III, chọn A ở mọi quyết định, bursts chọn C. | 0.65% |
 
 Bảng kết cục có dòng thời gian nhân quả, mười hai lời kết NPC, nút Chọn lại từ tổng duyệt (giữ mọi lựa chọn trước, chọn lại hai quyết định cuối), Chơi lại từ đầu và Thư viện kết cục. Thư viện giữ qua các lượt chơi.
 

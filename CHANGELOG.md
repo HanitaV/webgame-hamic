@@ -2,6 +2,8 @@
 
 ## Chưa phát hành
 
+- Nâng tỉ lệ tổ hợp lựa chọn dẫn tới kết cục E2 ("Sự cố mô hình: nổ tung") từ ~70% lên 95% (`95,03%`, tức `2.771 / 2.916` tổ hợp lựa chọn ở `config.json → endings`), đồng thời giữ nguyên tính tất định, lối đi an toàn cho E1 (`1,65%`) và khả năng mở đầy đủ E3 (`1,37%`), E4 (`0,65%`), E5 (`0,65%`), E6 (`0,65%`) cùng cả bốn biến thể nguyên nhân của E2.
+
 - Đổi tên dự án và tên game từ "Hội tụ 70" sang "Đêm Toán Tin" (`dem-toan-tin`) trên màn hình khởi động, màn hình chính, thẻ chia sẻ, nhóm chat trong truyện, manifest PWA và bộ tài liệu thiết kế; vẫn tương thích ngược khi nhập tệp tiến độ cũ.
 
 - Mở rộng tương tác khuôn viên và Easter Egg liên trường USSH × HUS: thêm đọc bảng phấn chuyên đề / biển giới thiệu tòa nhà (có công thức KaTeX, lối tắt sang Phòng thí nghiệm và thẻ Sổ tay riêng), đọc giấy nhắn trên cửa phòng bộ môn, xem trạng thái cụm máy chủ và bàn thí nghiệm trong phòng con, đổi 3 đội hình bay tại trạm thử drone, gãi cằm Giáo sư Mèo Vàng Nhà T5, hiệu ứng vòng sáng khép kín khi thắp đủ 19/19 đèn lối đi, 7 kỷ vật 3D mới (nâng tổng lên 15 khắp hai trường và phòng máy chủ), hợp âm ẩn `2–5–7` và logo `70`, hạt giống kỷ niệm (`17`, `70`, `836`, `1956`, `2026`, `2485`), huy hiệu kỷ niệm trên Thẻ Hội tụ cùng 4 thành tựu mới (`A31`–`A34`).
