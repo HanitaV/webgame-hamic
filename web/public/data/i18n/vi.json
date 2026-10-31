@@ -1,6 +1,9 @@
 {
  "_note": "Mọi chuỗi giao diện (GDD 2.3 mục 8.2). Biến dạng {n} do game điền.",
  "boot.world": "Đang dựng sa bàn…",
+ "notice.fiction": "mọi chi tiết trong trò chơi là tình huống giả định, không áp dụng hay sử dụng vào bất kì mục đích nào trong thực tế",
+ "notice.choices": "mọi lựa chọn của bạn đều ảnh hưởng tới ending",
+ "notice.title": "Lưu ý trước khi chơi",
  "rotate.title": "Xoay ngang để chơi",
  "rotate.text": "Hội tụ 70 chỉ chơi ở màn hình ngang. Xoay điện thoại, và tắt khóa xoay nếu cần.",
  "ui.back": "Quay lại",

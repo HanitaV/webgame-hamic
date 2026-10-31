@@ -416,9 +416,12 @@ export function screenWalk(root: HTMLElement) {
   // Móc cho kịch bản kiểm tự động (web/scripts/story-e2e.mjs): giải câu đố của màn chơi riêng mà không mở màn đó.
   Object.assign(window, { __walkTest: { solveActivity: () => { const s0 = stop(); if (s0) { solvedThisSession.add(s0.id); afterActivity(s0); } }, interact, finale } });
   render();
-  if (!state().introSeen) prologue();
-  else if (resumeAfterLevel && stop()?.id === resumeAfterLevel) { const s0 = stop()!; resumeAfterLevel = null; afterActivity(s0); }
-  else if (legacyNote) lines([{ speaker: "story.dialogue.narrator", text: "story.ui.legacy" }], closeDialog, "story.title");
+  if (resumeAfterLevel && stop()?.id === resumeAfterLevel) { const s0 = stop()!; resumeAfterLevel = null; afterActivity(s0); }
+  else lines([{ speaker: "story.dialogue.narrator", text: "notice.choices" }], () => {
+    if (!state().introSeen) prologue();
+    else if (legacyNote) lines([{ speaker: "story.dialogue.narrator", text: "story.ui.legacy" }], closeDialog, "story.title");
+    else closeDialog();
+  }, "notice.title", false);
   return () => {
     disposed = true; offInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); skipShow();
     document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); document.removeEventListener("visibilitychange", visibility);

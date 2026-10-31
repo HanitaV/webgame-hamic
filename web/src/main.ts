@@ -51,6 +51,12 @@ async function main() {
     return;
   }
   document.title = `${DATA.config.title} — ${DATA.config.credits}`;
+  const notice = el("aside", { class: "game-notice", text: t("notice.fiction") });
+  document.body.append(notice);
+  // Reserve the actual wrapped text height, including when text scaling changes.
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty("--notice-height", `${notice.getBoundingClientRect().height}px`);
+  }).observe(notice);
   bootText.textContent = t("boot.world");
   const s = settings.get();
   // Canvas name tags on the map need the bundled font loaded first.

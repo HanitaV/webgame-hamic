@@ -40,6 +40,7 @@
   --edge-r: max(14px, env(safe-area-inset-right));
   --edge-b: max(10px, env(safe-area-inset-bottom));
   --edge-l: max(14px, env(safe-area-inset-left));
+  --notice-height: 40px;
   color-scheme: dark;
 }
 html.colorblind { --gold: #ffb000; --gold-2: #ff9500; --good: #3aa0ff; --cyan: #9fd2ff; }
@@ -54,6 +55,14 @@ button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 #world { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+.game-notice {
+  position: fixed; right: 0; bottom: 0; z-index: 110;
+  width: 100%; padding: 5px var(--edge-r) max(5px, env(safe-area-inset-bottom)) var(--edge-l);
+  background: var(--surface-solid); border-top: 1px solid var(--line-2);
+  color: var(--muted); font-size: .75rem; line-height: 1.5; text-align: right;
+  pointer-events: none;
+}
 
 /* ---------- Type ---------- */
 .display { font-weight: 800; letter-spacing: -0.02em; margin: 0; color: var(--text); }
@@ -691,3 +700,9 @@ ol.algo li::marker { color: var(--faint); }
 .timing-stage { position: relative; }
 .version-lines { gap: 2px; }
 @media (max-height: 520px) { .btn.version-line, .version-lines code { min-height: 24px; padding: 2px 8px; } .activity-area { font-size: .82rem; } }
+
+/* Keep the persistent fiction notice clear on every screen and overlay. */
+.screen-root, .walk-screen, .modal-layer, .keypad-layer, .rotate-cover, .boot { bottom: var(--notice-height); }
+.walk-dialog { max-height: calc(100dvh - var(--notice-height) - 24px); }
+.show-end { bottom: calc(var(--notice-height) + var(--edge-b) + 12px); }
+
