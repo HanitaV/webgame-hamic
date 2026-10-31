@@ -21,7 +21,7 @@ import {
   roomState, nearbyEntrance, enterBuilding, exitBuilding, nearbyRoom, enterRoom, exitRoom, buildingAtPosition, nearCharacter, nearNode, nearbyCharacter, nearbyEasterEgg, nearbyBoardBuilding, nearbyDroneStation, onCharacterInteraction, onEasterEggInteraction,
   pauseWalk, placeCharacters, resetWalkPosition, setFoundEggs, setLamps, walkAxis, walkMode, walkTarget, walkTo, walkToPoint,
 } from "../../scene/walking";
-import { btn, el, hamicLogo, icon } from "../dom";
+import { btn, el, hamicLogo, icon, slideDock } from "../dom";
 import { toast } from "../overlay";
 import { joystick } from "../joystick";
 import { rich } from "../rich";
@@ -57,7 +57,7 @@ export function screenWalk(root: HTMLElement) {
   const radio = el("aside", { class: "walk-radio panel", "aria-label": t("story.radio") },
     el("small", { class: "kicker radio-kicker" }, icon("hamic", 14), el("span", { text: t("story.radio") })), radioText);
   const controls = el("div", { class: "walk-controls" });
-  const portal = el("div", { class: "walk-room-controls panel dark" }); root.append(portal);
+  const portal = el("div", { class: "walk-room-controls panel dark" });
   const fab = el("div", { class: "walk-fab" });
   let nudged = false, stopStarted = save.get().activeSeconds;
   const map = minimap(() => { const c = stop(); return c ? placeOf(c.npc).node : placeOf("chief").node; }, () => state().lamps,
@@ -66,7 +66,14 @@ export function screenWalk(root: HTMLElement) {
       return { node: placeOf(c.id).node, main: c.id === stop()?.npc, sidequest: Boolean(sq && !sidequestProgress(st, state(), sq.id).complete) };
     }));
   let mapOn = true;
-  const view = el("div", { class: "walk-screen" }, hud, radio, map.root, controls, fab, dialog);
+  const slideLabels = (name: string) => ({ hide: t("ui.slideHide", { name }), show: t("ui.slideShow", { name }) });
+  const hudDock = slideDock("left", "hud", hud, slideLabels(t("story.title")));
+  const radioDock = slideDock("left", "radio", radio, slideLabels(t("story.radio")), { clipped: true });
+  const portalDock = slideDock("right", "room", portal, slideLabels(t("story.space.confirmTitle")), { clipped: true });
+  const fabDock = slideDock("right", "fab", fab, slideLabels(t("story.talk")));
+  const view = el("div", { class: "walk-screen" });
+  const mapDock = slideDock("right", "map", map.root, slideLabels(t("story.ui.map")), { onToggle: (collapsed) => { mapOn = !collapsed; view.classList.toggle("map-collapsed", collapsed); if (!collapsed) map.draw(); } });
+  view.append(hudDock.root, radioDock.root, portalDock.root, mapDock.root, controls, fabDock.root, dialog);
   root.append(view);
 
   const state = () => save.get();
@@ -91,13 +98,13 @@ export function screenWalk(root: HTMLElement) {
   /* ---------- hộp thoại ---------- */
   function closeDialog() {
     dialog.classList.remove("walk-ending");
-    dialogOpen = false; dialog.hidden = true; hud.inert = false; controls.inert = false; fab.inert = false; pauseWalk(false);
+    dialogOpen = false; dialog.hidden = true; hudDock.root.inert = false; radioDock.root.inert = false; mapDock.root.inert = false; portalDock.root.inert = false; controls.inert = false; fabDock.root.inert = false; pauseWalk(false);
     render();
     hud.querySelector<HTMLButtonElement>("[data-talk]")?.focus({ preventScroll: true });
   }
   function openDialog(focusTop = false, canClose = true) {
     closable = canClose;
-    dialogOpen = true; held.clear(); walkAxis(0, 0); pauseWalk(true); hud.inert = true; controls.inert = true; fab.inert = true; stick.release(); dialog.hidden = false;
+    dialogOpen = true; held.clear(); walkAxis(0, 0); pauseWalk(true); hudDock.root.inert = true; radioDock.root.inert = true; mapDock.root.inert = true; portalDock.root.inert = true; controls.inert = true; fabDock.root.inert = true; stick.release(); dialog.hidden = false;
     dialog.scrollTop = 0;
     requestAnimationFrame(() => {
       if (focusTop) { dialog.tabIndex = -1; dialog.focus({ preventScroll: true }); }
@@ -147,7 +154,7 @@ export function screenWalk(root: HTMLElement) {
         tool(t("story.ui.notebook", { n: storyEvidence(st, s).length }), () => notebook("evidence"), "book", { "data-notebook": true }),
         tool(t("story.ui.chat", { n: unread }), chat, "chat", { "data-chat": true }, unread ? " has-unread" : ""),
         tool(t("story.ui.lampCount", { n: s.lamps.length, max: st.lamps.need }), () => notebook("lamps"), "lamp", { "data-lamp-count": true })),
-      el("details", { class: "hud-more" }, el("summary", { text: t("story.ui.more") }),
+      el("details", { class: "hud-more", open: true }, el("summary", { text: t("story.ui.more") }),
         el("small", { class: "muted", text: t(DATA.story.difficulties[difficulty()].name) }),
         el("small", { class: "muted", text: t(DATA.map.atmosphere.filter((f) => f.step <= storyTime(st, s)).at(-1)!.label), "data-time-of-day": true }),
         el("small", { class: "muted", text: t("story.ui.keys") })));
@@ -222,8 +229,10 @@ export function screenWalk(root: HTMLElement) {
         }, "small ghost", { "data-drone-station": droneStation.node }, "sparkle"));
       }
       portal.hidden = portal.childElementCount === 0;
+      if (!portal.hidden) portalDock.setCollapsed(false);
     }
     portal.hidden = dialogOpen || showing || portal.childElementCount === 0;
+    portalDock.root.hidden = portal.hidden;
     const talk = hud.querySelector<HTMLButtonElement>("[data-talk]");
     const name = hud.querySelector<HTMLElement>("[data-nearby-npc]");
     if (talk) { talk.disabled = !npc && !egg; talk.dataset.npc = npc?.id ?? ""; }
@@ -239,11 +248,12 @@ export function screenWalk(root: HTMLElement) {
     // Nút hành động lớn cho ngón cái (góc phải dưới): trò chuyện, khám phá Easter Egg hoặc thắp đèn.
     const lampNode = lampHere();
     const mode = npc ? `talk:${npc.id}` : egg ? `egg:${egg.id}` : lampNode ? `lamp:${lampNode}` : "";
+    fabDock.root.hidden = dialogOpen || showing || !mode;
     if (fab.dataset.mode !== mode) {
       fab.dataset.mode = mode;
       fab.replaceChildren(...(npc ? [btn(t("story.ui.talkTo", { name: t(npc.name).split(" · ")[0] }), () => interact(npc.id), "primary big", { "data-fab": "talk" }, "chat")]
         : egg ? [btn(t("story.ui.inspectEgg", { name: t(egg.title).split(" — ")[0] }), () => inspectEgg(egg.id), "primary big", { "data-fab": "egg", "data-egg": egg.id }, "sparkle")]
-          : lampNode ? [btn(t("story.ui.lamp"), lightLamp, "big", { "data-fab": "lamp", "data-lamp": true }, "lamp")] : []));
+          : lampNode ? [btn(t("story.ui.lamp"), lightLamp, "big", { "data-fab": "lamp", "data-lamp": true }, "lamp")] : [])); if (mode) fabDock.setCollapsed(false);
     }
   }
   const lampHere = () => lampNodes.find((n) => nearNode(n) && !state().lamps.includes(n)) ?? null;
@@ -627,7 +637,7 @@ export function screenWalk(root: HTMLElement) {
     quietMusic(true);
     film?.dispose(); film = null;
     if (dialogOpen) { dialog.hidden = true; dialogOpen = false; }
-    showing = true; held.clear(); walkMode(false); hud.hidden = controls.hidden = radio.hidden = fab.hidden = map.root.hidden = true;
+    showing = true; held.clear(); walkMode(false); hudDock.root.hidden = controls.hidden = radioDock.root.hidden = portalDock.root.hidden = fabDock.root.hidden = mapDock.root.hidden = true;
     const def = st.endings[r.id];
     const caption = el("p", { class: `walk-caption panel${r.id === "E2" ? " impact-caption" : ""}`, role: "status" }, el("span", { text: t("story.ui.showing") }));
     if (def.caption) caption.append(el("span", { class: "ending-caption", text: ` ${t(def.caption)}` }));
@@ -670,7 +680,7 @@ export function screenWalk(root: HTMLElement) {
   function afterShow() {
     quietMusic(false);
     film?.dispose(); film = null;
-    showing = false; hud.hidden = controls.hidden = radio.hidden = fab.hidden = false; map.root.hidden = !mapOn;
+    showing = false; hudDock.root.hidden = controls.hidden = radioDock.root.hidden = mapDock.root.hidden = false; mapDock.setCollapsed(!mapOn);
     dialog.classList.remove("walk-ending"); dialog.hidden = true; dialogOpen = false;
     walkMode(true); render();
   }
@@ -691,7 +701,7 @@ export function screenWalk(root: HTMLElement) {
     if (e.code === "KeyE" && !e.repeat) { e.preventDefault(); interact(); }
     if (e.code === "KeyL" && !e.repeat) { e.preventDefault(); lightLamp(); }
     if (e.code === "KeyJ" && !e.repeat) { e.preventDefault(); notebook("evidence"); }
-    if (e.code === "KeyM" && !e.repeat) { e.preventDefault(); mapOn = !mapOn; map.root.hidden = !mapOn; }
+    if (e.code === "KeyM" && !e.repeat) { e.preventDefault(); mapDock.setCollapsed(!mapDock.collapsed()); }
     if (!e.repeat && /^(Digit|Numpad)[0-9]$/.test(e.code)) {
       chordBuf = (chordBuf + e.code.slice(-1)).slice(-3);
       if (chordBuf === "257" && nearNode("lawn")) {
@@ -707,10 +717,11 @@ export function screenWalk(root: HTMLElement) {
   };
   const keyup = (e: KeyboardEvent) => { held.delete(e.code); if (mappings[e.code]) applyHeld(); };
   const blur = () => { held.clear(); walkAxis(0, 0); };
+  const syncHudSpace = () => { const more = hud.querySelector<HTMLDetailsElement>(".hud-more"); if (more && window.innerHeight > 520) more.open = true; };
   const visibility = () => { if (document.hidden) { blur(); pauseWalk(true); } else if (!dialogOpen && !showing) pauseWalk(false); };
   const stick = joystick(t("story.ui.joystick"), (x, z) => { if (showing || dialogOpen) return; walkAxis(x, z); });
   controls.append(stick.root);
-  document.addEventListener("keydown", keydown); document.addEventListener("keyup", keyup); window.addEventListener("blur", blur); document.addEventListener("visibilitychange", visibility);
+  document.addEventListener("keydown", keydown); document.addEventListener("keyup", keyup); window.addEventListener("blur", blur); window.addEventListener("resize", syncHudSpace); document.addEventListener("visibilitychange", visibility);
   const offInteraction = onCharacterInteraction((id) => interact(id));
   const offEggInteraction = onEasterEggInteraction((id) => inspectEgg(id));
   const timer = window.setInterval(syncInteraction, 120);
@@ -738,10 +749,10 @@ export function screenWalk(root: HTMLElement) {
     else closeDialog();
   }, "notice.title", false);
   return () => {
-    portal.remove();
+    portalDock.root.remove();
     film?.dispose(); film = null;
     disposed = true; offInteraction(); offEggInteraction(); map.destroy(); delete (window as unknown as Record<string, unknown>).__walkTest; clearInterval(timer); clearInterval(clock); skipShow();
-    document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); document.removeEventListener("visibilitychange", visibility);
+    document.removeEventListener("keydown", keydown); document.removeEventListener("keyup", keyup); window.removeEventListener("blur", blur); window.removeEventListener("resize", syncHudSpace); document.removeEventListener("visibilitychange", visibility);
     endShow(); walkMode(false);
   };
 }

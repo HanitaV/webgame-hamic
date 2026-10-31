@@ -82,7 +82,7 @@ export function screenTitle(root: HTMLElement) {
         story.introSeen || story.step ? btn(t("story.newgame"), newStory, "small ghost") : null),
       el("p", { class: "story-save-line", text: `${t(currentChapter(DATA.story, story).title)}${story.endingsSeen.length ? ` · ${t("story.ui.libraryCount", { n: story.endingsSeen.length, max: ENDING_IDS.length })}` : ""}` }),
       lastTime(story),
-      el("details", { class: "title-extras" }, el("summary", { text: t("story.menu") }), el("div", { class: "progress-strip" },
+      el("details", { class: "title-extras", open: window.innerHeight > 640 }, el("summary", { text: t("story.menu") }), el("div", { class: "progress-strip" },
         el("span", { class: "ps-stars" }, star(true, 18), el("b", { text: `${stars}` }), el("span", { text: `/${max}` })),
         el("span", { class: "ps-bar", style: `--p:${stars / max}` }),
         lamps), el("p", { class: "fact-chip" }, icon("sparkle", 16), factText))),

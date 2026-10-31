@@ -1,0 +1,89 @@
+1
+00:00:00,180 --> 00:00:03,550
+Một ngày của thành viên CLB Toán Tin Hamic có gì?
+
+2
+00:00:03,880 --> 00:00:07,650
+Hôm nay, bạn phải chạy giữa HUS và USSH
+để cứu một đêm hội sắp bắt đầu.
+
+3
+00:00:07,920 --> 00:00:09,600
+Đầu tiên, hàng đèn lệch đúng một nhịp.
+
+4
+00:00:09,680 --> 00:00:12,050
+Rồi hai file trùng tên nhưng nội dung khác nhau.
+
+5
+00:00:12,120 --> 00:00:15,720
+Gương đặt ngược, lời ghi biến mất,
+và bản chốt... chẳng ai nhớ đã chốt bản nào!
+
+6
+00:00:15,950 --> 00:00:17,150
+Tám quyết định đang chờ.
+
+7
+00:00:17,200 --> 00:00:19,350
+Kiểm tra ma trận để căn lại chùm sáng.
+
+8
+00:00:19,450 --> 00:00:21,200
+Dùng giải tích để chỉnh đường bay.
+
+9
+00:00:21,300 --> 00:00:22,850
+Lần theo đường đi bằng đồ thị.
+
+10
+00:00:22,950 --> 00:00:25,450
+Tìm lỗi đồng bộ trong đống dữ liệu.
+
+11
+00:00:25,600 --> 00:00:27,750
+Xếp drone, ghép chú thích,
+
+12
+00:00:27,850 --> 00:00:30,850
+rồi thử xem... có nên thêm một chùm pháo nữa không?
+
+13
+00:00:31,150 --> 00:00:34,600
+Chọn đại một tí chắc chẳng sao nhỉ?
+
+14
+00:00:35,050 --> 00:00:37,850
+Ba... hai... một... Chạy mô phỏng!
+
+15
+00:00:38,100 --> 00:00:41,550
+Khoan! Sao một con số sai lại khiến
+cả hai dãy nhà bật khỏi mặt đất?
+
+16
+00:00:41,680 --> 00:00:44,100
+HUS bay trước, USSH bay theo!
+
+17
+00:00:44,250 --> 00:00:45,800
+Ai bảo thêm pháo đấy?!
+
+18
+00:00:46,080 --> 00:00:49,680
+Yên tâm, đây chỉ là hoạt hình mô phỏng.
+Hai trường ngoài đời vẫn nguyên vẹn.
+
+19
+00:00:49,900 --> 00:00:53,620
+Đêm Toán Tin sẽ được công bố ngày 01/11
+tại gian hàng CLB Toán Tin Hamic,
+
+20
+00:00:53,700 --> 00:00:55,600
+cơ sở Nguyễn Trãi — sự kiện chào tân của HUS.
+
+21
+00:00:55,850 --> 00:00:58,900
+Giờ đến lượt bạn: thắp sáng đêm hội...
+hay biến hai trường thành trạm phóng?

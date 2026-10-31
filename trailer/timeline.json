@@ -1,0 +1,778 @@
+{
+  "title": "Trailer Animation CLB Toán Tin Hamic — Đêm Toán Tin",
+  "durationSeconds": 59.0,
+  "fps": 30,
+  "totalFrames": 1770,
+  "voiceSource": "ElevenLabs_2026-10-31T13_01_59_Nhật Phong - Narrative & Compelling_pvc_sp95_s40_sb35_v4.mp3",
+  "voiceRawDurationSeconds": 63.791,
+  "voiceAlignedDurationSeconds": 59.0,
+  "qaTimestamps": [
+    0,
+    3,
+    6,
+    10,
+    15,
+    20,
+    25,
+    30,
+    34,
+    37,
+    40,
+    43,
+    47,
+    52,
+    56,
+    58
+  ],
+  "scenes": [
+    {
+      "id": "S01",
+      "title": "HOOK — MỘT NGÀY Ở HAMIC?",
+      "start": 0.0,
+      "end": 3.8,
+      "startFrame": 0,
+      "endFrame": 114,
+      "voice": "Một ngày của thành viên Câu lạc bộ Toán Tin Hamic có gì ?",
+      "camera": "Aerial establishing shot over USSH × HUS night campus -> energetic dolly-in toward central core",
+      "visual": "Night campus awakens with golden spark, 6 circuit beacons ignite sequentially, HAMIC logo and title card."
+    },
+    {
+      "id": "S02",
+      "title": "NHIỆM VỤ — CHẠY GIỮA HUS VÀ USSH",
+      "start": 3.8,
+      "end": 7.8,
+      "startFrame": 114,
+      "endFrame": 234,
+      "voice": "Hôm nay, bạn phải chạy giữa HUS và USSH để cứu một đêm hội sắp bắt đầu.",
+      "camera": "Dynamic low-altitude tracking shot following the low-poly HAMIC runner from HUS across to USSH",
+      "visual": "Glowing golden-cyan light path connects HUS to USSH; student character runs past NPCs; ĐÊM HỘI SẮP BẮT ĐẦU HUD."
+    },
+    {
+      "id": "S03",
+      "title": "BỐN SỰ CỐ — ĐIỀU TRA LỖI",
+      "start": 7.8,
+      "end": 15.8,
+      "startFrame": 234,
+      "endFrame": 474,
+      "voice": "Đầu tiên, hàng đèn lệch đúng một nhịp. Rồi hai file trùng tên nhưng nội dung khác nhau. Gương đặt ngược, lời ghi biến mất, và bản chốt... chẳng ai nhớ đã chốt bản nào!",
+      "camera": "4 rapid-cut action shots across HUS lawn, HUS gate, mirror roof, and USSH archive",
+      "visual": "Shot A (7.8-9.65s): LED pillar #6 fires out of beat in red. Shot B (9.65-12.05s): Two floating 3D files with same name but mismatched line 4. Shot C (12.05-13.6s): Reversed 3D mirror deflects laser beam off-target with red vector. Shot D (13.6-15.8s): Note board dissolves into 404 NOTE NOT FOUND & conflicting final schedules."
+    },
+    {
+      "id": "S04",
+      "title": "TÁM QUYẾT ĐỊNH — MONTAGE 01/08 ĐẾN 08/08",
+      "start": 15.8,
+      "end": 31.0,
+      "startFrame": 474,
+      "endFrame": 930,
+      "voice": "Tám quyết định đang chờ. Kiểm tra ma trận để căn lại chùm sáng. Dùng giải tích để chỉnh đường bay. Lần theo đường đi bằng đồ thị. Tìm lỗi đồng bộ trong đống dữ liệu. Xếp drone, ghép chú thích, rồi thử xem... có nên thêm một chùm pháo nữa không?",
+      "camera": "Fast whip-pans and orbits across the 8 decision stations with 3D mathematical overlays",
+      "visual": "01/08 ha (2x2 matrix beam alignment), 02/08 firework (calculus limit trajectory to 70m), 03/08 final (shortest path graph on campus), 04/08 version (hash comparison), 05/08 notes (_ghichu sync fix), 06/08 drones (7x10=70 formation), 07/08 captions (USSH photo-caption match), 08/08 bursts (tempting extra firework option)."
+    },
+    {
+      "id": "S05",
+      "title": "CHỌN ĐẠI — RISK LEVEL 99%",
+      "start": 31.0,
+      "end": 35.0,
+      "startFrame": 930,
+      "endFrame": 1050,
+      "voice": "Chọn đại một tí chắc chẳng sao nhỉ?",
+      "camera": "Tense push-in on decision console + micro-shake on click",
+      "visual": "Cursor hesitates, clicks THÊM PHÁO, system gauges overload, fictional trailer HUD shows 'Risk level: 99%' and 'Looks fine :)'."
+    },
+    {
+      "id": "S06",
+      "title": "CHẠY MÔ PHỎNG — COUNTDOWN 3 - 2 - 1",
+      "start": 35.0,
+      "end": 38.0,
+      "startFrame": 1050,
+      "endFrame": 1140,
+      "voice": "Ba... hai... một... Chạy mô phỏng!",
+      "camera": "Wide panoramic shot of both HUS and USSH campuses",
+      "visual": "Countdown 3 -> 2 -> 1 -> CHẠY MÔ PHỎNG! Beams from all buildings converge into the core, energy ring sweeps across ground, audio ducks before impact."
+    },
+    {
+      "id": "S07",
+      "title": "SỰ CỐ E2 — HUS BAY TRƯỚC, USSH BAY THEO",
+      "start": 38.0,
+      "end": 46.0,
+      "startFrame": 1140,
+      "endFrame": 1380,
+      "voice": "Khoan! Sao một con số sai lại khiến cả hai dãy nhà bật khỏi mặt đất? HUS bay trước, USSH bay theo! Ai bảo thêm pháo đấy?!",
+      "camera": "Wide two-campus framing with tilt-up following the rising buildings",
+      "visual": "Cartoon ink-ring pop at 38.0s. HUS buildings detach and float upward FIRST (38.15-41.2s), then USSH buildings launch upward SECOND (41.2-46.0s). Drones swerve to dodge rising buildings; colorful confetti rains in background."
+    },
+    {
+      "id": "S08",
+      "title": "BÌNH TĨNH — CHỈ LÀ MÔ PHỎNG & REWIND",
+      "start": 46.0,
+      "end": 49.8,
+      "startFrame": 1380,
+      "endFrame": 1494,
+      "voice": "Yên tâm, đây chỉ là hoạt hình mô phỏng. Hai trường ngoài đời vẫn nguyên vẹn.",
+      "camera": "Freeze-frame at peak float height -> smooth rewind pull-back",
+      "visual": "Freeze frame with 'SIMULATION ONLY — CHỈ LÀ MÔ PHỎNG' and 'Đây chỉ là hoạt hình mô phỏng. Hai trường ngoài đời vẫn nguyên vẹn.' Then buildings smoothly rewind back to ground and campus lights restore."
+    },
+    {
+      "id": "S09",
+      "title": "THÔNG BÁO SỰ KIỆN — CÔNG BỐ 01.11",
+      "start": 49.8,
+      "end": 55.65,
+      "startFrame": 1494,
+      "endFrame": 1670,
+      "voice": "Đêm Toán Tin sẽ được công bố ngày mùng một tháng mười một, tại gian hàng Câu lạc bộ Toán Tin Hamic, cơ sở Nguyễn Trãi tại sự kiện chào tân của HUS.",
+      "camera": "Majestic crane pull-back revealing full E3 light bridge, E1 golden fireworks, and 70 drone formation",
+      "visual": "Bridge of light connects HUS and USSH, golden fireworks bloom, HAMIC logo and motion typography: CÔNG BỐ 01.11 / ĐÊM TOÁN TIN / Gian hàng CLB Toán Tin Hamic / Sự kiện Chào Tân HUS — Cơ sở Nguyễn Trãi."
+    },
+    {
+      "id": "S10",
+      "title": "FINAL CTA — BẠN SẼ CHỌN KẾT CỤC NÀO?",
+      "start": 55.65,
+      "end": 59.0,
+      "startFrame": 1670,
+      "endFrame": 1770,
+      "voice": "Giờ đến lượt bạn: thắp sáng đêm hội... hay biến hai trường thành trạm phóng?",
+      "camera": "Dual-camera 3D split screen (Left: Festive Show, Right: Launching Campus) with solid End Card",
+      "visual": "Split screen comparing Festive Campus vs Toy Rocket Campus, centered HAMIC logo and 'BẠN SẼ CHỌN KẾT CỤC NÀO?' held cleanly until 59.00s."
+    }
+  ],
+  "decisions": [
+    {
+      "index": "01/08",
+      "id": "ha",
+      "start": 16.9,
+      "end": 19.35,
+      "topic": "Đại số tuyến tính: Ma trận gương 2×2"
+    },
+    {
+      "index": "02/08",
+      "id": "firework",
+      "start": 19.35,
+      "end": 21.25,
+      "topic": "Giải tích: Giới hạn đường bay 70 m"
+    },
+    {
+      "index": "03/08",
+      "id": "final",
+      "start": 21.25,
+      "end": 22.9,
+      "topic": "Lý thuyết đồ thị: Đường đi ngắn nhất HUS–USSH"
+    },
+    {
+      "index": "04/08",
+      "id": "version",
+      "start": 22.9,
+      "end": 24.3,
+      "topic": "Đối chiếu mã băm hai phiên bản trùng tên"
+    },
+    {
+      "index": "05/08",
+      "id": "notes",
+      "start": 24.3,
+      "end": 25.55,
+      "topic": "Khôi phục quy tắc đồng bộ thư mục _ghichu"
+    },
+    {
+      "index": "06/08",
+      "id": "drones",
+      "start": 25.55,
+      "end": 26.75,
+      "topic": "Lập trình khối lệnh: Đội hình 70 drone (7×10)"
+    },
+    {
+      "index": "07/08",
+      "id": "captions",
+      "start": 26.75,
+      "end": 27.8,
+      "topic": "Ghép chú thích tư liệu ảnh USSH"
+    },
+    {
+      "index": "08/08",
+      "id": "bursts",
+      "start": 27.8,
+      "end": 31.0,
+      "topic": "Quyết định số chùm pháo hoa cuối cùng"
+    }
+  ],
+  "voiceSegments": [
+    {
+      "id": 1,
+      "scene": "S01",
+      "sourceStart": 0.0,
+      "sourceEnd": 2.562,
+      "start": 0.18,
+      "end": 2.667,
+      "duration": 2.487,
+      "tempo": 1.03,
+      "text": "Một ngày của thành viên Câu lạc bộ Toán Tin Hamic"
+    },
+    {
+      "id": 2,
+      "scene": "S01",
+      "sourceStart": 3.169,
+      "sourceEnd": 3.508,
+      "start": 2.95,
+      "end": 3.289,
+      "duration": 0.339,
+      "tempo": 1.0,
+      "text": "có gì?"
+    },
+    {
+      "id": 3,
+      "scene": "S02",
+      "sourceStart": 3.844,
+      "sourceEnd": 6.163,
+      "start": 3.88,
+      "end": 6.089,
+      "duration": 2.209,
+      "tempo": 1.05,
+      "text": "Hôm nay, bạn phải chạy giữa HUS và USSH"
+    },
+    {
+      "id": 4,
+      "scene": "S02",
+      "sourceStart": 6.344,
+      "sourceEnd": 7.822,
+      "start": 6.22,
+      "end": 7.628,
+      "duration": 1.408,
+      "tempo": 1.05,
+      "text": "để cứu một đêm hội sắp bắt đầu."
+    },
+    {
+      "id": 5,
+      "scene": "S03",
+      "sourceStart": 8.396,
+      "sourceEnd": 8.789,
+      "start": 7.92,
+      "end": 8.284,
+      "duration": 0.364,
+      "tempo": 1.08,
+      "text": "Đầu tiên,"
+    },
+    {
+      "id": 6,
+      "scene": "S03",
+      "sourceStart": 9.189,
+      "sourceEnd": 9.73,
+      "start": 8.38,
+      "end": 8.881,
+      "duration": 0.501,
+      "tempo": 1.08,
+      "text": "hàng đèn lệch"
+    },
+    {
+      "id": 7,
+      "scene": "S03",
+      "sourceStart": 9.895,
+      "sourceEnd": 10.353,
+      "start": 8.96,
+      "end": 9.384,
+      "duration": 0.424,
+      "tempo": 1.08,
+      "text": "đúng một nhịp."
+    },
+    {
+      "id": 8,
+      "scene": "S03",
+      "sourceStart": 10.918,
+      "sourceEnd": 13.417,
+      "start": 9.68,
+      "end": 11.911,
+      "duration": 2.231,
+      "tempo": 1.12,
+      "text": "Rồi hai file trùng tên nhưng nội dung khác nhau."
+    },
+    {
+      "id": 9,
+      "scene": "S03",
+      "sourceStart": 13.863,
+      "sourceEnd": 14.445,
+      "start": 12.12,
+      "end": 12.649,
+      "duration": 0.529,
+      "tempo": 1.1,
+      "text": "Gương đặt ngược,"
+    },
+    {
+      "id": 10,
+      "scene": "S03",
+      "sourceStart": 14.865,
+      "sourceEnd": 15.609,
+      "start": 12.82,
+      "end": 13.496,
+      "duration": 0.676,
+      "tempo": 1.1,
+      "text": "lời ghi biến mất,"
+    },
+    {
+      "id": 11,
+      "scene": "S03",
+      "sourceStart": 16.079,
+      "sourceEnd": 16.838,
+      "start": 13.68,
+      "end": 14.37,
+      "duration": 0.69,
+      "tempo": 1.1,
+      "text": "và bản chốt..."
+    },
+    {
+      "id": 12,
+      "scene": "S03",
+      "sourceStart": 17.229,
+      "sourceEnd": 18.573,
+      "start": 14.48,
+      "end": 15.702,
+      "duration": 1.222,
+      "tempo": 1.1,
+      "text": "chẳng ai nhớ đã chốt bản nào!"
+    },
+    {
+      "id": 13,
+      "scene": "S04",
+      "sourceStart": 19.089,
+      "sourceEnd": 20.092,
+      "start": 15.95,
+      "end": 16.953,
+      "duration": 1.003,
+      "tempo": 1.0,
+      "text": "Tám quyết định đang chờ."
+    },
+    {
+      "id": 14,
+      "scene": "S04",
+      "sourceStart": 20.516,
+      "sourceEnd": 22.413,
+      "start": 17.2,
+      "end": 19.097,
+      "duration": 1.897,
+      "tempo": 1.0,
+      "text": "Kiểm tra ma trận để căn lại chùm sáng."
+    },
+    {
+      "id": 15,
+      "scene": "S04",
+      "sourceStart": 22.827,
+      "sourceEnd": 24.313,
+      "start": 19.45,
+      "end": 20.936,
+      "duration": 1.486,
+      "tempo": 1.0,
+      "text": "Dùng giải tích để chỉnh đường bay."
+    },
+    {
+      "id": 16,
+      "scene": "S04",
+      "sourceStart": 24.727,
+      "sourceEnd": 26.023,
+      "start": 21.3,
+      "end": 22.596,
+      "duration": 1.296,
+      "tempo": 1.0,
+      "text": "Lần theo đường đi bằng đồ thị."
+    },
+    {
+      "id": 17,
+      "scene": "S04",
+      "sourceStart": 26.448,
+      "sourceEnd": 28.001,
+      "start": 22.95,
+      "end": 24.503,
+      "duration": 1.553,
+      "tempo": 1.0,
+      "text": "Tìm lỗi đồng bộ trong đống dữ liệu."
+    },
+    {
+      "id": 18,
+      "scene": "S04",
+      "sourceStart": 28.4,
+      "sourceEnd": 28.994,
+      "start": 25.6,
+      "end": 26.194,
+      "duration": 0.594,
+      "tempo": 1.0,
+      "text": "Xếp drone,"
+    },
+    {
+      "id": 19,
+      "scene": "S04",
+      "sourceStart": 29.264,
+      "sourceEnd": 29.754,
+      "start": 26.8,
+      "end": 27.29,
+      "duration": 0.49,
+      "tempo": 1.0,
+      "text": "ghép chú thích,"
+    },
+    {
+      "id": 20,
+      "scene": "S04",
+      "sourceStart": 30.173,
+      "sourceEnd": 31.032,
+      "start": 27.85,
+      "end": 28.709,
+      "duration": 0.859,
+      "tempo": 1.0,
+      "text": "rồi thử xem..."
+    },
+    {
+      "id": 21,
+      "scene": "S04",
+      "sourceStart": 31.415,
+      "sourceEnd": 32.883,
+      "start": 28.95,
+      "end": 30.418,
+      "duration": 1.468,
+      "tempo": 1.0,
+      "text": "có nên thêm một chùm pháo nữa không?"
+    },
+    {
+      "id": 22,
+      "scene": "S05",
+      "sourceStart": 33.302,
+      "sourceEnd": 34.987,
+      "start": 31.15,
+      "end": 32.835,
+      "duration": 1.685,
+      "tempo": 1.0,
+      "text": "Chọn đại một tí chắc chẳng sao nhỉ?"
+    },
+    {
+      "id": 23,
+      "scene": "S06",
+      "sourceStart": 35.535,
+      "sourceEnd": 35.833,
+      "start": 35.08,
+      "end": 35.378,
+      "duration": 0.298,
+      "tempo": 1.0,
+      "text": "Ba..."
+    },
+    {
+      "id": 24,
+      "scene": "S06",
+      "sourceStart": 36.253,
+      "sourceEnd": 36.56,
+      "start": 35.78,
+      "end": 36.087,
+      "duration": 0.307,
+      "tempo": 1.0,
+      "text": "hai..."
+    },
+    {
+      "id": 25,
+      "scene": "S06",
+      "sourceStart": 36.95,
+      "sourceEnd": 37.131,
+      "start": 36.48,
+      "end": 36.661,
+      "duration": 0.181,
+      "tempo": 1.0,
+      "text": "một..."
+    },
+    {
+      "id": 26,
+      "scene": "S06",
+      "sourceStart": 37.556,
+      "sourceEnd": 38.139,
+      "start": 37.05,
+      "end": 37.633,
+      "duration": 0.583,
+      "tempo": 1.0,
+      "text": "Chạy mô phỏng!"
+    },
+    {
+      "id": 27,
+      "scene": "S07",
+      "sourceStart": 38.59,
+      "sourceEnd": 38.841,
+      "start": 38.12,
+      "end": 38.371,
+      "duration": 0.251,
+      "tempo": 1.0,
+      "text": "Khoan!"
+    },
+    {
+      "id": 28,
+      "scene": "S07",
+      "sourceStart": 39.28,
+      "sourceEnd": 42.014,
+      "start": 38.65,
+      "end": 41.384,
+      "duration": 2.734,
+      "tempo": 1.0,
+      "text": "Sao một con số sai lại khiến cả hai dãy nhà bật khỏi mặt đất?"
+    },
+    {
+      "id": 29,
+      "scene": "S07",
+      "sourceStart": 42.467,
+      "sourceEnd": 43.335,
+      "start": 41.68,
+      "end": 42.548,
+      "duration": 0.868,
+      "tempo": 1.0,
+      "text": "HUS bay trước,"
+    },
+    {
+      "id": 30,
+      "scene": "S07",
+      "sourceStart": 43.723,
+      "sourceEnd": 44.8,
+      "start": 42.82,
+      "end": 43.897,
+      "duration": 1.077,
+      "tempo": 1.0,
+      "text": "USSH bay theo!"
+    },
+    {
+      "id": 31,
+      "scene": "S07",
+      "sourceStart": 45.204,
+      "sourceEnd": 46.037,
+      "start": 44.25,
+      "end": 45.083,
+      "duration": 0.833,
+      "tempo": 1.0,
+      "text": "Ai bảo thêm pháo đấy?!"
+    },
+    {
+      "id": 32,
+      "scene": "S08",
+      "sourceStart": 46.521,
+      "sourceEnd": 47.14,
+      "start": 46.08,
+      "end": 46.67,
+      "duration": 0.59,
+      "tempo": 1.05,
+      "text": "Yên tâm,"
+    },
+    {
+      "id": 33,
+      "scene": "S08",
+      "sourceStart": 47.429,
+      "sourceEnd": 48.72,
+      "start": 46.82,
+      "end": 48.05,
+      "duration": 1.23,
+      "tempo": 1.05,
+      "text": "đây chỉ là hoạt hình mô phỏng."
+    },
+    {
+      "id": 34,
+      "scene": "S08",
+      "sourceStart": 49.076,
+      "sourceEnd": 50.56,
+      "start": 48.22,
+      "end": 49.633,
+      "duration": 1.413,
+      "tempo": 1.05,
+      "text": "Hai trường ngoài đời vẫn nguyên vẹn."
+    },
+    {
+      "id": 35,
+      "scene": "S09",
+      "sourceStart": 51.034,
+      "sourceEnd": 53.436,
+      "start": 49.9,
+      "end": 51.989,
+      "duration": 2.089,
+      "tempo": 1.15,
+      "text": "Đêm Toán Tin sẽ được công bố ngày mùng một tháng mười một,"
+    },
+    {
+      "id": 36,
+      "scene": "S09",
+      "sourceStart": 53.765,
+      "sourceEnd": 55.448,
+      "start": 52.12,
+      "end": 53.583,
+      "duration": 1.463,
+      "tempo": 1.15,
+      "text": "tại gian hàng Câu lạc bộ Toán Tin Hamic,"
+    },
+    {
+      "id": 37,
+      "scene": "S09",
+      "sourceStart": 55.803,
+      "sourceEnd": 56.648,
+      "start": 53.7,
+      "end": 54.435,
+      "duration": 0.735,
+      "tempo": 1.15,
+      "text": "cơ sở Nguyễn Trãi"
+    },
+    {
+      "id": 38,
+      "scene": "S09",
+      "sourceStart": 56.964,
+      "sourceEnd": 58.662,
+      "start": 54.52,
+      "end": 55.997,
+      "duration": 1.477,
+      "tempo": 1.15,
+      "text": "tại sự kiện chào tân của HUS."
+    },
+    {
+      "id": 39,
+      "scene": "S10",
+      "sourceStart": 59.131,
+      "sourceEnd": 59.938,
+      "start": 55.85,
+      "end": 56.558,
+      "duration": 0.708,
+      "tempo": 1.14,
+      "text": "Giờ đến lượt bạn:"
+    },
+    {
+      "id": 40,
+      "scene": "S10",
+      "sourceStart": 60.435,
+      "sourceEnd": 61.367,
+      "start": 56.68,
+      "end": 57.498,
+      "duration": 0.818,
+      "tempo": 1.14,
+      "text": "thắp sáng đêm hội..."
+    },
+    {
+      "id": 41,
+      "scene": "S10",
+      "sourceStart": 61.774,
+      "sourceEnd": 63.537,
+      "start": 57.6,
+      "end": 59.146,
+      "duration": 1.546,
+      "tempo": 1.14,
+      "text": "hay biến hai trường thành trạm phóng?"
+    }
+  ],
+  "subtitles": [
+    {
+      "index": 1,
+      "start": 0.18,
+      "end": 3.55,
+      "text": "Một ngày của thành viên CLB Toán Tin Hamic có gì?"
+    },
+    {
+      "index": 2,
+      "start": 3.88,
+      "end": 7.65,
+      "text": "Hôm nay, bạn phải chạy giữa HUS và USSH\nđể cứu một đêm hội sắp bắt đầu."
+    },
+    {
+      "index": 3,
+      "start": 7.92,
+      "end": 9.6,
+      "text": "Đầu tiên, hàng đèn lệch đúng một nhịp."
+    },
+    {
+      "index": 4,
+      "start": 9.68,
+      "end": 12.05,
+      "text": "Rồi hai file trùng tên nhưng nội dung khác nhau."
+    },
+    {
+      "index": 5,
+      "start": 12.12,
+      "end": 15.72,
+      "text": "Gương đặt ngược, lời ghi biến mất,\nvà bản chốt... chẳng ai nhớ đã chốt bản nào!"
+    },
+    {
+      "index": 6,
+      "start": 15.95,
+      "end": 17.15,
+      "text": "Tám quyết định đang chờ."
+    },
+    {
+      "index": 7,
+      "start": 17.2,
+      "end": 19.35,
+      "text": "Kiểm tra ma trận để căn lại chùm sáng."
+    },
+    {
+      "index": 8,
+      "start": 19.45,
+      "end": 21.2,
+      "text": "Dùng giải tích để chỉnh đường bay."
+    },
+    {
+      "index": 9,
+      "start": 21.3,
+      "end": 22.85,
+      "text": "Lần theo đường đi bằng đồ thị."
+    },
+    {
+      "index": 10,
+      "start": 22.95,
+      "end": 25.45,
+      "text": "Tìm lỗi đồng bộ trong đống dữ liệu."
+    },
+    {
+      "index": 11,
+      "start": 25.6,
+      "end": 27.75,
+      "text": "Xếp drone, ghép chú thích,"
+    },
+    {
+      "index": 12,
+      "start": 27.85,
+      "end": 30.85,
+      "text": "rồi thử xem... có nên thêm một chùm pháo nữa không?"
+    },
+    {
+      "index": 13,
+      "start": 31.15,
+      "end": 34.6,
+      "text": "Chọn đại một tí chắc chẳng sao nhỉ?"
+    },
+    {
+      "index": 14,
+      "start": 35.05,
+      "end": 37.85,
+      "text": "Ba... hai... một... Chạy mô phỏng!"
+    },
+    {
+      "index": 15,
+      "start": 38.1,
+      "end": 41.55,
+      "text": "Khoan! Sao một con số sai lại khiến\ncả hai dãy nhà bật khỏi mặt đất?"
+    },
+    {
+      "index": 16,
+      "start": 41.68,
+      "end": 44.1,
+      "text": "HUS bay trước, USSH bay theo!"
+    },
+    {
+      "index": 17,
+      "start": 44.25,
+      "end": 45.8,
+      "text": "Ai bảo thêm pháo đấy?!"
+    },
+    {
+      "index": 18,
+      "start": 46.08,
+      "end": 49.68,
+      "text": "Yên tâm, đây chỉ là hoạt hình mô phỏng.\nHai trường ngoài đời vẫn nguyên vẹn."
+    },
+    {
+      "index": 19,
+      "start": 49.9,
+      "end": 53.62,
+      "text": "Đêm Toán Tin sẽ được công bố ngày 01/11\ntại gian hàng CLB Toán Tin Hamic,"
+    },
+    {
+      "index": 20,
+      "start": 53.7,
+      "end": 55.6,
+      "text": "cơ sở Nguyễn Trãi — sự kiện chào tân của HUS."
+    },
+    {
+      "index": 21,
+      "start": 55.85,
+      "end": 58.9,
+      "text": "Giờ đến lượt bạn: thắp sáng đêm hội...\nhay biến hai trường thành trạm phóng?"
+    }
+  ]
+}

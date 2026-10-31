@@ -1,0 +1,36 @@
+[Script Info]
+Title: HAMIC Trailer 59s Vietnamese Subtitles
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+PlayResX: 1920
+PlayResY: 1080
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Be Vietnam Pro,40,&H00FBF1EE,&H005ED2FF,&H00120907,&H96120907,-1,0,0,0,100,100,0,0,3,2.5,1.5,2,80,80,32,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.18,0:00:03.55,Default,,0,0,0,,Một ngày của thành viên CLB Toán Tin Hamic có gì?
+Dialogue: 0,0:00:03.88,0:00:07.65,Default,,0,0,0,,Hôm nay, bạn phải chạy giữa HUS và USSH\Nđể cứu một đêm hội sắp bắt đầu.
+Dialogue: 0,0:00:07.92,0:00:09.60,Default,,0,0,0,,Đầu tiên, hàng đèn lệch đúng một nhịp.
+Dialogue: 0,0:00:09.68,0:00:12.05,Default,,0,0,0,,Rồi hai file trùng tên nhưng nội dung khác nhau.
+Dialogue: 0,0:00:12.12,0:00:15.72,Default,,0,0,0,,Gương đặt ngược, lời ghi biến mất,\Nvà bản chốt... chẳng ai nhớ đã chốt bản nào!
+Dialogue: 0,0:00:15.95,0:00:17.15,Default,,0,0,0,,Tám quyết định đang chờ.
+Dialogue: 0,0:00:17.20,0:00:19.35,Default,,0,0,0,,Kiểm tra ma trận để căn lại chùm sáng.
+Dialogue: 0,0:00:19.45,0:00:21.20,Default,,0,0,0,,Dùng giải tích để chỉnh đường bay.
+Dialogue: 0,0:00:21.30,0:00:22.85,Default,,0,0,0,,Lần theo đường đi bằng đồ thị.
+Dialogue: 0,0:00:22.95,0:00:25.45,Default,,0,0,0,,Tìm lỗi đồng bộ trong đống dữ liệu.
+Dialogue: 0,0:00:25.60,0:00:27.75,Default,,0,0,0,,Xếp drone, ghép chú thích,
+Dialogue: 0,0:00:27.85,0:00:30.85,Default,,0,0,0,,rồi thử xem... có nên thêm một chùm pháo nữa không?
+Dialogue: 0,0:00:31.15,0:00:34.60,Default,,0,0,0,,Chọn đại một tí chắc chẳng sao nhỉ?
+Dialogue: 0,0:00:35.05,0:00:37.85,Default,,0,0,0,,Ba... hai... một... Chạy mô phỏng!
+Dialogue: 0,0:00:38.10,0:00:41.55,Default,,0,0,0,,Khoan! Sao một con số sai lại khiến\Ncả hai dãy nhà bật khỏi mặt đất?
+Dialogue: 0,0:00:41.68,0:00:44.10,Default,,0,0,0,,HUS bay trước, USSH bay theo!
+Dialogue: 0,0:00:44.25,0:00:45.80,Default,,0,0,0,,Ai bảo thêm pháo đấy?!
+Dialogue: 0,0:00:46.08,0:00:49.68,Default,,0,0,0,,Yên tâm, đây chỉ là hoạt hình mô phỏng.\NHai trường ngoài đời vẫn nguyên vẹn.
+Dialogue: 0,0:00:49.90,0:00:53.62,Default,,0,0,0,,Đêm Toán Tin sẽ được công bố ngày 01/11\Ntại gian hàng CLB Toán Tin Hamic,
+Dialogue: 0,0:00:53.70,0:00:55.60,Default,,0,0,0,,cơ sở Nguyễn Trãi — sự kiện chào tân của HUS.
+Dialogue: 0,0:00:55.85,0:00:58.90,Default,,0,0,0,,Giờ đến lượt bạn: thắp sáng đêm hội...\Nhay biến hai trường thành trạm phóng?

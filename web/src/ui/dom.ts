@@ -52,6 +52,7 @@ function svg(viewBox: string, cls: string, inner: string, size?: number) {
 const ICONS = {
   pin: '<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
   back: '<path d="M15 5l-7 7 7 7"/>',
+  next: '<path d="M9 5l7 7-7 7"/>',
   play: '<path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/>',
   route: '<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8 17c6 0 2-10 8-10"/>',
   stroll: '<path d="M4 18c3-6 6-6 8-2s5 4 8-2"/><circle cx="12" cy="7" r="2.2"/>',
@@ -173,4 +174,59 @@ export function hamicChip(): HTMLElement {
 
 export function clear(node: HTMLElement) {
   node.replaceChildren();
+}
+
+export interface SlideDock {
+  root: HTMLElement;
+  toggle: HTMLButtonElement;
+  collapsed: () => boolean;
+  setCollapsed: (v: boolean) => void;
+}
+
+/** Khung trượt ngang kèm nút mũi tên trái/phải để thu gọn hoặc mở rộng các bảng công cụ. */
+export function slideDock(
+  side: "left" | "right",
+  id: string,
+  panel: HTMLElement,
+  labels: { hide: string; show: string },
+  opts?: { tag?: keyof HTMLElementTagNameMap; extraClass?: string; clipped?: boolean; onToggle?: (collapsed: boolean) => void },
+): SlideDock {
+  let isCollapsed = false;
+  panel.classList.add("slide-body");
+  const toggle = el(
+    "button",
+    {
+      type: "button",
+      class: `btn tiny slide-toggle slide-toggle-${side}`,
+      "data-slide-toggle": id,
+      "aria-expanded": "true",
+      "aria-label": labels.hide,
+      title: labels.hide,
+    },
+    icon(side === "left" ? "back" : "next", 16),
+  );
+  const children = side === "left" ? [panel, toggle] : [toggle, panel];
+  const track = opts?.clipped ? el("div", { class: `slide-track slide-track-${side}` }, ...children) : null;
+  const root = el(
+    opts?.tag ?? "div",
+    { class: `slide-dock slide-dock-${side} slide-dock-${id}${opts?.clipped ? " slide-dock-clipped" : ""}${opts?.extraClass ? ` ${opts.extraClass}` : ""}` },
+    ...(track ? [track] : children),
+  );
+  const setCollapsed = (v: boolean) => {
+    isCollapsed = v;
+    root.classList.toggle("is-collapsed", isCollapsed);
+    panel.inert = isCollapsed;
+    toggle.setAttribute("aria-expanded", String(!isCollapsed));
+    const lbl = isCollapsed ? labels.show : labels.hide;
+    toggle.setAttribute("aria-label", lbl);
+    toggle.setAttribute("title", lbl);
+    opts?.onToggle?.(isCollapsed);
+  };
+  toggle.addEventListener("pointerdown", (e) => e.stopPropagation());
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    sfx.click();
+    setCollapsed(!isCollapsed);
+  });
+  return { root, toggle, collapsed: () => isCollapsed, setCollapsed };
 }

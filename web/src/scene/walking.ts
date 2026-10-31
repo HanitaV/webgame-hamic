@@ -256,10 +256,6 @@ function drawHamicChestLogo(g: CanvasRenderingContext2D, cx: number, cy: number,
   g.fillStyle = "#f59227";
   g.font = `800 ${Math.round(r * 0.40)}px "Be Vietnam Pro", sans-serif`;
   g.fillText("$", cx + r * 0.38, cy + r * 0.15);
-
-  g.fillStyle = "#f7f9fe";
-  g.font = `800 ${Math.round(r * 0.62)}px "Be Vietnam Pro", system-ui, sans-serif`;
-  g.fillText("HAMIC", cx, cy + r * 1.42);
   g.restore();
 }
 

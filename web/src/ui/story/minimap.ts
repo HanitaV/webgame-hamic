@@ -36,7 +36,7 @@ export function minimap(getTarget: () => string | null, getLamps: () => readonly
   root.addEventListener("click", e => e.stopPropagation());
   root.addEventListener("keydown", e => e.stopPropagation());
   const draw = () => {
-    if (root.hidden || document.hidden) return;
+    if (root.hidden || document.hidden || root.closest(".is-collapsed")) return;
     const p = walkPosition();
     const player = p ? { x: p.x / m.scale + m.origin[0], z: p.z / m.scale + m.origin[1] } : null;
     indoors = !!player && (player.x < bounds.x0 - 20 || player.x > bounds.x1 + 20 || player.z < bounds.z0 - 20 || player.z > bounds.z1 + 20);

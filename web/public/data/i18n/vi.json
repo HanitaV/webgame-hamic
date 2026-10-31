@@ -1602,5 +1602,7 @@
  "hamic.logoAlt": "Biểu trưng CLB Toán Tin HAMIC",
  "hamic.sub": "HUS Applied Mathematics & Informatics Club",
  "hamic.signsAria": "Dấu hiệu CLB Toán Tin HAMIC: Toán học A+, Nguồn Tin học và Toán ứng dụng $",
- "hamic.binaryTip": "Mã nhị phân ASCII vòng ngoài biểu trưng: H · A · M · I · C"
+ "hamic.binaryTip": "Mã nhị phân ASCII vòng ngoài biểu trưng: H · A · M · I · C",
+ "ui.slideHide": "Thu gọn {name}",
+ "ui.slideShow": "Mở rộng {name}"
 }
