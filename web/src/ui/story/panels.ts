@@ -4,7 +4,7 @@ import { DATA } from "../../core/data";
 import { t } from "../../core/i18n";
 import type { StoryState } from "../../game/story";
 import {
-  ENDING_IDS, TRUST_WARM, chatMessages, endingRisk, storyEvidence, storyFacts, storyItems, timeline, trustOf,
+  ENDING_IDS, TRUST_WARM, chatMessages, endingRisk, sidequestProgress, storyEvidence, storyFacts, storyItems, timeline, trustOf,
   type EndingResult, type Line,
 } from "../../puzzles/logic/story";
 import { btn, el, icon } from "../dom";
@@ -24,10 +24,10 @@ function entry(title: string, text: string, tag?: string) {
   return el("article", { class: "journal-entry" }, el("b", { text: title }), rich(text), tag ? el("small", { class: "muted", text: tag }) : null);
 }
 
-export type NotebookTab = "evidence" | "items" | "timeline" | "facts" | "lamps" | "endings";
-export const NOTEBOOK_TABS: NotebookTab[] = ["evidence", "items", "timeline", "facts", "lamps", "endings"];
+export type NotebookTab = "evidence" | "items" | "timeline" | "facts" | "lamps" | "sidequests" | "endings";
+export const NOTEBOOK_TABS: NotebookTab[] = ["evidence", "items", "timeline", "facts", "lamps", "sidequests", "endings"];
 
-export function notebookContent(s: StoryState, tab: NotebookTab): HTMLElement {
+export function notebookContent(s: StoryState, tab: NotebookTab, onGoNode?: (node: string) => void): HTMLElement {
   const st = story();
   switch (tab) {
     case "evidence": return list(storyEvidence(st, s).map((id) => {
@@ -44,6 +44,22 @@ export function notebookContent(s: StoryState, tab: NotebookTab): HTMLElement {
       const notes = st.lamps.notes;
       return el("div", {}, el("p", { class: "muted", text: t("story.ui.lampCount", { n: s.lamps.length, max: st.lamps.need }) }),
         list(s.lamps.filter((n) => notes[n]).map((n) => entry(t(DATA.map.walk.nodes.find((x) => x.id === n)!.label), t(notes[n])))));
+    }
+    case "sidequests": {
+      const sqs = st.sidequests ?? [];
+      return list(sqs.map((sq) => {
+        const prog = sidequestProgress(st, s, sq.id);
+        const npcChar = DATA.map.walk.characters.find((c) => c.id === sq.npc);
+        const nodeLabel = npcChar ? t(DATA.map.walk.nodes.find((n) => n.id === npcChar.node)?.label ?? npcChar.node) : "";
+        const card = el("article", { class: "journal-entry" },
+          el("small", { class: "kicker", text: `${t(sq.course)} · ${prog.done}/${prog.total}` }),
+          el("b", { text: t(sq.title) }),
+          rich(t(sq.summary)),
+          prog.complete ? rich(t(sq.rewardText)) : null,
+          npcChar && onGoNode ? btn(`${t("story.travel")}: ${nodeLabel}`, () => onGoNode(npcChar.node), "small ghost", {}, "route") : null,
+        );
+        return card;
+      }));
     }
     case "endings": return endingLibrary(s);
   }

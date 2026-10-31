@@ -206,11 +206,86 @@
         "z": -101.4,
         "label": "story.place.c",
         "short": "story.place.c.short"
+      },
+      {
+        "id": "t1",
+        "x": 106.6,
+        "z": -56,
+        "label": "story.place.t1",
+        "short": "story.place.t1.short"
+      },
+      {
+        "id": "t2",
+        "x": 106.6,
+        "z": -120,
+        "label": "story.place.t2",
+        "short": "story.place.t2.short"
+      },
+      {
+        "id": "t4",
+        "x": 152.88,
+        "z": -196,
+        "label": "story.place.t4",
+        "short": "story.place.t4.short"
+      },
+      {
+        "id": "t5",
+        "x": 168,
+        "z": -154.44,
+        "label": "story.place.t5",
+        "short": "story.place.t5.short"
+      },
+      {
+        "id": "special",
+        "x": 192,
+        "z": -38,
+        "label": "story.place.special",
+        "short": "story.place.special.short"
+      },
+      {
+        "id": "h",
+        "x": -84.24,
+        "z": -64,
+        "label": "story.place.h",
+        "short": "story.place.h.short"
+      },
+      {
+        "id": "g",
+        "x": -46.28,
+        "z": -188,
+        "label": "story.place.g",
+        "short": "story.place.g.short"
+      },
+      {
+        "id": "d",
+        "x": -173.68,
+        "z": -175,
+        "label": "story.place.d",
+        "short": "story.place.d.short"
+      },
+      {
+        "id": "b",
+        "x": -192,
+        "z": -101.4,
+        "label": "story.place.b",
+        "short": "story.place.b.short"
       }
     ],
     "edges": [
       [
         "gate",
+        "axis"
+      ],
+      [
+        "gate",
+        "t1"
+      ],
+      [
+        "t1",
+        "t2"
+      ],
+      [
+        "t2",
         "axis"
       ],
       [
@@ -226,6 +301,26 @@
         "t3"
       ],
       [
+        "rear",
+        "t4"
+      ],
+      [
+        "t4",
+        "t5"
+      ],
+      [
+        "axis",
+        "t5"
+      ],
+      [
+        "t5",
+        "special"
+      ],
+      [
+        "gate",
+        "special"
+      ],
+      [
         "t3",
         "canteen"
       ],
@@ -239,11 +334,35 @@
       ],
       [
         "e",
+        "g"
+      ],
+      [
+        "e",
         "court"
       ],
       [
         "court",
         "c"
+      ],
+      [
+        "court",
+        "d"
+      ],
+      [
+        "d",
+        "b"
+      ],
+      [
+        "b",
+        "c"
+      ],
+      [
+        "c",
+        "h"
+      ],
+      [
+        "h",
+        "cross"
       ]
     ],
     "characters": [
@@ -367,6 +486,54 @@
         "role": "history",
         "offset": [
           -5,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "thao",
+        "node": "t1",
+        "name": "story.npc.thao",
+        "color": "#5ad8ff",
+        "role": "math",
+        "offset": [
+          4,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "kien",
+        "node": "t5",
+        "name": "story.npc.kien",
+        "color": "#ffd25e",
+        "role": "math",
+        "offset": [
+          -4,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "quynh",
+        "node": "t4",
+        "name": "story.npc.quynh",
+        "color": "#5ad8ff",
+        "role": "math",
+        "offset": [
+          4,
+          0
+        ],
+        "plain": true
+      },
+      {
+        "id": "long",
+        "node": "d",
+        "name": "story.npc.long",
+        "color": "#5eeaa0",
+        "role": "history",
+        "offset": [
+          -4,
           0
         ],
         "plain": true

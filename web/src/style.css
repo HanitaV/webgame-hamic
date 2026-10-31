@@ -741,3 +741,31 @@ ol.algo li::marker { color: var(--faint); }
 .walk-dialog { max-height: calc(100dvh - var(--notice-height) - 24px); }
 .show-end { bottom: calc(var(--notice-height) + var(--edge-b) + 12px); }
 
+/* Hỗ trợ tư duy (Chế độ Dễ) */
+.thinking-support {
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  background: var(--fill);
+  border-left: 3px solid var(--gold);
+  display: grid;
+  gap: 4px;
+  font-size: .82rem;
+}
+.thinking-support .thinking-title {
+  color: var(--gold);
+  font-size: .78rem;
+  letter-spacing: .02em;
+}
+.thinking-support p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.thinking-support .thinking-step {
+  color: var(--text);
+}
+@media (max-height: 520px) {
+  .thinking-support { padding: 6px 8px; font-size: .76rem; gap: 2px; }
+}
+
+

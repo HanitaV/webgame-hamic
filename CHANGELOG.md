@@ -31,7 +31,7 @@
 
 ### Kết cục
 - `pickEnding` tất định từ 8 quyết định; trọng số rủi ro và ngưỡng ở `config.json → endings`. Duyệt 2.916 tổ hợp: E1 10,87%, E2 70,30%, E3 5,52%, E4 4,29%, E5 4,29%, E6 4,73%.
-- Cảnh 3D: E1 trình diễn đầy đủ; E2 khối tòa nhà tách ra, bay lên chậm rồi rơi chậm, hoa giấy, chú thích sa bàn mô phỏng, mờ dần khi giảm hiệu ứng; E3 cầu ánh sáng; E4 drone "07"; E5 pháo bay mãi; E6 các cụm ước của 70. Nút Bỏ qua cảnh.
+- Cảnh 3D: E1 trình diễn đầy đủ; E2 khối tòa nhà tách ra, bay lên chậm rồi rơi chậm, hoa giấy, chú thích mô hình trên máy tính, mờ dần khi giảm hiệu ứng; E3 cầu ánh sáng; E4 drone "07"; E5 pháo bay mãi; E6 các cụm ước của 70. Nút Bỏ qua cảnh.
 - Ba biến thể nguyên nhân E2 và biến thể "thêm một chùm"; "Chọn lại từ tổng duyệt" thay "Thử lần quay khác"; Thư viện kết cục giữ qua các lượt; thành tựu A26 Gặp đủ kết cục (cùng A27–A30). Hack mode xem thẳng mọi kết cục.
 
 ### Giao diện, trải nghiệm, máy yếu
@@ -80,13 +80,13 @@
 - Vòng chơi đi bộ từ cổng HUS, gặp NPC ở T3, sân cỏ và USSH; 5 lựa chọn, 3 kết cục, lưu tiến độ và chơi lại. Điều khiển WASD/mũi tên/cảm ứng, tự dẫn đường và camera theo người chơi.
 - 4 NPC low-poly tự dựng, có trang phục, đạo cụ và tên theo dữ liệu. Điểm gặp ở ngoài tòa nhà; tuyến đi có giới hạn, bản đồ vẫn là ước lượng.
 - Hack mode ẩn bằng Ctrl+Shift+H hoặc ?hack=70; mở khóa trong bộ nhớ riêng, kiểm thử từng task và xem ba kết cục. Hướng dẫn trong README.
-- Kịch bản chỉnh kiến thức ma trận/giới hạn, bỏ đếm ngược/cháy nổ/chớp nhanh. Hiệu ứng đa sắc ổn định và sa bàn trôi nhẹ có hỗ trợ giảm chuyển động/ánh sáng.
+- Kịch bản chỉnh kiến thức ma trận/giới hạn, bỏ đếm ngược/cháy nổ/chớp nhanh. Hiệu ứng đa sắc ổn định và mô hình trôi nhẹ có hỗ trợ giảm chuyển động/ánh sáng.
 - Quét khóa dịch cả dữ liệu nhiệm vụ/NPC; sửa đường dẫn script trên Windows; thêm kiểm tra 32 tổ hợp kết cục và Playwright cho luồng đi bộ.
 
 ## 2.3.0
 
-### Sa bàn là bản đồ USSH × HUS (sửa GDD 5.1)
-- Thay sa bàn trừu tượng bằng bản đồ khối hai trường ban đêm, có nhãn tên trường và tên tòa nhà. Mô hình lấy từ `legacy/campus`, nén bằng `web/scripts/build-map.mjs` (10,7 MB → 2,2 MB, ~1100 lưới → ~400 lượt vẽ, vật liệu Lambert cho điện thoại).
+### Mô hình là bản đồ USSH × HUS (sửa GDD 5.1)
+- Thay mô hình trừu tượng bằng bản đồ khối hai trường ban đêm, có nhãn tên trường và tên tòa nhà. Mô hình lấy từ `legacy/campus`, nén bằng `web/scripts/build-map.mjs` (10,7 MB → 2,2 MB, ~1100 lưới → ~400 lượt vẽ, vật liệu Lambert cho điện thoại).
 - Mỗi mạch gắn một tòa nhà (`web/public/data/map.json`); mạch sáng thì tòa nhà bừng màu, có pha lê trên mái và cột sáng. Lõi mạch 7 ở trên bãi cỏ HUS; màn trình diễn diễn ra tại đây.
 - Hành trình ghi vị trí mạch ("Tại Nhà T5 · HUS") và đưa camera tới tòa nhà đó.
 - GDD 5.1, danh sách kiểm tra 12.2, bảng rủi ro và Phụ lục đã sửa theo quyết định này. **Cần CLB xác nhận bản đồ**; trước đó `mapVerified: false` và màn hình chính ghi "bản đồ ước lượng, chờ CLB xác nhận".

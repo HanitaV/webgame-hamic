@@ -32,6 +32,23 @@ export const ENDING_IDS: EndingId[] = ["E1", "E2", "E3", "E4", "E5", "E6"];
 export type E2Variant = Cause | "extra";
 export interface EndingDef { title: string; scene: string; lines: Line[]; hint: string; caption?: string; variants?: Record<E2Variant, { title: string; line: Line }> }
 export interface BondBranch { lines: Line[]; trust?: Record<string, number>; evidence?: string }
+export interface SidequestStage {
+  id: string;
+  title: string;
+  intro: string;
+  levels: { easy: string; normal: string; hard: string };
+  after: string;
+}
+export interface Sidequest {
+  id: string;
+  npc: string;
+  title: string;
+  course: string;
+  summary: string;
+  modules: string[];
+  stages: SidequestStage[];
+  rewardText: string;
+}
 export interface StoryContent {
   version: number; title: string; intro: string; prologue: Line[];
   bondChoice: { prompt: string; listen: { text: string; reply: string }; build: { text: string; reply: string } };
@@ -43,6 +60,7 @@ export interface StoryContent {
   messages: { id: string; requires: string[]; speaker: string; text: string }[];
   lamps: { need: number; title: string; notes: Record<string, string> };
   endings: Record<EndingId, EndingDef>;
+  sidequests?: Sidequest[];
 }
 export type Bond = "listen" | "build";
 export interface StoryState {
@@ -62,6 +80,8 @@ export interface StoryState {
   chatSeen: number;
   /** Bước của bản lưu version 3; > 0 nghĩa là còn chờ chuyển sang cốt truyện mới. */
   legacyStep: number;
+  /** sidequestId → số chặng đã hoàn thành. */
+  sidequests?: Record<string, number>;
 }
 export interface EndingRules {
   boom: { enabled: boolean };
@@ -74,7 +94,7 @@ export interface EndingRules {
 
 export const emptyStory = (): StoryState => ({
   step: 0, introSeen: false, bond: "listen", decisions: {}, topics: [], lamps: [],
-  activeSeconds: 0, endingsSeen: [], lastEnding: null, chatSeen: 0, legacyStep: 0,
+  activeSeconds: 0, endingsSeen: [], lastEnding: null, chatSeen: 0, legacyStep: 0, sidequests: {},
 });
 
 /* ---------- vị trí trong truyện ---------- */
@@ -182,6 +202,17 @@ export function chatMessages(story: StoryContent, s: StoryState) {
 
 export function lampsDone(lit: readonly string[], need: number) { return new Set(lit).size >= need; }
 
+export function npcSidequest(story: StoryContent, npcId: string): Sidequest | null {
+  return (story.sidequests ?? []).find((sq) => sq.npc === npcId) ?? null;
+}
+
+export function sidequestProgress(story: StoryContent, s: StoryState, id: string) {
+  const sq = (story.sidequests ?? []).find((x) => x.id === id);
+  const total = sq?.stages.length ?? 0;
+  const done = Math.max(0, Math.min(total, s.sidequests?.[id] ?? 0));
+  return { done, total, complete: total > 0 && done >= total, nextStage: sq?.stages[done] ?? null };
+}
+
 /* ---------- kết cục ---------- */
 
 export interface EndingResult { id: EndingId; variant: E2Variant | null; risk: number; contributions: { decision: string; option: string; risk: number }[] }
@@ -276,7 +307,7 @@ export function fastForward(story: StoryContent, s: StoryState, index: number): 
 }
 
 /** Bước của cốt truyện 2.7 (0..6, sáu nhiệm vụ) → điểm dừng tương ứng của 2.8. */
-export const LEGACY_STEP_MAP = [0, 1, 4, 5, 8, 13, 14];
+export const LEGACY_STEP_MAP = [0, 1, 4, 5, 8, 14, 15];
 export function migrateLegacy(story: StoryContent, s: StoryState): StoryState {
   if (!s.legacyStep) return s;
   const index = LEGACY_STEP_MAP[Math.max(0, Math.min(LEGACY_STEP_MAP.length - 1, s.legacyStep))];
@@ -308,6 +339,10 @@ export function storyProblems(story: StoryContent, nodes: readonly string[], npc
     for (const place of Object.values(data.chapters)) if (!nodes.includes(place.node)) problems.push(`${npc}: node ${place.node}`);
     for (const t of data.topics) for (const r of t.requires) if (!flags.has(r)) problems.push(`${npc}.${t.id}: cờ ${r} không bao giờ có`);
     for (const c of data.callbacks) for (const r of c.requires) if (!flags.has(r)) problems.push(`${npc} callback: cờ ${r}`);
+  }
+  for (const sq of story.sidequests ?? []) {
+    if (!npcIds.includes(sq.npc)) problems.push(`sidequest ${sq.id}: NPC ${sq.npc}`);
+    if (sq.stages.length < 3) problems.push(`sidequest ${sq.id}: cần ít nhất 3 chặng`);
   }
   for (const m of story.messages) for (const r of m.requires) if (!flags.has(r)) problems.push(`tin ${m.id}: cờ ${r}`);
   for (const n of Object.keys(story.lamps.notes)) if (!nodes.includes(n)) problems.push(`đèn ở node lạ ${n}`);

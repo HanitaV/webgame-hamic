@@ -13,7 +13,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import type { MapData } from "../core/data";
-import { initWalking, updateWalking, walkingEnabled, characterAtScreen, characterScreenPositions, requestCharacterInteraction, setPlayerOccluded, setWalkingLow } from "./walking";
+import { initWalking, updateWalking, walkingEnabled, characterAtScreen, characterScreenPositions, requestCharacterInteraction, setPlayerOccluded, setWalkingLow, walkToWorldPoint } from "./walking";
 import { Atmosphere } from "./atmosphere";
 import { BuildingOcclusion } from "./occlusion";
 import type { EndingId } from "../puzzles/logic/story";
@@ -346,10 +346,18 @@ export function initWorld(canvas: HTMLCanvasElement, colors: string[], o: WorldO
   look.set(0, 0, 0);
   resize();
   window.addEventListener("resize", resize);
+  const groundRay = new THREE.Raycaster();
+  const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const groundHit = new THREE.Vector3();
   canvas.addEventListener("pointerup", (e) => {
     if (!walkingEnabled() || showUpdate) return;
     const id = characterAtScreen(camera,e.clientX,e.clientY,window.innerWidth,window.innerHeight);
-    if (id) requestCharacterInteraction(id);
+    if (id) { requestCharacterInteraction(id); return; }
+    const ndc = new THREE.Vector2((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    groundRay.setFromCamera(ndc, camera);
+    if (groundRay.ray.intersectPlane(groundPlane, groundHit)) {
+      walkToWorldPoint(groundHit.x, groundHit.z);
+    }
   });
   if (!o.offline) requestAnimationFrame(loop);
   return Promise.all([loadCampus().catch((e) => { console.warn("campus model", e); }), loadDrones()]);

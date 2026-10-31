@@ -72,7 +72,12 @@ export function screenLevel(root: HTMLElement, p: Params) {
   const runBtn = btn(t("level.run"), () => run(), "primary big run", { "aria-keyshortcuts": "Enter" }, "play");
   const kbd = (k: string, label: string) => el("span", { class: "kbd-item" }, el("kbd", { text: k }), el("span", { text: label }));
   const keys = el("p", { class: "kbd-hints", "aria-hidden": "true" }, kbd("Enter", t("level.run")), kbd("H", t("level.hintKey")), kbd("Esc", t("ui.back")));
-  const left = el("aside", { class: "level-left panel" }, activity ? el("div", { class: "mode-level-note" }, el("b", { text: t(activity.title) }), el("p", { text: t(activity.intro) })) : null, rich(prompt, "p", { class: "prompt" }), controls, runBtn, keys);
+  const thinkingBox = assisted ? el("div", { class: "thinking-support", role: "note", "data-thinking-support": "true" },
+    el("b", { class: "thinking-title" }, t("level.thinkingTitle")),
+    rich(t(`thinking.${level.module}`), "p", { class: "thinking-guide" }),
+    hints[0] ? rich(`${t("level.thinkingStep1")}: ${hints[0]}`, "p", { class: "thinking-step" }) : null,
+  ) : null;
+  const left = el("aside", { class: "level-left panel" }, activity ? el("div", { class: "mode-level-note" }, rich(t(activity.title), "b"), rich(t(activity.intro))) : null, rich(prompt, "p", { class: "prompt" }), thinkingBox, controls, runBtn, keys);
   const stageHost = el("div", { class: "stage-host" });
   const tiaHost = el("div", { class: "tia-host" });
   tiaHost.append(tiaLine(t("level.tiaStart")));

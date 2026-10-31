@@ -190,12 +190,12 @@ const nodeIds = walk.nodes.map((n: any) => n.id), npcIds = walk.characters.map((
 const problems = storyProblems(story, nodeIds, npcIds);
 check(problems.length === 0, `story: không có trạng thái kẹt (${problems.join("; ")})`);
 check(story.stops.length >= 14 && Object.keys(story.decisions).length === 8, "story: ≥14 điểm dừng, 8 quyết định");
-check(Object.keys(story.npcs).length === 12 && npcIds.every((id: string) => story.npcs[id]), "story: đủ 12 NPC có hồ sơ");
+check(Object.keys(story.npcs).length === npcIds.length && npcIds.every((id: string) => story.npcs[id]), "story: đủ 16 NPC có hồ sơ");
 for (const [id, npc] of Object.entries(story.npcs)) {
   check(npc.topics.length >= 2 && npc.topics.length <= 3, `NPC ${id}: 2–3 chủ đề`);
   check(story.chapters.every((c) => vi[npc.ambient[c.id]]), `NPC ${id}: thoại theo từng chương`);
   check(vi[npc.epilogue.warm] && vi[npc.epilogue.plain], `NPC ${id}: lời kết`);
-  check(story.stops.some((s) => s.npc === id), `NPC ${id}: có lần gặp chính`);
+  check(story.stops.some((s) => s.npc === id) || (story.sidequests ?? []).some((q) => q.npc === id), `NPC ${id}: có lần gặp chính hoặc nhiệm vụ phụ`);
 }
 const ambientTexts = Object.values(story.npcs).flatMap((n) => Object.values(n.ambient).map((k) => vi[k]));
 check(new Set(ambientTexts).size === ambientTexts.length, "story: thoại ambient không trùng nhau");

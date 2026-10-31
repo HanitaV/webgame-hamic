@@ -12,8 +12,8 @@ import { checkAchievements, P } from "../../game/progress";
 import { storyProgress as save, type StoryLine } from "../../game/story";
 import {
   ENDING_IDS, ambientLines, currentChapter, currentStop, decisionOptions, deriveFlags, fastForward, migrateLegacy,
-  npcPlace, pickEnding, rewindTo, storyComplete, storyEvidence, storyFacts, storyItems, storyTime, topicAvailable,
-  type E2Variant, type EndingId, type EndingResult, type Stop,
+  npcPlace, npcSidequest, pickEnding, rewindTo, sidequestProgress, storyComplete, storyEvidence, storyFacts, storyItems, storyTime, topicAvailable,
+  type E2Variant, type EndingId, type EndingResult, type Sidequest, type Stop,
 } from "../../puzzles/logic/story";
 import { endShow, focusCircuit, playShow, setStoryTime, skipShow } from "../../scene/world";
 import { playCinematic, type CinematicPlayback } from "../../scene/cinematic";
@@ -34,6 +34,10 @@ import { settings } from "../../game/settings";
 
 /** Câu đố mở bằng màn chơi riêng: khi quay lại, truyện tiếp tục từ điểm dừng này. */
 let resumeAfterLevel: string | null = null;
+/** Chặng nhiệm vụ phụ vừa giải xong trong màn chơi riêng. */
+let resumeSidequest: { id: string; stageIndex: number } | null = null;
+/** Ngân hàng 266 câu hỏi chuyên đề đang mở của NPC. */
+let resumeBankNpc: string | null = null;
 /** Minigame đã giải trong phiên (đóng hộp thoại giữa chừng thì không phải giải lại). */
 const solvedThisSession = new Set<string>();
 /** Lịch sử thoại của phiên (Sổ → Lịch sử thoại), giữ 80 câu gần nhất. */
@@ -55,7 +59,10 @@ export function screenWalk(root: HTMLElement) {
   const fab = el("div", { class: "walk-fab" });
   let nudged = false, stopStarted = save.get().activeSeconds;
   const map = minimap(() => { const c = stop(); return c ? placeOf(c.npc).node : placeOf("chief").node; }, () => state().lamps,
-    () => DATA.map.walk.characters.map((c) => ({ node: placeOf(c.id).node, main: c.id === stop()?.npc })));
+    () => DATA.map.walk.characters.map((c) => {
+      const sq = npcSidequest(st, c.id);
+      return { node: placeOf(c.id).node, main: c.id === stop()?.npc, sidequest: Boolean(sq && !sidequestProgress(st, state(), sq.id).complete) };
+    }));
   let mapOn = true;
   const view = el("div", { class: "walk-screen" }, hud, radio, map.root, controls, fab, dialog);
   root.append(view);
@@ -210,8 +217,28 @@ export function screenWalk(root: HTMLElement) {
   function topicMenu(npc: string) {
     const s = state(), flags = deriveFlags(st, s), cur = stop();
     const topics = st.npcs[npc]?.topics.filter((tp) => topicAvailable(tp, flags, facts())) ?? [];
+    const sq = npcSidequest(st, npc);
     const box = el("div", { class: "walk-choices" });
     dialog.replaceChildren(el("p", { class: "kicker", text: t("story.ui.topics") }), el("h2", { class: "display", text: npcName(npc) }), box);
+    if (sq) {
+      const prog = sidequestProgress(st, s, sq.id);
+      const bankCount = DATA.generated.filter((l) => sq.modules.includes(l.module)).length;
+      const bankDone = DATA.generated.filter((l) => sq.modules.includes(l.module) && P.get().levels[`p:${l.id}`]?.done).length;
+      const sqBox = el("article", { class: "journal-entry" },
+        el("small", { class: "kicker", text: `${t("story.ui.sidequest")} · ${t(sq.course)} (${prog.done}/${prog.total})` }),
+        el("b", { text: t(sq.title) }),
+        rich(t(sq.summary)),
+        prog.complete ? rich(t(sq.rewardText)) : null,
+      );
+      const stageIdx = prog.complete ? 0 : prog.done;
+      const stage = sq.stages[stageIdx];
+      sqBox.append(el("div", { class: "row" },
+        btn(prog.complete ? `${t("story.ui.sidequestReplay")}: ${t(stage.title)}` : `${t("story.ui.sidequestStart")}: ${t(stage.title)}`,
+          () => runSidequestStage(sq, stageIdx), "primary small", { "data-sidequest": `${sq.id}:${stageIdx}` }, "play"),
+        btn(`${t("story.ui.questionBank")} (${bankDone}/${bankCount})`, () => openQuestionBank(sq), "small ghost", { "data-question-bank": sq.id }, "book"),
+      ));
+      box.append(sqBox);
+    }
     for (const tp of topics) {
       const key = `${npc}.${tp.id}`, asked = s.topics.includes(key);
       box.append(btn(`${t(tp.label)}${asked ? ` · ${t("story.ui.asked")}` : ""}`, () => {
@@ -223,6 +250,81 @@ export function screenWalk(root: HTMLElement) {
     if (!topics.length) box.append(el("p", { class: "muted", text: t("story.ui.noTopics") }));
     if (cur) box.append(btn(t("story.ui.goTo", { place: nodeLabel(placeOf(cur.npc).node) }), () => { closeDialog(); walkTo(placeOf(cur.npc).node); }, "", {}, "route"));
     box.append(btn(t("story.close"), closeDialog, "ghost"));
+    openDialog(true);
+  }
+
+  function runSidequestStage(sq: Sidequest, stageIndex: number) {
+    const stage = sq.stages[stageIndex];
+    if (!stage) return;
+    const levelId = stage.levels[difficulty()];
+    const level = DATA.levels.get(levelId);
+    if (!level) return;
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: `${t("story.ui.sidequest")} · ${t(sq.course)}` }),
+      el("h2", { class: "display", text: t(stage.title) }),
+      rich(t(stage.intro)),
+      el("div", { class: "row" },
+        btn(t("story.ui.startActivity"), () => {
+          closeDialog();
+          resumeSidequest = null;
+          go("level", {
+            id: levelId, mode: "practice", key: `p:${levelId}`,
+            casual: difficulty() === "easy" && Boolean(level.casual),
+            storyNote: { title: stage.title, intro: stage.intro, payoff: stage.after },
+            onSolved: () => { resumeSidequest = { id: sq.id, stageIndex }; },
+            next: { label: t("story.ui.backToStory"), go: () => back("walk") },
+          });
+        }, "primary", { "data-start-sidequest": levelId }, "play"),
+        btn(t("story.ui.back"), () => topicMenu(sq.npc), "ghost", {}, "back"),
+      ),
+    );
+    openDialog(true);
+  }
+
+  function finishSidequestStage(sqId: string, stageIndex: number) {
+    const sq = (st.sidequests ?? []).find((x) => x.id === sqId);
+    if (!sq) return;
+    const stage = sq.stages[stageIndex];
+    const prevDone = state().sidequests?.[sq.id] ?? 0;
+    const nextDone = Math.max(prevDone, stageIndex + 1);
+    save.set({ sidequests: { ...(state().sidequests ?? {}), [sq.id]: nextDone } });
+    buzz();
+    const afterLines: StoryLine[] = [{ speaker: `story.npc.${sq.npc}`, text: stage.after }];
+    if (nextDone >= sq.stages.length && prevDone < sq.stages.length) {
+      afterLines.push({ speaker: `story.npc.${sq.npc}`, text: sq.rewardText });
+    }
+    lines(afterLines, () => topicMenu(sq.npc), sq.title, true);
+  }
+
+  function openQuestionBank(sq: Sidequest, modFilter = sq.modules[0], diffFilter = 1) {
+    const pool = DATA.generated.filter((l) => l.module === modFilter && l.difficulty === diffFilter);
+    const modTabs = el("div", { class: "tab-row" }, ...sq.modules.map((m) =>
+      btn(t(`module.${m}`), () => openQuestionBank(sq, m, diffFilter), `small${m === modFilter ? " primary" : " ghost"}`)));
+    const diffTabs = el("div", { class: "tab-row" }, ...[1, 2, 3, 4, 5].map((d) =>
+      btn(`★${d}`, () => openQuestionBank(sq, modFilter, d), `small${d === diffFilter ? " primary" : " ghost"}`)));
+    const listEl = el("div", { class: "journal-list" }, ...pool.map((lv, idx) => {
+      const done = P.get().levels[`p:${lv.id}`]?.done;
+      return el("article", { class: "journal-entry" },
+        el("small", { class: "kicker", text: `${t(`module.${lv.module}`)} · ★${lv.difficulty} · #${idx + 1}${done ? ` · ${t("ui.done")}` : ""}` }),
+        rich(difficulty() === "easy" && lv.casual ? lv.casual.prompt : lv.prompt),
+        btn(done ? t("ui.replay") : t("story.ui.startActivity"), () => {
+          closeDialog();
+          resumeBankNpc = sq.npc;
+          go("level", {
+            id: lv.id, mode: "practice", key: `p:${lv.id}`,
+            casual: difficulty() === "easy" && Boolean(lv.casual),
+            storyNote: { title: sq.title, intro: sq.summary, payoff: "story.ui.levelPayoff" },
+            next: { label: t("story.ui.backToStory"), go: () => back("walk") },
+          });
+        }, `small${done ? " ghost" : " primary"}`, {}, "play"),
+      );
+    }));
+    dialog.replaceChildren(
+      el("p", { class: "kicker", text: `${t("story.ui.questionBank")} · ${t(sq.course)}` }),
+      el("h2", { class: "display", text: t(sq.title) }),
+      modTabs, diffTabs, listEl,
+      el("div", { class: "row" }, btn(t("story.ui.back"), () => topicMenu(sq.npc), "ghost", {}, "back"), btn(t("story.close"), closeDialog, "ghost")),
+    );
     openDialog(true);
   }
 
@@ -247,8 +349,8 @@ export function screenWalk(root: HTMLElement) {
     const level = DATA.levels.get(levelId);
     if (!level) { afterActivity(s0); return; }
     const handwritten = DATA.journey.some((l) => l.id === levelId);
-    dialog.replaceChildren(el("p", { class: "kicker", text: t("story.ui.levelNote") }), el("h2", { class: "display", text: t(a.title) }),
-      el("p", { text: t(a.note) }),
+    dialog.replaceChildren(el("p", { class: "kicker", text: t("story.ui.levelNote") }), rich(t(a.title), "h2", { class: "display" }),
+      rich(t(a.note)),
       el("div", { class: "row" }, btn(t("story.ui.startActivity"), () => {
         closeDialog();
         resumeAfterLevel = null;
@@ -310,8 +412,8 @@ export function screenWalk(root: HTMLElement) {
     const tabs = el("div", { class: "tab-row", role: "tablist" }, ...NOTEBOOK_TABS.map((k) => btn(t(`story.ui.tab.${k}`), () => notebook(k), `small${k === tab ? " primary" : " ghost"}`, { role: "tab", "aria-selected": String(k === tab), "data-tab": k })));
     tabs.append(btn(t("story.ui.tab.log"), () => notebook("log"), `small${tab === "log" ? " primary" : " ghost"}`, { role: "tab", "aria-selected": String(tab === "log"), "data-tab": "log" }));
     const content = tab === "log"
-      ? (dialogueLog.length ? el("ol", { class: "chat-list" }, ...dialogueLog.map((l) => el("li", {}, el("b", { text: t(l.speaker) }), el("p", { text: t(l.text) })))) : el("p", { class: "muted", text: t("story.ui.logEmpty") }))
-      : notebookContent(state(), tab);
+      ? (dialogueLog.length ? el("ol", { class: "chat-list" }, ...dialogueLog.map((l) => el("li", {}, el("b", { text: t(l.speaker) }), rich(t(l.text))))) : el("p", { class: "muted", text: t("story.ui.logEmpty") }))
+      : notebookContent(state(), tab, (node) => { closeDialog(); walkTo(node); });
     dialog.replaceChildren(el("p", { class: "kicker", text: t(state().bond === "listen" ? "story.ui.bondNote.listen" : "story.ui.bondNote.build") }),
       el("h2", { class: "display", text: t("story.ui.notebook", { n: storyEvidence(st, state()).length }) }), tabs, content, btn(t("story.ui.close"), closeDialog, "primary"));
     openDialog(true);
@@ -437,6 +539,8 @@ export function screenWalk(root: HTMLElement) {
   Object.assign(window, { __walkTest: { solveActivity: () => { const s0 = stop(); if (s0) { solvedThisSession.add(s0.id); afterActivity(s0); } }, interact, finale } });
   render();
   if (resumeAfterLevel && stop()?.id === resumeAfterLevel) { const s0 = stop()!; resumeAfterLevel = null; afterActivity(s0); }
+  else if (resumeSidequest) { const rs = resumeSidequest; resumeSidequest = null; finishSidequestStage(rs.id, rs.stageIndex); }
+  else if (resumeBankNpc) { const npc = resumeBankNpc; resumeBankNpc = null; const sq = npcSidequest(st, npc); if (sq) openQuestionBank(sq); }
   else lines([{ speaker: "story.dialogue.narrator", text: "notice.choices" }], () => {
     if (!state().introSeen) prologue();
     else if (legacyNote) lines([{ speaker: "story.dialogue.narrator", text: "story.ui.legacy" }], closeDialog, "story.title");

@@ -1,6 +1,6 @@
 # Bản mô phỏng 70 năm — vòng chơi 2.4
 
-Vòng chơi chính: đi bộ → tới gần NPC → trò chuyện → chọn cấu hình → đọc phản hồi → tới trạm tiếp theo → trở về T3 → chạy sa bàn. Các mạch câu đố cũ ở mục Bản vẽ kỹ thuật.
+Vòng chơi chính: đi bộ → tới gần NPC → trò chuyện → chọn cấu hình → đọc phản hồi → tới trạm tiếp theo → trở về T3 → chạy mô hình. Các mạch câu đố cũ ở mục Bản vẽ kỹ thuật.
 
 Người chơi là thành viên mới HAMIC. Chị Chủ nhiệm, thành viên Ban Học tập, đại diện tư liệu và điều phối sân khấu USSH đều là nhân vật hư cấu. Nội dung hợp tác là kịch bản game, không phải thông báo về dự án thật hay lời phát ngôn của trường.
 
@@ -17,7 +17,7 @@ Câu hỏi và liên kết nhiệm vụ nằm ở `web/public/data/story.json`; 
 
 Di chuyển bằng WASD, mũi tên hoặc nút cảm ứng. Tuyến đường sáng giới hạn khu vực đi bộ để tránh xuyên tòa nhà. Nút “Đi tới nhiệm vụ” tự dẫn nhân vật đi bộ theo tuyến, không dịch chuyển tức thời. Tới gần mới dùng E / Trò chuyện. Tiến độ lưu sau mỗi lựa chọn; rời màn hoặc tải lại không mất các lựa chọn đã lưu. Nhân vật bắt đầu lại ở cổng sau khi tải lại trang.
 
-Năm quyết định tạo đúng 32 tổ hợp. Đúng 5/5: bản giao hưởng; đúng 2–4/5: khuôn viên đa sắc; đúng 0–1/5: sa bàn không trọng lực. Không đánh giá tính cách hay phạt người chơi. Sau kết cục có thể chơi lại riêng kịch bản, giữ tiến độ câu đố cũ.
+Năm quyết định tạo đúng 32 tổ hợp. Đúng 5/5: bản giao hưởng; đúng 2–4/5: khuôn viên đa sắc; đúng 0–1/5: mô hình không trọng lực. Không đánh giá tính cách hay phạt người chơi. Sau kết cục có thể chơi lại riêng kịch bản, giữ tiến độ câu đố cũ.
 
 Điều chỉnh so với bản kịch bản đề xuất: không có giới hạn 15 phút; dùng dải sáng thay hình ảnh cháy nổ; màu đa sắc giữ ổn định; khối nhà chỉ nâng và trôi nhẹ trong mô phỏng. Giảm chuyển động dùng vị trí tĩnh, giảm ánh sáng giảm độ phát sáng. Không dùng thông báo “stack overflow” như hệ quả toán học thực tế của lựa chọn sai. Chuyển vị chỉ là nghịch đảo trong ví dụ ma trận trực giao. Phần lượng–chất là câu hỏi khái niệm, không dùng làm quy tắc kỹ thuật mạng.
 
@@ -48,7 +48,7 @@ Các mode mở rộng có lời giao việc và hồi đáp riêng: Dạo chơi 
 
 Chiều cao nhân vật là 1,75 đơn vị layout (0,175 đơn vị cảnh khi `map.scale = 0.1`), so với tòa nhà khoảng 12–28 đơn vị layout. Tất cả NPC và người chơi dùng cùng tỷ lệ; nhãn tên nằm riêng để không làm sai kích thước hình học. Đây là tỷ lệ thiết kế, không phải phép đo người hoặc khuôn viên thật. Chiều cao, tốc độ, khoảng trò chuyện và thông số camera ở `map.json → walk.avatar`.
 
-Camera theo gần người chơi, làm mờ tòa nhà che tầm nhìn và giữ nguyên khoảng cách; vòng dưới chân giúp nhận ra người chơi. Nhãn sa bàn tổng quan được ẩn khi đang đi bộ, nhãn NPC chỉ hiện khi ở gần.
+Camera theo gần người chơi, làm mờ tòa nhà che tầm nhìn và giữ nguyên khoảng cách; vòng dưới chân giúp nhận ra người chơi. Nhãn mô hình tổng quan được ẩn khi đang đi bộ, nhãn NPC chỉ hiện khi ở gần.
 
 ### Kiểm tra
 
@@ -63,7 +63,7 @@ Tương tác dùng khoảng cách tới mô hình NPC thay cho tâm điểm nhi�
 
 `map.json → atmosphere` quy định ánh sáng ở các bước 0, 2, 3, 4, 5, 6: còn nắng, nắng thấp, hoàng hôn, chạng vạng, tối và tối cho buổi diễn. Bầu trời, sương, nguồn sáng và mức sáng của đèn/sao chuyển dần; Giảm chuyển động dùng trạng thái tĩnh của chặng. Khi tải lại, áp dụng ngay thời điểm của bản lưu. Màn diễn tạm dùng khung cuối rồi trả về thời điểm đang lưu.
 
-`walk.avatar.camera.occlusionOpacity` quy định độ mờ của nhà chắn tầm nhìn. Ba đoạn nối camera tới các độ cao của người chơi kiểm tra khung bao đã lưu; chỉ nhóm nhà chắn tầm nhìn được đổi vật liệu tạm. Rời tầm che hoặc màn đi bộ sẽ trả vật liệu gốc. Camera không thu cánh tay theo, và nhân vật được vẽ rõ trên phần nhà đã mờ. Khung bao phù hợp sa bàn tĩnh; nếu sau này cho nhà di chuyển trong lúc đi bộ, phải cập nhật lại khung bao.
+`walk.avatar.camera.occlusionOpacity` quy định độ mờ của nhà chắn tầm nhìn. Ba đoạn nối camera tới các độ cao của người chơi kiểm tra khung bao đã lưu; chỉ nhóm nhà chắn tầm nhìn được đổi vật liệu tạm. Rời tầm che hoặc màn đi bộ sẽ trả vật liệu gốc. Camera không thu cánh tay theo, và nhân vật được vẽ rõ trên phần nhà đã mờ. Khung bao phù hợp mô hình tĩnh; nếu sau này cho nhà di chuyển trong lúc đi bộ, phải cập nhật lại khung bao.
 
 Kiểm thử trình duyệt thêm trường hợp đứng dưới T1, đứng lệch khỏi tâm điểm hẹn, nói với NPC ngoài nhiệm vụ, dùng E/nút/chạm, trả vật liệu và ánh sáng cuối truyện. Đo phép dò trên Chrome chạy phần mềm để kiểm tra chi phí CPU; số đo này không đại diện tốc độ GPU của máy người chơi.
 

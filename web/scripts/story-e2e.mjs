@@ -15,7 +15,7 @@ let chromium;
 // PLAYWRIGHT_MODULE cho phép dùng bản Playwright có sẵn trình duyệt trên máy (ví dụ bản cài toàn cục).
 ({ chromium } = require(process.env.PLAYWRIGHT_MODULE ?? "playwright"));
 const url = process.env.CAPTURE_URL ?? "http://127.0.0.1:4173/";
-const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL, args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
 const failures = [], errors = [];
 let passes = 0;
 const check = (ok, msg) => { if (ok) passes++; else failures.push(msg); console.log(`${ok ? "  đạt " : "  LỖI "} ${msg}`); };
@@ -123,6 +123,52 @@ if (process.env.ONLY !== "hack") {
   const d = await page.evaluate(() => { const h = window.__hoitu; return h.storyLogic.enumerateEndings(h.data.story, h.data.config.endings); });
   console.log("tỉ lệ kết cục:", Object.entries(d.share).map(([k, v]) => `${k} ${v.toFixed(2)}%`).join(", "));
   check(Math.abs(d.share.E2 - 70) <= 2, `E2 xuất hiện ${d.share.E2.toFixed(2)}% trên ${d.total} tổ hợp lựa chọn`);
+  await ctx.close();
+}
+
+// Thế giới mở, nhiệm vụ phụ XSTK/ĐSTT, kho 266 câu hỏi và Hỗ trợ tư duy ở chế độ Dễ.
+{
+  const { ctx, page } = await open("openworld-sidequest-easy");
+  await page.evaluate(() => {
+    window.__hoitu.playSettings.set({ difficulty: "easy" });
+    window.__hoitu.storyProgress.set({ introSeen: true });
+    window.__hoitu.go("walk");
+  });
+  await wait(300);
+  if (await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count()) {
+    await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").first().click();
+  }
+  await wait(200);
+  // Kiểm tra đi tự do tới tọa độ ngoài hành lang cũ (khu Nhân văn / khu T5).
+  const beforePos = await page.evaluate(() => window.__hoitu.walkPosition());
+  await page.evaluate(() => window.__hoitu.walkToPoint(-135, -130));
+  await wait(900);
+  const pos = await page.evaluate(() => window.__hoitu.walkPosition());
+  check(pos.x < beforePos.x && pos.z < beforePos.z, `Thế giới mở: đi tự do sang khu Nhân văn (${pos.x.toFixed(2)}, ${pos.z.toFixed(2)})`);
+  // Kiểm tra tương tác NPC nhiệm vụ phụ Thảo (t1) và kho 266 câu hỏi.
+  await page.evaluate(() => window.__hoitu.teleportTo("t1"));
+  await wait(300);
+  await page.evaluate(() => window.__walkTest.interact("thao"));
+  await wait(300);
+  for (let i = 0; i < 4 && await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count(); i++) {
+    await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").first().click();
+  }
+  check(await page.locator('[data-sidequest="sq_xstk_comb:0"]').count() === 1, "Hiện nút bắt đầu nhiệm vụ phụ XSTK tại Sảnh T1");
+  check(await page.locator('[data-question-bank="sq_xstk_comb"]').count() === 1, "Hiện nút mở Kho 266 câu hỏi chuyên đề tại NPC phụ");
+  await page.locator('[data-question-bank="sq_xstk_comb"]').click();
+  await wait(200);
+  const bankItems = await page.locator(".walk-dialog:not([hidden]) .journal-entry").count();
+  check(bankItems >= 4, `Kho câu hỏi của Thảo liệt kê ${bankItems} bài chuyên đề ở mức ★1`);
+  // Kiểm tra Sổ tay mục Nhiệm vụ phụ.
+  await page.keyboard.press("Escape");
+  await page.locator("[data-notebook]").click();
+  await page.locator('[data-tab="sidequests"]').click();
+  check(await page.locator(".walk-dialog:not([hidden]) .journal-entry").count() === 4, "Sổ tay hiện đủ 4 chuỗi nhiệm vụ phụ");
+  await page.keyboard.press("Escape");
+  // Kiểm tra Hỗ trợ tư duy hiện sẵn ở chế độ Dễ khi giải bài.
+  await page.evaluate(() => window.__hoitu.go("level", { id: "1.1", mode: "journey" }));
+  await wait(300);
+  check(await page.locator('[data-thinking-support="true"]').count() === 1, "Chế độ Dễ hiện sẵn hộp Hỗ trợ tư duy ngay khi vào màn giải bài");
   await ctx.close();
 }
 

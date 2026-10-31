@@ -23,7 +23,7 @@ import { t } from "./core/i18n";
 import { P, checkAchievements, dailyIds } from "./game/progress";
 import { reducedMotion, settings } from "./game/settings";
 import { initWorld, setStoryTime, worldDiagnostics } from "./scene/world";
-import { walkPosition, walkingMetrics, walkTo, pauseWalk, teleportTo } from "./scene/walking";
+import { walkPosition, walkingMetrics, walkTo, walkToPoint, walkToWorldPoint, pauseWalk, teleportTo } from "./scene/walking";
 import { el } from "./ui/dom";
 import { initOverlay, toast } from "./ui/overlay";
 import { installRotateCover } from "./ui/orientation";
@@ -123,7 +123,7 @@ async function main() {
   else if (start) { reset("title"); go(start); }
   else reset("title");
 
-  Object.assign(window, { __hoitu: { ready: true, go, reset, data: DATA, progress: P, walkPosition, walkingMetrics, walkTo, teleportTo, pauseWalk, worldDiagnostics, storyProgress, storyLogic, playSettings, dailyIds, musicDiagnostics, audioDiagnostics, endingAudioDiagnostics, settings } });
+  Object.assign(window, { __hoitu: { ready: true, go, reset, data: DATA, progress: P, walkPosition, walkingMetrics, walkTo, walkToPoint, walkToWorldPoint, teleportTo, pauseWalk, worldDiagnostics, storyProgress, storyLogic, playSettings, dailyIds, musicDiagnostics, audioDiagnostics, endingAudioDiagnostics, settings } });
 
   if (import.meta.env.PROD && "serviceWorker" in navigator) {
     navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);

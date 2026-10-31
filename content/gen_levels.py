@@ -91,12 +91,12 @@ def g_plot_limit(seed, diff):
         bb = round(bb + step, 2)
     assert bb == b, "quet luoi khong khop"
     assert a * math.exp(-b * T) <= eps < a * math.exp(-round(b - step, 2) * T)
-    prompt = ("Pháo hoa phải dừng ở %s m. Với h(t) = a·(1 − e^(−bt)), chọn a và b để sau %d s "
-              "độ cao cách %s m không quá %s m." % (a, T, a, num(eps)))
+    prompt = ("Theo mô hình tiệm cận mũ h(t) = a·(1 − e^(−bt)) (dạng hàm phân phối tích lũy mũ F(t) nhân trần a = %s m), "
+              "chọn a và tốc độ hội tụ b để sau %d s độ lệch phần đuôi a·e^(−bt) không quá %s m." % (a, T, num(eps)))
     hints = [
-        "Giới hạn của h(t) khi t → ∞ bằng a.",
-        "Muốn dừng ở %s m thì a = %s. Sai số sau %d giây là %s·e^(−%d·b)." % (a, a, T, a, T),
-        "Cần %s·e^(−%d·b) ≤ %s, tức b ≥ ln(%s)/%d ≈ %s. Bước chỉnh là 0,05 nên b nhỏ nhất là %s."
+        "Khi t → ∞, đại lượng e^(−bt) → 0 nên giới hạn tiệm cận của h(t) bằng a.",
+        "Đặt trần hội tụ a = %s m. Phần dư phần đuôi sau %d giây là %s·e^(−%d·b)." % (a, T, a, T),
+        "Giải bất phương trình %s·e^(−%d·b) ≤ %s, được b ≥ ln(%s)/%d ≈ %s. Với bước lưới 0,05 thì b nhỏ nhất là %s."
         % (a, T, num(eps), num(a / eps), T, num(round(b_min, 3)), num(b)),
     ]
     return mk("plot-limit", diff, seed, prompt,
@@ -127,12 +127,13 @@ def g_series(seed, diff):
     assert N == M, "tong dan va luy thua khong khop"
     n_float = math.ceil(math.log(float(1 - p)) / math.log(float(q)))
     assert abs(n_float - N) <= 1
-    prompt = ("Đèn thứ n có độ sáng (%s)^n. Cần bật ít nhất bao nhiêu đèn đầu tiên để tổng đạt %s%% "
-              "giá trị tối đa mà tổng có thể tiến tới (%s)?" % (num(q), num(float(p * 100)), num(limit)))
+    prompt = ("Trong chuỗi phép thử truyền tin độc lập hệ số q = %s, bước thứ n đóng góp (%s)^n. "
+              "Cần lấy tổng riêng ít nhất N bằng bao nhiêu số hạng đầu để đạt %s%% giá trị hội tụ tối đa (%s)?"
+              % (num(q), num(q), num(float(p * 100)), num(limit)))
     hints = [
-        "Tổng của N đèn đầu là q(1 − q^N)/(1 − q) với q = %s." % num(q),
-        "Giá trị tối đa là q/(1 − q) = %s; cần 1 − q^N ≥ %s." % (num(limit), num(float(p))),
-        "Cần q^N ≤ %s; thử N tăng dần, kết quả nhỏ nhất là N = %d." % (num(float(1 - p)), N),
+        "Tổng riêng N số hạng đầu của chuỗi hình học là S_N = q(1 − q^N)/(1 − q) với q = %s." % num(q),
+        "Tổng hội tụ khi N → ∞ là S = q/(1 − q) = %s; tỉ lệ tích lũy đạt yêu cầu khi 1 − q^N ≥ %s." % (num(limit), num(float(p))),
+        "Bất phương trình phần đuôi q^N ≤ %s cho số bước nhỏ nhất N = %d." % (num(float(1 - p)), N),
     ]
     return mk("series", diff, seed, prompt, {"q": num(q), "percent": float(p * 100)}, {"N": N},
               ["cộng dồn chính xác (phân số) == lũy thừa q^N ≤ 1 − p", "công thức log lệch không quá 1"],
@@ -156,12 +157,13 @@ def g_removable(seed, diff):
     assert abs(f(c + 1e-6) - L) < 1e-3 and abs(f(c - 1e-6) - L) < 1e-3
     numer = "x²" + term(B, "x") + term(C, "")
     denom = "x − %d" % c if c > 0 else "x + %d" % (-c)
-    prompt = ("f(x) = (%s)/(%s) có điểm tối tại x = %d. Chọn giá trị f(%d) để đường sáng liền mạch."
-              % (numer, denom, c, c))
+    prompt = ("Hàm cường độ tín hiệu f(x) = (%s)/(%s) có dạng vô định 0/0 tại điểm gián đoạn x = %d. "
+              "Chọn giá trị bổ sung f(%d) để khử gián đoạn và làm hàm liên tục tại x = %d."
+              % (numer, denom, c, c, c))
     hints = [
-        "Mẫu số bằng 0 tại x = %d; thử phân tích tử số thành tích." % c,
-        "Tử số = %s·%s." % ((("(x − %d)" % c) if c > 0 else ("(x + %d)" % -c)), factor(d)),
-        "Với x ≠ %d, f(x) = %s, nên giới hạn khi x → %d là %d." % (c, "x" if d == 0 else "x %s %d" % ("+" if d > 0 else "−", abs(d)), c, L),
+        "Tại x = %d cả tử và mẫu đều bằng 0 (dạng vô định 0/0); phân tích đa thức tử số thành nhân tử." % c,
+        "Chia đa thức hoặc dùng sơ đồ Horner: tử số = %s·%s." % ((("(x − %d)" % c) if c > 0 else ("(x + %d)" % -c)), factor(d)),
+        "Rút gọn nhân tử chung với x ≠ %d được f(x) = %s, suy ra giới hạn khi x → %d bằng %d." % (c, "x" if d == 0 else "x %s %d" % ("+" if d > 0 else "−", abs(d)), c, L),
     ]
     return mk("removable", diff, seed, prompt, {"c": c, "numerator": [1, B, C]}, {"value": L},
               ["chia Horner dư 0, thương x + d", "giá trị số tại c ± 1e-6 gần c + d"], hints)
@@ -222,11 +224,11 @@ def g_pick_limit(seed, diff):
         if isinstance(nl, float) and abs(nl - a) < 1e-2:
             correct.append("ABCDE"[i])
         labels.append({"label": "ABCDE"[i], "f": txt, "limit": declared})
-    prompt = "Chọn tất cả hàm có giới hạn bằng %d khi x → ∞." % a
+    prompt = "Khảo sát dáng điệu tiệm cận khi cỡ mẫu x → ∞: chọn tất cả các hàm hội tụ đúng về giới hạn hữu hạn bằng %d." % a
     hints = [
-        "Giới hạn hữu hạn khác với tiến tới vô cực và khác với không tồn tại.",
-        "Hàm dao động (sin) không có giới hạn; hàm tăng không bị chặn thì tiến tới vô cực.",
-        "Đáp án đúng: %s." % ", ".join(correct),
+        "Phân biệt hàm hội tụ về hằng số hữu hạn với hàm phân kỳ ra vô cực hoặc dao động tuần hoàn.",
+        "Chia cả tử và mẫu cho bậc cao nhất của x, hoặc dùng giới hạn cơ bản e^(−x) → 0, sin(x)/x → 0 khi x → ∞.",
+        "Các phương án hội tụ về %d là: %s." % (a, ", ".join(correct)),
     ]
     return mk("pick-limit", diff, seed, prompt, {"options": labels, "target": a}, {"correct": correct},
               ["khai báo == phân loại số (x = 1e7, 1e8; dao động tại 2πn và 2πn + π/2)"], hints)
@@ -284,12 +286,13 @@ def g_beam_order(seed, diff):
             continue
         shown = names[:]
         r.shuffle(shown)
-        prompt = ("Tia đi vào theo hướng (%d, %d) cần ra theo hướng (%d, %d). Đặt %d gương theo đúng thứ tự."
+        prompt = ("Trong không gian R², vectơ tia sáng đầu vào v = (%d, %d) cần biến đổi tuyến tính thành vectơ đích (%d, %d). "
+                  "Xếp đúng thứ tự %d phép biến đổi ma trận (gương) trên đường truyền."
                   % (v[0], v[1], t[0], t[1], cnt))
         hints = [
-            "Gương đặt trước tác dụng trước; phép nhân ma trận không giao hoán.",
-            "Thử từng thứ tự và xem tia ra ở đâu.",
-            "Thứ tự đúng: %s." % " → ".join(VN_NAMES[n] for n in names),
+            "Mỗi gương là phép biến đổi tuyến tính x ↦ Ax; gương đặt trước tác động trước và tích ma trận không giao hoán (AB ≠ BA).",
+            "Tính ảnh của vectơ qua từng phép quay hoặc đối xứng theo thứ tự từ trái sang phải.",
+            "Thứ tự phép biến đổi đúng: %s." % " → ".join(VN_NAMES[n] for n in names),
         ]
         return mk("beam-order", diff, seed, prompt,
                   {"vector": list(v), "target": list(t), "mirrors": shown},
@@ -326,14 +329,14 @@ def g_transpose_bug(seed, diff):
     up = mv(R, d)
     down = mv(Rt, d)
     assert up[1] > 0 and down[1] < 0 and up[0] == down[0]
-    prompt = ("Ma trận xoay R = [[%d/%d, −%d/%d], [%d/%d, %d/%d]]. Tia (%d, 0) cần hướng lên. "
-              "Nếu hệ thống áp nhầm Rᵀ thay cho R thì tia tới đâu? Nhân cả ma trận lên %d lần có phải cách sửa không?"
+    prompt = ("Ma trận chính tắc của phép quay R = [[%d/%d, −%d/%d], [%d/%d, %d/%d]] tác động lên vectơ d = (%d, 0). "
+              "Nếu nạp nhầm ma trận chuyển vị Rᵀ thay cho R thì ảnh Rᵀ·d tới đâu? Nhân ma trận lên %d lần có khôi phục được phép quay không?"
               % (a, h, b, h, b, h, a, h, d[0], scale))
     hints = [
-        "Với ma trận xoay, Rᵀ chính là nghịch đảo của R.",
-        "Áp Rᵀ là xoay ngược chiều nên tia đi xuống; kiểm tra R·d và Rᵀ·d.",
-        "R·d = (%s, %s) hướng lên; Rᵀ·d = (%s, %s) hướng xuống; det(%d·R) = %d ≠ 1 nên không còn là phép xoay."
-        % (num(up[0]), num(up[1]), num(down[0]), num(down[1]), scale, scale ** 2),
+        "Vì R là ma trận trực giao có det(R) = 1 nên chuyển vị Rᵀ chính là nghịch đảo R⁻¹ (quay ngược chiều).",
+        "Tính tích ma trận-vectơ: R·d quay lên nửa mặt phẳng y > 0, còn Rᵀ·d quay đối xứng xuống y < 0.",
+        "R·d = (%s, %s) hướng lên; Rᵀ·d = (%s, %s) hướng xuống; det(%d·R) = %d²·det(R) = %d ≠ 1 nên không còn là phép quay."
+        % (num(up[0]), num(up[1]), num(down[0]), num(down[1]), scale, scale, scale ** 2),
     ]
     return mk("transpose-bug", diff, seed, prompt, {"triple": [a, b, h], "d": list(d), "scale": scale},
               {"up": [num(up[0]), num(up[1])], "down": [num(down[0]), num(down[1])],
@@ -408,24 +411,24 @@ def g_block(seed, diff):
         n = r.choice([10, 20, 50, 70, 70, 100])
         prog = [("set", "s", ("int", 0)), ("for", "i", 1, n, [("add_to", "s", ("var", "i"))])]
         expect, var = n * (n + 1) // 2, "s"
-        prompt = "Tính tổng 1 + 2 + … + %d bằng vòng lặp, lưu vào biến s." % n
-        hints = ["Dùng biến tổng bắt đầu từ 0.", "Lặp i từ 1 đến %d và cộng i vào s." % n,
-                 "Kết quả phải là %d." % expect]
+        prompt = "Lập trình tính tổng tích lũy các giá trị quan sát 1 + 2 + … + %d bằng vòng lặp, lưu vào biến s." % n
+        hints = ["Khởi tạo biến tổng s bắt đầu từ 0.", "Lặp i từ 1 đến %d và cộng dồn i vào s." % n,
+                 "Tổng tích lũy phải bằng %d." % expect]
     elif kind == "sum_arith":
         n, a, d = r.randint(5, 20), r.randint(1, 9), r.randint(1, 9)
         prog = [("set", "s", ("int", 0)),
                 ("for", "i", 0, n - 1, [("add_to", "s", ("add", ("int", a), ("mul", ("int", d), ("var", "i"))))])]
         expect, var = n * a + d * n * (n - 1) // 2, "s"
-        prompt = "Cộng %d số hạng đầu của dãy %d, %d, %d, ... (công sai %d) vào biến s." % (n, a, a + d, a + 2 * d, d)
-        hints = ["Số hạng thứ i (i = 0, 1, ...) là %d + %d·i." % (a, d), "Lặp i từ 0 đến %d." % (n - 1),
-                 "Kết quả phải là %d." % expect]
+        prompt = "Tính tổng %d mức quan sát đầu của cấp số cộng %d, %d, %d, ... (công sai %d) vào biến s." % (n, a, a + d, a + 2 * d, d)
+        hints = ["Số hạng thứ i (i = 0, 1, ...) có công thức %d + %d·i." % (a, d), "Cho chỉ số i lặp từ 0 đến %d." % (n - 1),
+                 "Tổng thu được phải bằng %d." % expect]
     elif kind == "count_even":
         n = r.randint(10, 100)
         prog = [("set", "c", ("int", 0)),
                 ("for", "i", 1, n, [("if", "i", 2, 0, [("add_to", "c", ("int", 1))])])]
         expect, var = n // 2, "c"
-        prompt = "Đếm số số chẵn trong 1..%d, lưu vào biến c." % n
-        hints = ["Số chẵn là số i chia 2 dư 0.", "Dùng câu lệnh nếu bên trong vòng lặp.", "Kết quả phải là %d." % expect]
+        prompt = "Trên không gian mẫu 1..%d, đếm số kết cục thuận lợi cho biến cố 'chỉ số chẵn' vào biến c." % n
+        hints = ["Kết cục chẵn thỏa điều kiện i chia 2 dư 0.", "Đặt khối kiểm tra điều kiện bên trong vòng lặp duyệt mẫu.", "Số kết cục thuận lợi là %d." % expect]
     elif kind == "grid":
         rr, cc = r.randint(2, 9), r.randint(2, 10)
         if r.random() < 0.3:
@@ -433,17 +436,17 @@ def g_block(seed, diff):
         prog = [("set", "t", ("int", 0)),
                 ("for", "i", 1, rr, [("for", "j", 1, cc, [("add_to", "t", ("int", 1))])])]
         expect, var = rr * cc, "t"
-        prompt = "Xếp %d hàng × %d cột drone; đếm tổng số drone vào biến t." % (rr, cc)
-        hints = ["Mỗi hàng có %d drone." % cc, "Dùng hai vòng lặp lồng nhau.", "Kết quả phải là %d." % expect]
+        prompt = "Mảng cảm biến xếp thành bảng %d hàng × %d cột; dùng vòng lặp lồng nhau đếm tổng số điểm đo vào biến t." % (rr, cc)
+        hints = ["Mỗi hàng chứa đúng %d điểm đo." % cc, "Dùng hai vòng lặp lồng nhau theo hàng và cột.", "Tổng số điểm đo là %d." % expect]
     else:
         n = r.choice([10, 50, 70, 100])
         fixed = [("set", "s", ("int", 0)), ("for", "i", 1, n, [("add_to", "s", ("var", "i"))])]
         buggy = [("set", "s", ("int", 0)), ("for", "i", 1, n - 1, [("add_to", "s", ("var", "i"))])]
         correct = n * (n + 1) // 2
         assert run(fixed)["s"] == correct and run(buggy)["s"] == correct - n, "loi lech mot khong nhu mong doi"
-        prompt = "Chương trình tính 1 + … + %d cho kết quả %d thay vì %d. Tìm lỗi và sửa." % (n, correct - n, correct)
-        hints = ["So sánh kết quả với giá trị mong đợi: thiếu bao nhiêu?", "Thiếu đúng %d, là số hạng cuối." % n,
-                 "Vòng lặp dừng ở %d thay vì %d; sửa giới hạn của vòng lặp." % (n - 1, n)]
+        prompt = "Đoạn mã cộng tích lũy 1 + … + %d trả về %d thay vì %d do lệch cận vòng lặp. Tìm lỗi và sửa lại." % (n, correct - n, correct)
+        hints = ["Đối chiếu kết quả thực tế với tổng lý thuyết xem bị hụt bao nhiêu.", "Hụt đúng %d, tức là quan sát cuối cùng chưa được cộng." % n,
+                 "Vòng lặp đang dừng ở %d thay vì %d; hãy chỉnh lại cận trên." % (n - 1, n)]
         return mk("block-vm", diff, seed, prompt, {"kind": kind, "buggy": buggy},
                   {"fixed": fixed, "expected": correct, "buggyResult": correct - n},
                   ["máy ảo chạy chương trình đã sửa == n(n+1)/2", "máy ảo chạy chương trình lỗi == đáp án − n"], hints,
@@ -609,10 +612,11 @@ def g_graph(seed, diff):
         else:
             raise AssertionError("khong tim duoc do thi dang %s" % want)
         assert euler_bruteforce(nn, E) == (cls != "none"), "quy tac bac le khac vet can"
-        prompt = ("Đồ thị %d đỉnh, dây: %s. Có thể đi qua mỗi dây đúng một lần không? Nếu có, bắt đầu và kết thúc ở đâu?"
+        prompt = ("Mạng cáp tín hiệu %d trạm có các tuyến nối: %s. Có thể kiểm định qua mỗi tuyến đúng một lần (Euler) không? "
+                  "Nếu có, xuất phát và kết thúc ở trạm nào?"
                   % (nn, edges_text(E)))
         ans = {"class": cls, "oddVertices": [LET[i] for i in odd]}
-        hints = ["Đếm bậc của từng đỉnh (số dây nối vào đỉnh).", "Đường đi Euler tồn tại khi có 0 hoặc 2 đỉnh bậc lẻ.",
+        hints = ["Tính bậc của từng đỉnh (số tuyến nối trực tiếp vào trạm đó).", "Đường đi Euler tồn tại khi và chỉ khi đồ thị liên thông có 0 hoặc 2 đỉnh bậc lẻ.",
                  "Đỉnh bậc lẻ: %s → %s." % (", ".join(LET[i] for i in odd) or "không có", EULER_VN[cls])]
         return mk("graph", diff, seed, prompt, {"n": nn, "edges": E, "task": kind}, ans,
                   ["quy tắc bậc lẻ == tìm kiếm vét cạn (quay lui)"], hints)
@@ -643,9 +647,9 @@ def g_graph(seed, diff):
             wmap = {(min(a, b), max(a, b)): w for a, b, w in E}
             total = sum(wmap[(min(path[i], path[i + 1]), max(path[i], path[i + 1]))] for i in range(len(path) - 1))
             assert total == dist[t]
-            prompt = "Đồ thị %d đỉnh, dây: %s. Tìm đường dây ngắn nhất từ %s đến %s." % (n, edges_text(E), LET[s], LET[t])
-            hints = ["Thử các đường đi và cộng trọng số.", "Đường ngắn nhất là duy nhất, dài %d." % dist[t],
-                     "Đường: %s, tổng %d." % (" – ".join(LET[i] for i in path), dist[t])]
+            prompt = "Mạng truyền dẫn %d trạm có độ trễ từng tuyến: %s. Tìm lộ trình ngắn nhất từ trạm %s đến trạm %s." % (n, edges_text(E), LET[s], LET[t])
+            hints = ["So sánh tổng trọng số các lộ trình nối từ trạm đầu tới trạm đích.", "Lộ trình tối ưu duy nhất có tổng trọng số %d." % dist[t],
+                     "Lộ trình: %s, tổng %d." % (" – ".join(LET[i] for i in path), dist[t])]
             return mk("graph", diff, seed, prompt, {"n": n, "edges": E, "task": kind, "from": LET[s], "to": LET[t]},
                       {"length": dist[t], "path": [LET[i] for i in path]},
                       ["Dijkstra == Floyd–Warshall", "đường duy nhất (đếm đường ngắn nhất = 1)", "cộng trọng số đường == khoảng cách"],
@@ -656,9 +660,9 @@ def g_graph(seed, diff):
             tk, tp = sum(w for *_, w in K), sum(w for *_, w in P)
             assert tk == tp and sorted((min(a, b), max(a, b)) for a, b, _ in K) == sorted((min(a, b), max(a, b)) for a, b, _ in P), "Kruskal khac Prim"
             assert len(K) == n - 1
-            prompt = "Đồ thị %d đỉnh, dây: %s. Chọn các dây để nối mọi đèn với tổng độ dài ít nhất." % (n, edges_text(E))
-            hints = ["Cây khung nhỏ nhất có đúng %d dây." % (n - 1), "Chọn dây nhẹ nhất không tạo chu trình.",
-                     "Các dây chọn: %s, tổng %d." % (edges_text(sorted(K, key=lambda e: e[2])), tk)]
+            prompt = "Mạng %d trạm cảm biến có chi phí từng tuyến: %s. Chọn cây khung nhỏ nhất nối mọi trạm với tổng chi phí thấp nhất." % (n, edges_text(E))
+            hints = ["Cây khung của đồ thị %d đỉnh gồm đúng %d cạnh và không chứa chu trình." % (n, n - 1), "Theo thuật toán Kruskal, ưu tiên chọn tuyến có trọng số nhỏ nhất mà không tạo chu trình.",
+                     "Các tuyến chọn: %s, tổng %d." % (edges_text(sorted(K, key=lambda e: e[2])), tk)]
             return mk("graph", diff, seed, prompt, {"n": n, "edges": E, "task": kind},
                       {"total": tk, "edges": [[LET[a], LET[b], w] for a, b, w in sorted(K, key=lambda e: e[2])]},
                       ["Kruskal == Prim (tổng và tập dây; trọng số đôi một khác nhau)"], hints)
@@ -685,9 +689,9 @@ def g_modular(seed, diff):
         assert len(sols) == 1, "nghiem khong duy nhat"
         crt = sum(rr * (M // m) * pow(M // m, -1, m) for m, rr in zip(ms, rs)) % M
         assert crt == sols[0], "CRT khac duyet"
-        prompt = "Tìm x trong 0..%d thỏa: %s." % (M - 1, "; ".join("x ≡ %d (mod %d)" % (rr, m) for m, rr in zip(ms, rs)))
-        hints = ["Các mô-đun đôi một nguyên tố cùng nhau nên nghiệm duy nhất modulo %d." % M,
-                 "Thử các số thỏa điều kiện đầu, lọc dần bằng điều kiện tiếp theo.", "Đáp án x = %d." % sols[0]]
+        prompt = "Đồng bộ chu kỳ lấy mẫu: tìm x trong 0..%d thỏa mãn hệ đồng dư: %s." % (M - 1, "; ".join("x ≡ %d (mod %d)" % (rr, m) for m, rr in zip(ms, rs)))
+        hints = ["Các mô-đun đôi một nguyên tố cùng nhau nên theo định lý Thặng dư Trung Hoa có nghiệm duy nhất modulo %d." % M,
+                 "Liệt kê các số thỏa mãn phương trình đồng dư đầu tiên rồi lọc theo điều kiện tiếp theo.", "Nghiệm đồng bộ là x = %d." % sols[0]]
         return mk("modular", diff, seed, prompt, {"kind": "crt", "moduli": list(ms), "residues": rs}, {"x": sols[0], "M": M},
                   ["duyệt toàn bộ 0..M − 1 == công thức CRT", "nghiệm duy nhất"], hints)
     if kind == "weekday":
@@ -697,9 +701,9 @@ def g_modular(seed, diff):
         for _ in range(n):
             cur = (cur + 1) % 7
         assert cur == (w + n) % 7
-        prompt = "Hôm nay là %s. %d ngày sau là thứ mấy?" % (WEEK[w], n)
-        hints = ["Mỗi 7 ngày thì quay lại cùng thứ.", "Tính %d chia 7 dư bao nhiêu." % n,
-                 "%d chia 7 dư %d nên là %s." % (n, n % 7, WEEK[(w + n) % 7])]
+        prompt = "Ca trực kiểm định thống kê bắt đầu vào %s. Hỏi đúng %d ngày sau ca trực rơi vào thứ mấy?" % (WEEK[w], n)
+        hints = ["Chu kỳ lịch tuần lặp lại sau mỗi 7 ngày (đồng dư theo mod 7).", "Tìm số dư của phép chia %d cho 7." % n,
+                 "%d chia 7 dư %d nên rơi vào %s." % (n, n % 7, WEEK[(w + n) % 7])]
         return mk("modular", diff, seed, prompt, {"kind": "weekday", "weekday": w, "days": n}, {"weekday": (w + n) % 7, "name": WEEK[(w + n) % 7]},
                   ["mô phỏng từng ngày == (w + n) mod 7"], hints)
     a = r.randint(2, 9)
@@ -708,9 +712,9 @@ def g_modular(seed, diff):
     for _ in range(k):
         cur = (cur * a) % 10
     assert cur == pow(a, k, 10)
-    prompt = "Chữ số tận cùng của %d^%d là gì?" % (a, k)
-    hints = ["Chữ số tận cùng lặp lại theo chu kỳ.", "Xét các lũy thừa nhỏ của %d để tìm chu kỳ." % a,
-             "Đáp án là %d." % cur]
+    prompt = "Mã kiểm tra của lô mẫu là chữ số tận cùng của lũy thừa %d^%d (tức %d^%d mod 10). Tìm chữ số đó." % (a, k, a, k)
+    hints = ["Chữ số tận cùng của lũy thừa lặp lại theo chu kỳ có độ dài là ước của 4.", "Tính vài lũy thừa đầu của %d theo mod 10 để xác định chu kỳ." % a,
+             "Chữ số tận cùng là %d." % cur]
     return mk("modular", diff, seed, prompt, {"kind": "lastdigit", "a": a, "k": k}, {"digit": cur},
               ["nhân lặp từng bước mod 10 == pow(a, k, 10)"], hints)
 
@@ -757,35 +761,35 @@ def g_count(seed, diff):
         n = r.randint(4, min(12, 6 + 2 * diff))
         k = r.randint(2, n - 2)
         assert math.comb(n, k) == sum(1 for _ in itertools.combinations(range(n), k))
-        prompt = "Chọn %d trong %d đèn để bật. Có bao nhiêu cách?" % (k, n)
-        hints = ["Thứ tự chọn không quan trọng.", "Dùng tổ hợp C(%d, %d)." % (n, k), "C(%d, %d) = %d." % (n, k, math.comb(n, k))]
+        prompt = "Từ lô %d cảm biến ánh sáng, chọn ngẫu nhiên không hoàn lại một mẫu gồm %d cảm biến để kiểm định. Không gian mẫu có bao nhiêu cách chọn?" % (n, k)
+        hints = ["Mẫu không phân biệt thứ tự lấy và không hoàn lại (dạng D01 XSTK).", "Số phần tử của không gian mẫu là tổ hợp C(%d, %d)." % (n, k), "C(%d, %d) = %d." % (n, k, math.comb(n, k))]
         return mk("count", diff, seed, prompt, {"kind": "comb", "n": n, "k": k}, {"count": math.comb(n, k)},
                   ["math.comb == đếm tổ hợp liệt kê"], hints)
     if kind == "perm":
         n = r.randint(4, 8)
         k = r.randint(2, min(4, n))
         assert math.perm(n, k) == sum(1 for _ in itertools.permutations(range(n), k))
-        prompt = "Xếp %d đèn khác màu thành hàng từ %d màu. Có bao nhiêu cách?" % (k, n)
-        hints = ["Thứ tự quan trọng và không lặp màu.", "Nhân %s." % "·".join(str(n - i) for i in range(k)),
-                 "Kết quả %d." % math.perm(n, k)]
+        prompt = "Phân công %d kênh tần số khác nhau cho %d trạm thu phát xếp theo thứ tự ưu tiên từ %d kênh sẵn có. Có bao nhiêu cấu hình?" % (k, k, n)
+        hints = ["Việc gán kênh có phân biệt thứ tự các trạm và không lặp kênh.", "Áp dụng công thức chỉnh hợp: nhân %s." % "·".join(str(n - i) for i in range(k)),
+                 "Số cấu hình là %d." % math.perm(n, k)]
         return mk("count", diff, seed, prompt, {"kind": "perm", "n": n, "k": k}, {"count": math.perm(n, k)},
                   ["math.perm == đếm chỉnh hợp liệt kê"], hints)
     W, H = r.randint(2, 6), r.randint(2, 6)
     if kind == "grid":
         dp, dfs, cb = grid_dp(W, H), grid_dfs(W, H), math.comb(W + H, W)
         assert dp == dfs == cb, "dem duong luoi khong khop"
-        prompt = "Lưới %d × %d ô vuông: đếm đường ngắn nhất từ góc dưới trái lên góc trên phải (chỉ sang phải hoặc lên)." % (W, H)
-        hints = ["Mỗi đường gồm %d bước sang phải và %d bước lên." % (W, H),
-                 "Chọn vị trí các bước 'lên' trong %d bước." % (W + H), "C(%d, %d) = %d." % (W + H, W, cb)]
+        prompt = "Một hạt tín hiệu đi trên lưới tọa độ %d × %d từ (0, 0) lên (%d, %d), mỗi bước chỉ tiến sang phải hoặc lên trên. Đếm tổng số quỹ đạo ngắn nhất." % (W, H, W, H)
+        hints = ["Mỗi quỹ đạo ngắn nhất gồm đúng %d bước sang phải và %d bước lên trên." % (W, H),
+                 "Chọn vị trí của %d bước sang phải trong tổng số %d bước." % (W, W + H), "C(%d, %d) = %d." % (W + H, W, cb)]
         return mk("count", diff, seed, prompt, {"kind": "grid", "W": W, "H": H}, {"count": cb},
                   ["quy hoạch động == duyệt DFS == C(W + H, W)"], hints)
     cells = [(x, y) for x in range(W + 1) for y in range(H + 1) if (x, y) not in [(0, 0), (W, H)]]
     bx = r.choice(cells)
     dp, dfs = grid_dp(W, H, bx), grid_dfs(W, H, bx)
     assert dp == dfs, "dem duong luoi co o chan khong khop"
-    prompt = "Lưới %d × %d ô vuông, nút (%d, %d) bị chặn. Đếm đường ngắn nhất từ (0, 0) đến (%d, %d)." % (W, H, bx[0], bx[1], W, H)
-    hints = ["Đếm tổng số đường rồi trừ các đường qua nút bị chặn, hoặc đếm từng nút.",
-             "Dùng bảng đếm: mỗi nút bằng tổng hai nút kề trước, nút bị chặn bằng 0.", "Kết quả %d." % dp]
+    prompt = "Trên lưới tọa độ %d × %d, nút trung gian (%d, %d) bị nhiễu phải khóa lại. Đếm số quỹ đạo ngắn nhất từ (0, 0) đến (%d, %d)." % (W, H, bx[0], bx[1], W, H)
+    hints = ["Tính tổng số quỹ đạo C(%d, %d) rồi trừ số quỹ đạo đi qua nút (%d, %d), hoặc cộng quy hoạch động từng nút." % (W + H, W, bx[0], bx[1]),
+             "Tại mỗi nút lưới, số quỹ đạo bằng tổng hai nút liền trước bên trái và bên dưới (nút bị khóa gán bằng 0).", "Số quỹ đạo hợp lệ là %d." % dp]
     return mk("count", diff, seed, prompt, {"kind": "gridblock", "W": W, "H": H, "blocked": list(bx)}, {"count": dp},
               ["quy hoạch động == duyệt DFS"], hints)
 

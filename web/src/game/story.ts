@@ -41,7 +41,14 @@ export const storySave = new Store<StoryState>({
     && Number.isInteger(s.chatSeen) && s.chatSeen >= 0 && Number.isInteger(s.legacyStep) && s.legacyStep >= 0 ? s : null,
 });
 
-const clone = (s: StoryState): StoryState => ({ ...s, decisions: { ...s.decisions }, topics: [...s.topics], lamps: [...s.lamps], endingsSeen: [...s.endingsSeen] });
+const clone = (s: StoryState): StoryState => ({
+  ...s,
+  decisions: { ...s.decisions },
+  topics: [...s.topics],
+  lamps: [...s.lamps],
+  endingsSeen: [...s.endingsSeen],
+  sidequests: { ...(s.sidequests ?? {}) },
+});
 let testStory: StoryState | null = null;
 /** Hack mode chạy trên bản sao trong bộ nhớ; bản lưu thật không bị đụng tới. */
 export const storyProgress = {

@@ -47,10 +47,16 @@ function frame(host: ActivityHost, a: Activity, area: HTMLElement, check: Check,
     } else sfx.notYet();
   }, "primary", { "data-activity-check": true });
   const actions = el("div", { class: "row activity-actions" }, checkBtn, hintBtn, btn(t("story.ui.later"), host.onLeave, "ghost"));
+  const thinkingBox = host.easy ? el("div", { class: "thinking-support", role: "note", "data-thinking-support": "true" },
+    el("b", { class: "thinking-title" }, t("level.thinkingTitle")),
+    rich(t(`thinking.activity.${a.type}`), "p", { class: "thinking-guide" }),
+    hints[0] ? rich(`${t("level.thinkingStep1")}: ${t(hints[0])}`, "p", { class: "thinking-step" }) : null,
+  ) : null;
   host.body.replaceChildren(
     el("p", { class: "kicker", text: t("story.ui.levelNote") }),
     el("h2", { class: "display", text: t(a.title) }),
     rich(t(host.easy && a.promptEasy ? a.promptEasy : a.prompt), "p", { class: "activity-prompt" }),
+    ...(thinkingBox ? [thinkingBox] : []),
     area, feedback, hintBox, actions);
   area.classList.add("activity-area");
   return { feedback };

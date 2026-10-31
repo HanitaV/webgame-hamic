@@ -36,7 +36,7 @@ python3 content/gen_levels.py --out web/public/data   # 266 màn, 445 phép ki�
 ## Ràng buộc nội dung (từ GDD)
 
 - Câu chuyện hư cấu về nhóm HAMIC và các bạn USSH; kiến thức Toán – Tin và ví dụ khái niệm được tách khỏi khẳng định về sự kiện thật. Không người thật, không logo.
-- Sa bàn là bản đồ khối USSH × HUS có tên tòa nhà (đổi so với GDD 2.2, xem `docs/GDD.md` mục 5.1). Bản đồ là ước lượng, cần CLB xác nhận rồi đặt `mapVerified: true` trong `web/public/data/map.json`.
+- Mô hình là bản đồ khối USSH × HUS có tên tòa nhà (đổi so với GDD 2.2, xem `docs/GDD.md` mục 5.1). Bản đồ là ước lượng, cần CLB xác nhận rồi đặt `mapVerified: true` trong `web/public/data/map.json`.
 - Không đếm ngược, không thành tựu tiêu cực, không hình ảnh phá hủy/cháy/nổ.
 - Hiệu ứng sáng không nhấp nháy quá 3 lần/giây; có tùy chọn giảm ánh sáng, giảm chuyển động, màu cho người khiếm sắc.
 - Điện thoại chỉ chơi ngang (màn che khi cầm dọc, khóa hướng khi vào toàn màn hình).

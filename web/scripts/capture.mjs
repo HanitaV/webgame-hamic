@@ -13,7 +13,7 @@ const out = process.argv[2] ?? "../docs/screenshots";
 const only = process.argv[3] ?? "";
 const url = process.env.CAPTURE_URL ?? "http://127.0.0.1:4173/";
 mkdirSync(out, { recursive: true });
-const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const browser = await chromium.launch({ channel: process.env.CAPTURE_CHANNEL ?? (process.env.PLAYWRIGHT_MODULE ? undefined : "chrome"), args: ["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const errors = [];
 
@@ -75,7 +75,9 @@ const flow = async (page, snap) => {
   await snap("level-3.2-run");
   await page.evaluate(() => { document.querySelectorAll(".modal-layer").forEach((n) => n.remove()); window.__hoitu.go("level", { id: "4.1", mode: "journey" }); });
   await snap("level-4.1");
-  await page.evaluate(() => window.__hoitu.go("casual"));
+  await page.evaluate(() => { window.__hoitu.playSettings.set({ difficulty: "easy" }); window.__hoitu.go("level", { id: "2.4", mode: "journey" }); });
+  await snap("level-easy-thinking");
+  await page.evaluate(() => { window.__hoitu.playSettings.set({ difficulty: "normal" }); window.__hoitu.go("casual"); });
   await snap("casual");
   await page.evaluate(() => window.__hoitu.go("notebook"));
   await snap("notebook");
@@ -104,8 +106,12 @@ await session("story", { width: 844, height: 390 }, true, async (page, snap) => 
     const id = await playStop(page, { ha: "B", captions: "A" }, async (shot) => { if (!seen.has(shot)) { seen.add(shot); await snap(shot); } });
     if (!id) break;
     if (id === "s4") { await page.locator("[data-chat]").click(); await snap("chat"); await page.keyboard.press("Escape"); }
-    if (id === "s9") { await page.locator("[data-notebook]").click(); await snap("notebook-evidence"); await page.locator('[data-tab="timeline"]').click(); await snap("notebook-timeline"); await page.keyboard.press("Escape"); }
+    if (id === "s9") { await page.locator("[data-notebook]").click(); await snap("notebook-evidence"); await page.locator('[data-tab="timeline"]').click(); await snap("notebook-timeline"); await page.locator('[data-tab="sidequests"]').click(); await snap("notebook-sidequests"); await page.keyboard.press("Escape"); }
   }
+  await page.evaluate(() => window.__hoitu.teleportTo("t1")); await wait(400);
+  await page.evaluate(() => window.__walkTest.interact("thao")); await wait(300);
+  for (let i = 0; i < 4 && await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count(); i++) await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").first().click();
+  await snap("sidequest-thao"); await page.keyboard.press("Escape");
   await page.evaluate(() => window.__hoitu.teleportTo("lawn")); await wait(400);
   await page.evaluate(() => window.__walkTest.interact("math")); await wait(300); await snap("npc-chat");
   for (let i = 0; i < 4 && await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").count(); i++) await page.locator(".walk-dialog:not([hidden]) [data-dialogue-next]").click();

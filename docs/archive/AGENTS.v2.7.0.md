@@ -15,7 +15,7 @@
 - Nút dùng `btn(label, onClick, "primary|ghost|danger|small|big|wide", attrs, icon)` trong `ui/dom.ts`; biểu tượng là SVG nét trong `ICONS`.
 - Canvas dùng bảng màu `INK` và các hàm `polyline / dot / ring / arrow / roundRect` trong `ui/widgets.ts`; phát sáng tắt theo cài đặt "Giảm hiệu ứng ánh sáng".
 - Bố cục ưu tiên màn ngang thấp (`@media (max-height: 520px)`).
-- Không nhấp nháy > 3 lần/giây, không đồng hồ đếm ngược, không lửa hay khói thật. Cảnh sa bàn "nổ" hoạt hình ở kết cục hài (GDD 5.4) được phép nếu: khối rơi chậm, không người, không chớp sáng, có nút bỏ qua, tôn trọng "Giảm hiệu ứng ánh sáng".
+- Không nhấp nháy > 3 lần/giây, không đồng hồ đếm ngược, không lửa hay khói thật. Cảnh mô hình "nổ" hoạt hình ở kết cục hài (GDD 5.4) được phép nếu: khối rơi chậm, không người, không chớp sáng, có nút bỏ qua, tôn trọng "Giảm hiệu ứng ánh sáng".
 
 ## Bản đồ USSH × HUS
 

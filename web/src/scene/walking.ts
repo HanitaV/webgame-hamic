@@ -940,11 +940,27 @@ export function walkTo(id: string) {
   route = ids.map((n) => nodes.get(n)!.clone());
 }
 
+/** Walk directly to any map coordinate (x, z) in open-world campus bounds. */
+export function walkToPoint(mx: number, mz: number) {
+  if (!pos) return;
+  const cx = Math.max(-245, Math.min(245, mx));
+  const cz = Math.max(-240, Math.min(25, mz));
+  const target = point(cx, cz);
+  if (allowed(target)) route = [target];
+}
+
+/** Walk directly to a 3D world-space coordinate (wx, wz) on the ground plane. */
+export function walkToWorldPoint(wx: number, wz: number) {
+  if (!pos || !data) return;
+  const mx = wx / data.scale + data.origin[0];
+  const mz = wz / data.scale + data.origin[1];
+  walkToPoint(mx, mz);
+}
+
 function allowed(p: THREE.Vector3) {
-  return data.walk.edges.some(([a,b]) => {
-    const line = new THREE.Line3(nodes.get(a)!, nodes.get(b)!);
-    return line.closestPointToPoint(p, true, new THREE.Vector3()).distanceTo(p) <= data.walk.radius * data.scale;
-  });
+  const mx = p.x / data.scale + data.origin[0];
+  const mz = p.z / data.scale + data.origin[1];
+  return mx >= -245 && mx <= 245 && mz >= -240 && mz <= 25;
 }
 export function updateWalking(dt: number, time: number, reduceMotion: boolean): THREE.Vector3 | null {
   if (!enabled || !pos) return null;
